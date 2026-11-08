@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>World Scroll — Pick your feed</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#FFB547}a:hover{color:#FFD08A}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #0B1026; color: #F4F1E8; font-family: Inter, sans-serif; display: flex; flex-direction: column; overflow: hidden; padding: 56px 20px 36px 20px; gap: 18px">
+
+  <div style="font-family: Fredoka, sans-serif; font-weight: 700; font-size: 22px; letter-spacing: 0.5px">World<span style="color: #FFB547">Scroll</span></div>
+
+  <div style="display: flex; flex-direction: column; gap: 6px">
+    <h1 style="margin: 0; font-family: Fredoka, sans-serif; font-weight: 700; font-size: 34px; line-height: 1.05">What do you want to scroll today?</h1>
+    <div style="font-size: 15px; color: #B9BEDA">Mix them all, or lock into one.</div>
+  </div>
+
+  <button style="height: 64px; border-radius: 20px; border: none; background: #FFB547; color: #0B1026; font-family: Fredoka, sans-serif; font-weight: 700; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0B1026" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"></path></svg>
+    Shuffle the whole world
+  </button>
+
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+    <sc-for list="{{cats}}" as="c" hint-placeholder-count="6">
+      <button style="height: 112px; border-radius: 20px; border: 2px solid #232C60; background: #151C42; color: #F4F1E8; cursor: pointer; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; padding: 14px 16px; font-family: Inter, sans-serif; text-align: left">
+        <span style="width: 14px; height: 14px; border-radius: 7px; background: {{c.color}}"></span>
+        <span style="display: flex; flex-direction: column; gap: 2px">
+          <span style="font-family: Fredoka, sans-serif; font-weight: 600; font-size: 19px">{{c.name}}</span>
+          <span style="font-size: 12px; color: #B9BEDA">{{c.sub}}</span>
+        </span>
+      </button>
+    </sc-for>
+  </div>
+
+  <div style="margin-top: auto; background: #151C42; border-radius: 18px; padding: 16px; display: flex; justify-content: space-between; align-items: center">
+    <div style="display: flex; flex-direction: column; gap: 2px">
+      <span style="font-size: 12px; color: #B9BEDA; letter-spacing: 1.2px">DAILY 10 CHALLENGE</span>
+      <span style="font-family: Fredoka, sans-serif; font-weight: 600; font-size: 17px">Same 10 for everyone, today</span>
+    </div>
+    <a href="Main.dc.html" style="text-decoration: none; background: #3DDCC4; color: #0B1026; border-radius: 14px; padding: 12px 16px; font-family: Fredoka, sans-serif; font-weight: 700; font-size: 15px">Play</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      cats: [
+        { name: 'Countries', sub: '195 to find', color: '#FFB547' },
+        { name: 'Capitals', sub: 'Name the seat of power', color: '#FF8F6B' },
+        { name: 'Cities', sub: 'Big, small, famous', color: '#9BE7A8' },
+        { name: 'Rivers', sub: 'Follow the water', color: '#3DDCC4' },
+        { name: 'Mountains', sub: 'Peaks and ranges', color: '#A9C6FF' },
+        { name: 'Deserts', sub: 'Sand, ice and rock', color: '#F7C873' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

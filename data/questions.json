@@ -1,0 +1,417 @@
+{
+  "version": 1,
+  "notes": "lat/lon are a representative point. toleranceMiles = distance that still counts as a bullseye (bigger for rivers, deserts and countries). Facts are short and paraphrased; double-check them before launch.",
+  "regions": {
+    "world": {
+      "label": "World",
+      "bounds": {
+        "lonMin": -180,
+        "lonMax": 180,
+        "latMin": -60,
+        "latMax": 80
+      }
+    },
+    "usa": {
+      "label": "USA",
+      "bounds": {
+        "lonMin": -126,
+        "lonMax": -65,
+        "latMin": 23.5,
+        "latMax": 55
+      }
+    },
+    "europe": {
+      "label": "Europe",
+      "bounds": {
+        "lonMin": -14,
+        "lonMax": 38,
+        "latMin": 34.5,
+        "latMax": 61.5
+      }
+    },
+    "australia": {
+      "label": "Australia",
+      "bounds": {
+        "lonMin": 111,
+        "lonMax": 179,
+        "latMin": -47.5,
+        "latMax": -9.5
+      }
+    },
+    "africa": {
+      "label": "Africa",
+      "continent": "Africa",
+      "bounds": {
+        "lonMin": -26,
+        "lonMax": 60,
+        "latMin": -36,
+        "latMax": 38
+      }
+    },
+    "asia": {
+      "label": "Asia",
+      "continent": "Asia",
+      "bounds": {
+        "lonMin": 25,
+        "lonMax": 150,
+        "latMin": -11,
+        "latMax": 56
+      }
+    },
+    "europe-wide": {
+      "label": "Europe",
+      "continent": "Europe",
+      "bounds": {
+        "lonMin": -25,
+        "lonMax": 45,
+        "latMin": 34,
+        "latMax": 66
+      }
+    },
+    "north-america": {
+      "label": "North America",
+      "continent": "North America",
+      "bounds": {
+        "lonMin": -130,
+        "lonMax": -58,
+        "latMin": 7,
+        "latMax": 60
+      }
+    },
+    "south-america": {
+      "label": "South America",
+      "continent": "South America",
+      "bounds": {
+        "lonMin": -82,
+        "lonMax": -34,
+        "latMin": -56,
+        "latMax": 13
+      }
+    },
+    "oceania": {
+      "label": "Oceania",
+      "continent": "Oceania",
+      "rotate": -150,
+      "bounds": {
+        "lonMin": 110,
+        "lonMax": 190,
+        "latMin": -48,
+        "latMax": 10
+      }
+    },
+    "us-states": {
+      "label": "US states",
+      "projection": "albersUsa"
+    }
+  },
+  "categories": [
+    {
+      "id": "countries",
+      "label": "Countries",
+      "color": "#FFB547"
+    },
+    {
+      "id": "capitals",
+      "label": "Capitals",
+      "color": "#FF8F6B"
+    },
+    {
+      "id": "cities",
+      "label": "Cities",
+      "color": "#9BE7A8"
+    },
+    {
+      "id": "rivers",
+      "label": "Rivers",
+      "color": "#3DDCC4"
+    },
+    {
+      "id": "mountains",
+      "label": "Mountains",
+      "color": "#A9C6FF"
+    },
+    {
+      "id": "deserts",
+      "label": "Deserts",
+      "color": "#F7C873"
+    },
+    {
+      "id": "sports",
+      "label": "Sports",
+      "color": "#FF6FA8"
+    }
+  ],
+  "sportsTabs": [
+    {
+      "region": "usa",
+      "sports": [
+        {
+          "id": "nfl",
+          "label": "NFL",
+          "full": "USA · NFL"
+        },
+        {
+          "id": "nba",
+          "label": "NBA",
+          "full": "USA · NBA"
+        },
+        {
+          "id": "mlb",
+          "label": "MLB",
+          "full": "USA · MLB"
+        },
+        {
+          "id": "nhl",
+          "label": "NHL",
+          "full": "USA · NHL"
+        },
+        {
+          "id": "soccer",
+          "label": "Soccer",
+          "full": "USA · SOCCER"
+        }
+      ]
+    },
+    {
+      "region": "europe",
+      "sports": [
+        {
+          "id": "football",
+          "label": "Football (Soccer)",
+          "full": "EUROPE · FOOTBALL (SOCCER)"
+        },
+        {
+          "id": "tennis",
+          "label": "Tennis",
+          "full": "EUROPE · TENNIS"
+        },
+        {
+          "id": "rugby",
+          "label": "Rugby",
+          "full": "EUROPE · RUGBY"
+        }
+      ]
+    },
+    {
+      "region": "australia",
+      "sports": [
+        {
+          "id": "afl",
+          "label": "Football (AFL)",
+          "full": "AUSTRALIA · AFL"
+        },
+        {
+          "id": "nrl",
+          "label": "Rugby (NRL)",
+          "full": "AUSTRALIA · NRL RUGBY LEAGUE"
+        },
+        {
+          "id": "bbl",
+          "label": "Cricket",
+          "full": "AUSTRALIA · BIG BASH CRICKET"
+        }
+      ]
+    }
+  ],
+  "geoTabs": [
+    {
+      "id": "all",
+      "label": "All"
+    },
+    {
+      "id": "Africa",
+      "label": "Africa",
+      "region": "africa"
+    },
+    {
+      "id": "Asia",
+      "label": "Asia",
+      "region": "asia"
+    },
+    {
+      "id": "Europe",
+      "label": "Europe",
+      "region": "europe-wide"
+    },
+    {
+      "id": "North America",
+      "label": "N. America",
+      "region": "north-america"
+    },
+    {
+      "id": "South America",
+      "label": "S. America",
+      "region": "south-america"
+    },
+    {
+      "id": "Oceania",
+      "label": "Oceania",
+      "region": "oceania"
+    },
+    {
+      "id": "us-states",
+      "label": "US states",
+      "region": "us-states",
+      "only": "capitals"
+    }
+  ],
+  "questions": [
+    {"id": "amazon", "category": "rivers", "region": "world", "prompt": "Where is the Amazon River?", "answer": "Amazon River, South America", "lat": -3.4, "lon": -60.0, "toleranceMiles": 400, "fact": "The Amazon carries more water than any other river on Earth."},
+    {"id": "gobi", "category": "deserts", "region": "world", "prompt": "Where is the Gobi Desert?", "answer": "Gobi Desert, Mongolia & China", "lat": 42.8, "lon": 103.5, "toleranceMiles": 350, "fact": "The Gobi is a cold desert, and it can see frost and even snow."},
+    {"id": "kilimanjaro", "category": "mountains", "region": "world", "prompt": "Where is Mount Kilimanjaro?", "answer": "Mount Kilimanjaro, Tanzania", "lat": -3.07, "lon": 37.35, "toleranceMiles": 40, "fact": "Kilimanjaro is the tallest mountain in Africa."},
+    {"id": "rio", "category": "cities", "region": "world", "prompt": "Where is Rio de Janeiro?", "answer": "Rio de Janeiro, Brazil", "lat": -22.91, "lon": -43.17, "toleranceMiles": 40, "fact": "Rio was Brazil's capital until Brasília took over in 1960."},
+    {"id": "nile", "category": "rivers", "region": "world", "prompt": "Where is the Nile?", "answer": "Nile River, northeast Africa", "lat": 15.6, "lon": 32.5, "toleranceMiles": 600, "fact": "The Nile flows north through 11 countries into the Mediterranean Sea."},
+    {"id": "yangtze", "category": "rivers", "region": "world", "prompt": "Where is the Yangtze River?", "answer": "Yangtze River, China", "lat": 30.6, "lon": 114.3, "toleranceMiles": 500, "fact": "The Yangtze is the longest river in Asia."},
+    {"id": "mississippi", "category": "rivers", "region": "world", "prompt": "Where is the Mississippi River?", "answer": "Mississippi River, USA", "lat": 35.1, "lon": -90.1, "toleranceMiles": 500, "fact": "The Mississippi and its tributaries drain all or part of 31 US states."},
+    {"id": "yenisei", "category": "rivers", "region": "world", "prompt": "Where is the Yenisei River?", "answer": "Yenisei River, Siberia, Russia", "lat": 61.0, "lon": 90.0, "toleranceMiles": 500, "fact": "The Yenisei flows north across Siberia into the Arctic Ocean."},
+    {"id": "yellow", "category": "rivers", "region": "world", "prompt": "Where is the Yellow River?", "answer": "Yellow River (Huang He), China", "lat": 35.5, "lon": 110.5, "toleranceMiles": 450, "fact": "The Yellow River gets its color from the silt it carries."},
+    {"id": "ob", "category": "rivers", "region": "world", "prompt": "Where is the Ob River?", "answer": "Ob River, Siberia, Russia", "lat": 61.0, "lon": 69.0, "toleranceMiles": 500, "fact": "The Ob ends in the Gulf of Ob, one of the longest river mouths in the world."},
+    {"id": "parana", "category": "rivers", "region": "world", "prompt": "Where is the Paraná River?", "answer": "Paraná River, South America", "lat": -27.5, "lon": -58.5, "toleranceMiles": 450, "fact": "The Paraná is South America's second-longest river, after the Amazon."},
+    {"id": "congo-river", "category": "rivers", "region": "world", "prompt": "Where is the Congo River?", "answer": "Congo River, Central Africa", "lat": -1.0, "lon": 18.0, "toleranceMiles": 450, "fact": "The Congo is the deepest river in the world, over 700 feet deep in places."},
+    {"id": "mekong", "category": "rivers", "region": "world", "prompt": "Where is the Mekong River?", "answer": "Mekong River, Southeast Asia", "lat": 15.5, "lon": 105.5, "toleranceMiles": 450, "fact": "The Mekong flows through six countries, from China to Vietnam."},
+    {"id": "niger-river", "category": "rivers", "region": "world", "prompt": "Where is the Niger River?", "answer": "Niger River, West Africa", "lat": 16.3, "lon": -2.0, "toleranceMiles": 500, "fact": "The Niger makes a giant boomerang-shaped bend through West Africa."},
+    {"id": "murray", "category": "rivers", "region": "world", "prompt": "Where is the Murray River?", "answer": "Murray River, Australia", "lat": -34.3, "lon": 141.0, "toleranceMiles": 300, "fact": "The Murray is Australia's longest river."},
+    {"id": "danube", "category": "rivers", "region": "world", "prompt": "Where is the Danube?", "answer": "Danube River, Europe", "lat": 45.3, "lon": 20.0, "toleranceMiles": 400, "fact": "The Danube flows through 10 countries, more than any other river."},
+    {"id": "volga", "category": "rivers", "region": "world", "prompt": "Where is the Volga River?", "answer": "Volga River, Russia", "lat": 51.5, "lon": 46.0, "toleranceMiles": 450, "fact": "The Volga is the longest river in Europe."},
+    {"id": "ganges", "category": "rivers", "region": "world", "prompt": "Where is the Ganges River?", "answer": "Ganges River, India and Bangladesh", "lat": 25.3, "lon": 83.0, "toleranceMiles": 350, "fact": "The Ganges is a sacred river in Hinduism."},
+    {"id": "indus", "category": "rivers", "region": "world", "prompt": "Where is the Indus River?", "answer": "Indus River, Pakistan", "lat": 28.0, "lon": 69.5, "toleranceMiles": 350, "fact": "One of the world's first great civilizations grew up along the Indus."},
+    {"id": "rhine", "category": "rivers", "region": "world", "prompt": "Where is the Rhine?", "answer": "Rhine River, Western Europe", "lat": 50.3, "lon": 7.6, "toleranceMiles": 250, "fact": "The Rhine flows from the Swiss Alps to the North Sea."},
+    {"id": "mackenzie", "category": "rivers", "region": "world", "prompt": "Where is the Mackenzie River?", "answer": "Mackenzie River, Canada", "lat": 65.0, "lon": -125.0, "toleranceMiles": 400, "fact": "The Mackenzie is Canada's longest river."},
+    {"id": "zambezi", "category": "rivers", "region": "world", "prompt": "Where is the Zambezi River?", "answer": "Zambezi River, southern Africa", "lat": -16.5, "lon": 28.5, "toleranceMiles": 450, "fact": "Victoria Falls, one of the world's largest waterfalls, is on the Zambezi."},
+    {"id": "colorado-river", "category": "rivers", "region": "world", "prompt": "Where is the Colorado River?", "answer": "Colorado River, USA", "lat": 36.1, "lon": -112.5, "toleranceMiles": 350, "fact": "Over millions of years, the Colorado River carved the Grand Canyon."},
+    {"id": "euphrates", "category": "rivers", "region": "world", "prompt": "Where is the Euphrates River?", "answer": "Euphrates River, Middle East", "lat": 34.5, "lon": 41.0, "toleranceMiles": 350, "fact": "The Euphrates and Tigris rivers framed ancient Mesopotamia."},
+    {"id": "st-lawrence", "category": "rivers", "region": "world", "prompt": "Where is the St. Lawrence River?", "answer": "St. Lawrence River, Canada and USA", "lat": 46.8, "lon": -71.2, "toleranceMiles": 300, "fact": "The St. Lawrence links the Great Lakes to the Atlantic Ocean."},
+    {"id": "rio-grande", "category": "rivers", "region": "world", "prompt": "Where is the Rio Grande?", "answer": "Rio Grande, USA and Mexico", "lat": 29.7, "lon": -102.0, "toleranceMiles": 350, "fact": "The Rio Grande forms part of the border between the US and Mexico."},
+    {"id": "thames", "category": "rivers", "region": "world", "prompt": "Where is the River Thames?", "answer": "River Thames, England", "lat": 51.5, "lon": -0.9, "toleranceMiles": 100, "fact": "The Thames flows through the heart of London to the North Sea."},
+    {"id": "everest", "category": "mountains", "region": "world", "prompt": "Where is Mount Everest?", "answer": "Mount Everest, Nepal and China", "lat": 27.99, "lon": 86.93, "toleranceMiles": 40, "fact": "At 29,032 feet, Everest is the highest mountain on Earth."},
+    {"id": "k2", "category": "mountains", "region": "world", "prompt": "Where is K2?", "answer": "K2, Pakistan and China", "lat": 35.88, "lon": 76.51, "toleranceMiles": 40, "fact": "K2 is the world's second-highest mountain."},
+    {"id": "denali", "category": "mountains", "region": "world", "prompt": "Where is Denali?", "answer": "Denali, Alaska, USA", "lat": 63.07, "lon": -151.01, "toleranceMiles": 40, "fact": "Denali is the highest peak in North America."},
+    {"id": "aconcagua", "category": "mountains", "region": "world", "prompt": "Where is Aconcagua?", "answer": "Aconcagua, Argentina", "lat": -32.65, "lon": -70.01, "toleranceMiles": 40, "fact": "Aconcagua is the highest mountain outside Asia."},
+    {"id": "mont-blanc", "category": "mountains", "region": "world", "prompt": "Where is Mont Blanc?", "answer": "Mont Blanc, France and Italy", "lat": 45.83, "lon": 6.86, "toleranceMiles": 30, "fact": "Mont Blanc is the highest peak in the Alps."},
+    {"id": "elbrus", "category": "mountains", "region": "world", "prompt": "Where is Mount Elbrus?", "answer": "Mount Elbrus, Russia", "lat": 43.35, "lon": 42.44, "toleranceMiles": 40, "fact": "Elbrus, a dormant volcano, is Europe's highest peak."},
+    {"id": "matterhorn", "category": "mountains", "region": "world", "prompt": "Where is the Matterhorn?", "answer": "The Matterhorn, Switzerland and Italy", "lat": 45.98, "lon": 7.66, "toleranceMiles": 30, "fact": "The Matterhorn's pyramid peak sits right on the Switzerland–Italy border."},
+    {"id": "fuji", "category": "mountains", "region": "world", "prompt": "Where is Mount Fuji?", "answer": "Mount Fuji, Japan", "lat": 35.36, "lon": 138.73, "toleranceMiles": 30, "fact": "Mount Fuji is an active volcano and Japan's highest mountain."},
+    {"id": "kosciuszko", "category": "mountains", "region": "world", "prompt": "Where is Mount Kosciuszko?", "answer": "Mount Kosciuszko, Australia", "lat": -36.46, "lon": 148.26, "toleranceMiles": 40, "fact": "Kosciuszko is mainland Australia's highest mountain."},
+    {"id": "rainier", "category": "mountains", "region": "world", "prompt": "Where is Mount Rainier?", "answer": "Mount Rainier, Washington, USA", "lat": 46.85, "lon": -121.76, "toleranceMiles": 30, "fact": "Mount Rainier is an active volcano you can see from Seattle on clear days."},
+    {"id": "olympus", "category": "mountains", "region": "world", "prompt": "Where is Mount Olympus?", "answer": "Mount Olympus, Greece", "lat": 40.09, "lon": 22.36, "toleranceMiles": 30, "fact": "In Greek myths, Mount Olympus was home to the gods."},
+    {"id": "table-mountain", "category": "mountains", "region": "world", "prompt": "Where is Table Mountain?", "answer": "Table Mountain, Cape Town, South Africa", "lat": -33.96, "lon": 18.4, "toleranceMiles": 25, "fact": "Table Mountain's flat top looks out over Cape Town."},
+    {"id": "mount-kenya", "category": "mountains", "region": "world", "prompt": "Where is Mount Kenya?", "answer": "Mount Kenya, Kenya", "lat": -0.15, "lon": 37.31, "toleranceMiles": 40, "fact": "Mount Kenya is Africa's second-highest mountain."},
+    {"id": "ararat", "category": "mountains", "region": "world", "prompt": "Where is Mount Ararat?", "answer": "Mount Ararat, Türkiye", "lat": 39.7, "lon": 44.3, "toleranceMiles": 40, "fact": "Mount Ararat is linked to the story of Noah's Ark."},
+    {"id": "etna", "category": "mountains", "region": "world", "prompt": "Where is Mount Etna?", "answer": "Mount Etna, Sicily, Italy", "lat": 37.75, "lon": 14.99, "toleranceMiles": 30, "fact": "Etna is one of the most active volcanoes in the world."},
+    {"id": "mauna-kea", "category": "mountains", "region": "world", "prompt": "Where is Mauna Kea?", "answer": "Mauna Kea, Hawaii, USA", "lat": 19.82, "lon": -155.47, "toleranceMiles": 40, "fact": "Measured from its base on the sea floor, Mauna Kea is taller than Everest."},
+    {"id": "himalayas", "category": "mountains", "region": "world", "prompt": "Where are the Himalayas?", "answer": "The Himalayas, South Asia", "lat": 28.5, "lon": 84.5, "toleranceMiles": 400, "fact": "The Himalayas stretch about 1,500 miles across five countries."},
+    {"id": "andes", "category": "mountains", "region": "world", "prompt": "Where are the Andes?", "answer": "The Andes, South America", "lat": -20.0, "lon": -68.0, "toleranceMiles": 600, "fact": "The Andes are the longest mountain range on land, about 4,300 miles long."},
+    {"id": "rockies", "category": "mountains", "region": "world", "prompt": "Where are the Rocky Mountains?", "answer": "The Rocky Mountains, North America", "lat": 44.0, "lon": -110.0, "toleranceMiles": 500, "fact": "The Rockies run about 3,000 miles from Canada to New Mexico."},
+    {"id": "alps", "category": "mountains", "region": "world", "prompt": "Where are the Alps?", "answer": "The Alps, Europe", "lat": 46.3, "lon": 9.5, "toleranceMiles": 250, "fact": "The Alps stretch across eight countries in Europe."},
+    {"id": "atlas-mountains", "category": "mountains", "region": "world", "prompt": "Where are the Atlas Mountains?", "answer": "Atlas Mountains, North Africa", "lat": 31.5, "lon": -6.5, "toleranceMiles": 300, "fact": "The Atlas Mountains separate the Mediterranean coast from the Sahara."},
+    {"id": "urals", "category": "mountains", "region": "world", "prompt": "Where are the Ural Mountains?", "answer": "Ural Mountains, Russia", "lat": 58.0, "lon": 59.0, "toleranceMiles": 500, "fact": "The Urals are often used as the boundary between Europe and Asia."},
+    {"id": "appalachians", "category": "mountains", "region": "world", "prompt": "Where are the Appalachian Mountains?", "answer": "Appalachian Mountains, eastern USA", "lat": 37.5, "lon": -80.5, "toleranceMiles": 400, "fact": "The Appalachians are among the oldest mountains on Earth."},
+    {"id": "sahara", "category": "deserts", "region": "world", "prompt": "Where is the Sahara?", "answer": "Sahara Desert, North Africa", "lat": 23.0, "lon": 12.0, "toleranceMiles": 900, "fact": "The Sahara is the largest hot desert in the world."},
+    {"id": "arabian", "category": "deserts", "region": "world", "prompt": "Where is the Arabian Desert?", "answer": "Arabian Desert, Arabian Peninsula", "lat": 22.0, "lon": 48.0, "toleranceMiles": 600, "fact": "It holds the Rub' al Khali, one of the largest sand seas on Earth."},
+    {"id": "kalahari", "category": "deserts", "region": "world", "prompt": "Where is the Kalahari Desert?", "answer": "Kalahari Desert, southern Africa", "lat": -23.0, "lon": 22.0, "toleranceMiles": 400, "fact": "Parts of the Kalahari get enough rain to support grasslands and wildlife."},
+    {"id": "namib", "category": "deserts", "region": "world", "prompt": "Where is the Namib Desert?", "answer": "Namib Desert, Namibia", "lat": -24.7, "lon": 15.3, "toleranceMiles": 250, "fact": "The Namib is thought to be the oldest desert in the world."},
+    {"id": "great-victoria", "category": "deserts", "region": "world", "prompt": "Where is the Great Victoria Desert?", "answer": "Great Victoria Desert, Australia", "lat": -29.0, "lon": 129.0, "toleranceMiles": 350, "fact": "The Great Victoria is the largest desert in Australia."},
+    {"id": "great-sandy", "category": "deserts", "region": "world", "prompt": "Where is the Great Sandy Desert?", "answer": "Great Sandy Desert, Western Australia", "lat": -21.0, "lon": 124.0, "toleranceMiles": 350, "fact": "The Great Sandy Desert covers a huge part of Western Australia."},
+    {"id": "atacama", "category": "deserts", "region": "world", "prompt": "Where is the Atacama Desert?", "answer": "Atacama Desert, Chile", "lat": -24.0, "lon": -69.5, "toleranceMiles": 250, "fact": "The Atacama is the driest non-polar desert on Earth."},
+    {"id": "mojave", "category": "deserts", "region": "world", "prompt": "Where is the Mojave Desert?", "answer": "Mojave Desert, southwestern USA", "lat": 35.0, "lon": -116.0, "toleranceMiles": 175, "fact": "Death Valley, in the Mojave, holds the record for the hottest air temperature on Earth."},
+    {"id": "sonoran", "category": "deserts", "region": "world", "prompt": "Where is the Sonoran Desert?", "answer": "Sonoran Desert, USA and Mexico", "lat": 32.0, "lon": -112.5, "toleranceMiles": 250, "fact": "The Sonoran is the only place where saguaro cacti grow in the wild."},
+    {"id": "chihuahuan", "category": "deserts", "region": "world", "prompt": "Where is the Chihuahuan Desert?", "answer": "Chihuahuan Desert, Mexico and USA", "lat": 29.0, "lon": -105.0, "toleranceMiles": 300, "fact": "The Chihuahuan is the largest desert in North America."},
+    {"id": "taklamakan", "category": "deserts", "region": "world", "prompt": "Where is the Taklamakan Desert?", "answer": "Taklamakan Desert, China", "lat": 38.9, "lon": 83.0, "toleranceMiles": 350, "fact": "Its name is often translated as 'the place of no return.'"},
+    {"id": "thar", "category": "deserts", "region": "world", "prompt": "Where is the Thar Desert?", "answer": "Thar Desert, India and Pakistan", "lat": 27.0, "lon": 71.0, "toleranceMiles": 300, "fact": "The Thar is also called the Great Indian Desert."},
+    {"id": "syrian", "category": "deserts", "region": "world", "prompt": "Where is the Syrian Desert?", "answer": "Syrian Desert, Middle East", "lat": 32.5, "lon": 39.0, "toleranceMiles": 300, "fact": "The Syrian Desert stretches across Syria, Jordan, Iraq and Saudi Arabia."},
+    {"id": "patagonian", "category": "deserts", "region": "world", "prompt": "Where is the Patagonian Desert?", "answer": "Patagonian Desert, Argentina", "lat": -45.0, "lon": -69.0, "toleranceMiles": 350, "fact": "The Patagonian is the largest desert in Argentina."},
+    {"id": "karakum", "category": "deserts", "region": "world", "prompt": "Where is the Karakum Desert?", "answer": "Karakum Desert, Turkmenistan", "lat": 39.0, "lon": 60.0, "toleranceMiles": 300, "fact": "The Karakum covers most of Turkmenistan."},
+    {"id": "kyzylkum", "category": "deserts", "region": "world", "prompt": "Where is the Kyzylkum Desert?", "answer": "Kyzylkum Desert, Uzbekistan and Kazakhstan", "lat": 42.0, "lon": 64.0, "toleranceMiles": 250, "fact": "Kyzylkum means 'red sand' in Turkic languages."},
+    {"id": "great-basin", "category": "deserts", "region": "world", "prompt": "Where is the Great Basin Desert?", "answer": "Great Basin Desert, western USA", "lat": 40.0, "lon": -117.0, "toleranceMiles": 250, "fact": "The Great Basin is the largest desert in the United States."},
+    {"id": "danakil", "category": "deserts", "region": "world", "prompt": "Where is the Danakil Desert?", "answer": "Danakil Desert, Ethiopia and Eritrea", "lat": 13.5, "lon": 41.0, "toleranceMiles": 150, "fact": "The Danakil Depression is one of the hottest places on Earth."},
+    {"id": "new-york", "category": "cities", "region": "world", "prompt": "Where is New York City?", "answer": "New York City, USA", "lat": 40.71, "lon": -74.01, "toleranceMiles": 40, "fact": "New York City is the most populous city in the United States."},
+    {"id": "los-angeles", "category": "cities", "region": "world", "prompt": "Where is Los Angeles?", "answer": "Los Angeles, USA", "lat": 34.05, "lon": -118.24, "toleranceMiles": 40, "fact": "LA is the second-largest city in the US and the home of Hollywood."},
+    {"id": "chicago", "category": "cities", "region": "world", "prompt": "Where is Chicago?", "answer": "Chicago, USA", "lat": 41.88, "lon": -87.63, "toleranceMiles": 40, "fact": "Chicago sits on the shore of Lake Michigan."},
+    {"id": "houston", "category": "cities", "region": "world", "prompt": "Where is Houston?", "answer": "Houston, USA", "lat": 29.76, "lon": -95.37, "toleranceMiles": 40, "fact": "NASA's Mission Control is in Houston."},
+    {"id": "miami", "category": "cities", "region": "world", "prompt": "Where is Miami?", "answer": "Miami, USA", "lat": 25.76, "lon": -80.19, "toleranceMiles": 40, "fact": "Miami is often called the only major US city founded by a woman, Julia Tuttle."},
+    {"id": "san-francisco", "category": "cities", "region": "world", "prompt": "Where is San Francisco?", "answer": "San Francisco, USA", "lat": 37.77, "lon": -122.42, "toleranceMiles": 40, "fact": "The Golden Gate Bridge opened here in 1937."},
+    {"id": "seattle", "category": "cities", "region": "world", "prompt": "Where is Seattle?", "answer": "Seattle, USA", "lat": 47.61, "lon": -122.33, "toleranceMiles": 40, "fact": "The Space Needle was built for the 1962 World's Fair."},
+    {"id": "new-orleans", "category": "cities", "region": "world", "prompt": "Where is New Orleans?", "answer": "New Orleans, USA", "lat": 29.95, "lon": -90.07, "toleranceMiles": 40, "fact": "New Orleans is known as the birthplace of jazz."},
+    {"id": "las-vegas", "category": "cities", "region": "world", "prompt": "Where is Las Vegas?", "answer": "Las Vegas, USA", "lat": 36.17, "lon": -115.14, "toleranceMiles": 40, "fact": "Las Vegas sits in the middle of the Mojave Desert."},
+    {"id": "toronto", "category": "cities", "region": "world", "prompt": "Where is Toronto?", "answer": "Toronto, Canada", "lat": 43.65, "lon": -79.38, "toleranceMiles": 40, "fact": "Toronto is Canada's largest city."},
+    {"id": "montreal", "category": "cities", "region": "world", "prompt": "Where is Montreal?", "answer": "Montreal, Canada", "lat": 45.5, "lon": -73.57, "toleranceMiles": 40, "fact": "Montreal is one of the largest French-speaking cities in the world."},
+    {"id": "vancouver", "category": "cities", "region": "world", "prompt": "Where is Vancouver?", "answer": "Vancouver, Canada", "lat": 49.28, "lon": -123.12, "toleranceMiles": 40, "fact": "Vancouver hosted the 2010 Winter Olympics."},
+    {"id": "guadalajara", "category": "cities", "region": "world", "prompt": "Where is Guadalajara?", "answer": "Guadalajara, Mexico", "lat": 20.66, "lon": -103.35, "toleranceMiles": 40, "fact": "Guadalajara is often called the birthplace of mariachi music."},
+    {"id": "cancun", "category": "cities", "region": "world", "prompt": "Where is Cancún?", "answer": "Cancún, Mexico", "lat": 21.16, "lon": -86.85, "toleranceMiles": 40, "fact": "Cancún sits on Mexico's Yucatán Peninsula."},
+    {"id": "sao-paulo", "category": "cities", "region": "world", "prompt": "Where is São Paulo?", "answer": "São Paulo, Brazil", "lat": -23.55, "lon": -46.63, "toleranceMiles": 40, "fact": "São Paulo is the largest city in the Southern Hemisphere."},
+    {"id": "medellin", "category": "cities", "region": "world", "prompt": "Where is Medellín?", "answer": "Medellín, Colombia", "lat": 6.24, "lon": -75.58, "toleranceMiles": 40, "fact": "Medellín is nicknamed the City of Eternal Spring for its mild weather."},
+    {"id": "cusco", "category": "cities", "region": "world", "prompt": "Where is Cusco?", "answer": "Cusco, Peru", "lat": -13.53, "lon": -71.97, "toleranceMiles": 40, "fact": "Cusco was the capital of the Inca Empire."},
+    {"id": "barcelona-city", "category": "cities", "region": "world", "prompt": "Where is Barcelona?", "answer": "Barcelona, Spain", "lat": 41.39, "lon": 2.17, "toleranceMiles": 40, "fact": "Barcelona's Sagrada Família church has been under construction since 1882."},
+    {"id": "milan", "category": "cities", "region": "world", "prompt": "Where is Milan?", "answer": "Milan, Italy", "lat": 45.46, "lon": 9.19, "toleranceMiles": 40, "fact": "Milan is Italy's capital of fashion and finance."},
+    {"id": "venice", "category": "cities", "region": "world", "prompt": "Where is Venice?", "answer": "Venice, Italy", "lat": 45.44, "lon": 12.32, "toleranceMiles": 40, "fact": "Venice is built on more than 100 small islands in a lagoon."},
+    {"id": "munich", "category": "cities", "region": "world", "prompt": "Where is Munich?", "answer": "Munich, Germany", "lat": 48.14, "lon": 11.58, "toleranceMiles": 40, "fact": "Munich hosts Oktoberfest every year."},
+    {"id": "istanbul", "category": "cities", "region": "world", "prompt": "Where is Istanbul?", "answer": "Istanbul, Türkiye", "lat": 41.01, "lon": 28.98, "toleranceMiles": 40, "fact": "Istanbul spans two continents, Europe and Asia."},
+    {"id": "st-petersburg", "category": "cities", "region": "world", "prompt": "Where is St. Petersburg?", "answer": "St. Petersburg, Russia", "lat": 59.93, "lon": 30.36, "toleranceMiles": 40, "fact": "St. Petersburg was Russia's capital for about 200 years."},
+    {"id": "manchester", "category": "cities", "region": "world", "prompt": "Where is Manchester?", "answer": "Manchester, England", "lat": 53.48, "lon": -2.24, "toleranceMiles": 40, "fact": "Manchester was a center of the Industrial Revolution."},
+    {"id": "edinburgh", "category": "cities", "region": "world", "prompt": "Where is Edinburgh?", "answer": "Edinburgh, Scotland", "lat": 55.95, "lon": -3.19, "toleranceMiles": 40, "fact": "Edinburgh Castle sits on top of an extinct volcano."},
+    {"id": "geneva", "category": "cities", "region": "world", "prompt": "Where is Geneva?", "answer": "Geneva, Switzerland", "lat": 46.2, "lon": 6.14, "toleranceMiles": 40, "fact": "Geneva is home to the European headquarters of the United Nations."},
+    {"id": "marseille", "category": "cities", "region": "world", "prompt": "Where is Marseille?", "answer": "Marseille, France", "lat": 43.3, "lon": 5.37, "toleranceMiles": 40, "fact": "Marseille is France's oldest city, founded by Greek sailors around 600 BC."},
+    {"id": "dubai", "category": "cities", "region": "world", "prompt": "Where is Dubai?", "answer": "Dubai, United Arab Emirates", "lat": 25.2, "lon": 55.27, "toleranceMiles": 40, "fact": "Dubai is home to the Burj Khalifa, the world's tallest building."},
+    {"id": "mumbai", "category": "cities", "region": "world", "prompt": "Where is Mumbai?", "answer": "Mumbai, India", "lat": 19.08, "lon": 72.88, "toleranceMiles": 40, "fact": "Mumbai is the center of India's Bollywood film industry."},
+    {"id": "shanghai", "category": "cities", "region": "world", "prompt": "Where is Shanghai?", "answer": "Shanghai, China", "lat": 31.23, "lon": 121.47, "toleranceMiles": 40, "fact": "Shanghai has the world's busiest container port."},
+    {"id": "hong-kong", "category": "cities", "region": "world", "prompt": "Where is Hong Kong?", "answer": "Hong Kong, China", "lat": 22.32, "lon": 114.17, "toleranceMiles": 40, "fact": "Hong Kong has more skyscrapers than any other city."},
+    {"id": "osaka", "category": "cities", "region": "world", "prompt": "Where is Osaka?", "answer": "Osaka, Japan", "lat": 34.69, "lon": 135.5, "toleranceMiles": 40, "fact": "Osaka is famous for its street food, like takoyaki."},
+    {"id": "kyoto", "category": "cities", "region": "world", "prompt": "Where is Kyoto?", "answer": "Kyoto, Japan", "lat": 35.01, "lon": 135.77, "toleranceMiles": 40, "fact": "Kyoto was Japan's capital for more than 1,000 years."},
+    {"id": "sydney", "category": "cities", "region": "world", "prompt": "Where is Sydney?", "answer": "Sydney, Australia", "lat": -33.87, "lon": 151.21, "toleranceMiles": 40, "fact": "The Sydney Opera House opened in 1973."},
+    {"id": "melbourne", "category": "cities", "region": "world", "prompt": "Where is Melbourne?", "answer": "Melbourne, Australia", "lat": -37.81, "lon": 144.96, "toleranceMiles": 40, "fact": "Melbourne was Australia's capital before Canberra was built."},
+    {"id": "auckland", "category": "cities", "region": "world", "prompt": "Where is Auckland?", "answer": "Auckland, New Zealand", "lat": -36.85, "lon": 174.76, "toleranceMiles": 40, "fact": "Auckland is New Zealand's largest city, built on a field of volcanoes."},
+    {"id": "cape-town", "category": "cities", "region": "world", "prompt": "Where is Cape Town?", "answer": "Cape Town, South Africa", "lat": -33.92, "lon": 18.42, "toleranceMiles": 40, "fact": "Cape Town is where South Africa's parliament sits."},
+    {"id": "johannesburg", "category": "cities", "region": "world", "prompt": "Where is Johannesburg?", "answer": "Johannesburg, South Africa", "lat": -26.2, "lon": 28.05, "toleranceMiles": 40, "fact": "Johannesburg grew out of a gold rush in 1886."},
+    {"id": "lagos", "category": "cities", "region": "world", "prompt": "Where is Lagos?", "answer": "Lagos, Nigeria", "lat": 6.52, "lon": 3.38, "toleranceMiles": 40, "fact": "Lagos is Nigeria's largest city and was its capital until 1991."},
+    {"id": "marrakesh", "category": "cities", "region": "world", "prompt": "Where is Marrakesh?", "answer": "Marrakesh, Morocco", "lat": 31.63, "lon": -8.01, "toleranceMiles": 40, "fact": "Marrakesh is called the Red City for its red sandstone walls."},
+    {"id": "casablanca", "category": "cities", "region": "world", "prompt": "Where is Casablanca?", "answer": "Casablanca, Morocco", "lat": 33.57, "lon": -7.59, "toleranceMiles": 40, "fact": "Casablanca is Morocco's largest city."},
+    {"id": "alexandria", "category": "cities", "region": "world", "prompt": "Where is Alexandria?", "answer": "Alexandria, Egypt", "lat": 31.2, "lon": 29.92, "toleranceMiles": 40, "fact": "Alexandria was founded by Alexander the Great."},
+    {"id": "karachi", "category": "cities", "region": "world", "prompt": "Where is Karachi?", "answer": "Karachi, Pakistan", "lat": 24.86, "lon": 67.0, "toleranceMiles": 40, "fact": "Karachi is Pakistan's largest city and was its first capital."},
+    {"id": "ho-chi-minh", "category": "cities", "region": "world", "prompt": "Where is Ho Chi Minh City?", "answer": "Ho Chi Minh City, Vietnam", "lat": 10.82, "lon": 106.63, "toleranceMiles": 40, "fact": "Ho Chi Minh City was called Saigon until 1976."},
+    {"id": "busan", "category": "cities", "region": "world", "prompt": "Where is Busan?", "answer": "Busan, South Korea", "lat": 35.18, "lon": 129.08, "toleranceMiles": 40, "fact": "Busan is South Korea's busiest port."},
+    {"id": "bangalore", "category": "cities", "region": "world", "prompt": "Where is Bangalore?", "answer": "Bangalore (Bengaluru), India", "lat": 12.97, "lon": 77.59, "toleranceMiles": 40, "fact": "Bangalore is known as India's Silicon Valley."},
+    {"id": "perth-city", "category": "cities", "region": "world", "prompt": "Where is Perth?", "answer": "Perth, Australia", "lat": -31.95, "lon": 115.86, "toleranceMiles": 40, "fact": "Perth is one of the most isolated big cities in the world."},
+    {"id": "timbuktu", "category": "cities", "region": "world", "prompt": "Where is Timbuktu?", "answer": "Timbuktu, Mali", "lat": 16.77, "lon": -3.01, "toleranceMiles": 40, "fact": "Timbuktu was a great center of learning in the 1400s and 1500s."},
+    {"id": "mecca", "category": "cities", "region": "world", "prompt": "Where is Mecca?", "answer": "Mecca, Saudi Arabia", "lat": 21.39, "lon": 39.86, "toleranceMiles": 40, "fact": "Mecca is the holiest city in Islam."},
+    {"id": "liverpool", "category": "sports", "region": "europe", "sport": "football", "prompt": "Where do Liverpool play?", "answer": "Liverpool, England", "lat": 53.43, "lon": -2.96, "toleranceMiles": 25, "fact": "Anfield has been the club's home ground ever since Liverpool was founded in 1892.", "league": "Premier League"},
+    {"id": "newcastle", "category": "sports", "region": "europe", "sport": "football", "prompt": "Where do Newcastle United play?", "answer": "Newcastle upon Tyne, England", "lat": 54.98, "lon": -1.62, "toleranceMiles": 25, "fact": "Their stadium, St James' Park, sits right in the city centre.", "league": "Premier League"},
+    {"id": "arsenal", "category": "sports", "region": "europe", "sport": "football", "prompt": "Where do Arsenal play?", "answer": "North London, England", "lat": 51.55, "lon": -0.11, "toleranceMiles": 25, "fact": "In 2003–04 they went a whole league season unbeaten, earning the nickname The Invincibles.", "league": "Premier League"},
+    {"id": "realmadrid", "category": "sports", "region": "europe", "sport": "football", "prompt": "Where do Real Madrid play?", "answer": "Madrid, Spain", "lat": 40.45, "lon": -3.69, "toleranceMiles": 25, "fact": "\"Real\" means royal: King Alfonso XIII gave the club the title in 1920.", "league": "La Liga"},
+    {"id": "barcelona", "category": "sports", "region": "europe", "sport": "football", "prompt": "Where do FC Barcelona play?", "answer": "Barcelona, Spain", "lat": 41.38, "lon": 2.12, "toleranceMiles": 25, "fact": "Their home, Camp Nou, is the biggest football stadium in Europe.", "league": "La Liga"},
+    {"id": "athletic", "category": "sports", "region": "europe", "sport": "football", "prompt": "Where do Athletic Club play?", "answer": "Bilbao, Spain", "lat": 43.26, "lon": -2.95, "toleranceMiles": 25, "fact": "Famous for fielding players from the Basque region rather than signing stars from anywhere.", "league": "La Liga"},
+    {"id": "toulouse", "category": "sports", "region": "europe", "sport": "rugby", "prompt": "Where do Stade Toulousain play?", "answer": "Toulouse, France", "lat": 43.62, "lon": 1.43, "toleranceMiles": 25, "fact": "The most successful club in the history of the French rugby championship.", "league": "Top 14"},
+    {"id": "racing92", "category": "sports", "region": "europe", "sport": "rugby", "prompt": "Where do Racing 92 play?", "answer": "Paris area, France", "lat": 48.9, "lon": 2.23, "toleranceMiles": 25, "fact": "They play indoors, under a roof, at Paris La Défense Arena.", "league": "Top 14"},
+    {"id": "clermont", "category": "sports", "region": "europe", "sport": "rugby", "prompt": "Where do ASM Clermont Auvergne play?", "answer": "Clermont-Ferrand, France", "lat": 45.78, "lon": 3.08, "toleranceMiles": 25, "fact": "The club was founded in 1911 by workers at the Michelin tyre company.", "league": "Top 14"},
+    {"id": "wimbledon", "category": "sports", "region": "europe", "sport": "tennis", "league": "Grand Slam", "prompt": "Where is Wimbledon?", "answer": "Wimbledon, London, England", "lat": 51.434, "lon": -0.214, "toleranceMiles": 25, "fact": "Wimbledon, first played in 1877, is the oldest tennis tournament in the world. Fans snack on strawberries and cream.", "venue": "All England Club"},
+    {"id": "roland-garros", "category": "sports", "region": "europe", "sport": "tennis", "league": "Grand Slam", "prompt": "Where is the French Open?", "answer": "Paris, France", "lat": 48.847, "lon": 2.249, "toleranceMiles": 25, "fact": "The French Open is the only Grand Slam played on red clay, which makes the ball bounce high and slow.", "venue": "Stade Roland-Garros"},
+    {"id": "italian-open", "category": "sports", "region": "europe", "sport": "tennis", "league": "Masters", "prompt": "Where is the Italian Open?", "answer": "Rome, Italy", "lat": 41.933, "lon": 12.457, "toleranceMiles": 25, "fact": "The Italian Open's Foro Italico is decorated with giant marble statues of athletes.", "venue": "Foro Italico"},
+    {"id": "madrid-open", "category": "sports", "region": "europe", "sport": "tennis", "league": "Masters", "prompt": "Where is the Madrid Open?", "answer": "Madrid, Spain", "lat": 40.37, "lon": -3.688, "toleranceMiles": 25, "fact": "The Madrid Open's stadium is called the Caja Mágica, or 'Magic Box,' and its roofs slide open and shut.", "venue": "Caja Mágica"},
+    {"id": "monte-carlo", "category": "sports", "region": "europe", "sport": "tennis", "league": "Masters", "prompt": "Where is the Monte-Carlo Masters?", "answer": "Roquebrune-Cap-Martin, France (next to Monaco)", "lat": 43.751, "lon": 7.437, "toleranceMiles": 25, "fact": "The Monte-Carlo Masters is played on clay courts with views over the Mediterranean Sea.", "venue": "Monte-Carlo Country Club"},
+    {"id": "atp-finals", "category": "sports", "region": "europe", "sport": "tennis", "league": "ATP Finals", "prompt": "Where are the ATP Finals?", "answer": "Turin, Italy", "lat": 45.043, "lon": 7.651, "toleranceMiles": 25, "fact": "At the ATP Finals, only the eight best men's players of the year get to compete.", "venue": "Inalpi Arena"},
+    {"id": "paris-masters", "category": "sports", "region": "europe", "sport": "tennis", "league": "Masters", "prompt": "Where is the Paris Masters?", "answer": "Nanterre, Paris area, France", "lat": 48.896, "lon": 2.229, "toleranceMiles": 25, "fact": "The Paris Masters is played indoors, so rain never stops play.", "venue": "Paris La Défense Arena"},
+    {"id": "queens-club", "category": "sports", "region": "europe", "sport": "tennis", "prompt": "Where is the Queen's Club Championships?", "answer": "West Kensington, London, England", "lat": 51.487, "lon": -0.212, "toleranceMiles": 25, "fact": "Queen's Club is a famous grass-court tournament where players warm up for Wimbledon.", "venue": "Queen's Club"},
+    {"id": "halle", "category": "sports", "region": "europe", "sport": "tennis", "prompt": "Where is the Halle Open?", "answer": "Halle, Germany", "lat": 52.06, "lon": 8.36, "toleranceMiles": 25, "fact": "Halle's grass-court stadium has a roof that can close in about 90 seconds.", "venue": "OWL Arena"},
+    {"id": "hamburg", "category": "sports", "region": "europe", "sport": "tennis", "prompt": "Where is the Hamburg Open?", "answer": "Hamburg, Germany", "lat": 53.57, "lon": 9.99, "toleranceMiles": 25, "fact": "Hamburg has hosted a tennis tournament since 1892, at the Rothenbaum tennis center.", "venue": "Rothenbaum"},
+    {"id": "basel", "category": "sports", "region": "europe", "sport": "tennis", "prompt": "Where is the Swiss Indoors?", "answer": "Basel, Switzerland", "lat": 47.541, "lon": 7.621, "toleranceMiles": 25, "fact": "Roger Federer was a ball kid at the Swiss Indoors in Basel before winning it 10 times.", "venue": "St. Jakobshalle"},
+    {"id": "barcelona-open", "category": "sports", "region": "europe", "sport": "tennis", "prompt": "Where is the Barcelona Open?", "answer": "Barcelona, Spain", "lat": 41.393, "lon": 2.118, "toleranceMiles": 25, "fact": "The Barcelona Open's center court is named after Rafael Nadal, who won the tournament 12 times.", "venue": "Real Club de Tenis Barcelona"},
+    {"id": "gstaad", "category": "sports", "region": "europe", "sport": "tennis", "prompt": "Where is the Swiss Open Gstaad?", "answer": "Gstaad, Switzerland", "lat": 46.475, "lon": 7.284, "toleranceMiles": 25, "fact": "The Swiss Open is played high in the Alps, about 3,450 feet up, surrounded by mountains.", "venue": "Roy Emerson Arena"},
+    {"id": "kitzbuhel", "category": "sports", "region": "europe", "sport": "tennis", "prompt": "Where is the Kitzbühel tournament?", "answer": "Kitzbühel, Austria", "lat": 47.446, "lon": 12.392, "toleranceMiles": 25, "fact": "Kitzbühel's tennis tournament is played in a famous ski town in the Austrian Alps."},
+    {"id": "stuttgart", "category": "sports", "region": "europe", "sport": "tennis", "prompt": "Where is the Porsche Tennis Grand Prix?", "answer": "Stuttgart, Germany", "lat": 48.789, "lon": 9.226, "toleranceMiles": 25, "fact": "The winner of Stuttgart's women's tournament traditionally gets a Porsche sports car as a prize!", "venue": "Porsche Arena"},
+    {"id": "vienna-open", "category": "sports", "region": "europe", "sport": "tennis", "prompt": "Where is the Vienna Open?", "answer": "Vienna, Austria", "lat": 48.202, "lon": 16.334, "toleranceMiles": 25, "fact": "The Vienna Open is played indoors at the Wiener Stadthalle every October.", "venue": "Wiener Stadthalle"},
+    {"id": "rugby-england", "category": "sports", "region": "europe", "sport": "rugby", "league": "Six Nations", "prompt": "Where does the England rugby team play at home?", "answer": "London, England", "lat": 51.456, "lon": -0.341, "toleranceMiles": 25, "fact": "Twickenham in London is the biggest stadium in the world built just for rugby.", "venue": "Allianz Stadium, Twickenham"},
+    {"id": "rugby-france", "category": "sports", "region": "europe", "sport": "rugby", "league": "Six Nations", "prompt": "Where does the France rugby team play at home?", "answer": "Saint-Denis, Paris area, France", "lat": 48.924, "lon": 2.36, "toleranceMiles": 25, "fact": "Stade de France hosted the 2023 Rugby World Cup final and the 1998 football World Cup final.", "venue": "Stade de France"},
+    {"id": "rugby-wales", "category": "sports", "region": "europe", "sport": "rugby", "league": "Six Nations", "prompt": "Where does the Wales rugby team play at home?", "answer": "Cardiff, Wales", "lat": 51.478, "lon": -3.183, "toleranceMiles": 25, "fact": "Cardiff's Principality Stadium sits right in the city center and has a roof that can close.", "venue": "Principality Stadium"},
+    {"id": "rugby-scotland", "category": "sports", "region": "europe", "sport": "rugby", "league": "Six Nations", "prompt": "Where does the Scotland rugby team play at home?", "answer": "Edinburgh, Scotland", "lat": 55.942, "lon": -3.241, "toleranceMiles": 25, "fact": "Murrayfield, Scotland's national stadium, has heating under the grass to keep it from freezing.", "venue": "Murrayfield"},
+    {"id": "rugby-ireland", "category": "sports", "region": "europe", "sport": "rugby", "league": "Six Nations", "prompt": "Where does the Ireland rugby team play at home?", "answer": "Dublin, Ireland", "lat": 53.335, "lon": -6.228, "toleranceMiles": 25, "fact": "Ireland's Aviva Stadium stands where Lansdowne Road, one of the oldest rugby grounds in the world, used to be.", "venue": "Aviva Stadium"},
+    {"id": "rugby-italy", "category": "sports", "region": "europe", "sport": "rugby", "league": "Six Nations", "prompt": "Where does the Italy rugby team play at home?", "answer": "Rome, Italy", "lat": 41.934, "lon": 12.455, "toleranceMiles": 25, "fact": "Italy plays its Six Nations home games at Rome's Stadio Olimpico, right next to the Italian Open tennis courts.", "venue": "Stadio Olimpico"},
+    {"id": "eagles", "category": "sports", "region": "australia", "sport": "afl", "prompt": "Where do the West Coast Eagles play?", "answer": "Perth, Western Australia", "lat": -31.95, "lon": 115.86, "toleranceMiles": 25, "fact": "They joined in 1987 as the league's first club from Western Australia."},
+    {"id": "crows", "category": "sports", "region": "australia", "sport": "afl", "prompt": "Where do the Adelaide Crows play?", "answer": "Adelaide, South Australia", "lat": -34.93, "lon": 138.6, "toleranceMiles": 25, "fact": "They joined in 1991 as South Australia's first club in the league."},
+    {"id": "swans", "category": "sports", "region": "australia", "sport": "afl", "prompt": "Where do the Sydney Swans play?", "answer": "Sydney, New South Wales", "lat": -33.89, "lon": 151.22, "toleranceMiles": 25, "fact": "The club started as South Melbourne and moved to Sydney in 1982."},
+    {"id": "broncos", "category": "sports", "region": "australia", "sport": "nrl", "prompt": "Where do the Brisbane Broncos play?", "answer": "Brisbane, Queensland", "lat": -27.46, "lon": 153.01, "toleranceMiles": 25, "fact": "Rugby league is the biggest winter sport in Queensland and New South Wales."},
+    {"id": "storm", "category": "sports", "region": "australia", "sport": "nrl", "prompt": "Where do the Melbourne Storm play?", "answer": "Melbourne, Victoria", "lat": -37.82, "lon": 144.98, "toleranceMiles": 25, "fact": "The only NRL club in Victoria, a state where Aussie rules football is king."},
+    {"id": "nzwarriors", "category": "sports", "region": "australia", "sport": "nrl", "prompt": "Where do the New Zealand Warriors play?", "answer": "Auckland, New Zealand", "lat": -36.92, "lon": 174.81, "toleranceMiles": 25, "fact": "The NRL crosses the Tasman Sea: the Warriors are its only club from New Zealand."},
+    {"id": "scorchers", "category": "sports", "region": "australia", "sport": "bbl", "prompt": "Where do the Perth Scorchers play?", "answer": "Perth, Western Australia", "lat": -31.95, "lon": 115.89, "toleranceMiles": 25, "fact": "The most successful team in Big Bash League history."},
+    {"id": "sixers", "category": "sports", "region": "australia", "sport": "bbl", "prompt": "Where do the Sydney Sixers play?", "answer": "Sydney, New South Wales", "lat": -33.89, "lon": 151.22, "toleranceMiles": 25, "fact": "Named after the six, cricket's biggest hit: over the boundary without a bounce."},
+    {"id": "hurricanes", "category": "sports", "region": "australia", "sport": "bbl", "prompt": "Where do the Hobart Hurricanes play?", "answer": "Hobart, Tasmania", "lat": -42.877, "lon": 147.373, "toleranceMiles": 25, "fact": "Tasmania's Big Bash team, from the island state off Australia's south coast."}
+  ]
+}
