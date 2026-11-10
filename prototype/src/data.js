@@ -76,16 +76,31 @@ function placeQuestions(world, facts) {
   return out;
 }
 
+// Sports nerd facts (data/sports-facts.json): each sports card gets a list of [label, text] facts.
+// The first one becomes the card's headline "Now you know" fact for USA teams, which only had
+// an auto-written "since 19xx" line before.
+function addNerdFacts(questions, nerd) {
+  for (const q of questions) {
+    if (q.category !== 'sports' || !nerd[q.id]) continue;
+    q.nerd = nerd[q.id];
+    if (q.region === 'usa') q.fact = q.nerd[0][1];
+  }
+}
+
 function loadData() {
   const bank = readJson('questions.json');
   const roster = readJson('usa-teams.json');
   const world = readJson('countries.json');
   const facts = readJson('place-facts.json');
   bank.questions = bank.questions.concat(placeQuestions(world, facts), teamQuestions(roster));
+  addNerdFacts(bank.questions, readJson('sports-facts.json').facts);
+  // Friendly country names for the map shapes (used for "Your pin landed in ...").
+  bank.atlasNames = {};
+  for (const row of world.countries) if (row[0]) bank.atlasNames[row[0]] = cap(bare(row[1]));
   // Which continent each shape on the map belongs to (for coloring continent maps).
   bank.atlasContinents = Object.assign({}, world.atlasExtras);
   for (const row of world.countries) if (row[0]) bank.atlasContinents[row[0]] = row[2];
   return bank;
 }
 
-module.exports = { loadData, teamQuestions, placeQuestions, slug };
+module.exports = { loadData, teamQuestions, placeQuestions, addNerdFacts, slug };

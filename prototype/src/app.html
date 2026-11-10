@@ -40,6 +40,8 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .topbar-left { display: flex; align-items: center; gap: 6px; }
 .wordmark { font-family: var(--font-display); font-weight: 700; font-size: 22px; letter-spacing: .5px; }
 .wordmark span { color: var(--gold); }
+.wordmark { display: inline-flex; align-items: center; }
+.wm-globe { width: .95em; height: .95em; margin-right: .22em; flex-shrink: 0; }
 .brand { display: flex; flex-direction: column; align-items: flex-start; gap: 0; background: none; border: none; padding: 0; cursor: pointer; text-align: left; }
 .brand .wordmark { line-height: 1.05; }
 .tagline { font-size: 10.5px; font-weight: 500; color: var(--muted); letter-spacing: .3px; white-space: nowrap; }
@@ -257,7 +259,8 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   transition: transform .42s cubic-bezier(.2, .8, .2, 1); }
 .card.below { transform: translateY(100%); }
 .card.above { transform: translateY(-100%); }
-.card-head { display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; flex-shrink: 0; }
+.card-head { display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; flex-shrink: 0; position: relative; }
+.card-head .sound-btn { position: absolute; top: -9px; right: -12px; margin: 0; } /* mute, in the card's top-right corner */
 .chip { display: inline-flex; color: var(--ink); border-radius: 999px; padding: 5px 14px; font-family: var(--font-display);
   font-weight: 600; font-size: 13px; letter-spacing: 1.5px; }
 .kicker { font-size: 15px; color: var(--muted); }
@@ -309,6 +312,19 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .res-fact { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; line-height: 1.42; color: var(--body-strong); }
 .res-fact svg { flex-shrink: 0; margin-top: 1px; }
 .res-fact b { color: var(--text); font-weight: 600; }
+.res-pin { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; line-height: 1.4; color: var(--muted); }
+.res-pin b { color: var(--text); font-weight: 600; }
+.pin-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); flex-shrink: 0; margin: 4px 4px 0; box-shadow: 0 0 0 3px rgba(255, 181, 71, .25); }
+.res-right { display: inline-flex; align-items: center; gap: 10px; }
+.nerd-btn { display: inline-flex; align-items: center; padding: 3px 10px; min-height: 26px; border-radius: 999px; border: 1px solid rgba(61, 220, 196, .45);
+  background: rgba(61, 220, 196, .12); color: var(--teal); font: 600 12px/1 var(--font-body); cursor: pointer; vertical-align: middle; position: relative; }
+.nerd-btn::after { content: ''; position: absolute; inset: -9px -4px; } /* 44px touch target */
+.nerd-emoji { font-size: 38px; line-height: 1; }
+.nerd-sheet { max-height: 88%; overflow-y: auto; }
+.nerd-list { display: flex; flex-direction: column; gap: 8px; width: 100%; margin-top: 6px; }
+.nerd-row { background: var(--raised); border-radius: 14px; padding: 10px 14px; text-align: left; }
+.nerd-label { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--teal); }
+.nerd-text { font-size: 14.5px; line-height: 1.45; color: var(--body-strong); margin-top: 2px; }
 
 .actions { display: flex; gap: 12px; flex-shrink: 0; }
 .actions .ghost { flex: 1; }
@@ -360,6 +376,12 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   .card-head { gap: 5px; }
   .kicker { font-size: 13px; }
   .map-wrap { min-height: 120px; }
+  .res-fact.has-nerd > span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; } /* full fact is in the Nerd facts pop-up */
+  .res-pin, .res-fact { font-size: 12.5px; }
+  /* Sports screens have tabs and a streak meter, so after lock-in make room for the Next button. */
+  .screen.sports .card.revealed .chip { display: none; }
+  .screen.sports .card.revealed .map-wrap { min-height: 100px; } /* only shrinks when a long team name needs the room */
+  .screen.sports .res-answer > span, .screen.sports .res-pin > span, .screen.sports .res-fact.has-nerd > span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
   .panel, .screen.sports .panel { min-height: 92px; padding: 11px 14px; }
   .btn { height: 50px; }
   .region-tabs { padding-top: 10px; }

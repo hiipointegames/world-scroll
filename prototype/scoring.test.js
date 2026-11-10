@@ -149,6 +149,19 @@ test('facts are kid-friendly and fit on the result card', () => {
   assert.deepStrictEqual(flagged, []);
   const long = questions.filter(q => q.fact.length > 160).map(q => q.id + ' (' + q.fact.length + ')');
   assert.deepStrictEqual(long, []);
+  // Sports nerd facts get the same check.
+  const nerd = questions.flatMap(q => (q.nerd || []).map(([label, text]) => ({ id: q.id, label, text })));
+  assert.deepStrictEqual(nerd.filter(f => banned.test(f.text.replace(okNames, ''))).map(f => f.id + ': ' + f.text), []);
+  assert.deepStrictEqual(nerd.filter(f => f.text.length > 160 || !f.label).map(f => f.id), []);
+});
+
+test('every sports card has at least 2 nerd facts, and USA teams lead with a real one', () => {
+  const sports = questions.filter(q => q.category === 'sports');
+  assert.deepStrictEqual(sports.filter(q => !q.nerd || q.nerd.length < 2).map(q => q.id), []);
+  const generic = sports.filter(q => q.region === 'usa' && /^They’ve been in the |^Brand new: they joined/.test(q.fact));
+  assert.deepStrictEqual(generic.map(q => q.id), []);
+  const known = require('../data/sports-facts.json');
+  assert.deepStrictEqual(known._verify.filter(id => !known.facts[id]), [], 'the fact-check list only names real cards');
 });
 
 test('a pin inside a country scores a bullseye via the border distance', () => {

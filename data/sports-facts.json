@@ -1,0 +1,3670 @@
+{
+ "_about": "Sports nerd facts shown on the result card (first one) and in the Nerd facts pop-up (all). Keyed by card id. Each fact: [label, text], kid-friendly, 160 chars max.",
+ "_verify": [
+  "gstaad",
+  "hurricanes",
+  "mlb-chicago-cubs",
+  "mlb-toronto-blue-jays",
+  "mls-san-diego-fc",
+  "nba-sacramento-kings",
+  "nfl-houston-texans",
+  "nfl-seattle-seahawks",
+  "nhl-minnesota-wild",
+  "nwsl-boston-legacy-fc",
+  "nwsl-denver-summit-fc",
+  "nwsl-racing-louisville-fc",
+  "paris-masters",
+  "usl1-athletic-club-boise",
+  "usl1-av-alta-fc",
+  "usl1-charlotte-independence",
+  "usl1-chattanooga-red-wolves",
+  "usl1-corpus-christi-fc",
+  "usl1-fc-naples",
+  "usl1-fort-wayne-fc",
+  "usl1-forward-madison-fc",
+  "usl1-greenville-triumph-sc",
+  "usl1-new-york-cosmos",
+  "usl1-one-knoxville-sc",
+  "usl1-portland-hearts-of-pine",
+  "usl1-richmond-kickers",
+  "usl1-sarasota-paradise",
+  "usl1-spokane-velocity-fc",
+  "usl1-union-omaha",
+  "usl1-westchester-sc",
+  "uslc-birmingham-legion-fc",
+  "uslc-brooklyn-fc",
+  "uslc-charleston-battery",
+  "uslc-colorado-springs-switchbacks",
+  "uslc-detroit-city-fc",
+  "uslc-el-paso-locomotive-fc",
+  "uslc-fc-tulsa",
+  "uslc-hartford-athletic",
+  "uslc-indy-eleven",
+  "uslc-las-vegas-lights",
+  "uslc-lexington-sc",
+  "uslc-loudoun-united-fc",
+  "uslc-louisville-city-fc",
+  "uslc-miami-fc",
+  "uslc-monterey-bay-fc",
+  "uslc-new-mexico-united",
+  "uslc-oakland-roots-sc",
+  "uslc-orange-county-sc",
+  "uslc-phoenix-rising-fc",
+  "uslc-pittsburgh-riverhounds",
+  "uslc-rhode-island-fc",
+  "uslc-sacramento-republic-fc",
+  "uslc-san-antonio-fc",
+  "uslc-sporting-club-jacksonville",
+  "uslc-tampa-bay-rowdies",
+  "uslsl-brooklyn-fc",
+  "uslsl-carolina-ascent-fc",
+  "uslsl-dallas-trinity-fc",
+  "uslsl-dc-power-fc",
+  "uslsl-fort-lauderdale-united-fc",
+  "uslsl-lexington-sc",
+  "uslsl-sporting-club-jacksonville",
+  "uslsl-tampa-bay-sun-fc"
+ ],
+ "facts": {
+  "nfl-buffalo-bills": [
+   [
+    "The name",
+    "Named after Buffalo Bill Cody, the famous Wild West showman, picked in a 1959 fan contest."
+   ],
+   [
+    "First coach",
+    "Buster Ramsey led the Bills in their first season, 1960."
+   ],
+   [
+    "Where it began",
+    "A founding team of the AFL in 1960. They joined the NFL when the two leagues merged in 1970."
+   ],
+   [
+    "Nerd stat",
+    "The only team to play in four Super Bowls in a row, after the 1990 to 1993 seasons."
+   ]
+  ],
+  "nfl-miami-dolphins": [
+   [
+    "The name",
+    "Picked from a 1965 fan contest that drew about 20,000 entries."
+   ],
+   [
+    "First coach",
+    "George Wilson coached them in their first season, 1966."
+   ],
+   [
+    "Nerd stat",
+    "The 1972 Dolphins are the only NFL team with a perfect season: 17 wins, 0 losses, and a Super Bowl."
+   ],
+   [
+    "Big moment",
+    "Coach Don Shula has the most wins of any NFL coach ever: 347."
+   ]
+  ],
+  "nfl-new-england-patriots": [
+   [
+    "The name",
+    "Chosen by fans in 1960 to honor the patriots of the American Revolution, which began in Massachusetts."
+   ],
+   [
+    "First coach",
+    "Lou Saban coached the Boston Patriots in their first season, 1960."
+   ],
+   [
+    "Where it began",
+    "They were the Boston Patriots until 1971, when they moved to Foxborough and became New England."
+   ],
+   [
+    "Nerd stat",
+    "Six Super Bowl titles with Tom Brady and coach Bill Belichick, tied for the most ever."
+   ]
+  ],
+  "nfl-new-york-jets": [
+   [
+    "Where it began",
+    "They started in 1960 as the New York Titans. They became the Jets in 1963."
+   ],
+   [
+    "The name",
+    "Their new stadium sat next to LaGuardia Airport, with jets flying overhead."
+   ],
+   [
+    "First coach",
+    "Football legend Sammy Baugh coached the Titans in their first season."
+   ],
+   [
+    "Big moment",
+    "Joe Namath promised a win in Super Bowl III in 1969, then delivered it."
+   ]
+  ],
+  "nfl-baltimore-ravens": [
+   [
+    "The name",
+    "Named after \"The Raven,\" a famous poem by Edgar Allan Poe, who lived in Baltimore. Fans voted for it."
+   ],
+   [
+    "First coach",
+    "Ted Marchibroda coached them in their first season, 1996."
+   ],
+   [
+    "Where it began",
+    "Formed in 1996 when owner Art Modell moved his team from Cleveland. The Browns name stayed behind."
+   ],
+   [
+    "Nerd stat",
+    "They won Super Bowls after the 2000 and 2012 seasons."
+   ]
+  ],
+  "nfl-cincinnati-bengals": [
+   [
+    "The name",
+    "A nod to an earlier Cincinnati Bengals team from the 1930s and 1940s."
+   ],
+   [
+    "First coach",
+    "Founder Paul Brown also coached them, starting in their first season, 1968."
+   ],
+   [
+    "Nerd stat",
+    "Their helmets have had orange-and-black tiger stripes since 1981."
+   ]
+  ],
+  "nfl-cleveland-browns": [
+   [
+    "The name",
+    "Named after their first coach, Paul Brown, after fans picked it in a contest."
+   ],
+   [
+    "First coach",
+    "Paul Brown, who also invented the face mask and the modern playbook."
+   ],
+   [
+    "Where it began",
+    "Started in 1946 in another league, the AAFC. They won the NFL title in their first NFL season, 1950."
+   ],
+   [
+    "Nerd stat",
+    "The only NFL team with no logo on its helmet: just plain orange."
+   ]
+  ],
+  "nfl-pittsburgh-steelers": [
+   [
+    "Where it began",
+    "Founded by Art Rooney in 1933 as the Pittsburgh Pirates."
+   ],
+   [
+    "The name",
+    "Renamed in 1940 to honor the city's famous steel-making industry."
+   ],
+   [
+    "First coach",
+    "Jap Douds coached them in their first season, 1933."
+   ],
+   [
+    "Nerd stat",
+    "Their logo sits on only one side of the helmet, and they have six Super Bowl titles."
+   ]
+  ],
+  "nfl-houston-texans": [
+   [
+    "The name",
+    "Picked in 2000 over other finalists like the Apollos and the Stallions."
+   ],
+   [
+    "First coach",
+    "Dom Capers coached them in their first season, 2002."
+   ],
+   [
+    "Where it began",
+    "Joined in 2002 as the NFL's 32nd team."
+   ],
+   [
+    "Big moment",
+    "They won their very first game, 19–10 over the Dallas Cowboys."
+   ]
+  ],
+  "nfl-indianapolis-colts": [
+   [
+    "Where it began",
+    "Started in Baltimore in 1953 and moved to Indianapolis in 1984."
+   ],
+   [
+    "The name",
+    "Named for Maryland's long history of breeding racehorses."
+   ],
+   [
+    "First coach",
+    "Keith Molesworth coached the Baltimore Colts in their first season, 1953."
+   ],
+   [
+    "Nerd stat",
+    "Super Bowl champs twice: in Baltimore in 1971 and in Indianapolis in 2007."
+   ]
+  ],
+  "nfl-jacksonville-jaguars": [
+   [
+    "The name",
+    "Picked by fans in a 1991 contest, years before the team even existed."
+   ],
+   [
+    "First coach",
+    "Tom Coughlin coached them in their first season, 1995."
+   ],
+   [
+    "Big moment",
+    "They reached the AFC Championship Game in just their second season."
+   ]
+  ],
+  "nfl-tennessee-titans": [
+   [
+    "Where it began",
+    "Started in 1960 as the Houston Oilers. They moved to Tennessee in 1997 and became the Titans in 1999."
+   ],
+   [
+    "The name",
+    "Nashville is called the \"Athens of the South\" and has a full-size copy of the Parthenon, so a Greek name fit."
+   ],
+   [
+    "First coach",
+    "Lou Rymkus coached the Oilers in their first season, 1960."
+   ],
+   [
+    "Nerd stat",
+    "As the Oilers, they won the first two AFL titles, in 1960 and 1961."
+   ]
+  ],
+  "nfl-denver-broncos": [
+   [
+    "The name",
+    "Picked in a 1960 fan contest. It was also the name of an earlier Denver baseball team."
+   ],
+   [
+    "First coach",
+    "Frank Filchock coached them in their first season, 1960."
+   ],
+   [
+    "Big moment",
+    "Fans hated the team's first striped socks so much that they burned them at a 1962 bonfire."
+   ],
+   [
+    "Nerd stat",
+    "Three Super Bowl titles: after the 1997, 1998 and 2015 seasons."
+   ]
+  ],
+  "nfl-kansas-city-chiefs": [
+   [
+    "Where it began",
+    "Started in 1960 as the Dallas Texans and moved to Kansas City in 1963."
+   ],
+   [
+    "The name",
+    "Named in honor of Mayor H. Roe Bartle, whose nickname was \"The Chief.\""
+   ],
+   [
+    "First coach",
+    "Hank Stram coached them from their first season and won Super Bowl IV."
+   ],
+   [
+    "Nerd stat",
+    "Team founder Lamar Hunt came up with the name \"Super Bowl,\" inspired by his kids' Super Ball toy."
+   ]
+  ],
+  "nfl-las-vegas-raiders": [
+   [
+    "Where it began",
+    "Started in Oakland in 1960. They moved to Los Angeles in 1982, back to Oakland in 1995, then to Las Vegas in 2020."
+   ],
+   [
+    "The name",
+    "Chosen in a 1960 newspaper contest in Oakland."
+   ],
+   [
+    "First coach",
+    "Eddie Erdelatz coached them in their first season, 1960."
+   ],
+   [
+    "Nerd stat",
+    "Three Super Bowl titles, after the 1976, 1980 and 1983 seasons."
+   ]
+  ],
+  "nfl-los-angeles-chargers": [
+   [
+    "Where it began",
+    "Started in Los Angeles in 1960. They moved to San Diego in 1961, then came back to LA in 2017."
+   ],
+   [
+    "The name",
+    "Owner Barron Hilton liked the \"Charge!\" cheer that fans yelled at games."
+   ],
+   [
+    "First coach",
+    "Sid Gillman, a passing-game genius, coached them in their first season."
+   ],
+   [
+    "Nerd stat",
+    "Their powder-blue jerseys are one of the most loved looks in football."
+   ]
+  ],
+  "nfl-dallas-cowboys": [
+   [
+    "First coach",
+    "Tom Landry coached them for 29 seasons in a row, from their first year in 1960."
+   ],
+   [
+    "The name",
+    "Nicknamed \"America's Team\" after a 1978 highlight film used the phrase."
+   ],
+   [
+    "Big moment",
+    "They've played a home game on Thanksgiving Day almost every year since 1966."
+   ],
+   [
+    "Nerd stat",
+    "Five Super Bowl titles."
+   ]
+  ],
+  "nfl-new-york-giants": [
+   [
+    "Where it began",
+    "Tim Mara bought the team for just $500 in 1925."
+   ],
+   [
+    "The name",
+    "They borrowed the name from New York's baseball Giants."
+   ],
+   [
+    "First coach",
+    "Bob Folwell coached them in their first season, 1925."
+   ],
+   [
+    "Big moment",
+    "In Super Bowl XLII they upset the unbeaten Patriots, thanks to the famous \"Helmet Catch.\""
+   ]
+  ],
+  "nfl-philadelphia-eagles": [
+   [
+    "The name",
+    "Named in 1933 after the eagle on the badge of the National Recovery Administration, part of the New Deal."
+   ],
+   [
+    "First coach",
+    "Lud Wray coached them in their first season, 1933."
+   ],
+   [
+    "Big moment",
+    "They won Super Bowl LII with a backup quarterback and a trick play called the \"Philly Special.\""
+   ],
+   [
+    "Nerd stat",
+    "Super Bowl champs again in February 2025, beating the Chiefs."
+   ]
+  ],
+  "nfl-washington-commanders": [
+   [
+    "Where it began",
+    "Started in 1932 as the Boston Braves and moved to Washington in 1937."
+   ],
+   [
+    "The name",
+    "They became the Commanders in 2022."
+   ],
+   [
+    "First coach",
+    "Lud Wray coached them in their first season, then moved on to start the Eagles."
+   ],
+   [
+    "Nerd stat",
+    "In 1937 they became the first NFL team with its own marching band. Three Super Bowl titles."
+   ]
+  ],
+  "nfl-chicago-bears": [
+   [
+    "Where it began",
+    "Started in 1920 as the Decatur Staleys, a team paid for by a corn-starch company. They moved to Chicago in 1921."
+   ],
+   [
+    "The name",
+    "Football players are bigger than baseball players, so the Cubs' neighbors became the Bears."
+   ],
+   [
+    "First coach",
+    "George Halas was the team's player, coach and owner. The NFC title trophy is named after him."
+   ],
+   [
+    "Big moment",
+    "The 1985 Bears won the Super Bowl and recorded a hit song, \"The Super Bowl Shuffle.\""
+   ]
+  ],
+  "nfl-detroit-lions": [
+   [
+    "Where it began",
+    "Started in 1930 as the Portsmouth Spartans in Ohio and moved to Detroit in 1934."
+   ],
+   [
+    "The name",
+    "The lion is the \"king of the jungle,\" a good partner for Detroit's baseball Tigers."
+   ],
+   [
+    "First coach",
+    "Potsy Clark, their first coach in Detroit, won the 1935 NFL title."
+   ],
+   [
+    "Nerd stat",
+    "They've played a home game on Thanksgiving almost every year since 1934."
+   ]
+  ],
+  "nfl-green-bay-packers": [
+   [
+    "The name",
+    "Named after the Indian Packing Company, which paid for their first jerseys in 1919."
+   ],
+   [
+    "First coach",
+    "Founder Curly Lambeau. Their stadium, Lambeau Field, is named after him."
+   ],
+   [
+    "Nerd stat",
+    "The only NFL team owned by its fans: hundreds of thousands of people own shares."
+   ],
+   [
+    "Big moment",
+    "They won the first two Super Bowls. The trophy is named after their coach, Vince Lombardi."
+   ]
+  ],
+  "nfl-minnesota-vikings": [
+   [
+    "The name",
+    "Honors Minnesota's many families with Scandinavian roots."
+   ],
+   [
+    "First coach",
+    "Norm Van Brocklin coached them in their first season, 1961."
+   ],
+   [
+    "Nerd stat",
+    "A giant Viking horn, the Gjallarhorn, gets blown before every home game."
+   ],
+   [
+    "Big moment",
+    "Their famous 1970s defense was nicknamed the \"Purple People Eaters.\""
+   ]
+  ],
+  "nfl-atlanta-falcons": [
+   [
+    "The name",
+    "A schoolteacher, Julia Elliott, won the 1965 naming contest. She said the falcon is \"proud and dignified.\""
+   ],
+   [
+    "First coach",
+    "Norb Hecker coached them in their first season, 1966."
+   ],
+   [
+    "Nerd stat",
+    "Their stadium's roof opens and closes like a camera lens."
+   ]
+  ],
+  "nfl-carolina-panthers": [
+   [
+    "Where it began",
+    "Joined in 1995 as the team for both North and South Carolina."
+   ],
+   [
+    "First coach",
+    "Dom Capers coached them in their first season. He later became the Texans' first coach too."
+   ],
+   [
+    "Big moment",
+    "They reached the NFC Championship Game in just their second season, 1996."
+   ]
+  ],
+  "nfl-new-orleans-saints": [
+   [
+    "The name",
+    "New Orleans got the team on All Saints' Day in 1966, and the jazz song \"When the Saints Go Marching In\" made it perfect."
+   ],
+   [
+    "First coach",
+    "Tom Fears coached them in their first season, 1967."
+   ],
+   [
+    "Nerd stat",
+    "Super Bowl champions after the 2009 season."
+   ]
+  ],
+  "nfl-tampa-bay-buccaneers": [
+   [
+    "The name",
+    "Named after the pirates of Florida legend. Tampa holds a big pirate festival, Gasparilla, every year."
+   ],
+   [
+    "First coach",
+    "John McKay coached them in their first season, 1976."
+   ],
+   [
+    "Nerd stat",
+    "A pirate ship in their stadium blasts cannons every time they score."
+   ],
+   [
+    "Big moment",
+    "With Tom Brady they won Super Bowl LV, the first team to win one in its home stadium."
+   ]
+  ],
+  "nfl-arizona-cardinals": [
+   [
+    "Where it began",
+    "The oldest pro football team still running, founded in Chicago in 1898."
+   ],
+   [
+    "The name",
+    "Named for their faded maroon jerseys, which someone called \"cardinal red.\""
+   ],
+   [
+    "Nerd stat",
+    "They moved from Chicago to St. Louis in 1960, then to Arizona in 1988."
+   ]
+  ],
+  "nfl-los-angeles-rams": [
+   [
+    "Where it began",
+    "Founded in Cleveland in 1936. They moved to LA in 1946, to St. Louis in 1995, and back to LA in 2016."
+   ],
+   [
+    "The name",
+    "Named after the Fordham Rams, a college team."
+   ],
+   [
+    "Nerd stat",
+    "The first NFL team with a helmet logo. Player Fred Gehrke painted the horns by hand in 1948."
+   ],
+   [
+    "Big moment",
+    "Super Bowl champs after the 1999 season (in St. Louis) and the 2021 season (in LA)."
+   ]
+  ],
+  "nfl-san-francisco-49ers": [
+   [
+    "The name",
+    "Named after the \"49ers,\" the gold seekers who rushed to California in 1849."
+   ],
+   [
+    "First coach",
+    "Buck Shaw coached them in their first season, 1946."
+   ],
+   [
+    "Big moment",
+    "Joe Montana's pass to Dwight Clark in 1982 is known simply as \"The Catch.\""
+   ],
+   [
+    "Nerd stat",
+    "Five Super Bowl titles."
+   ]
+  ],
+  "nfl-seattle-seahawks": [
+   [
+    "The name",
+    "Picked from about 20,000 fan entries in 1975."
+   ],
+   [
+    "First coach",
+    "Jack Patera coached them in their first season, 1976."
+   ],
+   [
+    "Nerd stat",
+    "Fans are the \"12th Man,\" and their noise once measured on earthquake sensors."
+   ],
+   [
+    "Big moment",
+    "Super Bowl champions after the 2013 season."
+   ]
+  ],
+  "nba-boston-celtics": [
+   [
+    "The name",
+    "Named for Boston's many families with Irish (Celtic) roots."
+   ],
+   [
+    "First coach",
+    "John \"Honey\" Russell coached them in their first season, 1946."
+   ],
+   [
+    "Nerd stat",
+    "18 NBA titles, the most ever, including 8 in a row from 1959 to 1966."
+   ]
+  ],
+  "nba-brooklyn-nets": [
+   [
+    "Where it began",
+    "Started in 1967 as the New Jersey Americans. They moved to Long Island, back to New Jersey, then to Brooklyn in 2012."
+   ],
+   [
+    "The name",
+    "Picked to rhyme with New York's Mets and Jets."
+   ],
+   [
+    "First coach",
+    "Max Zaslofsky coached them in their first season."
+   ],
+   [
+    "Big moment",
+    "Julius \"Dr. J\" Erving led them to two ABA titles, in 1974 and 1976."
+   ]
+  ],
+  "nba-new-york-knicks": [
+   [
+    "The name",
+    "Short for Knickerbockers, an old nickname for New Yorkers, from the rolled-up pants of Dutch settlers."
+   ],
+   [
+    "First coach",
+    "Neil Cohalan coached them in their first season, 1946."
+   ],
+   [
+    "Big moment",
+    "They played in the league's very first game, in Toronto on November 1, 1946."
+   ],
+   [
+    "Nerd stat",
+    "NBA champions in 1970 and 1973."
+   ]
+  ],
+  "nba-philadelphia-76ers": [
+   [
+    "The name",
+    "Named for 1776, when the Declaration of Independence was signed in Philadelphia."
+   ],
+   [
+    "Where it began",
+    "Started in 1946 as the Syracuse Nationals and moved to Philadelphia in 1963."
+   ],
+   [
+    "Nerd stat",
+    "Syracuse owner Danny Biasone invented the 24-second shot clock in 1954."
+   ]
+  ],
+  "nba-toronto-raptors": [
+   [
+    "The name",
+    "Fans picked it in 1994, the year after the movie Jurassic Park came out."
+   ],
+   [
+    "First coach",
+    "Brendan Malone coached them in their first season, 1995."
+   ],
+   [
+    "Big moment",
+    "The 2019 NBA champions: the first title won by a team outside the USA."
+   ]
+  ],
+  "nba-chicago-bulls": [
+   [
+    "The name",
+    "A nod to Chicago's history as a cattle-trading city."
+   ],
+   [
+    "First coach",
+    "Johnny \"Red\" Kerr won Coach of the Year in their first season, 1966."
+   ],
+   [
+    "Nerd stat",
+    "Six titles in the 1990s with Michael Jordan, plus a 72–10 record in 1995–96."
+   ]
+  ],
+  "nba-cleveland-cavaliers": [
+   [
+    "The name",
+    "Picked in a 1970 newspaper fan contest."
+   ],
+   [
+    "First coach",
+    "Bill Fitch coached them in their first season, 1970."
+   ],
+   [
+    "Big moment",
+    "In 2016 they came back from 3 games to 1 down to win the title, a first in NBA Finals history."
+   ]
+  ],
+  "nba-detroit-pistons": [
+   [
+    "The name",
+    "Founder Fred Zollner's factory made pistons for car and truck engines."
+   ],
+   [
+    "Where it began",
+    "Started in 1941 as the Fort Wayne Zollner Pistons in Indiana. They moved to Detroit in 1957."
+   ],
+   [
+    "Nerd stat",
+    "A 19–18 game they played against the Lakers in 1950 helped lead to the shot clock."
+   ],
+   [
+    "Big moment",
+    "NBA champions in 1989, 1990 and 2004."
+   ]
+  ],
+  "nba-indiana-pacers": [
+   [
+    "The name",
+    "Named for Indiana's harness-racing horses, called pacers, and the pace car at the Indy 500."
+   ],
+   [
+    "First coach",
+    "Larry Staverman coached them in their first season, 1967."
+   ],
+   [
+    "Nerd stat",
+    "They won three ABA titles before joining the NBA in 1976."
+   ]
+  ],
+  "nba-milwaukee-bucks": [
+   [
+    "The name",
+    "Fans picked it in 1968 for Wisconsin's white-tailed deer."
+   ],
+   [
+    "First coach",
+    "Larry Costello coached them in their first season, 1968."
+   ],
+   [
+    "Nerd stat",
+    "They won the 1971 title in only their third season. Then in 2021, Giannis scored 50 points to win the title again."
+   ]
+  ],
+  "nba-atlanta-hawks": [
+   [
+    "Where it began",
+    "They began in 1946 in Buffalo, then played in the Tri-Cities, Milwaukee and St. Louis before reaching Atlanta in 1968."
+   ],
+   [
+    "Nerd stat",
+    "The legendary coach Red Auerbach coached them in 1949–50, when they were the Tri-Cities Blackhawks."
+   ],
+   [
+    "Big moment",
+    "They won the 1958 NBA title in St. Louis, led by Bob Pettit."
+   ]
+  ],
+  "nba-charlotte-hornets": [
+   [
+    "The name",
+    "In 1780 a British general called Charlotte \"a hornet's nest.\""
+   ],
+   [
+    "First coach",
+    "Dick Harter coached them in their first season, 1988."
+   ],
+   [
+    "Where it began",
+    "They played as the Bobcats from 2004 to 2014, then took back the Hornets name and history."
+   ]
+  ],
+  "nba-miami-heat": [
+   [
+    "The name",
+    "Picked in a 1986 fan contest, a perfect fit for Miami's hot weather."
+   ],
+   [
+    "First coach",
+    "Ron Rothstein coached them in their first season, 1988."
+   ],
+   [
+    "Nerd stat",
+    "NBA champions in 2006, 2012 and 2013."
+   ]
+  ],
+  "nba-orlando-magic": [
+   [
+    "The name",
+    "A fan contest picked it for the magic of Orlando's theme parks."
+   ],
+   [
+    "First coach",
+    "Matt Guokas coached them in their first season, 1989."
+   ],
+   [
+    "Nerd stat",
+    "They won the draft lottery two years in a row, in 1992 and 1993. Their first pick was Shaquille O'Neal."
+   ]
+  ],
+  "nba-washington-wizards": [
+   [
+    "Where it began",
+    "They started in 1961 as the Chicago Packers, moved to Baltimore in 1963, then came to the Washington area in 1973."
+   ],
+   [
+    "The name",
+    "They became the Wizards in 1997 after a fan contest."
+   ],
+   [
+    "First coach",
+    "Jim Pollard coached the Chicago Packers in their first season."
+   ],
+   [
+    "Nerd stat",
+    "1978 NBA champions."
+   ]
+  ],
+  "nba-denver-nuggets": [
+   [
+    "Where it began",
+    "They started in 1967 as the Denver Rockets and became the Nuggets in 1974."
+   ],
+   [
+    "The name",
+    "Named for the gold nuggets found in Colorado's 1858 gold rush."
+   ],
+   [
+    "Nerd stat",
+    "They won their first title in 2023, led by Nikola Jokić."
+   ]
+  ],
+  "nba-minnesota-timberwolves": [
+   [
+    "The name",
+    "Minnesota has more gray wolves than any other state in the lower 48. Fans voted for it."
+   ],
+   [
+    "First coach",
+    "Bill Musselman coached them in their first season, 1989."
+   ],
+   [
+    "Nerd stat",
+    "More than 1 million fans came in their first season, a record at the time."
+   ]
+  ],
+  "nba-oklahoma-city-thunder": [
+   [
+    "Where it began",
+    "Started in 1967 as the Seattle SuperSonics and moved to Oklahoma City in 2008."
+   ],
+   [
+    "The name",
+    "Named for the huge thunderstorms that roll across Oklahoma's plains."
+   ],
+   [
+    "Nerd stat",
+    "Champs as the Sonics in 1979 and as the Thunder in 2025."
+   ]
+  ],
+  "nba-portland-trail-blazers": [
+   [
+    "The name",
+    "Honors the pioneers who traveled the Oregon Trail."
+   ],
+   [
+    "First coach",
+    "Rolland Todd coached them in their first season, 1970."
+   ],
+   [
+    "Nerd stat",
+    "They won the title in 1977, only their seventh season, and then sold out 814 home games in a row."
+   ]
+  ],
+  "nba-utah-jazz": [
+   [
+    "The name",
+    "They started in 1974 in New Orleans, where jazz was born. When they moved to Utah in 1979, they kept the name."
+   ],
+   [
+    "First coach",
+    "Scotty Robertson coached them in their first season."
+   ],
+   [
+    "Nerd stat",
+    "John Stockton holds the NBA career records for assists and steals."
+   ]
+  ],
+  "nba-golden-state-warriors": [
+   [
+    "Where it began",
+    "Started in 1946 as the Philadelphia Warriors and moved to the Bay Area in 1962."
+   ],
+   [
+    "First coach",
+    "Eddie Gottlieb coached them to the league's very first title, in 1947."
+   ],
+   [
+    "Nerd stat",
+    "Wilt Chamberlain scored 100 points in one game for the Philadelphia Warriors in 1962."
+   ]
+  ],
+  "nba-la-clippers": [
+   [
+    "Where it began",
+    "They started in 1970 as the Buffalo Braves, moved to San Diego in 1978, then to LA in 1984."
+   ],
+   [
+    "The name",
+    "Named for the clipper ships that sailed into San Diego Bay."
+   ],
+   [
+    "First coach",
+    "Dolph Schayes coached the Buffalo Braves in their first season."
+   ]
+  ],
+  "nba-los-angeles-lakers": [
+   [
+    "The name",
+    "They started in Minnesota, the \"Land of 10,000 Lakes,\" and kept the name when they moved to LA in 1960."
+   ],
+   [
+    "First coach",
+    "John Kundla coached them to five titles in Minneapolis."
+   ],
+   [
+    "Nerd stat",
+    "17 NBA titles, with stars like George Mikan, Magic Johnson, Kobe Bryant and LeBron James."
+   ]
+  ],
+  "nba-phoenix-suns": [
+   [
+    "The name",
+    "Picked from about 28,000 fan entries in 1968. The winner got $1,000 and season tickets."
+   ],
+   [
+    "First coach",
+    "Johnny \"Red\" Kerr coached them in their first season, after starting out with the Bulls."
+   ],
+   [
+    "Big moment",
+    "In 1969 they lost a coin flip for the first draft pick, Kareem Abdul-Jabbar."
+   ]
+  ],
+  "nba-sacramento-kings": [
+   [
+    "Where it began",
+    "They began as the Rochester Royals, then played in Cincinnati and Kansas City before moving to Sacramento in 1985."
+   ],
+   [
+    "Nerd stat",
+    "Oscar Robertson averaged a triple-double for the whole 1961–62 season, playing for Cincinnati."
+   ],
+   [
+    "Big moment",
+    "Their arena was the first in the world to run fully on solar power."
+   ]
+  ],
+  "nba-dallas-mavericks": [
+   [
+    "The name",
+    "Fans voted for it, partly for the TV western Maverick. Its star, James Garner, was an owner."
+   ],
+   [
+    "First coach",
+    "Dick Motta coached them in their first season, 1980."
+   ],
+   [
+    "Nerd stat",
+    "Dirk Nowitzki played 21 seasons, all for Dallas, and led them to the 2011 title."
+   ]
+  ],
+  "nba-houston-rockets": [
+   [
+    "Where it began",
+    "They started in 1967 in San Diego, a city famous for building rockets, and moved to Houston in 1971."
+   ],
+   [
+    "The name",
+    "The name fit Houston too: NASA's Mission Control is there."
+   ],
+   [
+    "First coach",
+    "Jack McMahon coached them in their first season."
+   ],
+   [
+    "Nerd stat",
+    "Champions in 1994 and 1995, led by Hakeem Olajuwon."
+   ]
+  ],
+  "nba-memphis-grizzlies": [
+   [
+    "Where it began",
+    "Joined the NBA in 1995 in Vancouver, Canada, and moved to Memphis in 2001."
+   ],
+   [
+    "The name",
+    "Named for the grizzly bears of British Columbia."
+   ],
+   [
+    "First coach",
+    "Brian Winters coached them in their first season, 1995."
+   ]
+  ],
+  "nba-new-orleans-pelicans": [
+   [
+    "The name",
+    "Named for the brown pelican, Louisiana's state bird, which is on the state flag."
+   ],
+   [
+    "Where it began",
+    "The Charlotte Hornets moved to New Orleans in 2002. The team became the Pelicans in 2013."
+   ],
+   [
+    "First coach",
+    "Paul Silas coached their first New Orleans season."
+   ]
+  ],
+  "nba-san-antonio-spurs": [
+   [
+    "Where it began",
+    "Started in 1967 as the Dallas Chaparrals and moved to San Antonio in 1973."
+   ],
+   [
+    "The name",
+    "Named for the spurs that cowboys wear on their boots."
+   ],
+   [
+    "Nerd stat",
+    "Five titles under coach Gregg Popovich, led by Tim Duncan."
+   ]
+  ],
+  "mlb-baltimore-orioles": [
+   [
+    "The name",
+    "Named for the Baltimore oriole, Maryland's orange-and-black state bird."
+   ],
+   [
+    "Where it began",
+    "Started in 1901 as the Milwaukee Brewers, played as the St. Louis Browns, and moved to Baltimore in 1954."
+   ],
+   [
+    "First manager",
+    "Jimmie Dykes managed their first Baltimore season."
+   ],
+   [
+    "Nerd stat",
+    "Cal Ripken Jr. played 2,632 games in a row, a record that still stands."
+   ]
+  ],
+  "mlb-boston-red-sox": [
+   [
+    "Where it began",
+    "Started in 1901 as the Boston Americans and became the Red Sox in 1908."
+   ],
+   [
+    "First manager",
+    "Jimmy Collins managed them in 1903, when they won the first-ever World Series."
+   ],
+   [
+    "Nerd stat",
+    "Fenway Park, opened in 1912, is the oldest ballpark in the majors. Its left-field wall is called the Green Monster."
+   ]
+  ],
+  "mlb-new-york-yankees": [
+   [
+    "Where it began",
+    "Started in 1901 as the Baltimore Orioles, moved to New York in 1903, and became the Yankees in 1913."
+   ],
+   [
+    "The name",
+    "Before that they were the Highlanders, because their ballpark sat on high ground."
+   ],
+   [
+    "First manager",
+    "Clark Griffith managed their first New York season."
+   ],
+   [
+    "Nerd stat",
+    "27 World Series titles, the most of any team."
+   ]
+  ],
+  "mlb-tampa-bay-rays": [
+   [
+    "The name",
+    "Started as the Devil Rays, a kind of manta ray. In 2008 they shortened it to Rays, as in rays of sunshine."
+   ],
+   [
+    "First manager",
+    "Larry Rothschild managed them in their first season, 1998."
+   ],
+   [
+    "Big moment",
+    "In 2008 they went from the worst record in baseball to the World Series in just one year."
+   ]
+  ],
+  "mlb-toronto-blue-jays": [
+   [
+    "The name",
+    "Fans picked it in 1976 from more than 4,000 names."
+   ],
+   [
+    "First manager",
+    "Roy Hartsfield managed them in their first season, 1977."
+   ],
+   [
+    "Nerd stat",
+    "They won the World Series in 1992 and 1993, the first champions from outside the USA."
+   ],
+   [
+    "Big moment",
+    "Their stadium opened in 1989 with the world's first fully retractable, motorized roof."
+   ]
+  ],
+  "mlb-chicago-white-sox": [
+   [
+    "The name",
+    "Named after the White Stockings, an older Chicago team name."
+   ],
+   [
+    "First manager",
+    "Clark Griffith played and managed in their first season, 1901."
+   ],
+   [
+    "Nerd stat",
+    "World Series champs in 2005. Their scoreboard shoots fireworks after home runs."
+   ]
+  ],
+  "mlb-cleveland-guardians": [
+   [
+    "The name",
+    "Named in 2022 after the \"Guardians of Traffic\" statues on a bridge near their ballpark."
+   ],
+   [
+    "First manager",
+    "Jimmy McAleer managed them in their first season, 1901."
+   ],
+   [
+    "Big moment",
+    "Larry Doby joined them in 1947, the first Black player in the American League."
+   ],
+   [
+    "Nerd stat",
+    "World Series champions in 1920 and 1948."
+   ]
+  ],
+  "mlb-detroit-tigers": [
+   [
+    "The name",
+    "Said to come from the orange-and-black striped socks of their early teams."
+   ],
+   [
+    "First manager",
+    "George Stallings managed them in their first season, 1901."
+   ],
+   [
+    "Nerd stat",
+    "Ty Cobb's .366 career batting average is the highest in big-league history."
+   ]
+  ],
+  "mlb-kansas-city-royals": [
+   [
+    "The name",
+    "Named after the American Royal, a big livestock show held in Kansas City since 1899."
+   ],
+   [
+    "First manager",
+    "Joe Gordon managed them in their first season, 1969."
+   ],
+   [
+    "Nerd stat",
+    "Their ballpark has one of the world's largest privately funded fountain displays."
+   ],
+   [
+    "Big moment",
+    "World Series champions in 1985 and 2015."
+   ]
+  ],
+  "mlb-minnesota-twins": [
+   [
+    "Where it began",
+    "Started in 1901 as the Washington Senators and moved to Minnesota in 1961."
+   ],
+   [
+    "The name",
+    "Named for the \"Twin Cities,\" Minneapolis and St. Paul. Their logo shows two players shaking hands across a river."
+   ],
+   [
+    "Nerd stat",
+    "World Series champions in 1987 and 1991."
+   ]
+  ],
+  "mlb-athletics": [
+   [
+    "Where it began",
+    "Started in Philadelphia in 1901, then moved to Kansas City in 1955, Oakland in 1968, and Sacramento in 2025. Las Vegas is next."
+   ],
+   [
+    "First manager",
+    "Connie Mack managed them for 50 seasons in a row, from 1901 to 1950. That's a record."
+   ],
+   [
+    "The name",
+    "Their elephant mascot started as a joke by a rival manager, and the team proudly kept it."
+   ]
+  ],
+  "mlb-houston-astros": [
+   [
+    "The name",
+    "Named in 1965 for the astronauts trained at NASA in Houston."
+   ],
+   [
+    "First manager",
+    "Harry Craft managed them in their first season, 1962."
+   ],
+   [
+    "Nerd stat",
+    "In 1965 they opened the Astrodome, the first domed stadium, which led to the invention of AstroTurf."
+   ]
+  ],
+  "mlb-los-angeles-angels": [
+   [
+    "Where it began",
+    "Founded in 1961 by Gene Autry, a famous singing cowboy."
+   ],
+   [
+    "The name",
+    "Los Angeles means \"the angels\" in Spanish."
+   ],
+   [
+    "First manager",
+    "Bill Rigney managed them in their first season, 1961."
+   ],
+   [
+    "Nerd stat",
+    "A giant \"A\" sign with a halo stands outside their ballpark. World Series champs in 2002."
+   ]
+  ],
+  "mlb-seattle-mariners": [
+   [
+    "The name",
+    "Named for Seattle's long history as a busy seaport."
+   ],
+   [
+    "First manager",
+    "Darrell Johnson managed them in their first season, 1977."
+   ],
+   [
+    "Nerd stat",
+    "The 2001 Mariners, starring rookie Ichiro Suzuki, won 116 games and tied the all-time record."
+   ]
+  ],
+  "mlb-texas-rangers": [
+   [
+    "Where it began",
+    "Started in 1961 as the Washington Senators and moved to Texas in 1972."
+   ],
+   [
+    "First manager",
+    "Mickey Vernon managed them in their first season, 1961."
+   ],
+   [
+    "Big moment",
+    "Nolan Ryan threw his record seventh no-hitter for them in 1991."
+   ],
+   [
+    "Nerd stat",
+    "They won their first World Series in 2023."
+   ]
+  ],
+  "mlb-atlanta-braves": [
+   [
+    "Where it began",
+    "The oldest pro sports team still playing in America: founded in Boston in 1871."
+   ],
+   [
+    "First manager",
+    "Harry Wright managed them in their first season, 1871."
+   ],
+   [
+    "Nerd stat",
+    "They moved to Milwaukee in 1953 and Atlanta in 1966. Hank Aaron hit his 715th home run there in 1974."
+   ]
+  ],
+  "mlb-miami-marlins": [
+   [
+    "The name",
+    "Named for the marlin, a big, fast game fish, and an old Miami minor-league team."
+   ],
+   [
+    "First manager",
+    "Rene Lachemann managed them in their first season, 1993."
+   ],
+   [
+    "Nerd stat",
+    "They won the World Series in 1997, only their fifth season, and again in 2003."
+   ]
+  ],
+  "mlb-new-york-mets": [
+   [
+    "The name",
+    "Short for Metropolitans, the name of a New York team from the 1880s."
+   ],
+   [
+    "First manager",
+    "Casey Stengel managed them in their first season, 1962."
+   ],
+   [
+    "Nerd stat",
+    "Their blue and orange came from the Dodgers and Giants, the two teams that had left New York."
+   ],
+   [
+    "Big moment",
+    "The \"Miracle Mets\" won the 1969 World Series."
+   ]
+  ],
+  "mlb-philadelphia-phillies": [
+   [
+    "Where it began",
+    "Founded in 1883: the oldest team in American sports with the same name in the same city."
+   ],
+   [
+    "First manager",
+    "Bob Ferguson managed them in their first season, 1883."
+   ],
+   [
+    "Nerd stat",
+    "World Series champs in 1980 and 2008. Their fuzzy green mascot is the Phillie Phanatic."
+   ]
+  ],
+  "mlb-washington-nationals": [
+   [
+    "Where it began",
+    "Started in 1969 as the Montreal Expos, named after the Expo 67 world's fair. They moved to Washington in 2005."
+   ],
+   [
+    "First manager",
+    "Gene Mauch managed the Expos in their first season."
+   ],
+   [
+    "Nerd stat",
+    "In the 2019 World Series they won all four of their wins on the road, a first."
+   ]
+  ],
+  "mlb-chicago-cubs": [
+   [
+    "The name",
+    "Newspapers started calling the team the \"Cubs\" in 1902 because it had so many young players."
+   ],
+   [
+    "First manager",
+    "Albert Spalding played and managed in 1876. He also founded the Spalding sports company."
+   ],
+   [
+    "Nerd stat",
+    "The ivy on Wrigley Field's walls was planted in 1937. Their 2016 title ended a 108-year wait."
+   ]
+  ],
+  "mlb-cincinnati-reds": [
+   [
+    "The name",
+    "Named after the 1869 Cincinnati Red Stockings, baseball's first openly all-pro team."
+   ],
+   [
+    "Nerd stat",
+    "Cincinnati holds an Opening Day parade every year to honor that history."
+   ],
+   [
+    "Big moment",
+    "The \"Big Red Machine\" won the World Series in 1975 and 1976."
+   ]
+  ],
+  "mlb-milwaukee-brewers": [
+   [
+    "Where it began",
+    "Started in 1969 as the Seattle Pilots and moved to Milwaukee in 1970."
+   ],
+   [
+    "First manager",
+    "Joe Schultz managed the Pilots in their first season."
+   ],
+   [
+    "Nerd stat",
+    "In 1998 they became the first modern team to switch leagues, moving from the American League to the National League."
+   ],
+   [
+    "Big moment",
+    "Fans love the sausage race held in the middle of every home game."
+   ]
+  ],
+  "mlb-pittsburgh-pirates": [
+   [
+    "The name",
+    "In 1891 they signed a player away from another team, and the rival club accused them of acting like pirates."
+   ],
+   [
+    "Big moment",
+    "Bill Mazeroski's home run won the 1960 World Series, the first walk-off homer to end a Series."
+   ],
+   [
+    "Nerd stat",
+    "They played in the very first modern World Series, in 1903."
+   ]
+  ],
+  "mlb-st-louis-cardinals": [
+   [
+    "The name",
+    "In 1899 a fan called their red trim \"a lovely shade of cardinal,\" and the name stuck."
+   ],
+   [
+    "Nerd stat",
+    "11 World Series titles, the most of any National League team."
+   ],
+   [
+    "Big moment",
+    "Stan \"The Man\" Musial played 22 seasons, all for St. Louis."
+   ]
+  ],
+  "mlb-arizona-diamondbacks": [
+   [
+    "The name",
+    "Named for the western diamondback, a rattlesnake of the Arizona desert."
+   ],
+   [
+    "First manager",
+    "Buck Showalter managed them in their first season, 1998."
+   ],
+   [
+    "Nerd stat",
+    "They won the 2001 World Series in only their fourth season. Their ballpark has a swimming pool past the outfield wall."
+   ]
+  ],
+  "mlb-colorado-rockies": [
+   [
+    "The name",
+    "Named for the Rocky Mountains."
+   ],
+   [
+    "First manager",
+    "Don Baylor managed them in their first season, 1993."
+   ],
+   [
+    "Nerd stat",
+    "One row of purple seats in their upper deck sits exactly one mile above sea level."
+   ],
+   [
+    "Big moment",
+    "The air is so thin there that they store game balls in a humidor to stop them from flying too far."
+   ]
+  ],
+  "mlb-los-angeles-dodgers": [
+   [
+    "The name",
+    "In 1890s Brooklyn, people had to dodge the streetcars, so fans were called \"trolley dodgers.\""
+   ],
+   [
+    "Where it began",
+    "Played in Brooklyn starting in 1883 and moved to Los Angeles in 1958."
+   ],
+   [
+    "Big moment",
+    "Jackie Robinson joined the Brooklyn Dodgers in 1947 and changed baseball forever."
+   ]
+  ],
+  "mlb-san-diego-padres": [
+   [
+    "The name",
+    "\"Padres\" means \"fathers\" in Spanish. It honors the Spanish friars who founded San Diego in 1769."
+   ],
+   [
+    "First manager",
+    "Preston Gómez managed them in their first season, 1969."
+   ],
+   [
+    "Nerd stat",
+    "Tony Gwynn won eight batting titles, all with the Padres."
+   ]
+  ],
+  "mlb-san-francisco-giants": [
+   [
+    "The name",
+    "In 1885 their manager proudly called his team \"my giants!\""
+   ],
+   [
+    "Where it began",
+    "Started as the New York Gothams in 1883 and moved to San Francisco in 1958."
+   ],
+   [
+    "Nerd stat",
+    "Home runs that land in the bay behind right field are called \"splash hits.\""
+   ],
+   [
+    "Big moment",
+    "Willie Mays's over-the-shoulder grab in 1954 is known as \"The Catch.\""
+   ]
+  ],
+  "nhl-boston-bruins": [
+   [
+    "Where it began",
+    "Joined in 1924 as the first American team in the NHL."
+   ],
+   [
+    "The name",
+    "Owner Charles Adams wanted a name for a big, strong, clever animal. \"Bruin\" is an old word for bear."
+   ],
+   [
+    "First coach",
+    "Art Ross was their first coach. The trophy for the league's top scorer is named after him."
+   ],
+   [
+    "Big moment",
+    "Bobby Orr's diving, flying goal won the 1970 Stanley Cup."
+   ]
+  ],
+  "nhl-buffalo-sabres": [
+   [
+    "The name",
+    "Picked in a fan contest in 1970. A sabre is a curved sword carried by leaders."
+   ],
+   [
+    "First coach",
+    "Punch Imlach coached them in their first season, 1970."
+   ],
+   [
+    "Nerd stat",
+    "A spin of a roulette wheel gave them the first pick in 1970, star Gilbert Perreault."
+   ]
+  ],
+  "nhl-detroit-red-wings": [
+   [
+    "Where it began",
+    "Started in 1926 as the Detroit Cougars. They became the Falcons, then the Red Wings in 1932."
+   ],
+   [
+    "The name",
+    "Their winged-wheel logo fits the \"Motor City,\" home of America's car makers."
+   ],
+   [
+    "First coach",
+    "Art Duncan coached them in their first season."
+   ],
+   [
+    "Nerd stat",
+    "Fans toss an octopus on the ice in the playoffs. Its eight arms once stood for the eight wins needed to take the Cup."
+   ]
+  ],
+  "nhl-florida-panthers": [
+   [
+    "The name",
+    "Named for the Florida panther, the state animal."
+   ],
+   [
+    "First coach",
+    "Roger Neilson coached them in their first season, 1993."
+   ],
+   [
+    "Nerd stat",
+    "They won the Stanley Cup two years in a row, in 2024 and 2025."
+   ]
+  ],
+  "nhl-montreal-canadiens": [
+   [
+    "Where it began",
+    "Founded in 1909. They are older than the NHL itself."
+   ],
+   [
+    "The name",
+    "Their nickname, the \"Habs,\" comes from \"Les Habitants,\" a name for early French settlers."
+   ],
+   [
+    "First coach",
+    "Jack Laviolette was the team's first captain and coach."
+   ],
+   [
+    "Nerd stat",
+    "24 Stanley Cups, the most of any team, including five in a row from 1956 to 1960."
+   ]
+  ],
+  "nhl-ottawa-senators": [
+   [
+    "The name",
+    "Named after the original Ottawa Senators, who won many Stanley Cups in the early 1900s."
+   ],
+   [
+    "First coach",
+    "Rick Bowness coached them in their first season, 1992."
+   ],
+   [
+    "Where it began",
+    "Ottawa is Canada's capital, where the country's senators work."
+   ]
+  ],
+  "nhl-tampa-bay-lightning": [
+   [
+    "The name",
+    "Tampa Bay is known as the \"lightning capital of North America.\""
+   ],
+   [
+    "First coach",
+    "Terry Crisp coached them in their first season, 1992."
+   ],
+   [
+    "Big moment",
+    "In 1992 Manon Rhéaume played goal for them in a preseason game, the first woman to play in an NHL game."
+   ],
+   [
+    "Nerd stat",
+    "Stanley Cup champions in 2004, 2020 and 2021."
+   ]
+  ],
+  "nhl-toronto-maple-leafs": [
+   [
+    "The name",
+    "Named in 1927 by Conn Smythe after the maple leaf, the symbol of Canada."
+   ],
+   [
+    "Where it began",
+    "A founding NHL team in 1917, first called the Toronto Arenas."
+   ],
+   [
+    "Nerd stat",
+    "13 Stanley Cups. Their arena sits right next to Union Station."
+   ]
+  ],
+  "nhl-carolina-hurricanes": [
+   [
+    "Where it began",
+    "Started in 1972 as the New England Whalers, became the Hartford Whalers, and moved to North Carolina in 1997."
+   ],
+   [
+    "The name",
+    "Named for the Atlantic hurricanes that reach the Carolina coast."
+   ],
+   [
+    "First coach",
+    "Jack Kelley coached the Whalers in their first season."
+   ],
+   [
+    "Nerd stat",
+    "Stanley Cup champions in 2006."
+   ]
+  ],
+  "nhl-columbus-blue-jackets": [
+   [
+    "The name",
+    "Ohio made many of the blue coats worn by Union soldiers in the 1860s."
+   ],
+   [
+    "First coach",
+    "Dave King coached them in their first season, 2000."
+   ],
+   [
+    "Nerd stat",
+    "A cannon in their arena booms every time they score."
+   ]
+  ],
+  "nhl-new-jersey-devils": [
+   [
+    "Where it began",
+    "Started in 1974 as the Kansas City Scouts and became the Colorado Rockies in 1976. They came to New Jersey in 1982."
+   ],
+   [
+    "The name",
+    "Named after the Jersey Devil, a legendary creature said to live in the state's Pine Barrens."
+   ],
+   [
+    "Nerd stat",
+    "Goalie Martin Brodeur holds the record for career wins: 691. Three Stanley Cups."
+   ]
+  ],
+  "nhl-new-york-islanders": [
+   [
+    "The name",
+    "They play on Long Island, a huge island east of New York City."
+   ],
+   [
+    "First coach",
+    "Phil Goyette coached them in their first season, 1972."
+   ],
+   [
+    "Nerd stat",
+    "They won four Stanley Cups in a row (1980 to 1983) and a record 19 playoff series in a row."
+   ]
+  ],
+  "nhl-new-york-rangers": [
+   [
+    "The name",
+    "Reporters called them \"Tex's Rangers,\" after Tex Rickard, the boss of Madison Square Garden."
+   ],
+   [
+    "First coach",
+    "Lester Patrick coached them in their first season, 1926."
+   ],
+   [
+    "Big moment",
+    "In the 1928 Final, 44-year-old coach Patrick played goal himself and won."
+   ],
+   [
+    "Nerd stat",
+    "Four Stanley Cups, most recently in 1994."
+   ]
+  ],
+  "nhl-philadelphia-flyers": [
+   [
+    "First coach",
+    "Keith Allen coached them in their first season, 1967."
+   ],
+   [
+    "Big moment",
+    "In 1974 they became the first expansion team to win the Stanley Cup, then won it again in 1975."
+   ],
+   [
+    "Nerd stat",
+    "They once went 35 games in a row without a loss (1979–80), an NHL record."
+   ]
+  ],
+  "nhl-pittsburgh-penguins": [
+   [
+    "The name",
+    "Named after their first arena, the Civic Arena, which was nicknamed \"The Igloo.\""
+   ],
+   [
+    "First coach",
+    "Red Sullivan coached them in their first season, 1967."
+   ],
+   [
+    "Nerd stat",
+    "Five Stanley Cups, led by Mario Lemieux and then Sidney Crosby."
+   ]
+  ],
+  "nhl-washington-capitals": [
+   [
+    "The name",
+    "Named for Washington, D.C., the U.S. capital."
+   ],
+   [
+    "First coach",
+    "Jim Anderson coached them in their first season, 1974."
+   ],
+   [
+    "Nerd stat",
+    "In April 2025 Alex Ovechkin passed Wayne Gretzky to become the NHL's all-time top goal scorer."
+   ],
+   [
+    "Big moment",
+    "Stanley Cup champions in 2018."
+   ]
+  ],
+  "nhl-chicago-blackhawks": [
+   [
+    "The name",
+    "Named by founder Frederic McLaughlin after his Army unit, which honored the Sauk leader Black Hawk."
+   ],
+   [
+    "First coach",
+    "Pete Muldoon coached them in their first season, 1926."
+   ],
+   [
+    "Nerd stat",
+    "One of the NHL's \"Original Six.\" They won the Cup in 2010, 2013 and 2015."
+   ]
+  ],
+  "nhl-colorado-avalanche": [
+   [
+    "Where it began",
+    "Started in 1972 as the Quebec Nordiques. They moved to Denver in 1995 and won the Cup in their first season there."
+   ],
+   [
+    "The name",
+    "Named for the snow that rumbles down the Rocky Mountains."
+   ],
+   [
+    "First coach",
+    "Hockey legend Maurice \"Rocket\" Richard was the Nordiques' very first coach."
+   ],
+   [
+    "Nerd stat",
+    "Stanley Cup champions in 1996, 2001 and 2022."
+   ]
+  ],
+  "nhl-dallas-stars": [
+   [
+    "Where it began",
+    "Started in 1967 as the Minnesota North Stars and moved to Dallas in 1993."
+   ],
+   [
+    "The name",
+    "Minnesota's motto is \"L'Étoile du Nord,\" which means \"Star of the North.\""
+   ],
+   [
+    "First coach",
+    "Wren Blair coached the North Stars in their first season."
+   ],
+   [
+    "Nerd stat",
+    "Stanley Cup champions in 1999."
+   ]
+  ],
+  "nhl-minnesota-wild": [
+   [
+    "The name",
+    "Named for Minnesota's wild outdoors. Their logo is an animal's head with a forest and sunset hidden inside."
+   ],
+   [
+    "First coach",
+    "Jacques Lemaire coached them in their first season, 2000."
+   ],
+   [
+    "Nerd stat",
+    "Minnesota calls itself the \"State of Hockey,\" with more registered players than any other U.S. state."
+   ]
+  ],
+  "nhl-nashville-predators": [
+   [
+    "The name",
+    "In 1971, workers in downtown Nashville dug up the fossil of a saber-toothed cat."
+   ],
+   [
+    "First coach",
+    "Barry Trotz coached them for their first 15 seasons, starting in 1998."
+   ],
+   [
+    "Nerd stat",
+    "Fans have a famous good-luck tradition: tossing catfish onto the ice."
+   ]
+  ],
+  "nhl-st-louis-blues": [
+   [
+    "The name",
+    "Named after \"Saint Louis Blues,\" a famous song by W.C. Handy."
+   ],
+   [
+    "First coach",
+    "Lynn Patrick started the first season. Then Scotty Bowman, the winningest NHL coach ever, took over."
+   ],
+   [
+    "Big moment",
+    "In January 2019 they were last in the NHL. That June they won the Stanley Cup."
+   ]
+  ],
+  "nhl-utah-mammoth": [
+   [
+    "Where it began",
+    "Joined in 2024 as the Utah Hockey Club and picked the Mammoth name in 2025."
+   ],
+   [
+    "The name",
+    "Fossils of woolly mammoths have been found in Utah."
+   ],
+   [
+    "First coach",
+    "André Tourigny coached them in their first season."
+   ]
+  ],
+  "nhl-winnipeg-jets": [
+   [
+    "Where it began",
+    "Started in 1999 as the Atlanta Thrashers. They moved to Winnipeg in 2011 and brought back the city's old Jets name."
+   ],
+   [
+    "The name",
+    "Their logo is a fighter jet, honoring the Royal Canadian Air Force."
+   ],
+   [
+    "Nerd stat",
+    "At playoff games, fans all wear white for the famous \"Winnipeg Whiteout.\""
+   ]
+  ],
+  "nhl-anaheim-ducks": [
+   [
+    "The name",
+    "Disney started the team in 1993 and named it after its hit movie The Mighty Ducks."
+   ],
+   [
+    "First coach",
+    "Ron Wilson coached them in their first season, 1993."
+   ],
+   [
+    "Nerd stat",
+    "Stanley Cup champions in 2007."
+   ]
+  ],
+  "nhl-calgary-flames": [
+   [
+    "Where it began",
+    "Started in 1972 as the Atlanta Flames and moved to Calgary in 1980, keeping the name."
+   ],
+   [
+    "First coach",
+    "Bernie \"Boom Boom\" Geoffrion coached Atlanta in their first season. He's said to have helped invent the slapshot."
+   ],
+   [
+    "Nerd stat",
+    "In 1989 they became the only visiting team to win the Stanley Cup on the Montreal Forum ice."
+   ]
+  ],
+  "nhl-edmonton-oilers": [
+   [
+    "The name",
+    "Named for Alberta's big oil industry."
+   ],
+   [
+    "Where it began",
+    "Started in 1972 in another league, the WHA, and joined the NHL in 1979."
+   ],
+   [
+    "Nerd stat",
+    "With Wayne Gretzky they won five Stanley Cups between 1984 and 1990. Today Connor McDavid leads the way."
+   ]
+  ],
+  "nhl-los-angeles-kings": [
+   [
+    "The name",
+    "Owner Jack Kent Cooke picked a royal name, with royal purple and gold."
+   ],
+   [
+    "First coach",
+    "Red Kelly coached them in their first season, 1967."
+   ],
+   [
+    "Big moment",
+    "Wayne Gretzky joined in 1988, and hockey took off all over California."
+   ],
+   [
+    "Nerd stat",
+    "Stanley Cup champions in 2012 and 2014."
+   ]
+  ],
+  "nhl-san-jose-sharks": [
+   [
+    "The name",
+    "Named by fans for the many kinds of sharks in the Pacific Ocean near the Bay Area."
+   ],
+   [
+    "First coach",
+    "George Kingston coached them in their first season, 1991."
+   ],
+   [
+    "Nerd stat",
+    "Players skate onto the ice through a giant shark head."
+   ]
+  ],
+  "nhl-seattle-kraken": [
+   [
+    "The name",
+    "The kraken is a giant sea monster from old sailor legends."
+   ],
+   [
+    "First coach",
+    "Dave Hakstol coached them in their first season, 2021, when they became the NHL's 32nd team."
+   ],
+   [
+    "Nerd stat",
+    "Their arena kept its famous roof from the 1962 World's Fair."
+   ]
+  ],
+  "nhl-vancouver-canucks": [
+   [
+    "The name",
+    "\"Canuck\" is a friendly nickname for Canadians. Johnny Canuck was a comic-book hero."
+   ],
+   [
+    "First coach",
+    "Hal Laycoe coached them in their first NHL season, 1970."
+   ],
+   [
+    "Nerd stat",
+    "Twins Daniel and Henrik Sedin played 17 NHL seasons together, all for Vancouver."
+   ]
+  ],
+  "nhl-vegas-golden-knights": [
+   [
+    "The name",
+    "Owner Bill Foley went to West Point, whose teams are the Black Knights. Gold stands for Nevada's mines."
+   ],
+   [
+    "First coach",
+    "Gerard Gallant coached them in their first season, 2017."
+   ],
+   [
+    "Nerd stat",
+    "They reached the Stanley Cup Final in their very first season and won the Cup in 2023."
+   ]
+  ],
+  "mls-atlanta-united-fc": [
+   [
+    "First coach",
+    "Gerardo \"Tata\" Martino, who later coached Argentina and Lionel Messi's Inter Miami."
+   ],
+   [
+    "Big moment",
+    "They won MLS Cup in 2018, only their second season."
+   ],
+   [
+    "Nerd stat",
+    "In 2018 a crowd of 72,548 came to watch them, an MLS record at the time."
+   ]
+  ],
+  "mls-charlotte-fc": [
+   [
+    "Where it began",
+    "Joined MLS in 2022."
+   ],
+   [
+    "First coach",
+    "Miguel Ángel Ramírez coached them in their first season."
+   ],
+   [
+    "Nerd stat",
+    "Their first home game drew 74,479 fans, a record for one MLS game."
+   ]
+  ],
+  "mls-chicago-fire": [
+   [
+    "The name",
+    "The club was announced in 1997 on the anniversary of the Great Chicago Fire of 1871."
+   ],
+   [
+    "First coach",
+    "Bob Bradley, who later coached the U.S. men's national team."
+   ],
+   [
+    "Nerd stat",
+    "In their very first season, 1998, they won both MLS Cup and the U.S. Open Cup."
+   ]
+  ],
+  "mls-fc-cincinnati": [
+   [
+    "Where it began",
+    "Started in 2016 in a lower league, the USL, and jumped to MLS in 2019."
+   ],
+   [
+    "Nerd stat",
+    "They had the best regular-season record in MLS in 2023 and won the Supporters' Shield."
+   ]
+  ],
+  "mls-columbus-crew": [
+   [
+    "Where it began",
+    "A founding MLS club in 1996."
+   ],
+   [
+    "Nerd stat",
+    "In 1999 they built the first stadium made just for an MLS team."
+   ],
+   [
+    "Big moment",
+    "MLS Cup champions in 2008, 2020 and 2023."
+   ]
+  ],
+  "mls-d-c-united": [
+   [
+    "First coach",
+    "Bruce Arena, who later coached the U.S. men's national team."
+   ],
+   [
+    "Nerd stat",
+    "They won three of the first four MLS Cups: 1996, 1997 and 1999."
+   ]
+  ],
+  "mls-inter-miami-cf": [
+   [
+    "Where it began",
+    "Started playing in 2020. David Beckham is one of the owners."
+   ],
+   [
+    "First coach",
+    "Diego Alonso coached them in their first season."
+   ],
+   [
+    "Big moment",
+    "Lionel Messi joined in 2023 and won the Leagues Cup trophy in his first month."
+   ]
+  ],
+  "mls-cf-montreal": [
+   [
+    "Where it began",
+    "Started in 1993 as the Montreal Impact and joined MLS in 2012."
+   ],
+   [
+    "First coach",
+    "Jesse Marsch coached them in their first MLS season."
+   ],
+   [
+    "Nerd stat",
+    "Their stadium sits right next to the Olympic Stadium from the 1976 Summer Games."
+   ]
+  ],
+  "mls-nashville-sc": [
+   [
+    "Where it began",
+    "Played in the USL from 2018 and joined MLS in 2020."
+   ],
+   [
+    "First coach",
+    "Gary Smith coached them in their first MLS season."
+   ],
+   [
+    "Nerd stat",
+    "GEODIS Park holds 30,000 fans, the biggest stadium in the U.S. and Canada built just for soccer."
+   ]
+  ],
+  "mls-new-england-revolution": [
+   [
+    "The name",
+    "Honors the American Revolution, which began in Massachusetts in 1775."
+   ],
+   [
+    "First coach",
+    "Frank Stapleton, a former Ireland striker, coached them in their first season, 1996."
+   ],
+   [
+    "Nerd stat",
+    "In 2021 they set the MLS record for most points in a season: 73."
+   ]
+  ],
+  "mls-new-york-city-fc": [
+   [
+    "Where it began",
+    "Joined MLS in 2015, co-owned by Manchester City and the New York Yankees."
+   ],
+   [
+    "First coach",
+    "Jason Kreis coached them in their first season."
+   ],
+   [
+    "Nerd stat",
+    "They play at Yankee Stadium while their own stadium is built in Queens. MLS Cup champs in 2021."
+   ]
+  ],
+  "mls-new-york-red-bulls": [
+   [
+    "Where it began",
+    "A founding MLS club in 1996, first called the NY/NJ MetroStars."
+   ],
+   [
+    "The name",
+    "The energy-drink company Red Bull bought the team in 2006 and renamed it."
+   ],
+   [
+    "Big moment",
+    "French superstar Thierry Henry played for them from 2010 to 2014."
+   ]
+  ],
+  "mls-orlando-city-sc": [
+   [
+    "Where it began",
+    "Started in 2010 in a lower league and joined MLS in 2015."
+   ],
+   [
+    "First coach",
+    "Adrian Heath coached them in both leagues."
+   ],
+   [
+    "Big moment",
+    "Brazilian star Kaká was their first big signing. U.S. Open Cup winners in 2022."
+   ]
+  ],
+  "mls-philadelphia-union": [
+   [
+    "The name",
+    "Honors the union of the American colonies. Their snake logo comes from a famous Benjamin Franklin cartoon."
+   ],
+   [
+    "First coach",
+    "Peter Nowak coached them in their first season, 2010."
+   ],
+   [
+    "Nerd stat",
+    "Their stadium sits on the Delaware River, right under a giant bridge."
+   ]
+  ],
+  "mls-toronto-fc": [
+   [
+    "Where it began",
+    "Joined MLS in 2007 as its first Canadian club."
+   ],
+   [
+    "First coach",
+    "Mo Johnston coached them in their first season."
+   ],
+   [
+    "Nerd stat",
+    "In 2017 they won a treble: MLS Cup, the Supporters' Shield and the Canadian Championship."
+   ]
+  ],
+  "mls-austin-fc": [
+   [
+    "Where it began",
+    "Joined MLS in 2021 as the first major-league pro team in Austin."
+   ],
+   [
+    "First coach",
+    "Josh Wolff coached them in their first season."
+   ],
+   [
+    "Nerd stat",
+    "Actor Matthew McConaughey is an owner, and his official title is \"Minister of Culture.\""
+   ]
+  ],
+  "mls-colorado-rapids": [
+   [
+    "Where it began",
+    "A founding MLS club in 1996."
+   ],
+   [
+    "First coach",
+    "Bob Houghton coached them in their first season."
+   ],
+   [
+    "Big moment",
+    "MLS Cup champions in 2010."
+   ]
+  ],
+  "mls-fc-dallas": [
+   [
+    "Where it began",
+    "A founding MLS club, called the Dallas Burn until 2005."
+   ],
+   [
+    "First coach",
+    "Dave Dir coached them in their first season, 1996."
+   ],
+   [
+    "Nerd stat",
+    "Their stadium is home to the National Soccer Hall of Fame."
+   ]
+  ],
+  "mls-houston-dynamo": [
+   [
+    "The name",
+    "Picked for Houston's energy industry and its hard-working spirit."
+   ],
+   [
+    "First coach",
+    "Dominic Kinnear coached them in their first season, 2006."
+   ],
+   [
+    "Nerd stat",
+    "They won MLS Cup in their first two seasons, 2006 and 2007."
+   ]
+  ],
+  "mls-sporting-kansas-city": [
+   [
+    "Where it began",
+    "A founding MLS club in 1996, first called the Kansas City Wiz, then the Wizards."
+   ],
+   [
+    "First coach",
+    "Ron Newman coached them in their first season."
+   ],
+   [
+    "Big moment",
+    "MLS Cup champions in 2000 and 2013."
+   ]
+  ],
+  "mls-la-galaxy": [
+   [
+    "Where it began",
+    "A founding MLS club in 1996."
+   ],
+   [
+    "Nerd stat",
+    "Six MLS Cups, the most of any club, most recently in 2024."
+   ],
+   [
+    "Big moment",
+    "David Beckham joined in 2007, and soccer in America got a lot more famous."
+   ]
+  ],
+  "mls-los-angeles-fc": [
+   [
+    "Where it began",
+    "Joined MLS in 2018. Owners include Will Ferrell and Magic Johnson."
+   ],
+   [
+    "First coach",
+    "Bob Bradley, who was also the Chicago Fire's first coach."
+   ],
+   [
+    "Big moment",
+    "In 2022 they won the Supporters' Shield and MLS Cup in the same season."
+   ]
+  ],
+  "mls-minnesota-united-fc": [
+   [
+    "The name",
+    "Their logo is a loon, Minnesota's state bird."
+   ],
+   [
+    "Where it began",
+    "Played in lower leagues from 2010 and joined MLS in 2017."
+   ],
+   [
+    "First coach",
+    "Adrian Heath coached them in their first MLS season, after starting Orlando City too."
+   ]
+  ],
+  "mls-portland-timbers": [
+   [
+    "The name",
+    "Named for Oregon's logging history. The name goes back to a Portland team from 1975."
+   ],
+   [
+    "First coach",
+    "John Spencer coached them in their first MLS season, 2011."
+   ],
+   [
+    "Nerd stat",
+    "After every home goal, their mascot Timber Joey cuts a slice off a log and gives it to the scorer."
+   ],
+   [
+    "Big moment",
+    "MLS Cup champions in 2015."
+   ]
+  ],
+  "mls-real-salt-lake": [
+   [
+    "The name",
+    "\"Real\" means royal in Spanish, like Real Madrid."
+   ],
+   [
+    "First coach",
+    "John Ellinger coached them in their first season, 2005."
+   ],
+   [
+    "Big moment",
+    "MLS Cup champions in 2009."
+   ]
+  ],
+  "mls-san-diego-fc": [
+   [
+    "Where it began",
+    "Joined MLS in 2025 as its 30th club."
+   ],
+   [
+    "First coach",
+    "Mikey Varas coached them in their first season."
+   ],
+   [
+    "Nerd stat",
+    "A Native American tribe, the Sycuan Band of the Kumeyaay Nation, is one of the owners, a first in MLS."
+   ]
+  ],
+  "mls-san-jose-earthquakes": [
+   [
+    "Where it began",
+    "A founding MLS club in 1996, first called the San Jose Clash."
+   ],
+   [
+    "The name",
+    "The Bay Area sits on famous fault lines, and the name came from a 1970s San Jose team."
+   ],
+   [
+    "Nerd stat",
+    "Chris Wondolowski scored 171 goals for them, the most in MLS history."
+   ]
+  ],
+  "mls-seattle-sounders": [
+   [
+    "The name",
+    "Named after Puget Sound, the big inlet of the Pacific Ocean next to Seattle."
+   ],
+   [
+    "First coach",
+    "Sigi Schmid coached them in their first MLS season, 2009."
+   ],
+   [
+    "Nerd stat",
+    "In 2022 they became the first MLS team to win the CONCACAF Champions League."
+   ]
+  ],
+  "mls-st-louis-city-sc": [
+   [
+    "Where it began",
+    "Joined MLS in 2023."
+   ],
+   [
+    "First coach",
+    "Bradley Carnell coached them in their first season."
+   ],
+   [
+    "Big moment",
+    "They finished first in the Western Conference in their first season."
+   ]
+  ],
+  "mls-vancouver-whitecaps": [
+   [
+    "The name",
+    "Named for the snowy mountain peaks and the white-capped waves around Vancouver."
+   ],
+   [
+    "Where it began",
+    "The name goes back to 1974. They joined MLS in 2011."
+   ],
+   [
+    "Big moment",
+    "The original Whitecaps won the North American Soccer League's Soccer Bowl in 1979."
+   ]
+  ],
+  "nwsl-angel-city-fc": [
+   [
+    "Where it began",
+    "Joined the NWSL in 2022. It was founded by actor Natalie Portman."
+   ],
+   [
+    "Nerd stat",
+    "Its owners include Serena Williams and many former U.S. national team stars."
+   ],
+   [
+    "First coach",
+    "Freya Coombe coached them in their first season."
+   ]
+  ],
+  "nwsl-bay-fc": [
+   [
+    "Where it began",
+    "Joined in 2024, started by four former U.S. national team players, including Brandi Chastain."
+   ],
+   [
+    "Nerd stat",
+    "Chastain scored the winning penalty in the 1999 Women's World Cup final."
+   ],
+   [
+    "First coach",
+    "Albertin Montoya coached them in their first season."
+   ]
+  ],
+  "nwsl-boston-legacy-fc": [
+   [
+    "Where it began",
+    "Joined the NWSL in 2026."
+   ],
+   [
+    "The name",
+    "The name honors Boston's long history of firsts in American sports."
+   ]
+  ],
+  "nwsl-chicago-stars": [
+   [
+    "Where it began",
+    "A founding NWSL club in 2013, first called the Chicago Red Stars."
+   ],
+   [
+    "The name",
+    "The stars come from Chicago's city flag, which has four red stars."
+   ],
+   [
+    "First coach",
+    "Rory Dames coached them for nearly a decade."
+   ]
+  ],
+  "nwsl-denver-summit-fc": [
+   [
+    "Where it began",
+    "Joined the NWSL in 2026."
+   ],
+   [
+    "The name",
+    "Named for the high mountain summits of the Colorado Rockies."
+   ]
+  ],
+  "nwsl-gotham-fc": [
+   [
+    "Where it began",
+    "A founding NWSL club in 2013, first called Sky Blue FC."
+   ],
+   [
+    "The name",
+    "\"Gotham\" is an old nickname for New York City."
+   ],
+   [
+    "Big moment",
+    "NWSL champions in 2023."
+   ]
+  ],
+  "nwsl-houston-dash": [
+   [
+    "Where it began",
+    "Joined the NWSL in 2014 as the sister club of the Houston Dynamo."
+   ],
+   [
+    "First coach",
+    "Randy Waldrum coached them in their first season."
+   ],
+   [
+    "Big moment",
+    "They won the 2020 NWSL Challenge Cup."
+   ]
+  ],
+  "nwsl-kansas-city-current": [
+   [
+    "Where it began",
+    "Joined the NWSL in 2021."
+   ],
+   [
+    "Nerd stat",
+    "In 2024 they opened the first stadium in the world built just for a women's pro team."
+   ]
+  ],
+  "nwsl-north-carolina-courage": [
+   [
+    "Where it began",
+    "Started in New York as the Western New York Flash and moved to North Carolina in 2017."
+   ],
+   [
+    "First coach",
+    "Paul Riley coached their first North Carolina seasons."
+   ],
+   [
+    "Big moment",
+    "NWSL champions in 2018 and 2019."
+   ]
+  ],
+  "nwsl-orlando-pride": [
+   [
+    "The name",
+    "A group of lions is called a pride, and Orlando City's symbol is a lion."
+   ],
+   [
+    "First coach",
+    "Tom Sermanni coached them in their first season, 2016."
+   ],
+   [
+    "Big moment",
+    "In 2024, led by Brazilian legend Marta, they won both the NWSL Shield and the championship."
+   ]
+  ],
+  "nwsl-portland-thorns": [
+   [
+    "The name",
+    "Portland is the \"City of Roses,\" and every rose has thorns."
+   ],
+   [
+    "First coach",
+    "Cindy Parlow Cone, who later became president of U.S. Soccer."
+   ],
+   [
+    "Big moment",
+    "They won the very first NWSL Championship, in 2013."
+   ]
+  ],
+  "nwsl-racing-louisville-fc": [
+   [
+    "The name",
+    "A nod to the Kentucky Derby, the most famous horse race in America."
+   ],
+   [
+    "Where it began",
+    "Joined the NWSL in 2021."
+   ],
+   [
+    "Nerd stat",
+    "Their purple color is lavender, and their crest has a fleur-de-lis, the symbol of Louisville."
+   ]
+  ],
+  "nwsl-san-diego-wave": [
+   [
+    "Where it began",
+    "Joined the NWSL in 2022."
+   ],
+   [
+    "First coach",
+    "Casey Stoney coached them in their first season."
+   ],
+   [
+    "Big moment",
+    "They won the NWSL Shield in 2023, only their second season."
+   ]
+  ],
+  "nwsl-seattle-reign": [
+   [
+    "Where it began",
+    "A founding NWSL club in 2013."
+   ],
+   [
+    "The name",
+    "Say it out loud: Reign sounds like rain, and Seattle is famous for it."
+   ],
+   [
+    "First coach",
+    "Laura Harvey coached them in their first season."
+   ]
+  ],
+  "nwsl-utah-royals": [
+   [
+    "Where it began",
+    "First played from 2018 to 2020, then came back in 2024."
+   ],
+   [
+    "First coach",
+    "Laura Harvey coached them in their first season. She had also been the Reign's first coach."
+   ]
+  ],
+  "nwsl-washington-spirit": [
+   [
+    "Where it began",
+    "A founding NWSL club in 2013."
+   ],
+   [
+    "First coach",
+    "Mike Jorden coached them in their first season."
+   ],
+   [
+    "Big moment",
+    "NWSL champions in 2021."
+   ]
+  ],
+  "uslc-birmingham-legion-fc": [
+   [
+    "Where it began",
+    "Started playing in the USL Championship in 2019."
+   ],
+   [
+    "Nerd stat",
+    "Birmingham is nicknamed the \"Magic City\" because it grew so fast in the late 1800s."
+   ]
+  ],
+  "uslc-brooklyn-fc": [
+   [
+    "Where it began",
+    "Brooklyn FC started a women's team in 2024 and added a men's team in the USL Championship."
+   ],
+   [
+    "Nerd stat",
+    "Their home field is in Coney Island, next to the famous boardwalk and amusement parks."
+   ]
+  ],
+  "uslc-charleston-battery": [
+   [
+    "The name",
+    "Named after the Battery, a famous seawall walkway in Charleston."
+   ],
+   [
+    "Where it began",
+    "Founded in 1993, one of the oldest pro soccer clubs still playing in America."
+   ]
+  ],
+  "uslc-detroit-city-fc": [
+   [
+    "Where it began",
+    "Started in 2012 as a fan-favorite amateur club and turned pro in 2022."
+   ],
+   [
+    "The name",
+    "Their nickname is \"Le Rouge,\" French for \"the red,\" a nod to Detroit's French founders."
+   ],
+   [
+    "Nerd stat",
+    "Their home, Keyworth Stadium, was built in 1936."
+   ]
+  ],
+  "uslc-hartford-athletic": [
+   [
+    "Where it began",
+    "Started playing in 2019."
+   ],
+   [
+    "Nerd stat",
+    "They play at Dillon Stadium, which once hosted big rock concerts."
+   ]
+  ],
+  "uslc-indy-eleven": [
+   [
+    "Where it began",
+    "Started playing in 2014."
+   ],
+   [
+    "The name",
+    "Eleven is the number of players a soccer team has on the field."
+   ]
+  ],
+  "uslc-loudoun-united-fc": [
+   [
+    "Where it began",
+    "Started in 2019 as the partner club of D.C. United."
+   ],
+   [
+    "Nerd stat",
+    "Young players come here to get ready for MLS."
+   ]
+  ],
+  "uslc-louisville-city-fc": [
+   [
+    "Where it began",
+    "Started playing in 2015."
+   ],
+   [
+    "Big moment",
+    "USL Championship champions in 2017 and 2018."
+   ],
+   [
+    "Nerd stat",
+    "Their crest has a fleur-de-lis, the symbol of Louisville."
+   ]
+  ],
+  "uslc-miami-fc": [
+   [
+    "Where it began",
+    "Founded in 2015 by Italian soccer legend Paolo Maldini and businessman Riccardo Silva."
+   ],
+   [
+    "Nerd stat",
+    "They play at FIU, Florida International University."
+   ]
+  ],
+  "uslc-pittsburgh-riverhounds": [
+   [
+    "Where it began",
+    "Founded in 1999, one of the longest-running clubs in the USL."
+   ],
+   [
+    "Nerd stat",
+    "Their stadium sits on the riverbank across from downtown, near where Pittsburgh's three rivers meet."
+   ]
+  ],
+  "uslc-rhode-island-fc": [
+   [
+    "Where it began",
+    "Started playing in 2024."
+   ],
+   [
+    "First coach",
+    "Khano Smith coached them in their first season."
+   ],
+   [
+    "Nerd stat",
+    "Their new stadium opened in 2025 on the river in Pawtucket."
+   ]
+  ],
+  "uslc-sporting-club-jacksonville": [
+   [
+    "Where it began",
+    "Founded in 2023, with men's and women's teams."
+   ],
+   [
+    "Nerd stat",
+    "Jacksonville is the biggest city by land area in the lower 48 states."
+   ]
+  ],
+  "uslc-tampa-bay-rowdies": [
+   [
+    "Where it began",
+    "The original Rowdies started in 1975 and won the league title in their first season."
+   ],
+   [
+    "The name",
+    "Their famous old slogan: \"The Rowdies are a kick in the grass!\""
+   ],
+   [
+    "Nerd stat",
+    "They play at Al Lang Stadium, right on the water in downtown St. Petersburg."
+   ]
+  ],
+  "uslc-colorado-springs-switchbacks": [
+   [
+    "The name",
+    "Switchbacks are the zigzag trails that wind up mountains like Pikes Peak."
+   ],
+   [
+    "Where it began",
+    "Started playing in 2015."
+   ],
+   [
+    "Nerd stat",
+    "Their stadium sits more than 6,000 feet up, one of the highest in pro soccer."
+   ]
+  ],
+  "uslc-el-paso-locomotive-fc": [
+   [
+    "The name",
+    "Honors El Paso's railroad history: trains helped the city grow."
+   ],
+   [
+    "Where it began",
+    "Started playing in 2019."
+   ]
+  ],
+  "uslc-las-vegas-lights": [
+   [
+    "The name",
+    "Named for the bright neon lights of Las Vegas."
+   ],
+   [
+    "Where it began",
+    "Started playing in 2018 at Cashman Field."
+   ]
+  ],
+  "uslc-lexington-sc": [
+   [
+    "Where it began",
+    "Founded in 2021, with men's and women's teams."
+   ],
+   [
+    "Nerd stat",
+    "Lexington is known as the \"Horse Capital of the World.\""
+   ]
+  ],
+  "uslc-monterey-bay-fc": [
+   [
+    "Where it began",
+    "Started playing in 2022."
+   ],
+   [
+    "Nerd stat",
+    "They play on the campus of Cal State Monterey Bay, close to the ocean."
+   ]
+  ],
+  "uslc-new-mexico-united": [
+   [
+    "Where it began",
+    "Started playing in 2019 and quickly became one of the USL's best-attended clubs."
+   ],
+   [
+    "Nerd stat",
+    "They have played at Albuquerque's baseball park, home of the Isotopes. That team's name comes from The Simpsons!"
+   ]
+  ],
+  "uslc-oakland-roots-sc": [
+   [
+    "Where it began",
+    "Started playing in 2019."
+   ],
+   [
+    "The name",
+    "The name honors Oakland's deep community roots. Their crest is a tree."
+   ]
+  ],
+  "uslc-orange-county-sc": [
+   [
+    "Where it began",
+    "Started in 2011 as the Los Angeles Blues and became Orange County SC in 2017."
+   ],
+   [
+    "Big moment",
+    "USL Championship champions in 2021."
+   ]
+  ],
+  "uslc-phoenix-rising-fc": [
+   [
+    "The name",
+    "In legend, the phoenix is a bird that rises from the ashes. The city of Phoenix is named after it."
+   ],
+   [
+    "Big moment",
+    "Ivory Coast star Didier Drogba played for them and was a part-owner."
+   ],
+   [
+    "Nerd stat",
+    "USL Championship champions in 2023."
+   ]
+  ],
+  "uslc-sacramento-republic-fc": [
+   [
+    "Big moment",
+    "They won the league title in their first season, 2014."
+   ],
+   [
+    "The name",
+    "Named after the \"California Republic\" on the state's bear flag. Sacramento is the state capital."
+   ],
+   [
+    "Nerd stat",
+    "In 2022 they reached the U.S. Open Cup final while playing in a lower league."
+   ]
+  ],
+  "uslc-san-antonio-fc": [
+   [
+    "Where it began",
+    "Started playing in 2016, owned by the same group as the San Antonio Spurs."
+   ],
+   [
+    "Big moment",
+    "USL Championship champions in 2022."
+   ]
+  ],
+  "uslc-fc-tulsa": [
+   [
+    "Where it began",
+    "Started in 2015 as the Tulsa Roughnecks and became FC Tulsa in 2019."
+   ],
+   [
+    "The name",
+    "\"Roughnecks\" was a name for Oklahoma's oil-field workers. It was also the name of a 1978 Tulsa team."
+   ]
+  ],
+  "usl1-athletic-club-boise": [
+   [
+    "Where it began",
+    "A brand-new club in USL League One."
+   ],
+   [
+    "Nerd stat",
+    "Boise is Idaho's capital and its biggest city."
+   ]
+  ],
+  "usl1-av-alta-fc": [
+   [
+    "The name",
+    "\"Alta\" means high in Spanish, for the high desert of the Antelope Valley."
+   ],
+   [
+    "Where it began",
+    "A new club in USL League One."
+   ]
+  ],
+  "usl1-charlotte-independence": [
+   [
+    "The name",
+    "Charlotte celebrates the Mecklenburg Declaration of Independence, which locals say was signed there in 1775."
+   ],
+   [
+    "Where it began",
+    "Started playing in 2015."
+   ]
+  ],
+  "usl1-chattanooga-red-wolves": [
+   [
+    "The name",
+    "The red wolf is one of the rarest wolves in the world and comes from the American Southeast."
+   ],
+   [
+    "Where it began",
+    "Started playing in 2019."
+   ]
+  ],
+  "usl1-corpus-christi-fc": [
+   [
+    "Where it began",
+    "A new club in USL League One."
+   ],
+   [
+    "Nerd stat",
+    "Corpus Christi is a beach city on the Gulf Coast of Texas."
+   ]
+  ],
+  "usl1-fort-wayne-fc": [
+   [
+    "Where it began",
+    "Played in an amateur league first, then joined USL League One."
+   ],
+   [
+    "Nerd stat",
+    "Fort Wayne is Indiana's second-biggest city."
+   ]
+  ],
+  "usl1-forward-madison-fc": [
+   [
+    "The name",
+    "\"Forward\" is Wisconsin's state motto."
+   ],
+   [
+    "Nerd stat",
+    "Their crest has a pink flamingo, a nod to the plastic flamingos found all over Madison."
+   ],
+   [
+    "The venue",
+    "They play at Breese Stevens Field, built in 1926."
+   ]
+  ],
+  "usl1-greenville-triumph-sc": [
+   [
+    "Where it began",
+    "Started playing in 2019."
+   ],
+   [
+    "Big moment",
+    "USL League One champions in 2020."
+   ]
+  ],
+  "usl1-fc-naples": [
+   [
+    "Where it began",
+    "Joined USL League One in 2025."
+   ],
+   [
+    "Nerd stat",
+    "Naples, Florida is named after Naples, Italy, because both sit on a beautiful bay."
+   ]
+  ],
+  "usl1-new-york-cosmos": [
+   [
+    "Big moment",
+    "The original Cosmos signed Pelé in 1975, and the whole country started paying attention to soccer."
+   ],
+   [
+    "Nerd stat",
+    "German legend Franz Beckenbauer also played for the old Cosmos."
+   ],
+   [
+    "Where it began",
+    "The famous name came back for a new club in USL League One."
+   ]
+  ],
+  "usl1-one-knoxville-sc": [
+   [
+    "Where it began",
+    "Started in 2023 and joined USL League One in 2024."
+   ],
+   [
+    "Nerd stat",
+    "Knoxville sits at the edge of the Great Smoky Mountains."
+   ]
+  ],
+  "usl1-portland-hearts-of-pine": [
+   [
+    "The name",
+    "Maine is the \"Pine Tree State.\""
+   ],
+   [
+    "Where it began",
+    "Started playing in 2025."
+   ]
+  ],
+  "usl1-richmond-kickers": [
+   [
+    "Where it began",
+    "Founded in 1993, one of the oldest pro soccer clubs in America."
+   ],
+   [
+    "Big moment",
+    "They won the U.S. Open Cup in 1995."
+   ]
+  ],
+  "usl1-sarasota-paradise": [
+   [
+    "Where it began",
+    "A new club in USL League One."
+   ],
+   [
+    "Nerd stat",
+    "Sarasota is famous for its white-sand beaches on the Gulf of Mexico."
+   ]
+  ],
+  "usl1-spokane-velocity-fc": [
+   [
+    "Where it began",
+    "Started playing in 2024."
+   ],
+   [
+    "Nerd stat",
+    "Spokane has hosted two world's fairs, in 1974 and 1983."
+   ]
+  ],
+  "usl1-union-omaha": [
+   [
+    "Where it began",
+    "Started playing in 2020."
+   ],
+   [
+    "Big moment",
+    "USL League One champions in 2021."
+   ]
+  ],
+  "usl1-westchester-sc": [
+   [
+    "Where it began",
+    "Started playing in 2024."
+   ],
+   [
+    "Nerd stat",
+    "Westchester is the county just north of New York City."
+   ]
+  ],
+  "uslsl-brooklyn-fc": [
+   [
+    "Where it began",
+    "A founding club of the USL Super League in 2024."
+   ],
+   [
+    "Nerd stat",
+    "They play in Coney Island, home of the famous boardwalk."
+   ]
+  ],
+  "uslsl-carolina-ascent-fc": [
+   [
+    "Where it began",
+    "A founding club of the USL Super League in 2024."
+   ],
+   [
+    "Nerd stat",
+    "They play in Charlotte, North Carolina's biggest city."
+   ]
+  ],
+  "uslsl-dallas-trinity-fc": [
+   [
+    "The name",
+    "Named for the Trinity River, which runs through Dallas."
+   ],
+   [
+    "Nerd stat",
+    "They play at the Cotton Bowl, a stadium that opened in 1930."
+   ]
+  ],
+  "uslsl-dc-power-fc": [
+   [
+    "The name",
+    "Named for Washington, D.C., home of the most powerful offices in the country."
+   ],
+   [
+    "Where it began",
+    "A founding club of the USL Super League in 2024."
+   ]
+  ],
+  "uslsl-fort-lauderdale-united-fc": [
+   [
+    "Where it began",
+    "A founding club of the USL Super League in 2024."
+   ],
+   [
+    "Nerd stat",
+    "Fort Lauderdale has so many canals that people call it the \"Venice of America.\""
+   ]
+  ],
+  "uslsl-lexington-sc": [
+   [
+    "Where it began",
+    "A founding club of the USL Super League in 2024."
+   ],
+   [
+    "Nerd stat",
+    "Lexington is known as the \"Horse Capital of the World.\""
+   ]
+  ],
+  "uslsl-sporting-club-jacksonville": [
+   [
+    "Where it began",
+    "Joined the USL Super League in 2025."
+   ],
+   [
+    "Nerd stat",
+    "Jacksonville is the biggest city by land area in the lower 48 states."
+   ]
+  ],
+  "uslsl-tampa-bay-sun-fc": [
+   [
+    "Where it began",
+    "A founding club of the USL Super League in 2024."
+   ],
+   [
+    "Big moment",
+    "They won the very first USL Super League final, in 2025."
+   ]
+  ],
+  "liverpool": [
+   [
+    "Where it began",
+    "Founded in 1892, when Everton moved out of Anfield and the stadium's owner started a new club to play there."
+   ],
+   [
+    "Nerd stat",
+    "Fans sing \"You'll Never Walk Alone\" before every home game."
+   ],
+   [
+    "Big moment",
+    "Six European Cups, the most of any English club."
+   ]
+  ],
+  "newcastle": [
+   [
+    "Where it began",
+    "Formed in 1892 when two local clubs, Newcastle East End and West End, joined together."
+   ],
+   [
+    "The name",
+    "Nicknamed the Magpies for their black-and-white striped shirts."
+   ],
+   [
+    "Big moment",
+    "They won the 2025 League Cup, their first major home trophy in 70 years."
+   ]
+  ],
+  "arsenal": [
+   [
+    "Where it began",
+    "Started in 1886 by workers at the Royal Arsenal factory in Woolwich, south London. They moved north in 1913."
+   ],
+   [
+    "Nerd stat",
+    "Manager Herbert Chapman got the local Underground station renamed \"Arsenal\" in 1932."
+   ],
+   [
+    "Big moment",
+    "In 2003–04 they went the whole league season unbeaten."
+   ]
+  ],
+  "realmadrid": [
+   [
+    "Where it began",
+    "Founded in 1902 as Madrid FC."
+   ],
+   [
+    "The name",
+    "\"Real\" means royal: King Alfonso XIII gave the club the title in 1920."
+   ],
+   [
+    "Nerd stat",
+    "15 European Cups, far more than any other club."
+   ],
+   [
+    "The venue",
+    "The Santiago Bernabéu stadium is named after the club's longtime president."
+   ]
+  ],
+  "barcelona": [
+   [
+    "Where it began",
+    "Founded in 1899 by Joan Gamper, a Swiss player who placed a newspaper ad looking for teammates."
+   ],
+   [
+    "The name",
+    "Their motto is \"Més que un club,\" Catalan for \"More than a club.\""
+   ],
+   [
+    "Nerd stat",
+    "Lionel Messi scored 672 goals for Barça, the club record."
+   ]
+  ],
+  "athletic": [
+   [
+    "The name",
+    "English spelling because English miners and students helped start the club in 1898."
+   ],
+   [
+    "Nerd stat",
+    "With Real Madrid and Barcelona, they're one of only three clubs that have played in every La Liga season."
+   ],
+   [
+    "The venue",
+    "Their stadium, San Mamés, is nicknamed \"La Catedral,\" the Cathedral."
+   ]
+  ],
+  "toulouse": [
+   [
+    "Where it began",
+    "Founded in 1907."
+   ],
+   [
+    "Nerd stat",
+    "More French championship titles than any other club. The trophy is a shield, the Bouclier de Brennus."
+   ],
+   [
+    "Big moment",
+    "Superstar Antoine Dupont, often called the best player in the world, plays here."
+   ]
+  ],
+  "racing92": [
+   [
+    "Where it began",
+    "Started in 1882 as Racing Club de France, one of the oldest sports clubs in France."
+   ],
+   [
+    "The name",
+    "The 92 is the number of the Paris-area department where they play, Hauts-de-Seine."
+   ],
+   [
+    "Big moment",
+    "In the 1990 final, their players wore pink bow ties on the field, and they won."
+   ]
+  ],
+  "clermont": [
+   [
+    "Where it began",
+    "Founded in 1911 by workers at the Michelin tyre company, which still backs the club."
+   ],
+   [
+    "The venue",
+    "Their stadium is named Stade Marcel-Michelin."
+   ],
+   [
+    "Nerd stat",
+    "Their yellow-and-blue fans are some of the loudest in France."
+   ]
+  ],
+  "wimbledon": [
+   [
+    "Where it began",
+    "The All England Club began in 1868 as a croquet club. Tennis came in 1877."
+   ],
+   [
+    "Nerd stat",
+    "Players must wear almost all white."
+   ],
+   [
+    "Big moment",
+    "Roger Federer and Novak Djokovic have each won the men's title many times. Martina Navratilova won the women's title a record 9 times."
+   ]
+  ],
+  "roland-garros": [
+   [
+    "The name",
+    "Named after Roland Garros, a French pilot. In 1913 he became the first person to fly across the Mediterranean Sea."
+   ],
+   [
+    "Nerd stat",
+    "Rafael Nadal won here 14 times, more than any player at any Grand Slam."
+   ],
+   [
+    "The venue",
+    "The red clay is crushed brick spread on top of limestone."
+   ]
+  ],
+  "italian-open": [
+   [
+    "The venue",
+    "It's played at the Foro Italico in Rome, a sports park lined with 60 giant marble statues of athletes."
+   ],
+   [
+    "Nerd stat",
+    "One of the biggest clay tournaments before the French Open."
+   ]
+  ],
+  "madrid-open": [
+   [
+    "The venue",
+    "The Caja Mágica, or \"Magic Box,\" has three courts with roofs that slide open and shut."
+   ],
+   [
+    "Nerd stat",
+    "Madrid is high up, so the ball flies faster here than at most clay events."
+   ]
+  ],
+  "monte-carlo": [
+   [
+    "The venue",
+    "Played at the Monte-Carlo Country Club, with the Mediterranean Sea right behind the courts."
+   ],
+   [
+    "Nerd stat",
+    "Rafael Nadal won here 8 years in a row, from 2005 to 2012."
+   ]
+  ],
+  "atp-finals": [
+   [
+    "Nerd stat",
+    "Only the year's eight best men's singles players get in."
+   ],
+   [
+    "The venue",
+    "It moved to Turin, Italy in 2021, after many years in London."
+   ]
+  ],
+  "paris-masters": [
+   [
+    "The venue",
+    "It moved in 2025 to Paris La Défense Arena, a giant indoor stadium."
+   ],
+   [
+    "Nerd stat",
+    "It's played indoors in late autumn, at the end of the season."
+   ]
+  ],
+  "queens-club": [
+   [
+    "Where it began",
+    "Queen's Club opened in 1886 and is named after Queen Victoria."
+   ],
+   [
+    "Nerd stat",
+    "Players use it to warm up on grass right before Wimbledon."
+   ]
+  ],
+  "halle": [
+   [
+    "The venue",
+    "The stadium's roof can close in about 90 seconds."
+   ],
+   [
+    "Nerd stat",
+    "Roger Federer won here 10 times, and a street outside is named after him."
+   ]
+  ],
+  "hamburg": [
+   [
+    "Where it began",
+    "Hamburg has hosted tennis since 1892."
+   ],
+   [
+    "The venue",
+    "It's played at the Rothenbaum tennis center, near Hamburg's Alster lake."
+   ]
+  ],
+  "basel": [
+   [
+    "Nerd stat",
+    "Roger Federer was a ball kid here, then won the title 10 times in his hometown."
+   ],
+   [
+    "The venue",
+    "Played indoors at the St. Jakobshalle every October."
+   ]
+  ],
+  "barcelona-open": [
+   [
+    "The venue",
+    "The center court is called Pista Rafa Nadal, after their 12-time champion."
+   ],
+   [
+    "Where it began",
+    "The Real Club de Tenis Barcelona was founded in 1899."
+   ]
+  ],
+  "gstaad": [
+   [
+    "The venue",
+    "Played about 3,450 feet up in the Swiss Alps."
+   ],
+   [
+    "Nerd stat",
+    "One of the highest pro tennis tournaments in Europe, and the thin air makes the ball fly."
+   ]
+  ],
+  "kitzbuhel": [
+   [
+    "The venue",
+    "Kitzbühel is a famous Austrian ski town with one of the world's hardest downhill ski races."
+   ],
+   [
+    "Nerd stat",
+    "Thin mountain air makes the clay courts play fast."
+   ]
+  ],
+  "stuttgart": [
+   [
+    "Nerd stat",
+    "The winner traditionally gets a Porsche sports car."
+   ],
+   [
+    "The venue",
+    "It's played on clay, but indoors."
+   ]
+  ],
+  "vienna-open": [
+   [
+    "The venue",
+    "Played indoors at the Wiener Stadthalle every October."
+   ],
+   [
+    "Nerd stat",
+    "One of the biggest indoor tournaments of the season."
+   ]
+  ],
+  "rugby-england": [
+   [
+    "The venue",
+    "Twickenham was built on an old cabbage garden, so it's nicknamed \"the Cabbage Patch.\""
+   ],
+   [
+    "Where it began",
+    "The tournament began in 1883 between England, Scotland, Wales and Ireland."
+   ],
+   [
+    "Nerd stat",
+    "England won the 2003 Rugby World Cup."
+   ]
+  ],
+  "rugby-france": [
+   [
+    "The venue",
+    "Stade de France opened in 1998, built for the football World Cup."
+   ],
+   [
+    "Where it began",
+    "France joined the tournament in 1910, making it the Five Nations."
+   ],
+   [
+    "Nerd stat",
+    "France's rugby team is nicknamed \"Les Bleus,\" for their blue shirts."
+   ]
+  ],
+  "rugby-wales": [
+   [
+    "The venue",
+    "The Principality Stadium was built for the 1999 Rugby World Cup."
+   ],
+   [
+    "Nerd stat",
+    "Welsh fans are famous for singing hymns in the stands."
+   ],
+   [
+    "Big moment",
+    "Wales has won the Grand Slam (beating every team in one Six Nations) many times."
+   ]
+  ],
+  "rugby-scotland": [
+   [
+    "The venue",
+    "Murrayfield opened in 1925 and is Scotland's largest stadium."
+   ],
+   [
+    "Nerd stat",
+    "Scotland and England play for the Calcutta Cup, the oldest trophy in international rugby, from 1879."
+   ]
+  ],
+  "rugby-ireland": [
+   [
+    "Nerd stat",
+    "One Ireland rugby team represents both Ireland and Northern Ireland."
+   ],
+   [
+    "The venue",
+    "Aviva Stadium opened in 2010."
+   ],
+   [
+    "Big moment",
+    "Ireland has been ranked number one in the world."
+   ]
+  ],
+  "rugby-italy": [
+   [
+    "Where it began",
+    "Italy joined in 2000, turning the Five Nations into the Six Nations."
+   ],
+   [
+    "The venue",
+    "The Stadio Olimpico was built for the 1960 Rome Olympics."
+   ]
+  ],
+  "eagles": [
+   [
+    "Where it began",
+    "Joined in 1987 as the league's first club from Western Australia."
+   ],
+   [
+    "First coach",
+    "Ron Alexander coached them in their first season."
+   ],
+   [
+    "Big moment",
+    "In 1992 they became the first club from outside Victoria to win the premiership."
+   ]
+  ],
+  "crows": [
+   [
+    "Where it began",
+    "Joined in 1991 as South Australia's first club in the league."
+   ],
+   [
+    "First coach",
+    "Graham Cornes coached them in their first season."
+   ],
+   [
+    "Big moment",
+    "Premiers in 1997 and 1998, back to back."
+   ]
+  ],
+  "swans": [
+   [
+    "Where it began",
+    "Started as South Melbourne in 1874. They moved to Sydney in 1982."
+   ],
+   [
+    "Big moment",
+    "Their 2005 premiership was the club's first in 72 years."
+   ],
+   [
+    "Nerd stat",
+    "Their red and white colors go all the way back to South Melbourne."
+   ]
+  ],
+  "broncos": [
+   [
+    "Where it began",
+    "Joined the league in 1988."
+   ],
+   [
+    "First coach",
+    "Wayne Bennett coached them for their first 21 seasons and won six premierships."
+   ],
+   [
+    "Nerd stat",
+    "Rugby league is the biggest winter sport in Queensland."
+   ]
+  ],
+  "storm": [
+   [
+    "Where it began",
+    "Joined the league in 1998 as the only club in Victoria."
+   ],
+   [
+    "First coach",
+    "Chris Anderson coached them in their first season."
+   ],
+   [
+    "Big moment",
+    "They won the premiership in 1999, only their second season."
+   ]
+  ],
+  "nzwarriors": [
+   [
+    "Where it began",
+    "Joined the league in 1995 as the Auckland Warriors."
+   ],
+   [
+    "First coach",
+    "John Monie coached them in their first season."
+   ],
+   [
+    "Nerd stat",
+    "The only NRL club from New Zealand, across the Tasman Sea."
+   ]
+  ],
+  "scorchers": [
+   [
+    "The name",
+    "Named for Perth's scorching hot summers."
+   ],
+   [
+    "Nerd stat",
+    "The most successful team in Big Bash history, with five titles."
+   ]
+  ],
+  "sixers": [
+   [
+    "The name",
+    "Named after the six, cricket's biggest hit: over the boundary without a bounce."
+   ],
+   [
+    "Nerd stat",
+    "Their color is bright magenta."
+   ],
+   [
+    "Big moment",
+    "Big Bash champions in 2012, 2020 and 2021."
+   ]
+  ],
+  "hurricanes": [
+   [
+    "The name",
+    "A fitting name for the island of Tasmania, which gets blasted by strong Southern Ocean winds."
+   ],
+   [
+    "Big moment",
+    "They won their first Big Bash title in January 2025."
+   ],
+   [
+    "Nerd stat",
+    "Their team color is purple."
+   ]
+  ]
+ }
+}

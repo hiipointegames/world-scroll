@@ -150,6 +150,38 @@
   var COUNTRY_SHAPE = {};
   worldCountries.forEach(function (f) { COUNTRY_SHAPE[f.properties.name] = f; });
 
+  // ---------- "Your pin landed in ..." (shown after lock-in) ----------
+  var usStates = topojson.feature(WS_US, WS_US.objects.states).features;
+  var ATLAS_NAMES = DATA.atlasNames || {};
+  // Named places we can measure a pin against: capitals, cities and stadium towns from the bank.
+  var PLACES = (function () {
+    var seen = {}, out = [];
+    QUESTIONS.forEach(function (q) {
+      if (['capitals', 'cities', 'sports'].indexOf(q.category) < 0 || !q.answer) return;
+      var label = q.answer.replace(/\s*\(.*?\)/g, '').trim();
+      if (/ area\b/.test(label) || seen[label]) return;
+      seen[label] = 1;
+      out.push({ label: label, city: label.split(',')[0], lat: q.lat, lon: q.lon });
+    });
+    return out;
+  })();
+  function placeOfPin(g) {
+    var pt = [g.lon, g.lat], where = null;
+    for (var i = 0; i < worldCountries.length && !where; i++) {
+      if (d3.geoContains(worldCountries[i], pt)) where = worldCountries[i].properties.name;
+    }
+    if (where === 'United States of America') {
+      var st = usStates.filter(function (f) { return d3.geoContains(f, pt); })[0];
+      where = st ? st.properties.name + ', USA' : 'USA';
+    } else if (where) where = ATLAS_NAMES[where] || where;
+    var best = null, bestMi = Infinity;
+    PLACES.forEach(function (p) { var d = G.haversineMiles(g, p); if (d < bestMi) { bestMi = d; best = p; } });
+    var region = where ? where.split(', ')[0] : '';
+    var name = best && region && best.label.indexOf(region) >= 0 ? best.city : best && best.label;
+    var near = !best ? '' : bestMi < 8 ? 'right by ' + name : 'about ' + fmt(Math.round(bestMi)) + ' mi from ' + name;
+    return (where || 'in the water') + (near ? ', ' + near : '');
+  }
+
   // Distance from a guess to a country: 0 if the pin is inside it, else to the nearest border point.
   function shapeDistance(feature, g) {
     if (d3.geoContains(feature, [g.lon, g.lat])) return { miles: 0, point: g };
@@ -322,27 +354,33 @@
       (extra || '') + '</div>';
   }
   function soundButton() {
-    return '<button class="icon-btn sound-btn" id="sound-btn" aria-pressed="' + store.sound + '" aria-label="Sound">' +
+    return '<button class="icon-btn sound-btn" aria-pressed="' + store.sound + '" aria-label="Sound on or off">' +
       (store.sound ? ICON.soundOn : ICON.soundOff) + '</button>';
   }
   // Hook up the tappable chips and the sound button on whatever screen is showing.
   function wireChrome() {
     var s = document.getElementById('stat-streak'), p = document.getElementById('stat-points');
-    var tc = document.getElementById('trophy-case'), sb = document.getElementById('sound-btn');
+    var tc = document.getElementById('trophy-case');
     var brand = document.getElementById('brand');
     if (brand) brand.onclick = showIntro;
     if (s) s.onclick = streakSheet;
     if (p) p.onclick = pointsSheet;
     if (tc) tc.onclick = trophySheet;
-    if (sb) sb.onclick = function () {
-      store.sound = !store.sound; save();
-      Sound.setEnabled(store.sound);
-      if (store.sound) { Sound.unlock(); Sound.play('tap'); }
-      Sound.setMusic(store.sound && isSportsLook());
-      sb.setAttribute('aria-pressed', store.sound);
-      sb.innerHTML = store.sound ? ICON.soundOn : ICON.soundOff;
-    };
   }
+  // Mute / unmute from any sound button on any screen (home, Sports, or the corner of each card).
+  function toggleSound() {
+    store.sound = !store.sound; save();
+    Sound.setEnabled(store.sound);
+    if (store.sound) { Sound.unlock(); Sound.play('tap'); }
+    Sound.setMusic(store.sound && isSportsLook());
+    app.querySelectorAll('.sound-btn').forEach(function (b) {
+      b.setAttribute('aria-pressed', store.sound);
+      b.innerHTML = store.sound ? ICON.soundOn : ICON.soundOff;
+    });
+  }
+  app.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('.sound-btn')) { e.stopPropagation(); toggleSound(); }
+  });
 
   // ---------- pop-up sheets (stat legends, trophy case, trophy awards) ----------
   function openSheet(html, opts) {
@@ -365,6 +403,16 @@
   });
   function sheetHead(icon, eyebrow, title) {
     return '<div class="sheet-icon">' + icon + '</div><div class="sheet-eyebrow">' + eyebrow + '</div><h2 class="sheet-title">' + title + '</h2>';
+  }
+
+  // Sports nerd facts: name origin, first coach, where the team began, big moments.
+  function nerdSheet(q) {
+    var rows = q.nerd.map(function (f) {
+      return '<div class="nerd-row"><div class="nerd-label">' + esc(f[0]) + '</div><div class="nerd-text">' + esc(f[1]) + '</div></div>';
+    }).join('');
+    openSheet(sheetHead('<span class="nerd-emoji" aria-hidden="true">🤓</span>', 'SPORTS NERD FACTS', esc(subjectOf(q))) +
+      (q.venue ? '<div class="sheet-text small">' + esc(q.venue) + ' · ' + esc(q.answer.replace(/\s*\(.*?\)/g, '')) + '</div>' : '') +
+      '<div class="nerd-list">' + rows + '</div>', { button: 'Back to the game', cls: 'nerd-sheet' });
   }
 
   function streakSheet() {
@@ -492,8 +540,14 @@
     })(t0);
   }
   var TAGLINE = 'learn geography by scrolling';
+  // Little globe beside the wordmark: teal ocean, gold land-ish arcs, so it reads as a world at a glance.
+  var GLOBE = '<svg class="wm-globe" viewBox="0 0 24 24" aria-hidden="true">' +
+    '<circle cx="12" cy="12" r="10.5" fill="#2E6F8E" stroke="#3DDCC4" stroke-width="1.5"/>' +
+    '<ellipse cx="12" cy="12" rx="4.6" ry="10.5" fill="none" stroke="#3DDCC4" stroke-width="1.2" opacity=".75"/>' +
+    '<path d="M1.8 12h20.4M3.6 6.8h16.8M3.6 17.2h16.8" stroke="#3DDCC4" stroke-width="1.2" opacity=".75"/>' +
+    '<circle cx="15.6" cy="8.4" r="1.9" fill="#FFB547"/></svg>';
   var WORDMARK = '<button class="brand" id="brand" aria-label="World Scroll: learn geography by scrolling. About the game">' +
-    '<span class="wordmark">World<span>Scroll</span></span><span class="tagline">' + TAGLINE + '</span></button>';
+    '<span class="wordmark">' + GLOBE + 'World<span>Scroll</span></span><span class="tagline">' + TAGLINE + '</span></button>';
 
   // --- Welcome screen (first open, or tap the logo) ---
   function showIntro() {
@@ -510,7 +564,7 @@
       '<svg class="intro-map" viewBox="0 0 390 200" aria-hidden="true"><path d="' + P.sphere + '" fill="#0F1A40"/>' +
       '<path d="' + P.focus + '" fill="#2E6F8E"/><path d="' + P.borders + '" class="m-borders"/>' + dots + '</svg>' +
       '<div class="intro-body">' +
-      '<div class="intro-brand"><div class="wordmark big">World<span>Scroll</span></div>' +
+      '<div class="intro-brand"><div class="wordmark big">' + GLOBE + 'World<span>Scroll</span></div>' +
       '<h1 class="intro-title">Learn geography by scrolling.</h1>' +
       '<p class="intro-sub">Doomscrolling, but you get smarter. Every card is a place on the map, and every swipe teaches you something new.</p></div>' +
       '<ol class="intro-steps">' +
@@ -544,7 +598,7 @@
       '<div class="screen picker">' +
       '<div class="topbar">' + WORDMARK + statChips(soundButton()) + '</div>' +
       '<div class="picker-body">' +
-      '<div class="picker-head"><h1>What do you want to scroll today?</h1><p>Every scroll teaches you a new spot on the map.</p></div>' +
+      '<div class="picker-head"><h1>Where do you wanna scroll today?</h1><p>Every scroll teaches you a new spot on the map.</p></div>' +
       '<button class="sports-hero" id="go-sports">' +
       '<span class="hero-text"><span class="hero-kicker">WHERE DO THEY PLAY?</span>' +
       '<span class="hero-name">Sports</span>' +
@@ -682,7 +736,7 @@
     el.setAttribute('aria-label', 'Question card');
     var next = isLastDaily() ? null : itemAt(feed.idx + 1);
     el.innerHTML =
-      '<div class="card-head">' +
+      '<div class="card-head">' + (showMeta ? soundButton() : '') +
       '<span class="chip" style="background:' + cat.color + '">' + esc(chipText.toUpperCase()) + '</span>' +
       (where ? '<div class="kicker">Where is…</div><h2 class="prompt">' + esc(subjectOf(q)) + '</h2>'
         : '<h2 class="prompt long">' + esc(q.prompt) + '</h2>') +
@@ -775,11 +829,16 @@
       : fmt(r.miles) + ' miles off';
     c.el.querySelector('.panel').innerHTML =
       '<div class="res-top"><span class="res-verdict' + (r.bullseye || (isSport && hit) ? ' bull' : '') + (isSport && hit ? ' sport' : '') + '">' + verdict + '</span>' +
-      '<span class="res-pts">+' + fmt(r.points) + ' pts</span></div>' +
+      '<span class="res-right">' + (c.q.nerd ? '<button class="nerd-btn" aria-label="Sports nerd facts">🤓 Nerd facts</button>' : '') +
+      '<span class="res-pts">+' + fmt(r.points) + ' pts</span></span></div>' +
       '<div class="res-miles">' + milesLine + streakNote + ' · ' + secs.toFixed(1) + 's</div>' +
-      '<div class="res-answer"><span class="answer-dot"></span>' + esc(c.q.answer) + (c.q.venue ? '<span class="venue"> · ' + esc(c.q.venue) + '</span>' : '') + '</div>' +
-      '<div class="res-fact">' + ICON.bulb + '<span><b>Now you know:</b> ' + esc(c.q.fact) + '</span></div>';
+      '<div class="res-answer"><span class="answer-dot"></span><span>' + esc(c.q.answer) + (c.q.venue ? '<span class="venue"> · ' + esc(c.q.venue) + '</span>' : '') + '</span></div>' +
+      '<div class="res-pin"><span class="pin-dot"></span><span><b>Your pin:</b> ' + esc(placeOfPin(c.guess)) + '</span></div>' +
+      '<div class="res-fact' + (c.q.nerd ? ' has-nerd' : '') + '">' + ICON.bulb + '<span><b>Now you know:</b> ' + esc(c.q.fact) + '</span></div>';
+    var nb = c.el.querySelector('.nerd-btn');
+    if (nb) nb.onclick = function (e) { e.stopPropagation(); Sound.play('tap'); nerdSheet(c.q); };
     c.el.querySelector('.panel').classList.add('revealed');
+    c.el.classList.add('revealed');
     c.el.querySelector('.skip').style.display = 'none';
     c.el.querySelector('.lock').textContent = isLastDaily() ? 'See my results' : 'Next card';
     if (navigator.vibrate) { try { navigator.vibrate(18); } catch (e) { } }
