@@ -989,39 +989,52 @@
     }
   }
 
-  // --- Daily 10 results ---
+  // --- Daily 10 results: X/10 correct, green/red squares, and a score to share ---
   function showDailyResults() {
     var res = feed.results;
     var total = res.reduce(function (s, r) { return s + r.points; }, 0);
     var answered = res.filter(function (r) { return !r.skipped; });
+    var hits = res.filter(function (r) { return r.hit; }).length;
     var bulls = answered.filter(function (r) { return r.bullseye; }).length;
     var avg = answered.length ? answered.reduce(function (s, r) { return s + r.miles; }, 0) / answered.length : 0;
     var d = new Date();
     var dateLabel = d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
-    var rows = res.map(function (r, i) {
-      return '<li><span class="row-n">' + (i + 1) + '</span><span class="dot" style="background:' + CATS[r.q.category].color + '"></span>' +
+    var shareText = G.dailyShareText('Daily 10', d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }), res);
+    var rows = res.map(function (r) {
+      return '<li><span class="row-mark ' + (r.hit ? 'hit' : 'miss') + '">' + (r.hit ? '✓' : '✕') + '</span>' +
+        '<span class="dot" style="background:' + CATS[r.q.category].color + '"></span>' +
         '<span class="row-name">' + esc(subjectOf(r.q)) + '</span>' +
         '<span class="row-miles">' + (r.skipped ? 'skipped' : fmt(r.miles) + ' mi') + '</span>' +
         '<span class="row-pts">' + (r.skipped ? '0' : '+' + fmt(r.points)) + '</span></li>';
     }).join('');
     feed = null; card = null;
     Sound.setMusic(false);
-    Sound.play('trophy', 'bronze');
+    Sound.play('trophy', hits >= 8 ? 'gold' : hits >= 5 ? 'silver' : 'bronze');
     app.innerHTML =
       '<div class="screen results">' +
       '<div class="topbar">' + WORDMARK + statChips() + '</div>' +
       '<div class="results-body">' +
       '<div class="results-head"><div class="daily-label">DAILY 10 · ' + esc(dateLabel.toUpperCase()) + '</div>' +
-      '<div class="results-total">' + fmt(total) + '</div><div class="results-sub">points out of 10,000</div></div>' +
+      '<div class="sd-score"><b>' + hits + '</b><span>/10</span></div>' +
+      '<div class="sd-verdict">' + esc(G.dailyTitle(hits)) + '</div></div>' +
+      '<div class="sd-grid" aria-label="' + hits + ' correct out of 10">' + res.map(function (r, i) {
+        return '<span class="dsq big ' + (r.hit ? 'hit' : 'miss') + '" style="animation-delay:' + (i * 0.07) + 's"></span>';
+      }).join('') + '</div>' +
+      '<div class="share-card"><div class="share-label">SHARE YOUR SCORE</div>' +
+      '<pre class="share-text" id="share-text">' + esc(shareText) + '</pre>' +
+      '<button class="btn primary big" id="share-btn">' + ICON.share + 'Share my score</button>' +
+      '<div class="share-note" id="share-note" aria-live="polite"></div></div>' +
       '<div class="stat-grid">' +
+      '<div><b>' + fmt(total) + '</b><span>points</span></div>' +
       '<div><b>' + bulls + '</b><span>bullseyes</span></div>' +
-      '<div><b>' + fmt(avg) + '</b><span>avg miles off</span></div>' +
-      '<div><b>' + shownStreak() + '</b><span>day streak</span></div></div>' +
-      '<ol class="result-list">' + rows + '</ol>' +
-      '<p class="results-note">Same 10 for everyone today. New set tomorrow.</p>' +
+      '<div><b>' + fmt(avg) + '</b><span>avg miles off</span></div></div>' +
+      '<ol class="result-list sd-list">' + rows + '</ol>' +
+      '<p class="results-note">Correct = your pin landed within ' + G.DAILY_HIT_MILES + ' miles. Same 10 for everyone today. ' + countdownText() + '.</p>' +
       '</div><div class="intro-foot"><button class="btn primary big" id="done">Back to feeds</button></div></div>';
     document.getElementById('done').onclick = showPicker;
+    document.getElementById('share-btn').onclick = function () { shareScore(shareText); };
     wireChrome();
+    if (hits >= 5) confetti(app.querySelector('.screen'), [COLOR.gold, COLOR.teal, COLOR.pink, '#FFFFFF'], 110, 0.25);
   }
 
   if (store.seenIntro) showPicker(); else showIntro();

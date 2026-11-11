@@ -91,12 +91,19 @@
       seededRandom('world-scroll-sports-daily-' + dateKey), count || 10);
   }
   // The text players share: score, a green/red square per card, and an invite.
-  function sportsShareText(dateLabel, results) {
+  // Used by both daily games; only the game name in the first line changes.
+  function dailyShareText(gameName, dateLabel, results) {
     var hits = results.filter(function (r) { return r.hit; }).length;
-    return 'World Scroll · Daily Sports 10 · ' + dateLabel + '\n' +
+    return 'World Scroll · ' + gameName + ' · ' + dateLabel + '\n' +
       hits + '/' + results.length + ' ' + (hits >= 8 ? '🏆' : hits >= 5 ? '🎯' : '📍') + '\n' +
       results.map(function (r) { return r.hit ? '🟩' : '🟥'; }).join('') + '\n' +
       'Can you beat my score? Learn geography by scrolling.';
+  }
+  function sportsShareText(dateLabel, results) { return dailyShareText('Daily Sports 10', dateLabel, results); }
+  // A fun, kid-friendly title for a Daily 10 score.
+  function dailyTitle(hits) {
+    return hits === 10 ? 'Perfect 10! World explorer.' : hits >= 8 ? 'Globe trotter!' : hits >= 6 ? 'Sharp navigator!'
+      : hits >= 4 ? 'Finding your way!' : 'Warm-up round. Back tomorrow!';
   }
   // A fun, kid-friendly title for a Daily Sports 10 score.
   function sportsTitle(hits) {
@@ -127,7 +134,7 @@
   var api = {
     EARTH_RADIUS_MI: EARTH_RADIUS_MI, haversineMiles: haversineMiles, pointsFor: pointsFor,
     scoreGuess: scoreGuess, seededRandom: seededRandom, shuffle: shuffle, dailyPick: dailyPick,
-    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, trophyStep: trophyStep,
+    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, trophyStep: trophyStep, dailyShareText: dailyShareText, dailyTitle: dailyTitle,
     dailySportsPick: dailySportsPick, sportsShareText: sportsShareText, sportsTitle: sportsTitle
   };
   if (typeof module === 'object' && module.exports) module.exports = api;

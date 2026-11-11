@@ -195,3 +195,13 @@ test('Daily 10 and Daily Sports 10 count a guess as correct within 250 miles (tr
   assert.ok(app.includes('isDailyKind() ? G.DAILY_HIT_MILES : G.HIT_MILES'), 'daily games use the daily limit');
   assert.ok(!/Correct = your pin landed within 100 miles/.test(app), 'results screen shows the daily limit');
 });
+
+test('Daily 10 share text matches the Daily Sports 10 format, with its own name', () => {
+  const results = [true, false, true, true, true, true, true, false, true, true].map(hit => ({ hit }));
+  assert.strictEqual(G.dailyShareText('Daily 10', 'Nov 10', results),
+    'World Scroll · Daily 10 · Nov 10\n8/10 🏆\n🟩🟥🟩🟩🟩🟩🟩🟥🟩🟩\nCan you beat my score? Learn geography by scrolling.');
+  assert.strictEqual(G.dailyTitle(10), 'Perfect 10! World explorer.');
+  assert.strictEqual(G.dailyTitle(2), 'Warm-up round. Back tomorrow!');
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  assert.ok(app.includes("G.dailyShareText('Daily 10'"), 'the Daily 10 results screen offers a share');
+});
