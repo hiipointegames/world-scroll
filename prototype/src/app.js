@@ -803,7 +803,7 @@
     recordPoints(r.points);
     bumpStats();
     var isSport = c.q.category === 'sports', inSportsFeed = feed.spec.kind === 'sports';
-    var hit = r.miles <= G.HIT_MILES;
+    var hit = r.miles <= (isDailyKind() ? G.DAILY_HIT_MILES : G.HIT_MILES); // dailies are a bit more forgiving
     if (isDailyKind()) feed.results.push({ q: c.q, miles: r.miles, points: r.points, bullseye: r.bullseye, hit: hit });
     if (feed.spec.kind === 'sportsdaily') renderDailyRow();
     var verdict = isSport && hit ? (SPORT_WORDS[c.q.sport] || r.verdict) : r.verdict;
@@ -959,7 +959,7 @@
       '<button class="btn primary big" id="share-btn">' + ICON.share + 'Share my score</button>' +
       '<div class="share-note" id="share-note" aria-live="polite"></div></div>' +
       '<ol class="result-list sd-list">' + rows + '</ol>' +
-      '<p class="results-note">Correct = your pin landed within 100 miles. ' + countdownText() + '.</p>' +
+      '<p class="results-note">Correct = your pin landed within ' + G.DAILY_HIT_MILES + ' miles. ' + countdownText() + '.</p>' +
       '</div><div class="intro-foot"><button class="btn ghost big" id="done">Back to Sports</button></div></div>';
     document.getElementById('back').onclick = document.getElementById('done').onclick = function () { startFeed({ kind: 'sports', region: 'usa', sport: 0 }); };
     document.getElementById('share-btn').onclick = function () { shareScore(shareText); };

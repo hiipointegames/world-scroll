@@ -187,3 +187,11 @@ test('"Now you know" facts are never cut off with "..." on any screen size', () 
   const clipped = rules.filter(r => /line-clamp|text-overflow|white-space:\s*nowrap/.test(r));
   assert.deepStrictEqual(clipped.map(r => r.trim().slice(0, 80)), []);
 });
+
+test('Daily 10 and Daily Sports 10 count a guess as correct within 250 miles (trophy hits stay at 100)', () => {
+  assert.strictEqual(G.DAILY_HIT_MILES, 250);
+  assert.strictEqual(G.HIT_MILES, 100);
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  assert.ok(app.includes('isDailyKind() ? G.DAILY_HIT_MILES : G.HIT_MILES'), 'daily games use the daily limit');
+  assert.ok(!/Correct = your pin landed within 100 miles/.test(app), 'results screen shows the daily limit');
+});

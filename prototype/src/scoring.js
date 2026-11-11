@@ -107,6 +107,8 @@
   // Sports trophies: a "hit" is a guess within HIT_MILES. 3 hits in a row = bronze,
   // 7 = silver, 10 = gold. After gold the run starts over. A miss resets the run.
   var HIT_MILES = 100;
+  // Daily 10 and Daily Sports 10: a guess counts as correct (green square) within this many miles.
+  var DAILY_HIT_MILES = 250;
   function trophyStep(run, hit) {
     if (!hit) return { run: 0, award: null };
     var n = run + 1;
@@ -125,7 +127,7 @@
   var api = {
     EARTH_RADIUS_MI: EARTH_RADIUS_MI, haversineMiles: haversineMiles, pointsFor: pointsFor,
     scoreGuess: scoreGuess, seededRandom: seededRandom, shuffle: shuffle, dailyPick: dailyPick,
-    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, trophyStep: trophyStep,
+    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, trophyStep: trophyStep,
     dailySportsPick: dailySportsPick, sportsShareText: sportsShareText, sportsTitle: sportsTitle
   };
   if (typeof module === 'object' && module.exports) module.exports = api;

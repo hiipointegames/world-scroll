@@ -527,6 +527,8 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   // Sports trophies: a "hit" is a guess within HIT_MILES. 3 hits in a row = bronze,
   // 7 = silver, 10 = gold. After gold the run starts over. A miss resets the run.
   var HIT_MILES = 100;
+  // Daily 10 and Daily Sports 10: a guess counts as correct (green square) within this many miles.
+  var DAILY_HIT_MILES = 250;
   function trophyStep(run, hit) {
     if (!hit) return { run: 0, award: null };
     var n = run + 1;
@@ -545,7 +547,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   var api = {
     EARTH_RADIUS_MI: EARTH_RADIUS_MI, haversineMiles: haversineMiles, pointsFor: pointsFor,
     scoreGuess: scoreGuess, seededRandom: seededRandom, shuffle: shuffle, dailyPick: dailyPick,
-    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, trophyStep: trophyStep,
+    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, trophyStep: trophyStep,
     dailySportsPick: dailySportsPick, sportsShareText: sportsShareText, sportsTitle: sportsTitle
   };
   if (typeof module === 'object' && module.exports) module.exports = api;
@@ -1507,7 +1509,7 @@ window.WS_US = {"type":"Topology","bbox":[-179.14733999999999,-14.55254899999999
     recordPoints(r.points);
     bumpStats();
     var isSport = c.q.category === 'sports', inSportsFeed = feed.spec.kind === 'sports';
-    var hit = r.miles <= G.HIT_MILES;
+    var hit = r.miles <= (isDailyKind() ? G.DAILY_HIT_MILES : G.HIT_MILES); // dailies are a bit more forgiving
     if (isDailyKind()) feed.results.push({ q: c.q, miles: r.miles, points: r.points, bullseye: r.bullseye, hit: hit });
     if (feed.spec.kind === 'sportsdaily') renderDailyRow();
     var verdict = isSport && hit ? (SPORT_WORDS[c.q.sport] || r.verdict) : r.verdict;
@@ -1663,7 +1665,7 @@ window.WS_US = {"type":"Topology","bbox":[-179.14733999999999,-14.55254899999999
       '<button class="btn primary big" id="share-btn">' + ICON.share + 'Share my score</button>' +
       '<div class="share-note" id="share-note" aria-live="polite"></div></div>' +
       '<ol class="result-list sd-list">' + rows + '</ol>' +
-      '<p class="results-note">Correct = your pin landed within 100 miles. ' + countdownText() + '.</p>' +
+      '<p class="results-note">Correct = your pin landed within ' + G.DAILY_HIT_MILES + ' miles. ' + countdownText() + '.</p>' +
       '</div><div class="intro-foot"><button class="btn ghost big" id="done">Back to Sports</button></div></div>';
     document.getElementById('back').onclick = document.getElementById('done').onclick = function () { startFeed({ kind: 'sports', region: 'usa', sport: 0 }); };
     document.getElementById('share-btn').onclick = function () { shareScore(shareText); };
