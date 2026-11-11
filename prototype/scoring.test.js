@@ -229,3 +229,28 @@ test('pop-up tips: share on day 2, explore on day 4, each only once', () => {
   assert.ok(/Have you explored it all\?/.test(tips));
   assert.ok(!/tap the (map|globe)|map tap/i.test(tips), 'never say "tap the map"');
 });
+
+test('fun layer: closeness tiers, combos, daily goal and explorer ranks', () => {
+  assert.strictEqual(G.vibeFor(500, true), 'bullseye');
+  assert.deepStrictEqual([60, 200, 450, 1200, 4000].map(m => G.vibeFor(m, false)), ['scorching', 'hot', 'warm', 'chilly', 'cold']);
+  assert.strictEqual(G.comboStep(2, true), 3);
+  assert.strictEqual(G.comboStep(5, false), 0);
+  assert.strictEqual(G.cardsToday({ date: '2026-11-10', n: 7 }, '2026-11-10'), 7);
+  assert.strictEqual(G.cardsToday({ date: '2026-11-09', n: 7 }, '2026-11-10'), 0, 'the goal starts fresh each day');
+  assert.strictEqual(G.rankFor(0).name, 'Rookie Explorer');
+  const mid = G.rankFor(10000);
+  assert.strictEqual(mid.name, 'Trail Finder');
+  assert.strictEqual(mid.next.name, 'Map Reader');
+  assert.ok(Math.abs(mid.progress - 0.5) < 1e-9);
+  assert.strictEqual(G.rankFor(1e9).next, null);
+  for (let i = 1; i < G.RANKS.length; i++) assert.ok(G.RANKS[i].min > G.RANKS[i - 1].min, 'ranks climb');
+});
+
+test('fun layer copy stays kid-friendly and never says "tap the map"', () => {
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  const words = app.slice(app.indexOf('var VIBE_WORDS'), app.indexOf('var VIBE_SOUND'));
+  assert.ok(words.includes("'Bullseye!'"), 'a bullseye still says Bullseye!');
+  const banned = /\b(war|kill\w*|death|dead|die|blood\w*|bomb\w*|gun\w*|stupid|loser|fail\w*)\b/i;
+  assert.ok(!banned.test(words), 'verdict words are friendly');
+  assert.ok(!/tap the (map|globe)|map tap/i.test(app), 'never say "tap the map"');
+});

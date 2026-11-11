@@ -48,6 +48,7 @@
     var s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
     s.buffer = noiseBuf;
     f.type = opts.filter || 'highpass'; f.frequency.value = opts.freq || 6000; f.Q.value = opts.q || 0.8;
+    if (opts.to) { f.frequency.setValueAtTime(opts.freq || 6000, t); f.frequency.exponentialRampToValueAtTime(opts.to, t + dur); }
     g.gain.setValueAtTime(opts.vol || 0.2, t);
     g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
     s.connect(f); f.connect(g); g.connect(opts.bus || sfxBus);
@@ -66,6 +67,35 @@
       tone(N.G6, t + 0.3, 0.4, { type: 'sine', vol: 0.1 });
     },
     miss: function (t) { tone(N.G4, t, 0.18, { type: 'sine', vol: 0.18 }); tone(N.E4, t + 0.14, 0.28, { type: 'sine', vol: 0.16 }); },
+    // --- fun layer ---
+    pin: function (t) { var f = 740 + Math.random() * 260; tone(f, t, 0.1, { type: 'sine', vol: 0.2, to: f * 1.5 }); tone(f * 2, t + 0.02, 0.06, { type: 'sine', vol: 0.05 }); },
+    fly: function (t) { noise(t, 0.55, { filter: 'bandpass', freq: 500, to: 3200, q: 1.4, vol: 0.13 }); tone(220, t, 0.5, { type: 'sine', vol: 0.05, to: 660 }); },
+    tick: function (t, i) { tone(1200 + (i || 0) * 40, t, 0.03, { type: 'square', vol: 0.025, cutoff: 4000 }); },
+    scorching: function (t) { [N.D5, N.F5, N.A5, N.D5 * 2].forEach(function (f, i) { tone(f, t + i * 0.06, 0.24, { vol: 0.2 }); }); },
+    warm: function (t) { tone(N.E5, t, 0.2, { vol: 0.17 }); tone(N.G5, t + 0.09, 0.26, { vol: 0.15 }); },
+    chilly: function (t) { tone(N.A4, t, 0.2, { type: 'sine', vol: 0.16 }); tone(N.F4, t + 0.13, 0.3, { type: 'sine', vol: 0.14 }); },
+    cold: function (t) { // a shivery "brrr"
+      var o = ctx.createOscillator(), g = ctx.createGain(), lfo = ctx.createOscillator(), lg = ctx.createGain();
+      o.type = 'triangle'; o.frequency.setValueAtTime(392, t); o.frequency.exponentialRampToValueAtTime(196, t + 0.5);
+      lfo.frequency.value = 22; lg.gain.value = 18; lfo.connect(lg); lg.connect(o.frequency);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.16, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.55);
+      o.connect(g); g.connect(sfxBus); o.start(t); lfo.start(t); o.stop(t + 0.6); lfo.stop(t + 0.6);
+    },
+    combo: function (t, n) { // climbs a step higher with every combo
+      var base = 523.3 * Math.pow(2, Math.min(n || 2, 14) / 12);
+      [1, 1.26, 1.5, 2].forEach(function (k, i) { tone(base * k, t + i * 0.05, 0.2, { type: 'square', vol: 0.06, cutoff: 3600 }); });
+      noise(t + 0.18, 0.3, { freq: 7000, vol: 0.05 });
+    },
+    boom: function (t) { // bullseye impact
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.frequency.setValueAtTime(160, t); o.frequency.exponentialRampToValueAtTime(40, t + 0.3);
+      g.gain.setValueAtTime(0.5, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
+      o.connect(g); g.connect(sfxBus); o.start(t); o.stop(t + 0.4);
+      noise(t, 0.4, { filter: 'lowpass', freq: 1800, vol: 0.12 });
+    },
+    square: function (t, hit) { if (hit) tone(N.C6 * (0.9 + Math.random() * 0.2), t, 0.12, { type: 'sine', vol: 0.14 }); else tone(N.E4, t, 0.12, { type: 'triangle', vol: 0.1 }); },
+    sparkle: function (t) { [N.E6, N.G6, N.C6 * 2].forEach(function (f, i) { tone(f, t + i * 0.05, 0.18, { type: 'sine', vol: 0.06 }); }); },
+    pop: function (t) { tone(600, t, 0.06, { type: 'sine', vol: 0.06, to: 900 }); },
     trophy: function (t, tier) {
       var runs = {
         bronze: [N.G4, N.C5, N.E5, N.G5],

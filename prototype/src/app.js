@@ -76,6 +76,20 @@
     football: 'GOOOAL!', tennis: 'Ace!', rugby: 'Try!', afl: 'Goal!', nrl: 'Try!', bbl: 'Six!'
   };
   var Sound = window.WSSound;
+  // ---------- fun layer: verdict words by closeness, combo, toasts ----------
+  var VIBE_WORDS = {
+    bullseye: ['Bullseye!'],
+    scorching: ['Scorching!', 'So close!', 'Almost perfect!'],
+    hot: ['Hot!', 'Nice one!', 'Great guess!'],
+    warm: ['Warm!', 'Not bad!', 'Getting warmer!'],
+    chilly: ['Chilly!', 'Close-ish!', 'Keep going!'],
+    cold: ['Brrr, cold!', 'Way off!', 'Next one’s yours!']
+  };
+  var VIBE_SOUND = { bullseye: 'bullseye', scorching: 'scorching', hot: 'hit', warm: 'warm', chilly: 'chilly', cold: 'cold' };
+  var CAT_EMOJI = { countries: '🌍', capitals: '🏛️', cities: '🏙️', rivers: '🌊', mountains: '⛰️', deserts: '🏜️' };
+  function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
+  var REDUCE_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var combo = 0; // good guesses in a row this sitting
 
   // ---------- saved progress (this browser only) ----------
   var STORE_KEY = 'world-scroll-prototype-v1';
@@ -318,6 +332,17 @@
     var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     return {
+      // Where the answer sits, as a fraction of the map box (for floating points).
+      answerFrac: function () { if (!target) return [0.5, 0.5]; var a = screenOf(target); return [a[0] / W, a[1] / H]; },
+      // Two teal rings bursting out of the answer: the bullseye shockwave.
+      shock: function () {
+        if (!target || reduceMotion) return;
+        var a = screenOf(target);
+        [0, 140].forEach(function (d) {
+          var c = pins.insert('circle', ':first-child').attr('class', 'm-shock').attr('r', 12).attr('cx', a[0]).attr('cy', a[1]).style('animation-delay', d + 'ms');
+          setTimeout(function () { c.remove(); }, 1100 + d);
+        });
+      },
       zoomBy: function (k) { svg.transition().duration(220).call(zoom.scaleBy, k); },
       // opts.shape: a country to light up; opts.target: where the dashed line should end.
       reveal: function (card, opts) {
@@ -611,14 +636,28 @@
     setTimeout(function () { if (!feed && !app.querySelector('.sheet-overlay')) openSheet(TIPS[tip](), { button: TIP_BUTTONS[tip], cls: 'tip-sheet' }); }, 450);
   }
 
+  // Explorer rank + today's goal, at the top of the home screen.
+  function progressCardHtml() {
+    var rk = G.rankFor(store.points), done = Math.min(G.cardsToday(store.cardsDay, todayKey()), G.DAILY_GOAL);
+    var goalDone = done >= G.DAILY_GOAL;
+    return '<div class="progress-card">' +
+      '<div class="pc-row"><span class="pc-badge" aria-hidden="true">⭐</span>' +
+      '<span class="pc-main"><span class="pc-label">EXPLORER RANK · ' + (rk.index + 1) + ' OF ' + G.RANKS.length + '</span><span class="pc-name">' + esc(rk.name) + '</span></span>' +
+      '<span class="pc-next">' + (rk.next ? fmt(rk.next.min - store.points) + ' pts to<br>' + esc(rk.next.name) : 'Top rank!') + '</span></div>' +
+      '<div class="pc-bar"><i style="--w:' + Math.round(rk.progress * 100) + '%"></i></div>' +
+      '<div class="pc-row goal"><span class="pc-badge small" aria-hidden="true">' + (goalDone ? '✅' : '🎯') + '</span>' +
+      '<span class="pc-main"><span class="pc-label">TODAY’S GOAL</span><span class="pc-goal">' + (goalDone ? 'Goal smashed! Bonus scrolling time.' : done + ' of ' + G.DAILY_GOAL + ' cards') + '</span></span>' +
+      '<span class="pc-ring" style="--p:' + Math.round(done / G.DAILY_GOAL * 100) + '"><b>' + done + '</b></span></div>' +
+      '</div>';
+  }
   function showPicker() {
     feed = null; card = null;
     Sound.setMusic(false);
     var count = function (cat) { return QUESTIONS.filter(function (q) { return q.category === cat; }).length; };
-    var tiles = DATA.categories.filter(function (c) { return c.id !== 'sports'; }).map(function (c) {
+    var tiles = DATA.categories.filter(function (c) { return c.id !== 'sports'; }).map(function (c, i) {
       var n = count(c.id);
-      return '<button class="tile" data-cat="' + c.id + '" style="--c:' + c.color + '">' +
-        '<span class="tile-top"><span class="dot" style="background:' + c.color + '"></span>' +
+      return '<button class="tile" data-cat="' + c.id + '" style="--c:' + c.color + ';--i:' + i + '">' +
+        '<span class="tile-top"><span class="tile-emoji" aria-hidden="true">' + (CAT_EMOJI[c.id] || '') + '</span>' +
         '<span class="tile-count">' + n + (n === 1 ? ' card' : ' cards') + '</span></span>' +
         '<span class="tile-text"><span class="tile-name">' + esc(c.label) + '</span>' +
         '<span class="tile-sub">' + esc(CATEGORY_SUBS[c.id] || '') + '</span></span></button>';
@@ -630,6 +669,7 @@
       '<div class="topbar">' + WORDMARK + statChips(soundButton()) + '</div>' +
       '<div class="picker-body">' +
       '<div class="picker-head"><h1>Where do you wanna scroll today?</h1><p>Every scroll teaches you a new spot on the map.</p></div>' +
+      progressCardHtml() +
       '<button class="sports-hero" id="go-sports">' +
       '<span class="hero-text"><span class="hero-kicker">WHERE DO THEY PLAY?</span>' +
       '<span class="hero-name">Sports</span>' +
@@ -803,7 +843,7 @@
     stage.appendChild(el);
     c.map = createMap(el.querySelector('.map'), feed.spec.mapRegion || q.region, function (ll) {
       c.guess = ll;
-      Sound.play('tap');
+      Sound.play('pin');
       var lock = el.querySelector('.lock');
       if (lock.disabled) { lock.classList.remove('ready'); void lock.offsetWidth; lock.classList.add('ready'); }
       lock.disabled = false; lock.textContent = 'Lock in my guess';
@@ -840,12 +880,26 @@
     var hit = r.miles <= (isDailyKind() ? G.DAILY_HIT_MILES : G.HIT_MILES); // dailies are a bit more forgiving
     if (isDailyKind()) feed.results.push({ q: c.q, miles: r.miles, points: r.points, bullseye: r.bullseye, hit: hit });
     if (isDailyKind()) renderDailyRow();
-    var verdict = isSport && hit ? (SPORT_WORDS[c.q.sport] || r.verdict) : r.verdict;
+    var vibe = G.vibeFor(r.miles, r.bullseye);
+    var verdict = isSport && hit ? (SPORT_WORDS[c.q.sport] || pick(VIBE_WORDS[vibe])) : pick(VIBE_WORDS[vibe]);
+    var rankBefore = G.rankFor(store.points - r.points).index;
+    combo = G.comboStep(combo, r.bullseye || r.miles <= G.DAILY_HIT_MILES);
+    var goalHit = countCardToday();
     Sound.play('lock');
-    setTimeout(function () { Sound.play(r.bullseye ? 'bullseye' : hit || r.verdict === 'So close!' ? 'hit' : 'miss'); }, 480);
+    Sound.play('fly');
+    setTimeout(function () {
+      if (!c.el.isConnected) return;
+      Sound.play(isSport && hit ? 'scorching' : VIBE_SOUND[vibe]);
+      floatPoints(c, r.points, vibe);
+      if (r.bullseye) bullseyeFx(c);
+      if (combo >= 2) showCombo(c, combo);
+    }, 560);
     if (r.bullseye || (isSport && hit)) { // a little party for a great guess
-      setTimeout(function () { if (c.el.isConnected) confetti(c.el, [COLOR.gold, COLOR.teal, COLOR.pink, '#FFFFFF'], 60, 0.55); }, 520);
+      setTimeout(function () { if (c.el.isConnected) confetti(c.el, [COLOR.gold, COLOR.teal, COLOR.pink, '#FFFFFF'], 60, 0.55); }, 600);
     }
+    var rankNow = G.rankFor(store.points);
+    if (rankNow.index > rankBefore) setTimeout(function () { toast('⭐', 'New rank: ' + rankNow.name + '!', 'Your explorer rank just leveled up.', 'rank'); }, 1500);
+    else if (goalHit) setTimeout(function () { toast('🎯', 'Daily goal smashed!', G.DAILY_GOAL + ' cards today. Keep the streak alive tomorrow!', 'goal'); }, 1500);
 
     var streakNote = '';
     if (inSportsFeed) {
@@ -862,9 +916,9 @@
       : r.bullseye ? r.miles + ' mi off · bullseye zone'
       : fmt(r.miles) + ' miles off';
     c.el.querySelector('.panel').innerHTML =
-      '<div class="res-top"><span class="res-verdict' + (r.bullseye || (isSport && hit) ? ' bull' : '') + (isSport && hit ? ' sport' : '') + '">' + verdict + '</span>' +
+      '<div class="res-top"><span class="res-verdict v-' + vibe + (r.bullseye || (isSport && hit) ? ' bull' : '') + (isSport && hit ? ' sport' : '') + '">' + verdict + '</span>' +
       '<span class="res-right">' + (c.q.nerd ? '<button class="nerd-btn" aria-label="Sports nerd facts">🤓 Nerd facts</button>' : '') +
-      '<span class="res-pts">+' + fmt(r.points) + ' pts</span></span></div>' +
+      '<span class="res-pts" data-pts="' + r.points + '">+0 pts</span></span></div>' +
       '<div class="res-miles">' + milesLine + streakNote + ' · ' + secs.toFixed(1) + 's</div>' +
       '<div class="res-answer"><span class="answer-dot"></span><span>' + esc(c.q.answer) + (c.q.venue ? '<span class="venue"> · ' + esc(c.q.venue) + '</span>' : '') + '</span></div>' +
       '<div class="res-pin"><span class="pin-dot"></span><span><b>Your pin:</b> ' + esc(placeOfPin(c.guess)) + '</span></div>' +
@@ -873,13 +927,76 @@
     if (nb) nb.onclick = function (e) { e.stopPropagation(); Sound.play('tap'); nerdSheet(c.q); };
     c.el.querySelector('.panel').classList.add('revealed');
     c.el.classList.add('revealed');
+    countUpPoints(c.el.querySelector('.res-pts'), r.points);
     c.el.querySelector('.skip').style.display = 'none';
     c.el.querySelector('.lock').textContent = isLastDaily() ? 'See my results' : 'Next card';
-    if (navigator.vibrate) { try { navigator.vibrate(18); } catch (e) { } }
+    if (navigator.vibrate) { try { navigator.vibrate(r.bullseye ? [18, 60, 40] : 18); } catch (e) { } }
+  }
+
+  // --- juice helpers ---
+  function countCardToday() { // returns true the moment today's goal is reached
+    var today = todayKey(), n = G.cardsToday(store.cardsDay, today) + 1;
+    store.cardsDay = { date: today, n: n }; save();
+    return n === G.DAILY_GOAL;
+  }
+  function countUpPoints(el, pts) {
+    if (!el) return;
+    if (REDUCE_MOTION || !pts) { el.textContent = '+' + fmt(pts) + ' pts'; return; }
+    var t0 = performance.now() + 560, dur = 650, ticks = 0;
+    (function frame(now) {
+      if (!el.isConnected) return;
+      var k = Math.max(0, Math.min(1, (now - t0) / dur)), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = '+' + fmt(pts * e) + ' pts';
+      if (k > 0 && k < 1 && Math.floor(k * 10) > ticks) { ticks = Math.floor(k * 10); Sound.play('tick', ticks); }
+      if (k < 1) requestAnimationFrame(frame); else { el.classList.add('pop'); }
+    })(performance.now());
+  }
+  function floatPoints(c, pts, vibe) {
+    if (REDUCE_MOTION) return;
+    var wrap = c.el.querySelector('.map-wrap'), f = c.map.answerFrac();
+    var d = document.createElement('div');
+    d.className = 'float-pts v-' + vibe;
+    d.textContent = '+' + fmt(pts);
+    d.style.left = Math.max(18, Math.min(78, f[0] * 100)) + '%'; // keep clear of the zoom buttons and edges
+    d.style.top = Math.max(18, Math.min(85, f[1] * 100)) + '%';
+    wrap.appendChild(d);
+    setTimeout(function () { d.remove(); }, 1400);
+  }
+  function bullseyeFx(c) {
+    Sound.play('boom');
+    c.map.shock();
+    if (REDUCE_MOTION) return;
+    var wrap = c.el.querySelector('.map-wrap');
+    var fl = document.createElement('div'); fl.className = 'flash'; wrap.appendChild(fl);
+    setTimeout(function () { fl.remove(); }, 700);
+    wrap.classList.remove('shake'); void wrap.offsetWidth; wrap.classList.add('shake');
+  }
+  function showCombo(c, n) {
+    var wrap = c.el.querySelector('.map-wrap');
+    var b = document.createElement('div');
+    b.className = 'combo-badge' + (n >= 5 ? ' mega' : '');
+    b.innerHTML = '<span class="combo-fire">🔥</span><b>×' + n + '</b><span>COMBO</span>';
+    wrap.appendChild(b);
+    setTimeout(function () { Sound.play('combo', n); }, 120);
+  }
+  // A banner that drops in from the top of the screen for a moment (goal reached, new rank).
+  function toast(icon, title, sub, kind) {
+    var host = app.querySelector('.screen'); if (!host) return;
+    var old = host.querySelector('.toast'); if (old) old.remove();
+    var t = document.createElement('div');
+    t.className = 'toast ' + (kind || '');
+    t.setAttribute('role', 'status');
+    t.innerHTML = '<span class="toast-icon">' + icon + '</span><span class="toast-text"><b>' + esc(title) + '</b><span>' + esc(sub) + '</span></span>';
+    host.appendChild(t);
+    Sound.play('trophy', kind === 'rank' ? 'gold' : 'silver');
+    confetti(host, [COLOR.gold, COLOR.teal, COLOR.pink, '#FFFFFF'], 90, 0.12);
+    setTimeout(function () { t.classList.add('out'); }, 2800);
+    setTimeout(function () { t.remove(); }, 3300);
   }
 
   function advance() {
     if (!feed || !card || busy || app.querySelector('.sheet-overlay')) return;
+    if (!card.revealed) combo = 0; // skipping ends a combo
     if (isDailyKind() && !card.revealed) { feed.results.push({ q: card.q, skipped: true, points: 0, hit: false }); renderDailyRow(); }
     if (feed.spec.kind === 'sports' && !card.revealed && store.sportsRun) { store.sportsRun = 0; save(); renderMeter(); }
     if (isLastDaily()) {
@@ -1002,6 +1119,7 @@
     wireChrome();
     Sound.setMusic(false);
     if (justFinished) {
+      dingSquares(picks);
       Sound.play('trophy', hits >= 8 ? 'gold' : hits >= 5 ? 'silver' : 'bronze');
       if (hits >= 5) confetti(app.querySelector('.screen'), [COLOR.gold, COLOR.teal, COLOR.pink, '#FFFFFF'], 110, 0.25);
     }
@@ -1071,6 +1189,11 @@
     document.getElementById('share-btn').onclick = function () { shareScore(shareText); };
     wireChrome();
     if (hits >= 5) confetti(app.querySelector('.screen'), [COLOR.gold, COLOR.teal, COLOR.pink, '#FFFFFF'], 110, 0.25);
+    dingSquares(res);
+  }
+  // Results squares "ding" in one at a time, high for a hit, low for a miss.
+  function dingSquares(list) {
+    list.forEach(function (r, i) { setTimeout(function () { Sound.play('square', !!r.hit); }, 250 + i * 70); });
   }
 
   if (store.seenIntro) showPicker(); else showIntro();

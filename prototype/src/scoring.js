@@ -143,10 +143,35 @@
     return null;
   }
 
+  // ---------- fun layer: how a guess feels, combos, daily goal, explorer ranks ----------
+  // How close a guess was, as a "temperature". Drives the verdict words, colors and sounds.
+  function vibeFor(miles, bullseye) {
+    if (bullseye) return 'bullseye';
+    return miles <= 100 ? 'scorching' : miles <= 250 ? 'hot' : miles <= 600 ? 'warm' : miles <= 1500 ? 'chilly' : 'cold';
+  }
+  // Combo: consecutive good guesses (bullseye or within 250 miles) in one sitting. A skip or a far guess resets it.
+  function comboStep(combo, good) { return good ? (combo || 0) + 1 : 0; }
+  // Daily goal: cards locked in today.
+  var DAILY_GOAL = 15;
+  function cardsToday(state, today) { return state && state.date === today ? state.n : 0; }
+  // Explorer ranks: grow with lifetime points.
+  var RANKS = [
+    { name: 'Rookie Explorer', min: 0 }, { name: 'Trail Finder', min: 5000 }, { name: 'Map Reader', min: 15000 },
+    { name: 'Navigator', min: 35000 }, { name: 'Globetrotter', min: 70000 }, { name: 'World Wanderer', min: 125000 },
+    { name: 'Atlas Ace', min: 200000 }, { name: 'World Legend', min: 350000 }
+  ];
+  function rankFor(points) {
+    var i = 0;
+    while (i + 1 < RANKS.length && points >= RANKS[i + 1].min) i++;
+    var next = RANKS[i + 1] || null;
+    return { index: i, name: RANKS[i].name, min: RANKS[i].min, next: next,
+      progress: next ? (points - RANKS[i].min) / (next.min - RANKS[i].min) : 1 };
+  }
+
   var api = {
     EARTH_RADIUS_MI: EARTH_RADIUS_MI, haversineMiles: haversineMiles, pointsFor: pointsFor,
     scoreGuess: scoreGuess, seededRandom: seededRandom, shuffle: shuffle, dailyPick: dailyPick,
-    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, trophyStep: trophyStep, dailyShareText: dailyShareText, dailyTitle: dailyTitle, countVisit: countVisit, tipForDay: tipForDay,
+    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, trophyStep: trophyStep, dailyShareText: dailyShareText, dailyTitle: dailyTitle, countVisit: countVisit, tipForDay: tipForDay, vibeFor: vibeFor, comboStep: comboStep, DAILY_GOAL: DAILY_GOAL, cardsToday: cardsToday, RANKS: RANKS, rankFor: rankFor,
     dailySportsPick: dailySportsPick, sportsShareText: sportsShareText, sportsTitle: sportsTitle
   };
   if (typeof module === 'object' && module.exports) module.exports = api;
