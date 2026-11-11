@@ -229,6 +229,8 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 @keyframes slideup { from { transform: translateY(100%); } }
 .sheet .btn.big { margin-top: 10px; }
 .sheet-icon { width: 76px; height: 76px; border-radius: 50%; background: var(--raised); display: grid; place-items: center; margin-bottom: 4px; }
+.tip-icon { color: var(--gold); display: grid; }
+.wm-globe.tip-globe { width: 46px; height: 46px; margin: 0; }
 .sheet-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 1.6px; color: var(--muted); }
 .sheet-title { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 30px; line-height: 1.08; text-wrap: balance; }
 .sheet-title.award { font-size: 36px; }
@@ -551,10 +553,22 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
     return lastDay === yesterday ? (streak || 0) + 1 : 1;
   }
 
+  // Pop-up tips. visitDays counts the different days someone has opened the game on this device.
+  function countVisit(visitDays, lastVisit, today) {
+    return lastVisit === today ? (visitDays || 1) : (visitDays || 0) + 1;
+  }
+  // Day 2: "share your daily results". Day 4: "explore every section". Each shows once, ever.
+  function tipForDay(visitDays, seen) {
+    seen = seen || {};
+    if (visitDays >= 4 && !seen.explore) return 'explore';
+    if (visitDays >= 2 && !seen.share) return 'share';
+    return null;
+  }
+
   var api = {
     EARTH_RADIUS_MI: EARTH_RADIUS_MI, haversineMiles: haversineMiles, pointsFor: pointsFor,
     scoreGuess: scoreGuess, seededRandom: seededRandom, shuffle: shuffle, dailyPick: dailyPick,
-    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, trophyStep: trophyStep, dailyShareText: dailyShareText, dailyTitle: dailyTitle,
+    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, trophyStep: trophyStep, dailyShareText: dailyShareText, dailyTitle: dailyTitle, countVisit: countVisit, tipForDay: tipForDay,
     dailySportsPick: dailySportsPick, sportsShareText: sportsShareText, sportsTitle: sportsTitle
   };
   if (typeof module === 'object' && module.exports) module.exports = api;
@@ -803,6 +817,12 @@ window.WS_US = {"type":"Topology","bbox":[-179.14733999999999,-14.55254899999999
       store.trophies = Object.assign(freshStore().trophies, saved.trophies || {});
     }
   } catch (e) { /* storage unavailable: play without saving */ }
+  (function () { // count the different days the game has been opened here (for the pop-up tips)
+    var today = todayKey();
+    store.visitDays = G.countVisit(store.visitDays, store.lastVisit, today);
+    store.lastVisit = today;
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch (e) { }
+  })();
   Sound.setEnabled(store.sound);
   document.addEventListener('pointerdown', function () { if (store.sound) Sound.unlock(); }, { once: true });
   function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch (e) { } }
@@ -1293,6 +1313,31 @@ window.WS_US = {"type":"Topology","bbox":[-179.14733999999999,-14.55254899999999
   }
 
   // --- Pick your feed ---
+  // ---------- pop-up tips: day 2 = share your results, day 4 = explore every section ----------
+  var TIPS = {
+    share: function () {
+      return sheetHead('<span class="tip-icon">' + bigIcon(ICON.share, 40) + '</span>', 'QUICK TIP', 'Have you shared your daily results with a friend yet?') +
+        '<p class="sheet-text">Once you finish a <b>Daily 10</b> or <b>Daily Sports 10</b>, hit <b>Share my score</b> and send your green and red squares to a friend. Can they beat you?</p>';
+    },
+    explore: function () {
+      return sheetHead(GLOBE.replace('class="wm-globe"', 'class="wm-globe tip-globe"'), 'QUICK TIP', 'Have you explored it all?') +
+        '<p class="sheet-text">World Scroll has way more than countries. There are <b>sports teams</b>, <b>rivers</b>, <b>mountains</b>, <b>deserts</b>, <b>capitals</b>, <b>cities</b> and more. Pick something new today!</p>';
+    }
+  };
+  var TIP_BUTTONS = { share: 'Got it', explore: 'Let’s explore' };
+  function maybeShowTip() {
+    var forced = (location.search.match(/[?&]tip=(share|explore)/) || [])[1]; // preview: add ?tip=share or ?tip=explore to the link
+    var today = todayKey();
+    var tip = forced || (store.tipDay === today ? null : G.tipForDay(store.visitDays, store.tipsSeen));
+    if (!tip) return;
+    if (!forced) {
+      store.tipsSeen = Object.assign({}, store.tipsSeen); store.tipsSeen[tip] = true;
+      store.tipDay = today; // never two tips on the same day
+      save();
+    }
+    setTimeout(function () { if (!feed && !app.querySelector('.sheet-overlay')) openSheet(TIPS[tip](), { button: TIP_BUTTONS[tip], cls: 'tip-sheet' }); }, 450);
+  }
+
   function showPicker() {
     feed = null; card = null;
     Sound.setMusic(false);
@@ -1330,12 +1375,14 @@ window.WS_US = {"type":"Topology","bbox":[-179.14733999999999,-14.55254899999999
     document.getElementById('go-daily').onclick = function () { startFeed({ kind: 'daily' }); };
     document.getElementById('reset').onclick = function () {
       var keepSound = store.sound;
-      store = freshStore(); store.sound = keepSound; save(); showPicker();
+      var keep = { visitDays: store.visitDays, lastVisit: store.lastVisit, tipsSeen: store.tipsSeen, tipDay: store.tipDay, seenIntro: store.seenIntro };
+      store = Object.assign(freshStore(), keep); store.sound = keepSound; save(); showPicker(); // tips don't come back after a reset
     };
     app.querySelectorAll('.tile').forEach(function (b) {
       b.onclick = function () { startFeed({ kind: 'category', category: b.getAttribute('data-cat') }); };
     });
     wireChrome();
+    maybeShowTip();
   }
 
   // --- Feed ---

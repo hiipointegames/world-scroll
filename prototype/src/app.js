@@ -90,6 +90,12 @@
       store.trophies = Object.assign(freshStore().trophies, saved.trophies || {});
     }
   } catch (e) { /* storage unavailable: play without saving */ }
+  (function () { // count the different days the game has been opened here (for the pop-up tips)
+    var today = todayKey();
+    store.visitDays = G.countVisit(store.visitDays, store.lastVisit, today);
+    store.lastVisit = today;
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch (e) { }
+  })();
   Sound.setEnabled(store.sound);
   document.addEventListener('pointerdown', function () { if (store.sound) Sound.unlock(); }, { once: true });
   function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch (e) { } }
@@ -580,6 +586,31 @@
   }
 
   // --- Pick your feed ---
+  // ---------- pop-up tips: day 2 = share your results, day 4 = explore every section ----------
+  var TIPS = {
+    share: function () {
+      return sheetHead('<span class="tip-icon">' + bigIcon(ICON.share, 40) + '</span>', 'QUICK TIP', 'Have you shared your daily results with a friend yet?') +
+        '<p class="sheet-text">Once you finish a <b>Daily 10</b> or <b>Daily Sports 10</b>, hit <b>Share my score</b> and send your green and red squares to a friend. Can they beat you?</p>';
+    },
+    explore: function () {
+      return sheetHead(GLOBE.replace('class="wm-globe"', 'class="wm-globe tip-globe"'), 'QUICK TIP', 'Have you explored it all?') +
+        '<p class="sheet-text">World Scroll has way more than countries. There are <b>sports teams</b>, <b>rivers</b>, <b>mountains</b>, <b>deserts</b>, <b>capitals</b>, <b>cities</b> and more. Pick something new today!</p>';
+    }
+  };
+  var TIP_BUTTONS = { share: 'Got it', explore: 'Let’s explore' };
+  function maybeShowTip() {
+    var forced = (location.search.match(/[?&]tip=(share|explore)/) || [])[1]; // preview: add ?tip=share or ?tip=explore to the link
+    var today = todayKey();
+    var tip = forced || (store.tipDay === today ? null : G.tipForDay(store.visitDays, store.tipsSeen));
+    if (!tip) return;
+    if (!forced) {
+      store.tipsSeen = Object.assign({}, store.tipsSeen); store.tipsSeen[tip] = true;
+      store.tipDay = today; // never two tips on the same day
+      save();
+    }
+    setTimeout(function () { if (!feed && !app.querySelector('.sheet-overlay')) openSheet(TIPS[tip](), { button: TIP_BUTTONS[tip], cls: 'tip-sheet' }); }, 450);
+  }
+
   function showPicker() {
     feed = null; card = null;
     Sound.setMusic(false);
@@ -617,12 +648,14 @@
     document.getElementById('go-daily').onclick = function () { startFeed({ kind: 'daily' }); };
     document.getElementById('reset').onclick = function () {
       var keepSound = store.sound;
-      store = freshStore(); store.sound = keepSound; save(); showPicker();
+      var keep = { visitDays: store.visitDays, lastVisit: store.lastVisit, tipsSeen: store.tipsSeen, tipDay: store.tipDay, seenIntro: store.seenIntro };
+      store = Object.assign(freshStore(), keep); store.sound = keepSound; save(); showPicker(); // tips don't come back after a reset
     };
     app.querySelectorAll('.tile').forEach(function (b) {
       b.onclick = function () { startFeed({ kind: 'category', category: b.getAttribute('data-cat') }); };
     });
     wireChrome();
+    maybeShowTip();
   }
 
   // --- Feed ---

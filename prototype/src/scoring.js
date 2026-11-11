@@ -131,10 +131,22 @@
     return lastDay === yesterday ? (streak || 0) + 1 : 1;
   }
 
+  // Pop-up tips. visitDays counts the different days someone has opened the game on this device.
+  function countVisit(visitDays, lastVisit, today) {
+    return lastVisit === today ? (visitDays || 1) : (visitDays || 0) + 1;
+  }
+  // Day 2: "share your daily results". Day 4: "explore every section". Each shows once, ever.
+  function tipForDay(visitDays, seen) {
+    seen = seen || {};
+    if (visitDays >= 4 && !seen.explore) return 'explore';
+    if (visitDays >= 2 && !seen.share) return 'share';
+    return null;
+  }
+
   var api = {
     EARTH_RADIUS_MI: EARTH_RADIUS_MI, haversineMiles: haversineMiles, pointsFor: pointsFor,
     scoreGuess: scoreGuess, seededRandom: seededRandom, shuffle: shuffle, dailyPick: dailyPick,
-    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, trophyStep: trophyStep, dailyShareText: dailyShareText, dailyTitle: dailyTitle,
+    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, trophyStep: trophyStep, dailyShareText: dailyShareText, dailyTitle: dailyTitle, countVisit: countVisit, tipForDay: tipForDay,
     dailySportsPick: dailySportsPick, sportsShareText: sportsShareText, sportsTitle: sportsTitle
   };
   if (typeof module === 'object' && module.exports) module.exports = api;

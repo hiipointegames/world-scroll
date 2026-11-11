@@ -213,3 +213,19 @@ test('both daily games show the running row of 10 squares while you play', () =>
   assert.ok(app.includes("if (isDailyKind()) renderDailyRow();"), 'each locked-in guess updates the row in both dailies');
   assert.ok(app.includes("' · CARD ' + Math.min(feed.idx + 1, 10)"), 'the row names the card on screen, not the next one');
 });
+
+test('pop-up tips: share on day 2, explore on day 4, each only once', () => {
+  assert.strictEqual(G.countVisit(undefined, undefined, '2026-11-10'), 1);
+  assert.strictEqual(G.countVisit(1, '2026-11-10', '2026-11-10'), 1, 'opening twice in a day is still one day');
+  assert.strictEqual(G.countVisit(1, '2026-11-10', '2026-11-14'), 2, 'days do not need to be in a row');
+  assert.strictEqual(G.tipForDay(1, {}), null);
+  assert.strictEqual(G.tipForDay(2, {}), 'share');
+  assert.strictEqual(G.tipForDay(3, { share: true }), null);
+  assert.strictEqual(G.tipForDay(4, { share: true }), 'explore');
+  assert.strictEqual(G.tipForDay(9, { share: true, explore: true }), null);
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  const tips = app.slice(app.indexOf('var TIPS = {'), app.indexOf('var TIP_BUTTONS'));
+  assert.ok(/Have you shared your daily results with a friend yet\?/.test(tips));
+  assert.ok(/Have you explored it all\?/.test(tips));
+  assert.ok(!/tap the (map|globe)|map tap/i.test(tips), 'never say "tap the map"');
+});
