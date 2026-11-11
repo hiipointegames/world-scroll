@@ -374,6 +374,15 @@
 
   // ---------- screens ----------
   var app = document.getElementById('app');
+  // Safety net: the game frame, the screens and the card stage must never scroll (only lists inside them do).
+  // Some browsers can still nudge them (mouse wheel, focus, find-in-page); snap them straight back.
+  document.addEventListener('scroll', function (e) {
+    var el = e.target;
+    if (el === document || !el.classList) { if (window.scrollY || window.scrollX) window.scrollTo(0, 0); return; }
+    if (el === app || el.classList.contains('screen') || el.classList.contains('stage') || el.classList.contains('card')) {
+      if (el.scrollTop || el.scrollLeft) { el.scrollTop = 0; el.scrollLeft = 0; }
+    }
+  }, true);
   var feed = null;      // the feed being played
   var card = null;      // the card on screen
   var busy = false;     // true while a card is sliding

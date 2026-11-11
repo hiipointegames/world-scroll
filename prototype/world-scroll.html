@@ -16,7 +16,7 @@
   --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   color-scheme: dark;
 }
-html, body { height: 100%; }
+html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
 * { scrollbar-width: none; }
 *::-webkit-scrollbar { display: none; }
 body {
@@ -28,7 +28,8 @@ body {
 button { font: inherit; color: inherit; -webkit-tap-highlight-color: transparent; }
 button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 
-.phone { position: relative; width: 100%; height: 100%; max-width: 440px; background: var(--ink); overflow: hidden; isolation: isolate; }
+.phone { position: relative; width: 100%; height: 100%; max-width: 440px; background: var(--ink); overflow: hidden; overflow: clip; isolation: isolate; }
+/* overflow: clip (not just hidden) so the frame can never be scrolled: the starfield below is bigger than the frame on purpose. */
 /* A slow, twinkling starfield and a drifting aurora behind every screen. */
 .phone::before, .phone::after { content: ""; position: absolute; inset: -20%; pointer-events: none; z-index: -1; }
 .phone::before { inset: -260px 0 0 -230px; /* one pattern tile bigger up-left, so the drift loops with no gaps */
@@ -290,7 +291,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .confetti { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; }
 
 /* Feed + cards */
-.stage { position: relative; flex: 1; min-height: 0; overflow: hidden; touch-action: none; }
+.stage { position: relative; flex: 1; min-height: 0; overflow: hidden; overflow: clip; touch-action: none; }
 .card { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 12px; padding: 14px 20px 0; background: transparent;
   transition: transform .45s cubic-bezier(.2, .9, .25, 1.04), opacity .45s; }
 .card.below { transform: translateY(100%) scale(.94); opacity: .4; }
@@ -1266,6 +1267,15 @@ window.WS_US = {"type":"Topology","bbox":[-179.14733999999999,-14.55254899999999
 
   // ---------- screens ----------
   var app = document.getElementById('app');
+  // Safety net: the game frame, the screens and the card stage must never scroll (only lists inside them do).
+  // Some browsers can still nudge them (mouse wheel, focus, find-in-page); snap them straight back.
+  document.addEventListener('scroll', function (e) {
+    var el = e.target;
+    if (el === document || !el.classList) { if (window.scrollY || window.scrollX) window.scrollTo(0, 0); return; }
+    if (el === app || el.classList.contains('screen') || el.classList.contains('stage') || el.classList.contains('card')) {
+      if (el.scrollTop || el.scrollLeft) { el.scrollTop = 0; el.scrollLeft = 0; }
+    }
+  }, true);
   var feed = null;      // the feed being played
   var card = null;      // the card on screen
   var busy = false;     // true while a card is sliding

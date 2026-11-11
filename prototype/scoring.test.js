@@ -254,3 +254,11 @@ test('fun layer copy stays kid-friendly and never says "tap the map"', () => {
   assert.ok(!banned.test(words), 'verdict words are friendly');
   assert.ok(!/tap the (map|globe)|map tap/i.test(app), 'never say "tap the map"');
 });
+
+test('the game frame can never scroll (desktop Chrome got stuck with the top cut off)', () => {
+  const html = require('fs').readFileSync(require('path').join(__dirname, 'src/app.html'), 'utf8');
+  assert.ok(/\.phone \{[^}]*overflow: clip/.test(html), 'the frame clips instead of scrolling');
+  assert.ok(/\.stage \{[^}]*overflow: clip/.test(html), 'the card stage clips instead of scrolling');
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  assert.ok(app.includes("document.addEventListener('scroll'"), 'a safety net snaps the frame back if anything scrolls it');
+});
