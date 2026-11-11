@@ -262,3 +262,25 @@ test('the game frame can never scroll (desktop Chrome got stuck with the top cut
   const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
   assert.ok(app.includes("document.addEventListener('scroll'"), 'a safety net snaps the frame back if anything scrolls it');
 });
+
+test('sports questions never name the city or state (it would give the answer away)', () => {
+  // Names that are nothing but a place keep it: there is no other way to ask about them.
+  const allowed = new Set(['rugby-england', 'rugby-france', 'rugby-wales', 'rugby-scotland', 'rugby-ireland', 'rugby-italy', 'toulouse',
+    'monte-carlo', 'paris-masters', 'kitzbuhel', 'vienna-open', 'basel', 'italian-open', 'stuttgart',
+    'wimbledon']); // "All England Club" is the venue's real name and only names the country
+  const usa = require('../data/usa-teams.json');
+  const kept = new Set(Object.entries(usa.shortNames).filter(([k, v]) => k === v).map(([k]) => k));
+  const generic = /^(area|city|park|united|north|south|east|west|new|saint|mount|county|club|garden|gardens|university|bay|beach)$/i;
+  const leaks = [];
+  for (const q of questions.filter(x => x.category === 'sports')) {
+    if (allowed.has(q.id) || kept.has(q.team)) continue;
+    const words = q.answer.replace(/\(.*?\)/g, ' ').split(/[^A-Za-zÀ-ÿ]+/).filter(w => w.length >= 4 && !generic.test(w));
+    const hit = words.filter(w => new RegExp('\\b' + w + '\\b', 'i').test(q.prompt));
+    if (hit.length) leaks.push(q.id + ': "' + q.prompt + '" names ' + hit.join(', '));
+  }
+  assert.deepStrictEqual(leaks, []);
+  assert.strictEqual(questions.find(q => q.id === 'nba-memphis-grizzlies').prompt, 'Where do the Grizzlies play?');
+  assert.strictEqual(questions.find(q => q.id === 'mlb-san-francisco-giants').prompt, 'Where do the Giants play?');
+  assert.strictEqual(questions.find(q => q.id === 'nba-memphis-grizzlies').team, 'the Memphis Grizzlies', 'the full name is kept for after the guess');
+  assert.ok(kept.size <= 40, 'only a few teams keep a place in their name');
+});

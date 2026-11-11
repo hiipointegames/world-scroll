@@ -25,7 +25,8 @@ function teamQuestions(roster) {
       region: 'usa',
       sport: league.sport,
       league: league.label,
-      prompt: 'Where do ' + name + ' play?',
+      prompt: 'Where do ' + ((roster.shortNames || {})[name] || name) + ' play?', // no city or state in the question
+      team: name, // the full name, shown after the guess
       answer: row[col.city],
       venue: venue,
       lat: row[col.lat],

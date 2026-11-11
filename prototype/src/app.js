@@ -46,6 +46,8 @@
     var s = m ? m[1] : q.prompt;
     return s.charAt(0).toUpperCase() + s.slice(1);
   }
+  // After the guess, show the full team name (the question itself leaves out the city).
+  function fullName(q) { return q.team ? q.team.charAt(0).toUpperCase() + q.team.slice(1) : subjectOf(q); }
   var ICON = {
     flame: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFB547" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2c1 4 5 6 5 11a5 5 0 0 1-10 0c0-3 2-4 2-7 2 1 3 3 3 3"/></svg>',
     star: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3DDCC4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg>',
@@ -450,7 +452,7 @@
     var rows = q.nerd.map(function (f) {
       return '<div class="nerd-row"><div class="nerd-label">' + esc(f[0]) + '</div><div class="nerd-text">' + esc(f[1]) + '</div></div>';
     }).join('');
-    openSheet(sheetHead('<span class="nerd-emoji" aria-hidden="true">🤓</span>', 'SPORTS NERD FACTS', esc(subjectOf(q))) +
+    openSheet(sheetHead('<span class="nerd-emoji" aria-hidden="true">🤓</span>', 'SPORTS NERD FACTS', esc(fullName(q))) +
       (q.venue ? '<div class="sheet-text small">' + esc(q.venue) + ' · ' + esc(q.answer.replace(/\s*\(.*?\)/g, '')) + '</div>' : '') +
       '<div class="nerd-list">' + rows + '</div>', { button: 'Back to the game', cls: 'nerd-sheet' });
   }
@@ -1102,7 +1104,7 @@
     var rows = picks.map(function (p, i) {
       var q = byId[p.id] || {};
       return '<li><span class="row-mark ' + (p.hit ? 'hit' : 'miss') + '">' + (p.hit ? '✓' : '✕') + '</span>' +
-        '<span class="row-name">' + esc(q.prompt ? subjectOf(q) : p.id) + '<small>' + esc(q.league || (sportDef(q) || {}).label || '') + '</small></span>' +
+        '<span class="row-name">' + esc(q.prompt ? fullName(q) : p.id) + '<small>' + esc(q.league || (sportDef(q) || {}).label || '') + '</small></span>' +
         '<span class="row-miles">' + (p.miles == null ? 'skipped' : fmt(p.miles) + ' mi') + '</span></li>';
     }).join('');
     app.innerHTML =
@@ -1166,7 +1168,7 @@
     var rows = res.map(function (r) {
       return '<li><span class="row-mark ' + (r.hit ? 'hit' : 'miss') + '">' + (r.hit ? '✓' : '✕') + '</span>' +
         '<span class="dot" style="background:' + CATS[r.q.category].color + '"></span>' +
-        '<span class="row-name">' + esc(subjectOf(r.q)) + '</span>' +
+        '<span class="row-name">' + esc(fullName(r.q)) + '</span>' +
         '<span class="row-miles">' + (r.skipped ? 'skipped' : fmt(r.miles) + ' mi') + '</span>' +
         '<span class="row-pts">' + (r.skipped ? '0' : '+' + fmt(r.points)) + '</span></li>';
     }).join('');

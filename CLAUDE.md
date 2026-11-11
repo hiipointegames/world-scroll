@@ -7,7 +7,7 @@ Tagline idea: "Doomscrolling, but you get smarter."
 
 ## Core loop (one card)
 1. A category chip shows at the top (RIVERS, COUNTRIES, CAPITALS, CITIES, MOUNTAINS, DESERTS, SPORTS…).
-2. A prompt shows, e.g. "Where is the Gobi Desert?" or "Where do the Kansas City Chiefs play?"
+2. A prompt shows, e.g. "Where is the Gobi Desert?" or "Where do the Chiefs play?"
 3. The map starts with **no pins and no labels**. Nothing on screen gives away the answer.
 4. The player taps the map, and a gold guess pin drops there. Tapping again moves the pin.
 5. The "Lock in my guess" button stays disabled until a pin is placed.
@@ -84,6 +84,7 @@ Accounts, leaderboards, multiplayer, ads/IAP, official team logos (these need le
 ## Content rules (always)
 - **Kid-friendly facts only.** Every fact (countries, capitals, cities, sports, anything new) must be child-friendly. Good topics: famous foods, inventions, positive famous people, big exports, upbeat history. Never: war, murder, death, crime, alcohol, sexual content, or anything negative. Keep facts ≤160 characters. `prototype/scoring.test.js` has a banned-word test that must keep passing. Extend its list; don't loosen it.
 - **Never say "tap the map"** (or "map tap" / "tap the globe"). A competing game is called Map Tap. Use "Drop a pin" and "Lock in your guess" instead.
+- **Sports questions never name the city or state.** Ask "Where do the Grizzlies play?", not "Where do the Memphis Grizzlies play?". Short names live in `data/usa-teams.json` (`shortNames`) and in each card's `prompt` (full name in `team`). Clubs named only after a place use their official nickname; true exceptions (e.g. national rugby teams) keep the place. A test checks this.
 - **Wording changes apply everywhere.** When copy changes, update every screen that says the same thing, including the first-open welcome screen (`showIntro` in `prototype/src/app.js`). Grep for the old wording before calling it done.
 
 ## Working style
