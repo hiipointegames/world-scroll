@@ -301,6 +301,10 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .panel-label { font-size: 12px; color: var(--muted); letter-spacing: 1.2px; }
 .panel-body { font-size: 14px; line-height: 1.45; color: var(--body-strong); }
 .panel.revealed { animation: rise .35s ease-out; }
+/* After lock-in the whole "Now you know" fact must show. The map shrinks to make room;
+   on a very short screen the panel scrolls instead of cutting text off. */
+.card.revealed .map-wrap { min-height: 90px; }
+.card.revealed .panel { flex-shrink: 1; min-height: 0; overflow-y: auto; }
 @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
 .res-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
 .res-verdict { font-family: var(--font-display); font-weight: 700; font-size: 22px; color: var(--gold); }
@@ -376,12 +380,8 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   .card-head { gap: 5px; }
   .kicker { font-size: 13px; }
   .map-wrap { min-height: 120px; }
-  .res-fact.has-nerd > span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; } /* full fact is in the Nerd facts pop-up */
   .res-pin, .res-fact { font-size: 12.5px; }
   /* Sports screens have tabs and a streak meter, so after lock-in make room for the Next button. */
-  .screen.sports .card.revealed .chip { display: none; }
-  .screen.sports .card.revealed .map-wrap { min-height: 100px; } /* only shrinks when a long team name needs the room */
-  .screen.sports .res-answer > span, .screen.sports .res-pin > span, .screen.sports .res-fact.has-nerd > span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
   .panel, .screen.sports .panel { min-height: 92px; padding: 11px 14px; }
   .btn { height: 50px; }
   .region-tabs { padding-top: 10px; }
@@ -395,6 +395,16 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   .sd-score b { font-size: 64px; }
 }
 
+/* Every phone height: after lock-in, make room so the whole "Now you know" fact shows. */
+@media (max-height: 900px) {
+  .screen.sports:has(.card.revealed:not(.above)) :is(.sd-wrap, .sport-tabs) { display: none; } /* Daily Sports banner and sport row step aside while a result shows; back on the next card */
+  .card.revealed .map-wrap { min-height: 70px; }
+  .card.revealed .chip { display: none; } /* the category is already known once you've guessed; frees a line for the fact */
+}
+/* Shortest phones (iPhone SE in Safari): the remaining tab rows also step aside while a result shows. */
+@media (max-height: 620px) {
+  .screen:has(.card.revealed:not(.above)) :is(.region-tabs, .geo-tabs, .meter-row) { display: none; }
+}
 @media (prefers-reduced-motion: reduce) {
   .dsq.big, .m-ripple, .btn.primary.ready, .panel.revealed .res-verdict, .intro-foot .btn.big { animation: none; }
   .card, .m-tol { transition: none; }

@@ -180,3 +180,10 @@ test('streak grows on consecutive days and resets after a gap', () => {
   assert.strictEqual(G.nextStreak('2026-11-01', '2026-11-08', 5), 1);
   assert.strictEqual(G.nextStreak('2026-10-31', '2026-11-01', 2), 3); // across a month boundary
 });
+
+test('"Now you know" facts are never cut off with "..." on any screen size', () => {
+  const css = require('fs').readFileSync(require('path').join(__dirname, 'src/app.html'), 'utf8');
+  const rules = css.split('}').filter(r => /\.res-fact/.test(r.split('{')[0] || ''));
+  const clipped = rules.filter(r => /line-clamp|text-overflow|white-space:\s*nowrap/.test(r));
+  assert.deepStrictEqual(clipped.map(r => r.trim().slice(0, 80)), []);
+});
