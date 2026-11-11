@@ -1398,20 +1398,20 @@ window.WS_US = {"type":"Topology","bbox":[-179.14733999999999,-14.55254899999999
           return '<button class="pill" data-sport="' + n + '" aria-pressed="' + (n === s.sport) + '">' + esc(sp.label) + '</button>';
         }).join('') + '</div>';
     }
-    var sports = s.kind === 'sports', sportsDaily = s.kind === 'sportsdaily';
+    var sports = s.kind === 'sports', sportsDaily = s.kind === 'sportsdaily', daily = s.kind === 'daily';
     app.innerHTML =
       '<div class="screen feed' + (sports || sportsDaily ? ' sports' : '') + '">' +
       '<div class="topbar"><div class="topbar-left"><button class="icon-btn back-btn" id="back" aria-label="Back">' + ICON.back + '</button>' +
       WORDMARK + '</div>' + statChips() + '</div>' +
       (sports ? sportsDailyBanner() : '') + tabs +
-      (sports ? meterHtml() : '') + (sportsDaily ? dailyRowHtml() : '') +
+      (sports ? meterHtml() : '') + (sportsDaily ? dailyRowHtml(true) : daily ? dailyRowHtml(false) : '') +
       '<div class="stage" id="stage"></div></div>';
     document.getElementById('back').onclick = sportsDaily ? function () { startFeed({ kind: 'sports', region: 'usa', sport: 0 }); } : showPicker;
     var sdb = document.getElementById('go-sports-daily');
     if (sdb) sdb.onclick = openSportsDaily;
     wireChrome();
     if (sports) renderMeter();
-    if (sportsDaily) renderDailyRow();
+    if (sportsDaily || daily) renderDailyRow();
     Sound.setMusic((sports || sportsDaily) && store.sound);
     app.querySelectorAll('.tab').forEach(function (b) {
       b.onclick = function () { startFeed({ kind: 'sports', region: b.getAttribute('data-region'), sport: 0 }); };
@@ -1453,7 +1453,7 @@ window.WS_US = {"type":"Topology","bbox":[-179.14733999999999,-14.55254899999999
       '<span class="chip" style="background:' + cat.color + '">' + esc(chipText.toUpperCase()) + '</span>' +
       (where ? '<div class="kicker">Where is…</div><h2 class="prompt">' + esc(subjectOf(q)) + '</h2>'
         : '<h2 class="prompt long">' + esc(q.prompt) + '</h2>') +
-      (showMeta ? '<div class="meta">' + esc(metaLine(q)) + '</div>' : '') + '</div>' +
+      (showMeta && feed.spec.kind !== 'daily' ? '<div class="meta">' + esc(metaLine(q)) + '</div>' : '') + '</div>' + // the Daily 10 row already says CARD n OF 10
       '<div class="map-wrap"><div class="map"></div>' +
       '<div class="zoom-btns"><button class="zoom-in" aria-label="Zoom in">+</button><button class="zoom-out" aria-label="Zoom out">−</button></div></div>' +
       '<div class="panel" aria-live="polite"></div>' +
@@ -1496,6 +1496,7 @@ window.WS_US = {"type":"Topology","bbox":[-179.14733999999999,-14.55254899999999
     el.querySelector('.lock').onclick = function () { c.revealed ? advance() : lockIn(c); };
     el.querySelector('.peek').onclick = advance;
     card = c;
+    if (isDailyKind()) renderDailyRow(); // move the row's "CARD n OF 10" along with the new card
     if (animate && old) {
       busy = true;
       void el.offsetWidth;
@@ -1518,7 +1519,7 @@ window.WS_US = {"type":"Topology","bbox":[-179.14733999999999,-14.55254899999999
     var isSport = c.q.category === 'sports', inSportsFeed = feed.spec.kind === 'sports';
     var hit = r.miles <= (isDailyKind() ? G.DAILY_HIT_MILES : G.HIT_MILES); // dailies are a bit more forgiving
     if (isDailyKind()) feed.results.push({ q: c.q, miles: r.miles, points: r.points, bullseye: r.bullseye, hit: hit });
-    if (feed.spec.kind === 'sportsdaily') renderDailyRow();
+    if (isDailyKind()) renderDailyRow();
     var verdict = isSport && hit ? (SPORT_WORDS[c.q.sport] || r.verdict) : r.verdict;
     Sound.play('lock');
     setTimeout(function () { Sound.play(r.bullseye ? 'bullseye' : hit || r.verdict === 'So close!' ? 'hit' : 'miss'); }, 480);
@@ -1559,7 +1560,7 @@ window.WS_US = {"type":"Topology","bbox":[-179.14733999999999,-14.55254899999999
 
   function advance() {
     if (!feed || !card || busy || app.querySelector('.sheet-overlay')) return;
-    if (isDailyKind() && !card.revealed) feed.results.push({ q: card.q, skipped: true, points: 0, hit: false });
+    if (isDailyKind() && !card.revealed) { feed.results.push({ q: card.q, skipped: true, points: 0, hit: false }); renderDailyRow(); }
     if (feed.spec.kind === 'sports' && !card.revealed && store.sportsRun) { store.sportsRun = 0; save(); renderMeter(); }
     if (isLastDaily()) {
       if (feed.spec.kind === 'sportsdaily') finishSportsDaily(); else showDailyResults();
@@ -1614,20 +1615,22 @@ window.WS_US = {"type":"Topology","bbox":[-179.14733999999999,-14.55254899999999
   function openSportsDaily() {
     if (sportsDailyDone()) showSportsDailyResults(); else { Sound.play('lock'); startFeed({ kind: 'sportsdaily' }); }
   }
-  function dailyRowHtml() {
+  // The running row of 10 squares (green = correct, red = wrong) shown while playing either daily game.
+  // withSound: Sports screens put the mute button here; the Daily 10 keeps it on the card.
+  function dailyRowHtml(withSound) {
     var sq = '';
     for (var i = 0; i < 10; i++) sq += '<span class="dsq" data-i="' + i + '"></span>';
     return '<div class="meter-row daily-row"><div class="meter"><div class="meter-label" id="daily-label"></div>' +
-      '<div class="dsqs" id="dsqs">' + sq + '</div></div>' + soundButton() + '</div>';
+      '<div class="dsqs" id="dsqs">' + sq + '</div></div>' + (withSound ? soundButton() : '') + '</div>';
   }
   function renderDailyRow() {
     var box = document.getElementById('dsqs'), label = document.getElementById('daily-label');
     if (!box || !feed) return;
     var res = feed.results, hits = res.filter(function (r) { return r.hit; }).length;
     box.querySelectorAll('.dsq').forEach(function (el, i) {
-      el.className = 'dsq' + (i < res.length ? (res[i].hit ? ' hit' : ' miss') : i === res.length ? ' now' : '');
+      el.className = 'dsq' + (i < res.length ? (res[i].hit ? ' hit' : ' miss') : i === feed.idx ? ' now' : '');
     });
-    label.innerHTML = 'DAILY SPORTS 10 · CARD ' + Math.min(res.length + 1, 10) + ' OF 10 · <span class="sd-hits">' + hits + ' RIGHT</span>';
+    label.innerHTML = (feed.spec.kind === 'daily' ? 'DAILY 10' : 'DAILY SPORTS 10') + ' · CARD ' + Math.min(feed.idx + 1, 10) + ' OF 10 · <span class="sd-hits">' + hits + ' RIGHT</span>';
   }
   function finishSportsDaily() {
     store.sportsDaily = {

@@ -205,3 +205,11 @@ test('Daily 10 share text matches the Daily Sports 10 format, with its own name'
   const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
   assert.ok(app.includes("G.dailyShareText('Daily 10'"), 'the Daily 10 results screen offers a share');
 });
+
+test('both daily games show the running row of 10 squares while you play', () => {
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  assert.ok(app.includes("daily ? dailyRowHtml(false)"), 'the Daily 10 feed builds the row');
+  assert.ok(app.includes("if (sportsDaily || daily) renderDailyRow();"), 'the row is filled in when the Daily 10 starts');
+  assert.ok(app.includes("if (isDailyKind()) renderDailyRow();"), 'each locked-in guess updates the row in both dailies');
+  assert.ok(app.includes("' · CARD ' + Math.min(feed.idx + 1, 10)"), 'the row names the card on screen, not the next one');
+});
