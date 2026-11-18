@@ -445,3 +445,10 @@ test('Cities are iconic cities that are not capitals (those belong in Capitals)'
   const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
   assert.ok(app.includes("cities: 'Iconic cities'"));
 });
+
+test('the Explorer Rank card opens a pop-up listing every rank and what comes next', () => {
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  assert.ok(app.includes('<button class="progress-card" id="rank-card"'), 'the rank card is a button');
+  assert.ok(app.includes("rc.onclick = rankSheet"), 'tapping it opens the rank pop-up');
+  assert.ok(/function rankSheet\(\)[\s\S]*G\.RANKS\.map[\s\S]*Next up: /.test(app), 'the pop-up lists all ranks and the next one');
+});

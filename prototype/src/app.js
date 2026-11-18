@@ -452,6 +452,8 @@
     if (brand) brand.onclick = showIntro;
     if (s) s.onclick = streakSheet;
     if (p) p.onclick = pointsSheet;
+    var rc = document.getElementById('rank-card');
+    if (rc) rc.onclick = rankSheet;
     if (tc) tc.onclick = trophySheet;
   }
   // Mute / unmute from any sound button on any screen (home, Sports, or the corner of each card).
@@ -695,12 +697,28 @@
   // Explorer rank, at the top of the home screen.
   function progressCardHtml() {
     var rk = G.rankFor(store.points);
-    return '<div class="progress-card">' +
-      '<div class="pc-row"><span class="pc-badge" aria-hidden="true">⭐</span>' +
+    return '<button class="progress-card" id="rank-card" aria-label="Explorer rank: ' + esc(rk.name) + '. See all ranks">' +
+      '<span class="pc-row"><span class="pc-badge" aria-hidden="true">⭐</span>' +
       '<span class="pc-main"><span class="pc-label">EXPLORER RANK · ' + (rk.index + 1) + ' OF ' + G.RANKS.length + '</span><span class="pc-name">' + esc(rk.name) + '</span></span>' +
-      '<span class="pc-next">' + (rk.next ? fmt(rk.next.min - store.points) + ' pts to<br>' + esc(rk.next.name) : 'Top rank!') + '</span></div>' +
-      '<div class="pc-bar"><i style="--w:' + Math.round(rk.progress * 100) + '%"></i></div>' +
-      '</div>';
+      '<span class="pc-next">' + (rk.next ? fmt(rk.next.min - store.points) + ' pts to<br>' + esc(rk.next.name) : 'Top rank!') + '</span></span>' +
+      '<span class="pc-bar"><i style="--w:' + Math.round(rk.progress * 100) + '%"></i></span>' +
+      '</button>';
+  }
+  // Tap the rank card: what ranks are, where you are, and every rank still to climb.
+  function rankSheet() {
+    var rk = G.rankFor(store.points);
+    var rows = G.RANKS.map(function (r, i) {
+      var state = i < rk.index ? 'done' : i === rk.index ? 'now' : i === rk.index + 1 ? 'next' : 'locked';
+      var mark = state === 'done' ? '✓' : state === 'now' ? '★' : state === 'next' ? '→' : '🔒';
+      var right = state === 'done' ? 'Unlocked' : state === 'now' ? 'You are here' : fmt(r.min) + ' pts';
+      return '<li class="rank-row ' + state + '"><span class="rank-mark" aria-hidden="true">' + mark + '</span>' +
+        '<span class="rank-name">' + (i + 1) + '. ' + esc(r.name) + '</span><span class="rank-pts">' + right + '</span></li>';
+    }).join('');
+    openSheet(sheetHead('<span class="pc-badge big" aria-hidden="true">⭐</span>', 'EXPLORER RANK', esc(rk.name)) +
+      '<p class="sheet-text">Every point you earn moves you up. Climb all ' + G.RANKS.length + ' ranks, from Rookie Explorer to World Legend.</p>' +
+      '<ol class="rank-list">' + rows + '</ol>' +
+      '<div class="sheet-status">' + (rk.next ? 'Next up: ' + esc(rk.next.name) + '. Just ' + fmt(rk.next.min - store.points) + ' more points to go!' : 'You reached the top. You are a World Legend!') + '</div>',
+      { button: 'Let’s climb', cls: 'rank-sheet' });
   }
   function showPicker() {
     feed = null; card = null;
