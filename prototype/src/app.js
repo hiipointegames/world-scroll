@@ -184,21 +184,9 @@
   var COUNTRY_SHAPE = {};
   worldCountries.forEach(function (f) { COUNTRY_SHAPE[f.properties.name] = f; });
 
-  // ---------- "Your pin landed in ..." (shown after lock-in) ----------
+  // ---------- "Your pin: ..." (shown after lock-in): the country, or the US state ----------
   var usStates = topojson.feature(WS_US, WS_US.objects.states).features;
   var ATLAS_NAMES = DATA.atlasNames || {};
-  // Named places we can measure a pin against: capitals, cities and stadium towns from the bank.
-  var PLACES = (function () {
-    var seen = {}, out = [];
-    QUESTIONS.forEach(function (q) {
-      if (['capitals', 'cities', 'sports'].indexOf(q.category) < 0 || !q.answer) return;
-      var label = q.answer.replace(/\s*\(.*?\)/g, '').trim();
-      if (/ area\b/.test(label) || seen[label]) return;
-      seen[label] = 1;
-      out.push({ label: label, city: label.split(',')[0], lat: q.lat, lon: q.lon });
-    });
-    return out;
-  })();
   function placeOfPin(g) {
     var pt = [g.lon, g.lat], where = null;
     for (var i = 0; i < worldCountries.length && !where; i++) {
@@ -208,12 +196,7 @@
       var st = usStates.filter(function (f) { return d3.geoContains(f, pt); })[0];
       where = st ? st.properties.name + ', USA' : 'USA';
     } else if (where) where = ATLAS_NAMES[where] || where;
-    var best = null, bestMi = Infinity;
-    PLACES.forEach(function (p) { var d = G.haversineMiles(g, p); if (d < bestMi) { bestMi = d; best = p; } });
-    var region = where ? where.split(', ')[0] : '';
-    var name = best && region && best.label.indexOf(region) >= 0 ? best.city : best && best.label;
-    var near = !best ? '' : bestMi < 8 ? 'right by ' + name : 'about ' + fmt(Math.round(bestMi)) + ' mi from ' + name;
-    return (where || 'in the water') + (near ? ', ' + near : '');
+    return where || 'In the water'; // just the spot: a country, or a US state ("Iowa, USA")
   }
 
   // Distance from a guess to a country: 0 if the pin is inside it, else to the nearest border point.

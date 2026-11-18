@@ -452,3 +452,10 @@ test('the Explorer Rank card opens a pop-up listing every rank and what comes ne
   assert.ok(app.includes("rc.onclick = rankSheet"), 'tapping it opens the rank pop-up');
   assert.ok(/function rankSheet\(\)[\s\S]*G\.RANKS\.map[\s\S]*Next up: /.test(app), 'the pop-up lists all ranks and the next one');
 });
+
+test('"Your pin" names only the spot (country or US state), never a distance to a nearby city', () => {
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  const fn = app.slice(app.indexOf('function placeOfPin'), app.indexOf('function shapeDistance'));
+  assert.ok(!/mi from|right by|PLACES/.test(fn), 'no "about 73 mi from Zagreb" part');
+  assert.ok(fn.includes("return where || 'In the water'"));
+});
