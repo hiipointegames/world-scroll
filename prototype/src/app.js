@@ -17,7 +17,7 @@
   // What the result says for a pin inside / near an outlined place.
   var AREA_WORDS = { deserts: ['Right inside the desert', 'desert'], mountains: ['Right in the mountains', 'mountains'], lakes: ['Right on the lake', 'lake'] };
   var CATEGORY_SUBS = {
-    countries: 'Every one, by continent', capitals: 'World + US states', cities: 'Big, small, famous',
+    countries: 'Every one, by continent', capitals: 'World + US states', cities: 'Iconic cities',
     rivers: 'Follow the water', mountains: 'Peaks and ranges', deserts: 'Sand, ice and rock',
     lakes: 'Famous lakes', landmarks: 'World-famous wonders'
   };

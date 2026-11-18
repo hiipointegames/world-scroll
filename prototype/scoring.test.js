@@ -433,3 +433,15 @@ test('home tiles: short subtitles that never need "...", and room under the text
   const html = require('fs').readFileSync(require('path').join(__dirname, 'src/app.html'), 'utf8');
   assert.ok(/\.tile \{ min-height: 92px;[^}]*padding: 12px 15px 14px/.test(html), 'tiles grow with their text and keep bottom padding');
 });
+
+test('Cities are iconic cities that are not capitals (those belong in Capitals)', () => {
+  const name = q => q.prompt.replace(/^Where is /, '').replace(/\?$/, '').split(',')[0].trim().toLowerCase();
+  const capitals = new Set(questions.filter(q => q.category === 'capitals').map(name)); // every national capital + US state capital
+  // Cities that are capitals even though the Capitals category files a different one
+  for (const extra of ['cape town', 'bloemfontein', 'edinburgh', 'cardiff', 'belfast', 'la paz', 'amsterdam', 'abidjan']) capitals.add(extra);
+  const cities = questions.filter(q => q.category === 'cities');
+  assert.strictEqual(cities.length, 50);
+  assert.deepStrictEqual(cities.filter(q => capitals.has(name(q))).map(q => q.prompt), []);
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  assert.ok(app.includes("cities: 'Iconic cities'"));
+});
