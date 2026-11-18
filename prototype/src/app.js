@@ -19,7 +19,7 @@
   var CATEGORY_SUBS = {
     countries: 'Every one, by continent', capitals: 'World + US states', cities: 'Big, small, famous',
     rivers: 'Follow the water', mountains: 'Peaks and ranges', deserts: 'Sand, ice and rock',
-    lakes: 'Great Lakes and beyond', landmarks: 'World-famous wonders'
+    lakes: 'Famous lakes', landmarks: 'World-famous wonders'
   };
 
   // ---------- helpers ----------

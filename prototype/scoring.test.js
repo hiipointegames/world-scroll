@@ -424,3 +424,12 @@ test('home screen: no daily goal line, Daily 10 sits above the tiles and Shuffle
   const daily = home.indexOf('id="go-daily"'), tiles = home.indexOf('class="tiles"'), shuffle = home.indexOf('id="go-shuffle"');
   assert.ok(daily > 0 && daily < tiles && tiles < shuffle, 'order: Daily 10, tiles, Shuffle');
 });
+
+test('home tiles: short subtitles that never need "...", and room under the text', () => {
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  const subs = /var CATEGORY_SUBS = \{([\s\S]*?)\};/.exec(app)[1].match(/'[^']*'/g).map(s => s.slice(1, -1));
+  assert.ok(subs.includes('Famous lakes'));
+  assert.deepStrictEqual(subs.filter(s => s.length > 23), [], 'subtitles fit on one line of a half-width tile');
+  const html = require('fs').readFileSync(require('path').join(__dirname, 'src/app.html'), 'utf8');
+  assert.ok(/\.tile \{ min-height: 92px;[^}]*padding: 12px 15px 14px/.test(html), 'tiles grow with their text and keep bottom padding');
+});
