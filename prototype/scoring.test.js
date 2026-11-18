@@ -22,8 +22,9 @@ test('points: 1000 at 0 miles, ~368 at 350 miles, never negative', () => {
 });
 
 test('bullseye uses the card tolerance', () => {
-  const amazon = questions.find(q => q.id === 'amazon'); // tolerance 400
-  const near = G.scoreGuess({ lat: -3.4, lon: -55.0 }, amazon); // ~345 mi east
+  const amazon = questions.find(q => q.id === 'amazon'); // 250 miles either side of the river
+  const pin = { lat: -3.4, lon: -55.0 }; // near the river, far east of the card's map point
+  const near = G.scoreGuess(pin, amazon, G.lineDistance(amazon.line, pin).miles);
   assert.strictEqual(near.bullseye, true);
   assert.strictEqual(near.verdict, 'Bullseye!');
   const chiefs = questions.find(q => q.id === 'nfl-kansas-city-chiefs'); // tolerance 25
@@ -283,4 +284,26 @@ test('sports questions never name the city or state (it would give the answer aw
   assert.strictEqual(questions.find(q => q.id === 'mlb-san-francisco-giants').prompt, 'Where do the Giants play?');
   assert.strictEqual(questions.find(q => q.id === 'nba-memphis-grizzlies').team, 'the Memphis Grizzlies', 'the full name is kept for after the guess');
   assert.ok(kept.size <= 40, 'only a few teams keep a place in their name');
+});
+
+test('rivers are scored by distance to the river itself, not one dot in the middle', () => {
+  const miss = questions.find(q => q.id === 'mississippi');
+  assert.ok(miss.line && miss.line.length, 'the Mississippi carries its path');
+  const score = (lat, lon) => { const g = { lat, lon }; return G.scoreGuess(g, miss, G.lineDistance(miss.line, g).miles); };
+  assert.strictEqual(score(47.24, -95.21).bullseye, true, 'Lake Itasca, where it starts, is a bullseye');
+  assert.strictEqual(score(29.95, -90.07).bullseye, true, 'New Orleans, near the mouth, is a bullseye');
+  assert.strictEqual(score(38.63, -90.2).bullseye, true, 'St. Louis is a bullseye');
+  assert.strictEqual(score(39.74, -104.99).bullseye, false, 'Denver is too far west');
+  for (const q of questions.filter(x => x.category === 'rivers')) {
+    assert.ok(q.line && q.line.length, q.id + ' has a river path');
+    const mid = G.lineDistance(q.line, { lat: q.lat, lon: q.lon }).miles;
+    assert.ok(mid < 150, q.id + ': its map point sits near its own river (' + Math.round(mid) + ' mi)');
+    assert.ok(q.toleranceMiles <= 250, q.id + ' bullseye zone is at most 250 miles either side');
+  }
+});
+
+test('US state outlines show on every map that includes the United States', () => {
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  assert.ok(/world: Object\.assign\([^\n]*inner: usStateLines/.test(app), 'the world map draws state lines');
+  assert.ok(app.includes("inner: showsUS ? usStateLines : null"), 'continent maps that show the US draw state lines');
 });

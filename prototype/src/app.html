@@ -314,6 +314,12 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .m-tol { fill: var(--teal); fill-opacity: 0; stroke: var(--teal); stroke-opacity: 0; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; transition: fill-opacity .5s .4s, stroke-opacity .5s .4s; }
 .revealed .m-tol { fill-opacity: .14; stroke-opacity: .55; }
 .m-tol.m-shape { stroke-dasharray: none; stroke-width: 1.5; }
+/* Rivers: a soft teal band (the bullseye zone) with the river itself drawn on top */
+.m-tol.m-river { fill: none; stroke-dasharray: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: var(--zone, 20px); vector-effect: none; }
+.revealed .m-tol.m-river { stroke-opacity: .16; }
+.m-river-line { fill: none; stroke: var(--teal); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke;
+  opacity: 0; filter: drop-shadow(0 0 4px rgba(61, 220, 196, .8)); transition: opacity .5s .3s; }
+.revealed .m-river-line { opacity: 1; }
 .revealed .m-tol.m-shape { fill: var(--gold); fill-opacity: .55; stroke: var(--gold); stroke-opacity: .95; }
 .m-line { stroke: var(--gold); stroke-width: 2; stroke-dasharray: 5 4; }
 .m-pin, .m-answer { transform-box: fill-box; transform-origin: center; }

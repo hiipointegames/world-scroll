@@ -95,6 +95,9 @@ function loadData() {
   const facts = readJson('place-facts.json');
   bank.questions = bank.questions.concat(placeQuestions(world, facts), teamQuestions(roster));
   addNerdFacts(bank.questions, readJson('sports-facts.json').facts);
+  // Rivers are scored by distance to the river itself, so each river card carries its path.
+  const rivers = readJson('rivers.json').rivers;
+  for (const q of bank.questions) if (q.category === 'rivers' && rivers[q.id]) q.line = rivers[q.id];
   // Friendly country names for the map shapes (used for "Your pin landed in ...").
   bank.atlasNames = {};
   for (const row of world.countries) if (row[0]) bank.atlasNames[row[0]] = cap(bare(row[1]));

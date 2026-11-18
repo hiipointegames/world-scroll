@@ -148,7 +148,8 @@
     };
   }
   var LAYERS = {
-    world: Object.assign(split(function (n) { return n !== 'Antarctica'; }), { borders: countryBorders }),
+    // US state outlines show on every map that includes the United States (many players are American).
+    world: Object.assign(split(function (n) { return n !== 'Antarctica'; }), { borders: countryBorders, inner: usStateLines }),
     europe: Object.assign(split(function (n) { return EUROPE.indexOf(n) >= 0; }), { borders: countryBorders }),
     australia: Object.assign(split(function (n) { return n === 'Australia' || n === 'New Zealand'; }), { borders: countryBorders }),
     // The USA sports map also plays in Canada (Raptors, Blue Jays, Maple Leafs, Whitecaps...),
@@ -166,7 +167,11 @@
     if (LAYERS[regionId]) return LAYERS[regionId];
     var r = DATA.regions[regionId];
     if (r.projection === 'albersUsa') LAYERS[regionId] = { focus: usNation, inner: usStateLines, other: null, borders: null };
-    else LAYERS[regionId] = Object.assign(split(function (n) { return CONTINENT_OF[n] === r.continent; }), { borders: countryBorders });
+    else {
+      var b = r.bounds || {};
+      var showsUS = b.lonMin < -67 && b.lonMax > -125 && b.latMin < 49 && b.latMax > 25 || r.continent === 'North America';
+      LAYERS[regionId] = Object.assign(split(function (n) { return CONTINENT_OF[n] === r.continent; }), { borders: countryBorders, inner: showsUS ? usStateLines : null });
+    }
     return LAYERS[regionId];
   }
   var COUNTRY_SHAPE = {};
@@ -350,17 +355,34 @@
       reveal: function (card, opts) {
         locked = true;
         target = (opts && opts.target) || { lat: card.lat, lon: card.lon };
-        if (opts && opts.shape) {
+        if (opts && opts.line) { // the whole river lights up, with a soft band for the bullseye zone
+          var riverGeo = { type: 'MultiLineString', coordinates: opts.line };
+          var zoneDeg = (card.toleranceMiles || 250) / G.EARTH_RADIUS_MI * 180 / Math.PI;
+          var pxPerDeg = Math.abs(proj([card.lon, card.lat + 0.5])[1] - proj([card.lon, card.lat - 0.5])[1]) || 1; // 1° north-south
+          tolPath.attr('d', d3.geoPath(proj)(riverGeo) || '').classed('m-river', true)
+            .style('--zone', Math.max(6, Math.min(80, zoneDeg * pxPerDeg * 2)) + 'px');
+          tolPath.clone().classed('m-tol m-river', false).classed('m-river-line', true).attr('style', null);
+        } else if (opts && opts.shape) {
           tolPath.attr('d', d3.geoPath(proj)(opts.shape) || '').classed('m-shape', true);
         } else {
           var deg = (card.toleranceMiles || 25) / G.EARTH_RADIUS_MI * 180 / Math.PI;
           tolPath.attr('d', d3.geoPath(proj)(d3.geoCircle().center([card.lon, card.lat]).radius(deg)()) || '');
         }
         svg.classed('revealed', true);
-        // If the player zoomed in and the answer is off screen, zoom back out first.
         var a = screenOf(target), g = screenOf(guess);
-        var off = [a, g].some(function (p) { return p[0] < 0 || p[1] < 0 || p[0] > W || p[1] > H; });
-        if (off) svg.transition().duration(reduceMotion ? 0 : 350).call(zoom.transform, d3.zoomIdentity);
+        if (opts && opts.line) {
+          // Rivers: zoom so the whole river and the pin fit, so the river is easy to see.
+          var bb = d3.geoPath(proj).bounds({ type: 'MultiLineString', coordinates: opts.line });
+          var gp = proj([guess.lon, guess.lat]);
+          var x0 = Math.min(bb[0][0], gp[0]), y0 = Math.min(bb[0][1], gp[1]), x1 = Math.max(bb[1][0], gp[0]), y1 = Math.max(bb[1][1], gp[1]);
+          var k = Math.max(1, Math.min(maxZoom, 0.8 / Math.max((x1 - x0) / W, (y1 - y0) / H)));
+          var fit = d3.zoomIdentity.translate(W / 2, H / 2).scale(k).translate(-(x0 + x1) / 2, -(y0 + y1) / 2);
+          svg.transition().duration(reduceMotion ? 0 : 700).call(zoom.transform, fit);
+        } else {
+          // If the player zoomed in and the answer is off screen, zoom back out first.
+          var off = [a, g].some(function (p) { return p[0] < 0 || p[1] < 0 || p[0] > W || p[1] > H; });
+          if (off) svg.transition().duration(reduceMotion ? 0 : 350).call(zoom.transform, d3.zoomIdentity);
+        }
         if (reduceMotion) { progress = 1; place(); return; }
         var start = performance.now();
         (function step(now) {
@@ -882,9 +904,10 @@
     c.revealed = true;
     var shape = c.q.shape && COUNTRY_SHAPE[c.q.shape];
     var sd = shape ? shapeDistance(shape, c.guess) : null;
-    var r = G.scoreGuess(c.guess, c.q, sd ? sd.miles : null);
+    var river = c.q.line ? G.lineDistance(c.q.line, c.guess) : null; // rivers: distance to the nearest bit of the river
+    var r = G.scoreGuess(c.guess, c.q, sd ? sd.miles : river ? river.miles : null);
     var secs = (performance.now() - c.t0) / 1000;
-    c.map.reveal(c.q, sd ? { shape: shape, target: sd.point } : null);
+    c.map.reveal(c.q, sd ? { shape: shape, target: sd.point } : river ? { line: c.q.line, target: river.point } : null);
     recordPoints(r.points);
     bumpStats();
     var isSport = c.q.category === 'sports', inSportsFeed = feed.spec.kind === 'sports';
@@ -924,6 +947,7 @@
     }
 
     var milesLine = sd ? (r.miles === 0 ? 'Right inside the border' : fmt(r.miles) + ' mi from the border')
+      : river ? (r.miles < 1 ? 'Right on the river' : fmt(r.miles) + ' mi from the river' + (r.bullseye ? ' · bullseye zone' : ''))
       : r.bullseye ? r.miles + ' mi off · bullseye zone'
       : fmt(r.miles) + ' miles off';
     c.el.querySelector('.panel').innerHTML =
