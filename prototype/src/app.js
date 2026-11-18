@@ -136,13 +136,13 @@
   var usNation = topojson.feature(WS_US, WS_US.objects.nation);
   var usStateLines = topojson.mesh(WS_US, WS_US.objects.states, function (a, b) { return a !== b; });
   // Countries shown in the Europe colour on the Europe sports map. Russia counts (Moscow, St. Petersburg,
-  // Kaliningrad), matching the capitals data; Turkey is filed under Asia there, so it stays a neighbour.
+  // Kaliningrad), matching the capitals data. Turkey counts too (it is in both Europe and Asia).
   var EUROPE = ['Albania', 'Andorra', 'Austria', 'Belarus', 'Belgium', 'Bosnia and Herz.', 'Bulgaria', 'Croatia',
     'Cyprus', 'N. Cyprus', 'Czechia', 'Denmark', 'Estonia', 'Faeroe Is.', 'Finland', 'France', 'Germany', 'Greece',
     'Guernsey', 'Hungary', 'Iceland', 'Ireland', 'Isle of Man', 'Italy', 'Jersey', 'Kosovo', 'Latvia', 'Liechtenstein',
     'Lithuania', 'Luxembourg', 'Macedonia', 'Malta', 'Moldova', 'Monaco', 'Montenegro', 'Netherlands', 'Norway',
     'Poland', 'Portugal', 'Romania', 'Russia', 'San Marino', 'Serbia', 'Slovakia', 'Slovenia', 'Spain', 'Sweden',
-    'Switzerland', 'Ukraine', 'United Kingdom', 'Vatican', 'Åland'];
+    'Switzerland', 'Turkey', 'Ukraine', 'United Kingdom', 'Vatican', 'Åland'];
   function fc(features) { return { type: 'FeatureCollection', features: features }; }
   function split(isFocus) {
     return {
@@ -166,6 +166,7 @@
 
   // Continent maps (Africa, Asia, ...) and the US-states map are built on first use.
   var CONTINENT_OF = DATA.atlasContinents || {};
+  var ALSO_IN = DATA.atlasAlsoIn || {}; // countries in two continents (Turkey: Asia and Europe)
   function layersFor(regionId) {
     if (LAYERS[regionId]) return LAYERS[regionId];
     var r = DATA.regions[regionId];
@@ -173,7 +174,7 @@
     else {
       var b = r.bounds || {};
       var showsUS = b.lonMin < -67 && b.lonMax > -125 && b.latMin < 49 && b.latMax > 25 || r.continent === 'North America';
-      LAYERS[regionId] = Object.assign(split(function (n) { return CONTINENT_OF[n] === r.continent; }), { borders: countryBorders, inner: showsUS ? usStateLines : null });
+      LAYERS[regionId] = Object.assign(split(function (n) { return CONTINENT_OF[n] === r.continent || (ALSO_IN[n] || []).indexOf(r.continent) >= 0; }), { borders: countryBorders, inner: showsUS ? usStateLines : null });
     }
     return LAYERS[regionId];
   }
@@ -764,7 +765,7 @@
       items = G.shuffle(QUESTIONS.filter(function (q) {
         if (q.category !== spec.category) return false;
         if (group === 'all') return q.continent !== 'us-states'; // state capitals live in their own tab
-        return q.continent === group;
+        return q.continent === group || (q.alsoIn || []).indexOf(group) >= 0; // Turkey shows under Europe and Asia
       }), Math.random);
     }
     else {

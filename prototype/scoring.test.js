@@ -370,3 +370,19 @@ test('the Europe map counts Russia as Europe and shows the big European lakes', 
   const lakes = require('./vendor/lakes-50m.json').features.map(f => f.properties.name);
   for (const n of ['Lake Geneva', 'Bodensee', 'Vänern', 'Vättern', 'Lake Ladoga', 'Lake Onega', 'Lake Balaton', 'IJsselmeer']) assert.ok(lakes.includes(n), n);
 });
+
+test('Turkey belongs to both Europe and Asia', () => {
+  const inGroup = (q, g) => q.continent === g || (q.alsoIn || []).includes(g);
+  const country = questions.find(q => q.id === 'country-turkiye-turkey');
+  const capital = questions.find(q => q.category === 'capitals' && /Ankara/.test(q.prompt));
+  for (const q of [country, capital]) {
+    assert.ok(inGroup(q, 'Europe'), q.id + ' shows in the Europe tab');
+    assert.ok(inGroup(q, 'Asia'), q.id + ' still shows in the Asia tab');
+  }
+  assert.match(country.answer, /Europe and Asia/);
+  const b = bank.regions['europe-wide'].bounds;
+  assert.ok(capital.lon > b.lonMin && capital.lon < b.lonMax && capital.lat > b.latMin && capital.lat < b.latMax, 'Ankara fits on the Europe map');
+  assert.deepStrictEqual(bank.atlasAlsoIn.Turkey, ['Europe'], 'the Europe continent map colors Turkey as Europe');
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  assert.ok(/'Turkey'/.test(/var EUROPE = \[([\s\S]*?)\];/.exec(app)[1]), 'the Europe sports map colors Turkey as Europe');
+});

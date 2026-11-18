@@ -50,17 +50,19 @@ function placeQuestions(world, facts) {
   const out = [];
   for (const row of world.countries) {
     const atlas = row[col.atlas], name = row[col.name], continent = row[col.continent], capital = row[col.capital];
+    const alsoIn = (world.alsoIn || {})[atlas]; // e.g. Turkey is in Asia and Europe
+    const where = alsoIn ? alsoIn.concat(continent).join(' and ') : continent;
     out.push({
-      id: 'country-' + slug(name), category: 'countries', region: 'world', continent,
+      id: 'country-' + slug(name), category: 'countries', region: 'world', continent, alsoIn,
       shape: atlas || undefined, // border shape in the world-atlas map; missing → scored by distance to the capital
-      prompt: 'Where is ' + name + '?', answer: cap(bare(name)) + ' · ' + continent,
+      prompt: 'Where is ' + name + '?', answer: cap(bare(name)) + ' · ' + where,
       lat: row[col.lat], lon: row[col.lon], toleranceMiles: atlas ? 0 : 50,
       fact: facts.countries[bare(name)] ||
-        (capital ? cap(name) + ' is in ' + continent + '. Its capital is ' + capital + '.' : cap(name) + ' is in ' + continent + '.'),
+        (capital ? cap(name) + ' is in ' + where + '. Its capital is ' + capital + '.' : cap(name) + ' is in ' + where + '.'),
     });
     if (!capital) continue;
     out.push({
-      id: 'capital-' + slug(name), category: 'capitals', region: 'world', continent,
+      id: 'capital-' + slug(name), category: 'capitals', region: 'world', continent, alsoIn,
       prompt: 'Where is ' + capital + '?', answer: capital + ', ' + bare(name),
       lat: row[col.lat], lon: row[col.lon], toleranceMiles: 40,
       fact: facts.capitals[capital] || capital + ' is the capital of ' + name + '.',
@@ -107,6 +109,7 @@ function loadData() {
   // Which continent each shape on the map belongs to (for coloring continent maps).
   bank.atlasContinents = Object.assign({}, world.atlasExtras);
   for (const row of world.countries) if (row[0]) bank.atlasContinents[row[0]] = row[2];
+  bank.atlasAlsoIn = world.alsoIn || {}; // map shapes that also belong to a second continent
   return bank;
 }
 
