@@ -416,3 +416,11 @@ test('Landmarks: 50 famous places with precise spots and kid-friendly facts', ()
   const cats = bank.categories.map(c => c.id);
   assert.ok(cats.includes('lakes') && cats.includes('landmarks'), 'both are categories on the home screen');
 });
+
+test('home screen: no daily goal line, Daily 10 sits above the tiles and Shuffle below them', () => {
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  assert.ok(!app.includes('TODAY’S GOAL') && !app.includes('Daily goal smashed'), 'the daily goal is gone');
+  const home = app.slice(app.indexOf('function showPicker'), app.indexOf("document.getElementById('go-sports').onclick"));
+  const daily = home.indexOf('id="go-daily"'), tiles = home.indexOf('class="tiles"'), shuffle = home.indexOf('id="go-shuffle"');
+  assert.ok(daily > 0 && daily < tiles && tiles < shuffle, 'order: Daily 10, tiles, Shuffle');
+});

@@ -692,18 +692,14 @@
     setTimeout(function () { if (!feed && !app.querySelector('.sheet-overlay')) openSheet(TIPS[tip](), { button: TIP_BUTTONS[tip], cls: 'tip-sheet' }); }, 450);
   }
 
-  // Explorer rank + today's goal, at the top of the home screen.
+  // Explorer rank, at the top of the home screen.
   function progressCardHtml() {
-    var rk = G.rankFor(store.points), done = Math.min(G.cardsToday(store.cardsDay, todayKey()), G.DAILY_GOAL);
-    var goalDone = done >= G.DAILY_GOAL;
+    var rk = G.rankFor(store.points);
     return '<div class="progress-card">' +
       '<div class="pc-row"><span class="pc-badge" aria-hidden="true">⭐</span>' +
       '<span class="pc-main"><span class="pc-label">EXPLORER RANK · ' + (rk.index + 1) + ' OF ' + G.RANKS.length + '</span><span class="pc-name">' + esc(rk.name) + '</span></span>' +
       '<span class="pc-next">' + (rk.next ? fmt(rk.next.min - store.points) + ' pts to<br>' + esc(rk.next.name) : 'Top rank!') + '</span></div>' +
       '<div class="pc-bar"><i style="--w:' + Math.round(rk.progress * 100) + '%"></i></div>' +
-      '<div class="pc-row goal"><span class="pc-badge small" aria-hidden="true">' + (goalDone ? '✅' : '🎯') + '</span>' +
-      '<span class="pc-main"><span class="pc-label">TODAY’S GOAL</span><span class="pc-goal">' + (goalDone ? 'Goal smashed! Bonus scrolling time.' : done + ' of ' + G.DAILY_GOAL + ' cards') + '</span></span>' +
-      '<span class="pc-ring" style="--p:' + Math.round(done / G.DAILY_GOAL * 100) + '"><b>' + done + '</b></span></div>' +
       '</div>';
   }
   function showPicker() {
@@ -732,11 +728,11 @@
       '<span class="hero-sub">' + sportsCount + ' sports teams · USA, Europe and Australia</span></span>' +
       '<span class="hero-side"><span class="hero-trophies">' + trophyCaseHtml(false) + '</span>' +
       '<span class="hero-go">Play</span></span></button>' +
-      '<button class="btn primary big" id="go-shuffle">' + ICON.shuffle + 'Shuffle the whole world</button>' +
-      '<div class="tiles">' + tiles + '</div>' +
       '<div class="daily"><div><div class="daily-label">DAILY 10 CHALLENGE</div>' +
       '<div class="daily-title">Same 10 for everyone, today</div></div>' +
       '<button class="btn teal" id="go-daily">Play</button></div>' +
+      '<div class="tiles">' + tiles + '</div>' +
+      '<button class="btn primary big" id="go-shuffle">' + ICON.shuffle + 'Shuffle the whole world</button>' +
       '<button class="reset" id="reset">Reset my points and streak</button>' +
       '</div></div>';
     document.getElementById('go-sports').onclick = function () { startFeed({ kind: 'sports', region: 'usa', sport: 0 }); };
@@ -945,7 +941,6 @@
     var verdict = isSport && hit ? (SPORT_WORDS[c.q.sport] || pick(VIBE_WORDS[vibe])) : pick(VIBE_WORDS[vibe]);
     var rankBefore = G.rankFor(store.points - r.points).index;
     combo = G.comboStep(combo, r.bullseye || r.miles <= G.DAILY_HIT_MILES);
-    var goalHit = countCardToday();
     Sound.play('lock');
     Sound.play('fly');
     setTimeout(function () {
@@ -960,7 +955,6 @@
     }
     var rankNow = G.rankFor(store.points);
     if (rankNow.index > rankBefore) setTimeout(function () { toast('⭐', 'New rank: ' + rankNow.name + '!', 'Your explorer rank just leveled up.', 'rank'); }, 1500);
-    else if (goalHit) setTimeout(function () { toast('🎯', 'Daily goal smashed!', G.DAILY_GOAL + ' cards today. Keep the streak alive tomorrow!', 'goal'); }, 1500);
 
     var streakNote = '';
     if (inSportsFeed) {
@@ -998,11 +992,6 @@
   }
 
   // --- juice helpers ---
-  function countCardToday() { // returns true the moment today's goal is reached
-    var today = todayKey(), n = G.cardsToday(store.cardsDay, today) + 1;
-    store.cardsDay = { date: today, n: n }; save();
-    return n === G.DAILY_GOAL;
-  }
   function countUpPoints(el, pts) {
     if (!el) return;
     if (REDUCE_MOTION || !pts) { el.textContent = '+' + fmt(pts) + ' pts'; return; }

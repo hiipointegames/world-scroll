@@ -390,20 +390,14 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   border-radius: 20px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; animation: tile-in .5s cubic-bezier(.3, 1.5, .5, 1) both; }
 .pc-row { display: flex; align-items: center; gap: 10px; }
 .pc-badge { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-size: 19px; background: rgba(255, 181, 71, .16); flex-shrink: 0; }
-.pc-badge.small { background: rgba(61, 220, 196, .14); }
 .pc-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .pc-label { font-size: 10.5px; font-weight: 600; letter-spacing: 1.2px; color: var(--muted); }
 .pc-name { font-family: var(--font-display); font-weight: 700; font-size: 20px; line-height: 1.1; color: var(--gold); }
-.pc-goal { font-family: var(--font-display); font-weight: 600; font-size: 16px; }
 .pc-next { font-size: 11px; color: var(--dim); text-align: right; line-height: 1.3; flex-shrink: 0; }
 .pc-bar { height: 8px; border-radius: 4px; background: var(--outline); overflow: hidden; }
 .pc-bar i { display: block; height: 100%; width: var(--w); border-radius: 4px; background: linear-gradient(90deg, var(--teal), var(--gold));
   box-shadow: 0 0 12px rgba(255, 181, 71, .5); animation: bar-grow 1.1s cubic-bezier(.2, .8, .2, 1) .3s both; }
 @keyframes bar-grow { from { width: 0; } }
-.pc-ring { --p: 0; width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; display: grid; place-items: center;
-  background: conic-gradient(var(--teal) calc(var(--p) * 1%), var(--outline) 0); position: relative; }
-.pc-ring::before { content: ""; position: absolute; inset: 5px; border-radius: 50%; background: var(--surface); }
-.pc-ring b { position: relative; font-family: var(--font-display); font-size: 14px; }
 .panel.revealed .res-verdict { display: inline-block; animation: verdict .5s cubic-bezier(.3, 1.8, .5, 1) .1s both; }
 @keyframes verdict { from { transform: scale(.5) rotate(-6deg); opacity: 0; } }
 .card .confetti { z-index: 5; }
@@ -499,8 +493,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   .progress-card { padding: 9px 12px; gap: 6px; }
   .pc-badge { width: 30px; height: 30px; font-size: 16px; }
   .pc-name { font-size: 17px; }
-  .pc-goal { font-size: 14px; }
-  .pc-ring { width: 34px; height: 34px; }
+
   .daily { padding: 10px 14px; }
   .card { gap: 9px; padding-top: 10px; }
   .card-head { gap: 5px; }
@@ -1650,18 +1643,14 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
     setTimeout(function () { if (!feed && !app.querySelector('.sheet-overlay')) openSheet(TIPS[tip](), { button: TIP_BUTTONS[tip], cls: 'tip-sheet' }); }, 450);
   }
 
-  // Explorer rank + today's goal, at the top of the home screen.
+  // Explorer rank, at the top of the home screen.
   function progressCardHtml() {
-    var rk = G.rankFor(store.points), done = Math.min(G.cardsToday(store.cardsDay, todayKey()), G.DAILY_GOAL);
-    var goalDone = done >= G.DAILY_GOAL;
+    var rk = G.rankFor(store.points);
     return '<div class="progress-card">' +
       '<div class="pc-row"><span class="pc-badge" aria-hidden="true">⭐</span>' +
       '<span class="pc-main"><span class="pc-label">EXPLORER RANK · ' + (rk.index + 1) + ' OF ' + G.RANKS.length + '</span><span class="pc-name">' + esc(rk.name) + '</span></span>' +
       '<span class="pc-next">' + (rk.next ? fmt(rk.next.min - store.points) + ' pts to<br>' + esc(rk.next.name) : 'Top rank!') + '</span></div>' +
       '<div class="pc-bar"><i style="--w:' + Math.round(rk.progress * 100) + '%"></i></div>' +
-      '<div class="pc-row goal"><span class="pc-badge small" aria-hidden="true">' + (goalDone ? '✅' : '🎯') + '</span>' +
-      '<span class="pc-main"><span class="pc-label">TODAY’S GOAL</span><span class="pc-goal">' + (goalDone ? 'Goal smashed! Bonus scrolling time.' : done + ' of ' + G.DAILY_GOAL + ' cards') + '</span></span>' +
-      '<span class="pc-ring" style="--p:' + Math.round(done / G.DAILY_GOAL * 100) + '"><b>' + done + '</b></span></div>' +
       '</div>';
   }
   function showPicker() {
@@ -1690,11 +1679,11 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
       '<span class="hero-sub">' + sportsCount + ' sports teams · USA, Europe and Australia</span></span>' +
       '<span class="hero-side"><span class="hero-trophies">' + trophyCaseHtml(false) + '</span>' +
       '<span class="hero-go">Play</span></span></button>' +
-      '<button class="btn primary big" id="go-shuffle">' + ICON.shuffle + 'Shuffle the whole world</button>' +
-      '<div class="tiles">' + tiles + '</div>' +
       '<div class="daily"><div><div class="daily-label">DAILY 10 CHALLENGE</div>' +
       '<div class="daily-title">Same 10 for everyone, today</div></div>' +
       '<button class="btn teal" id="go-daily">Play</button></div>' +
+      '<div class="tiles">' + tiles + '</div>' +
+      '<button class="btn primary big" id="go-shuffle">' + ICON.shuffle + 'Shuffle the whole world</button>' +
       '<button class="reset" id="reset">Reset my points and streak</button>' +
       '</div></div>';
     document.getElementById('go-sports').onclick = function () { startFeed({ kind: 'sports', region: 'usa', sport: 0 }); };
@@ -1903,7 +1892,6 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
     var verdict = isSport && hit ? (SPORT_WORDS[c.q.sport] || pick(VIBE_WORDS[vibe])) : pick(VIBE_WORDS[vibe]);
     var rankBefore = G.rankFor(store.points - r.points).index;
     combo = G.comboStep(combo, r.bullseye || r.miles <= G.DAILY_HIT_MILES);
-    var goalHit = countCardToday();
     Sound.play('lock');
     Sound.play('fly');
     setTimeout(function () {
@@ -1918,7 +1906,6 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
     }
     var rankNow = G.rankFor(store.points);
     if (rankNow.index > rankBefore) setTimeout(function () { toast('⭐', 'New rank: ' + rankNow.name + '!', 'Your explorer rank just leveled up.', 'rank'); }, 1500);
-    else if (goalHit) setTimeout(function () { toast('🎯', 'Daily goal smashed!', G.DAILY_GOAL + ' cards today. Keep the streak alive tomorrow!', 'goal'); }, 1500);
 
     var streakNote = '';
     if (inSportsFeed) {
@@ -1956,11 +1943,6 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
   }
 
   // --- juice helpers ---
-  function countCardToday() { // returns true the moment today's goal is reached
-    var today = todayKey(), n = G.cardsToday(store.cardsDay, today) + 1;
-    store.cardsDay = { date: today, n: n }; save();
-    return n === G.DAILY_GOAL;
-  }
   function countUpPoints(el, pts) {
     if (!el) return;
     if (REDUCE_MOTION || !pts) { el.textContent = '+' + fmt(pts) + ' pts'; return; }
