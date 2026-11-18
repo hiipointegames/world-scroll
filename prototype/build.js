@@ -16,6 +16,7 @@ const parts = {
   '/*__QUESTIONS__*/': JSON.stringify(loadData()),
   '/*__WORLD__*/': json('vendor/countries-50m.json'),
   '/*__US__*/': json('vendor/states-10m.json'),
+  '/*__LAKES__*/': json('vendor/lakes-50m.json'),
   '/*__APP__*/': read('src/app.js'),
 };
 

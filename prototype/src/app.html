@@ -298,6 +298,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .card.above { transform: translateY(-100%) scale(.94); opacity: 0; }
 .card-head { display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; flex-shrink: 0; position: relative; }
 .card-head .sound-btn { position: absolute; top: -9px; right: -12px; margin: 0; } /* mute, in the card's top-right corner */
+.card-head .sound-btn ~ .prompt.long { padding: 0 30px; } /* long questions leave room for the mute button */
 .chip { display: inline-flex; color: var(--ink); border-radius: 999px; padding: 5px 14px; font-family: var(--font-display);
   font-weight: 600; font-size: 13px; letter-spacing: 1.5px; }
 .kicker { font-size: 15px; color: var(--muted); }
@@ -314,6 +315,10 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .m-tol { fill: var(--teal); fill-opacity: 0; stroke: var(--teal); stroke-opacity: 0; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; transition: fill-opacity .5s .4s, stroke-opacity .5s .4s; }
 .revealed .m-tol { fill-opacity: .14; stroke-opacity: .55; }
 .m-tol.m-shape { stroke-dasharray: none; stroke-width: 1.5; }
+/* Deserts and mountain ranges: the whole area lights up */
+.m-tol.m-area { stroke-dasharray: none; stroke-width: 1.5; stroke-linejoin: round; }
+.revealed .m-tol.m-area { fill-opacity: .32; stroke-opacity: .9; }
+.m-lakes { stroke: var(--text); stroke-opacity: .14; stroke-width: .5; vector-effect: non-scaling-stroke; }
 /* Rivers: a soft teal band (the bullseye zone) with the river itself drawn on top */
 .m-tol.m-river { fill: none; stroke-dasharray: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: var(--zone, 20px); vector-effect: none; }
 .revealed .m-tol.m-river { stroke-opacity: .16; }
@@ -543,5 +548,6 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 window.WS_DATA = /*__QUESTIONS__*/;
 window.WS_WORLD = /*__WORLD__*/;
 window.WS_US = /*__US__*/;
+window.WS_LAKES = /*__LAKES__*/;
 </script>
 <script>/*__APP__*/</script>

@@ -307,3 +307,39 @@ test('US state outlines show on every map that includes the United States', () =
   assert.ok(/world: Object\.assign\([^\n]*inner: usStateLines/.test(app), 'the world map draws state lines');
   assert.ok(app.includes("inner: showsUS ? usStateLines : null"), 'continent maps that show the US draw state lines');
 });
+
+test('at least 7 US rivers, each with its real path', () => {
+  const us = ['mississippi', 'colorado-river', 'rio-grande', 'missouri-river', 'ohio-river', 'columbia-river', 'hudson-river', 'potomac-river', 'yukon-river', 'arkansas-river'];
+  for (const id of us) {
+    const q = questions.find(x => x.id === id);
+    assert.ok(q && q.category === 'rivers' && q.line && q.line.length, id + ' is a river card with a path');
+  }
+  const hudson = questions.find(q => q.id === 'hudson-river');
+  const nyc = { lat: 40.75, lon: -73.99 };
+  assert.ok(G.scoreGuess(nyc, hudson, G.lineDistance(hudson.line, nyc).miles).bullseye, 'a pin at New York City is on the Hudson');
+});
+
+test('deserts and mountain ranges use their real outline: inside is a bullseye', () => {
+  const shaped = questions.filter(q => q.area);
+  assert.ok(shaped.length >= 24, 'almost every desert and range has an outline');
+  const score = (id, lat, lon) => { const q = questions.find(x => x.id === id), g = { lat, lon }; return G.scoreGuess(g, q, G.areaDistance(q.area, g).miles); };
+  assert.ok(score('sahara', 23, 5).bullseye, 'deep in the Sahara');
+  assert.ok(score('sahara', 17, -10).bullseye, 'western Sahara, far from the old center point');
+  assert.ok(!score('sahara', 48.8, 2.35).bullseye, 'Paris is not the Sahara');
+  assert.ok(score('rockies', 39.7, -105.5).bullseye, 'Colorado Rockies');
+  assert.ok(score('rockies', 51.2, -115.6).bullseye, 'Banff, in the Canadian Rockies');
+  assert.ok(!score('rockies', 41.9, -87.6).bullseye, 'Chicago is not in the Rockies');
+  for (const q of shaped) {
+    const inside = G.areaDistance(q.area, { lat: q.lat, lon: q.lon }).miles;
+    assert.ok(inside < 150, q.id + ': its map point sits in or near its outline (' + Math.round(inside) + ' mi)');
+  }
+  // single peaks (Everest, Fuji...) and the Mojave keep the point-and-circle scoring
+  assert.ok(!questions.find(q => q.id === 'everest').area);
+});
+
+test('big lakes are drawn as water (the Great Lakes show Michigan)', () => {
+  const lakes = require('./vendor/lakes-50m.json').features.map(f => f.properties.name);
+  for (const n of ['Lake Superior', 'Lake Michigan', 'Lake Huron', 'Lake Erie', 'Lake Ontario']) assert.ok(lakes.includes(n), n);
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  assert.ok(app.includes("attr('class', 'm-lakes')"), 'every map paints the lakes');
+});

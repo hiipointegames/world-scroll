@@ -163,6 +163,29 @@
     return best;
   }
 
+  // Is a point inside a ring of [lon, lat]? (ray casting; fine for desert- and range-sized shapes)
+  function inRing(ring, x, y) {
+    var inside = false;
+    for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      var a = ring[i], b = ring[j];
+      if ((a[1] > y) !== (b[1] > y) && x < (b[0] - a[0]) * (y - a[1]) / (b[1] - a[1]) + a[0]) inside = !inside;
+    }
+    return inside;
+  }
+  // Distance from a pin to a desert or mountain range (a GeoJSON MultiPolygon): 0 anywhere inside,
+  // otherwise the distance to its nearest edge.
+  function areaDistance(area, guess) {
+    var polys = area.type === 'Polygon' ? [area.coordinates] : area.coordinates, rings = [];
+    for (var i = 0; i < polys.length; i++) {
+      var p = polys[i];
+      if (inRing(p[0], guess.lon, guess.lat) && !p.slice(1).some(function (h) { return inRing(h, guess.lon, guess.lat); })) {
+        return { miles: 0, point: guess };
+      }
+      rings = rings.concat(p);
+    }
+    return lineDistance(rings, guess);
+  }
+
   // ---------- fun layer: how a guess feels, combos, daily goal, explorer ranks ----------
   // How close a guess was, as a "temperature". Drives the verdict words, colors and sounds.
   function vibeFor(miles, bullseye) {
@@ -191,7 +214,7 @@
   var api = {
     EARTH_RADIUS_MI: EARTH_RADIUS_MI, haversineMiles: haversineMiles, pointsFor: pointsFor,
     scoreGuess: scoreGuess, seededRandom: seededRandom, shuffle: shuffle, dailyPick: dailyPick,
-    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, trophyStep: trophyStep, dailyShareText: dailyShareText, dailyTitle: dailyTitle, countVisit: countVisit, tipForDay: tipForDay, lineDistance: lineDistance, vibeFor: vibeFor, comboStep: comboStep, DAILY_GOAL: DAILY_GOAL, cardsToday: cardsToday, RANKS: RANKS, rankFor: rankFor,
+    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, trophyStep: trophyStep, dailyShareText: dailyShareText, dailyTitle: dailyTitle, countVisit: countVisit, tipForDay: tipForDay, lineDistance: lineDistance, areaDistance: areaDistance, vibeFor: vibeFor, comboStep: comboStep, DAILY_GOAL: DAILY_GOAL, cardsToday: cardsToday, RANKS: RANKS, rankFor: rankFor,
     dailySportsPick: dailySportsPick, sportsShareText: sportsShareText, sportsTitle: sportsTitle
   };
   if (typeof module === 'object' && module.exports) module.exports = api;

@@ -251,6 +251,7 @@
     var out = {
       other: L.other ? path(L.other) || '' : '', focus: path(L.focus) || '', borders: L.borders ? path(L.borders) || '' : '',
       inner: L.inner ? path(L.inner) || '' : '',
+      lakes: path(WS_LAKES) || '', // big lakes as water, so the Great Lakes (and Michigan's shape) show
       sphere: regionId === 'world' ? path({ type: 'Sphere' }) : '',
       grid: regionId === 'world' ? path(d3.geoGraticule10()) : ''
     };
@@ -281,6 +282,8 @@
     zg.append('path').attr('d', P.other).attr('fill', COLOR.other);
     zg.append('path').attr('d', P.focus).attr('fill', COLOR.focus);
     if (P.inner) zg.append('path').attr('d', P.inner).attr('class', 'm-inner');
+    // lakes go on top of the state lines, so state borders that run out into the lakes are hidden
+    if (P.lakes) zg.append('path').attr('d', P.lakes).attr('class', 'm-lakes').attr('fill', COLOR.water);
     zg.append('path').attr('d', P.borders).attr('class', 'm-borders');
     var tolPath = zg.append('path').attr('class', 'm-tol');
 
@@ -355,7 +358,9 @@
       reveal: function (card, opts) {
         locked = true;
         target = (opts && opts.target) || { lat: card.lat, lon: card.lon };
-        if (opts && opts.line) { // the whole river lights up, with a soft band for the bullseye zone
+        if (opts && opts.area) { // the whole desert or range lights up
+          tolPath.attr('d', d3.geoPath(proj)(opts.area) || '').classed('m-area', true);
+        } else if (opts && opts.line) { // the whole river lights up, with a soft band for the bullseye zone
           var riverGeo = { type: 'MultiLineString', coordinates: opts.line };
           var zoneDeg = (card.toleranceMiles || 250) / G.EARTH_RADIUS_MI * 180 / Math.PI;
           var pxPerDeg = Math.abs(proj([card.lon, card.lat + 0.5])[1] - proj([card.lon, card.lat - 0.5])[1]) || 1; // 1° north-south
@@ -370,9 +375,9 @@
         }
         svg.classed('revealed', true);
         var a = screenOf(target), g = screenOf(guess);
-        if (opts && opts.line) {
-          // Rivers: zoom so the whole river and the pin fit, so the river is easy to see.
-          var bb = d3.geoPath(proj).bounds({ type: 'MultiLineString', coordinates: opts.line });
+        if (opts && (opts.line || opts.area)) {
+          // Rivers, deserts and ranges: zoom so the whole thing and the pin fit, so it's easy to see.
+          var bb = d3.geoPath(proj).bounds(opts.area || { type: 'MultiLineString', coordinates: opts.line });
           var gp = proj([guess.lon, guess.lat]);
           var x0 = Math.min(bb[0][0], gp[0]), y0 = Math.min(bb[0][1], gp[1]), x1 = Math.max(bb[1][0], gp[0]), y1 = Math.max(bb[1][1], gp[1]);
           var k = Math.max(1, Math.min(maxZoom, 0.8 / Math.max((x1 - x0) / W, (y1 - y0) / H)));
@@ -905,9 +910,11 @@
     var shape = c.q.shape && COUNTRY_SHAPE[c.q.shape];
     var sd = shape ? shapeDistance(shape, c.guess) : null;
     var river = c.q.line ? G.lineDistance(c.q.line, c.guess) : null; // rivers: distance to the nearest bit of the river
-    var r = G.scoreGuess(c.guess, c.q, sd ? sd.miles : river ? river.miles : null);
+    var area = c.q.area ? G.areaDistance(c.q.area, c.guess) : null; // deserts and ranges: 0 inside, else to the nearest edge
+    var r = G.scoreGuess(c.guess, c.q, sd ? sd.miles : river ? river.miles : area ? area.miles : null);
     var secs = (performance.now() - c.t0) / 1000;
-    c.map.reveal(c.q, sd ? { shape: shape, target: sd.point } : river ? { line: c.q.line, target: river.point } : null);
+    c.map.reveal(c.q, sd ? { shape: shape, target: sd.point } : river ? { line: c.q.line, target: river.point }
+      : area ? { area: c.q.area, target: area.point } : null);
     recordPoints(r.points);
     bumpStats();
     var isSport = c.q.category === 'sports', inSportsFeed = feed.spec.kind === 'sports';
@@ -948,6 +955,8 @@
 
     var milesLine = sd ? (r.miles === 0 ? 'Right inside the border' : fmt(r.miles) + ' mi from the border')
       : river ? (r.miles < 1 ? 'Right on the river' : fmt(r.miles) + ' mi from the river' + (r.bullseye ? ' · bullseye zone' : ''))
+      : area ? (r.miles === 0 ? (c.q.category === 'deserts' ? 'Right inside the desert' : 'Right in the mountains')
+        : fmt(r.miles) + ' mi from the ' + (c.q.category === 'deserts' ? 'desert' : 'mountains') + (r.bullseye ? ' · bullseye zone' : ''))
       : r.bullseye ? r.miles + ' mi off · bullseye zone'
       : fmt(r.miles) + ' miles off';
     c.el.querySelector('.panel').innerHTML =

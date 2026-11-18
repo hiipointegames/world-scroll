@@ -35,7 +35,19 @@ const RIVERS = {
     // Lake Ontario outlet (Kingston) -> Montreal -> Trois-Rivieres -> Quebec City -> Tadoussac -> Gulf of St. Lawrence
     extra: [[[-76.48, 44.23], [-75.9, 44.38], [-75.2, 44.9], [-74.7, 45.0], [-73.55, 45.5], [-72.55, 46.34], [-71.21, 46.81], [-70.4, 47.4], [-69.72, 48.14], [-68.5, 48.75], [-67.4, 49.3]]] },
   'rio-grande': { names: /^rio grande$/i, box: [-110, 24, -96, 39] },
-  thames: { names: /^thames$/i, box: [-3, 51, 1, 52.5] }
+  thames: { names: /^thames$/i, box: [-3, 51, 1, 52.5] },
+  // --- more US rivers ---
+  'missouri-river': { names: /^missouri$/i },
+  'ohio-river': { names: /^ohio$/i },
+  'columbia-river': { names: /^columbia$/i },
+  'hudson-river': { names: /^hudson$/i, box: [-76, 40, -73, 44],
+    // the data stops north of New York City; finish it by hand: Bear Mountain -> Tappan Zee -> George Washington Bridge -> the Battery
+    extra: [[[-73.99, 41.31], [-73.95, 41.2], [-73.88, 41.07], [-73.95, 40.85], [-74.02, 40.7]]] },
+  'potomac-river': { names: /^potomac$/i,
+    // the data stops at Washington, D.C.; finish it by hand down to Chesapeake Bay
+    extra: [[[-77.06, 38.9], [-77.04, 38.8], [-77.09, 38.71], [-77.29, 38.52], [-77.2, 38.35], [-76.96, 38.25], [-76.6, 38.15], [-76.32, 38.04]]] },
+  'yukon-river': { names: /^yukon$/i },
+  'arkansas-river': { names: /^arkansas$/i }
 };
 
 const inBox = (c, b) => !b || (c[0] >= b[0] && c[0] <= b[2] && c[1] >= b[1] && c[1] <= b[3]);
