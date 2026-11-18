@@ -38,6 +38,19 @@ const signedArea = (r) => r.reduce((s, c, i) => { const n = r[(i + 1) % r.length
 const orient = (poly) => poly.map((r, i) => ((signedArea(r) > 0) === (i === 0) ? r : r.slice().reverse()));
 const thinPolys = (list, step) => list.map((p) => orient(p.map((r) => thinRing(r, step)).filter(Boolean))).filter((p) => p.length);
 
+// Lake cards -> Natural Earth lake names (exact). Crater Lake, Loch Ness, Lake Como and the Caspian Sea
+// aren't in the 1:50m lakes, so those keep a point and a bullseye circle.
+const LAKE_AREAS = {
+  'lake-superior': ['Lake Superior'], 'lake-michigan': ['Lake Michigan'], 'lake-huron': ['Lake Huron'], 'lake-erie': ['Lake Erie'],
+  'lake-ontario': ['Lake Ontario'], 'great-salt-lake': ['Great Salt Lake'], 'lake-tahoe': ['Lake Tahoe'], 'lake-okeechobee': ['Lake Okeechobee'],
+  'lake-champlain': ['Lake Champlain'], 'great-bear-lake': ['Great Bear Lake'], 'lake-winnipeg': ['Lake Winnipeg'], 'lake-titicaca': ['Lago Titicaca'],
+  'lake-nicaragua': ['Lago de Nicaragua'], 'lake-baikal': ['Lake Baikal'], 'dead-sea': ['Dead Sea'], 'lake-victoria': ['Lake Victoria'],
+  'lake-tanganyika': ['Lake Tanganyika'], 'lake-malawi': ['Lake Malawi'], 'lake-chad': ['Lake Chad'], 'lake-turkana': ['Lake Turkana'],
+  'lake-tana': ['Lake Tana'], 'lake-volta': ['Lake Volta'], 'lake-geneva': ['Lake Geneva'], 'lake-ladoga': ['Lake Ladoga'],
+  'lake-balaton': ['Lake Balaton'], 'issyk-kul': ['Issyk-Kul'], 'lake-eyre': ['Lake Eyre North', 'Lake Eyre South'], 'lake-taupo': ['Lake Taupo'],
+  'lake-vanern': ['Vänern'], 'sea-of-galilee': ['Sea of Galilee']
+};
+
 const regions = JSON.parse(fs.readFileSync(regionsFile, 'utf8')).features;
 const areas = {};
 for (const [id, names] of Object.entries(AREAS)) {
@@ -46,9 +59,16 @@ for (const [id, names] of Object.entries(AREAS)) {
   if (missing.length) throw new Error(id + ': not found in Natural Earth: ' + missing.join(', '));
   areas[id] = { type: 'MultiPolygon', coordinates: thinPolys(found.flatMap((f) => polys(f.geometry)), 0.06) };
 }
+const lakeSource = JSON.parse(fs.readFileSync(lakesFile, 'utf8')).features;
+for (const [id, names] of Object.entries(LAKE_AREAS)) {
+  const found = lakeSource.filter((f) => names.includes(f.properties.name));
+  const missing = names.filter((n) => !found.some((f) => f.properties.name === n));
+  if (missing.length) throw new Error(id + ': lake not found in Natural Earth: ' + missing.join(', '));
+  areas[id] = { type: 'MultiPolygon', coordinates: thinPolys(found.flatMap((f) => polys(f.geometry)), 0.02) };
+}
 const areasFile = path.join(__dirname, '../../data/areas.json');
 fs.writeFileSync(areasFile, JSON.stringify({
-  _about: 'Outline of each desert and mountain-range card (lon, lat). Inside = bullseye; outside is measured to the nearest edge. Built by prototype/tools/build-areas.js from Natural Earth 1:10m geography regions (public domain).',
+  _about: 'Outline of each desert, mountain-range and lake card (lon, lat). Inside = bullseye; outside is measured to the nearest edge. Built by prototype/tools/build-areas.js from Natural Earth 1:10m geography regions (public domain).',
   areas
 }));
 

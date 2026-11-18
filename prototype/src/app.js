@@ -14,9 +14,12 @@
     ink: '#0B1026', water: '#0F1A40', focus: '#2E6F8E', other: '#1D2B5E',
     gold: '#FFB547', teal: '#3DDCC4', pink: '#FF6FA8', text: '#F4F1E8'
   };
+  // What the result says for a pin inside / near an outlined place.
+  var AREA_WORDS = { deserts: ['Right inside the desert', 'desert'], mountains: ['Right in the mountains', 'mountains'], lakes: ['Right on the lake', 'lake'] };
   var CATEGORY_SUBS = {
     countries: 'Every one, by continent', capitals: 'World + US states', cities: 'Big, small, famous',
-    rivers: 'Follow the water', mountains: 'Peaks and ranges', deserts: 'Sand, ice and rock'
+    rivers: 'Follow the water', mountains: 'Peaks and ranges', deserts: 'Sand, ice and rock',
+    lakes: 'Great Lakes and beyond', landmarks: 'World-famous wonders'
   };
 
   // ---------- helpers ----------
@@ -89,7 +92,7 @@
     cold: ['Brrr, cold!', 'Way off!', 'Next one’s yours!']
   };
   var VIBE_SOUND = { bullseye: 'bullseye', scorching: 'scorching', hot: 'hit', warm: 'warm', chilly: 'chilly', cold: 'cold' };
-  var CAT_EMOJI = { countries: '🌍', capitals: '🏛️', cities: '🏙️', rivers: '🌊', mountains: '⛰️', deserts: '🏜️' };
+  var CAT_EMOJI = { countries: '🌍', capitals: '🏛️', cities: '🏙️', rivers: '🌊', mountains: '⛰️', deserts: '🏜️', lakes: '🏞️', landmarks: '🗽' };
   function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
   var REDUCE_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var combo = 0; // good guesses in a row this sitting
@@ -652,7 +655,7 @@
       '<h1 class="intro-title">Learn geography by scrolling.</h1>' +
       '<p class="intro-sub">Doomscrolling, but you get smarter. Every card is a place on the map, and every swipe teaches you something new.</p></div>' +
       '<ol class="intro-steps">' +
-      '<li><span class="step-n">1</span><span><b>See a place.</b> Countries, capitals, rivers, deserts, and where your favorite sports teams play.</span></li>' +
+      '<li><span class="step-n">1</span><span><b>See a place.</b> Countries, capitals, rivers, lakes, famous landmarks, and where your favorite sports teams play.</span></li>' +
       '<li><span class="step-n">2</span><span><b>Drop a pin.</b> Put it where you think the place is, then lock in your guess.</span></li>' +
       '<li><span class="step-n">3</span><span><b>Learn and swipe.</b> See how close you got, pick up a fact, and swipe up for the next one.</span></li>' +
       '</ol></div>' +
@@ -672,7 +675,7 @@
     },
     explore: function () {
       return sheetHead(GLOBE.replace('class="wm-globe"', 'class="wm-globe tip-globe"'), 'QUICK TIP', 'Have you explored it all?') +
-        '<p class="sheet-text">World Scroll has way more than countries. There are <b>sports teams</b>, <b>rivers</b>, <b>mountains</b>, <b>deserts</b>, <b>capitals</b>, <b>cities</b> and more. Pick something new today!</p>';
+        '<p class="sheet-text">World Scroll has way more than countries. There are <b>sports teams</b>, <b>landmarks</b>, <b>lakes</b>, <b>rivers</b>, <b>mountains</b>, <b>deserts</b>, <b>capitals</b>, <b>cities</b> and more. Pick something new today!</p>';
     }
   };
   var TIP_BUTTONS = { share: 'Got it', explore: 'Let’s explore' };
@@ -972,8 +975,8 @@
 
     var milesLine = sd ? (r.miles === 0 ? 'Right inside the border' : fmt(r.miles) + ' mi from the border')
       : river ? (r.miles < 1 ? 'Right on the river' : fmt(r.miles) + ' mi from the river' + (r.bullseye ? ' · bullseye zone' : ''))
-      : area ? (r.miles === 0 ? (c.q.category === 'deserts' ? 'Right inside the desert' : 'Right in the mountains')
-        : fmt(r.miles) + ' mi from the ' + (c.q.category === 'deserts' ? 'desert' : 'mountains') + (r.bullseye ? ' · bullseye zone' : ''))
+      : area ? (r.miles === 0 ? AREA_WORDS[c.q.category][0]
+        : fmt(r.miles) + ' mi from the ' + AREA_WORDS[c.q.category][1] + (r.bullseye ? ' · bullseye zone' : ''))
       : r.bullseye ? r.miles + ' mi off · bullseye zone'
       : fmt(r.miles) + ' miles off';
     c.el.querySelector('.panel').innerHTML =

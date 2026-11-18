@@ -6,7 +6,7 @@ World Scroll is a mobile geography game from HiiPointe Games. It works like a ma
 Tagline idea: "Doomscrolling, but you get smarter."
 
 ## Core loop (one card)
-1. A category chip shows at the top (RIVERS, COUNTRIES, CAPITALS, CITIES, MOUNTAINS, DESERTS, SPORTS…).
+1. A category chip shows at the top (RIVERS, COUNTRIES, CAPITALS, CITIES, MOUNTAINS, DESERTS, LAKES, LANDMARKS, SPORTS…).
 2. A prompt shows, e.g. "Where is the Gobi Desert?" or "Where do the Chiefs play?"
 3. The map starts with **no pins and no labels**. Nothing on screen gives away the answer.
 4. The player taps the map, and a gold guess pin drops there. Tapping again moves the pin.
@@ -20,11 +20,13 @@ Tagline idea: "Doomscrolling, but you get smarter."
 7. Swiping up or tapping "Next" loads the next card. "Skip" also moves on.
 
 ## Areas vs points
+Rivers are scored by distance to the river's real path (`data/rivers.json`). Deserts, mountain ranges and lakes with an outline (`data/areas.json`) count a pin anywhere inside as a bullseye. Single peaks, landmarks and a few small lakes use one point plus `toleranceMiles`. The tools in `prototype/tools/` rebuild these files from Natural Earth.
+
 Some answers are areas or lines (rivers, deserts, mountain ranges). For the MVP, each card has one representative lat/lon plus `toleranceMiles`. Any guess within the tolerance counts as a bullseye, and the distance is measured from the representative point. Later this can be upgraded to distance-to-polygon or distance-to-line using GeoJSON.
 
 ## Feeds
 - **Shuffle the whole world**: a mixed feed across all categories.
-- **Single category**: Countries, Capitals, Cities, Rivers, Mountains, Deserts.
+- **Single category**: Countries, Capitals, Cities, Rivers, Mountains, Deserts, Lakes, Landmarks.
 - **Sports**: two levels of tabs.
   - Region row: USA · Europe · Australia
   - Sport row (changes with the region):
@@ -51,7 +53,7 @@ Some answers are areas or lines (rivers, deserts, mountain ranges). For the MVP,
 - Primary accent (gold): #FFB547, for guess pins and primary buttons (dark text #0B1026 on top)
 - Secondary accent (teal): #3DDCC4, for correct answers, points, and selected sub-tabs
 - Sports chip / region tab selected: #FF6FA8
-- Category chip colors: Countries #FFB547 · Capitals #FF8F6B · Cities #9BE7A8 · Rivers #3DDCC4 · Mountains #A9C6FF · Deserts #F7C873 · Sports #FF6FA8
+- Category chip colors: Countries #FFB547 · Capitals #FF8F6B · Cities #9BE7A8 · Rivers #3DDCC4 · Mountains #A9C6FF · Deserts #F7C873 · Lakes #7CC4FF · Landmarks #D7A8FF · Sports #FF6FA8
 - Fonts: **Fredoka** (headings, buttons, wordmark) + **Inter** (body), from Google Fonts
 - Wordmark: "World" in text color + "Scroll" in gold
 - Rounded everything: buttons 18px radius, chips fully round, cards 16–22px

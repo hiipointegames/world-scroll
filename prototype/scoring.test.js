@@ -46,7 +46,7 @@ test('daily 10 is the same for the same date and different across dates', () => 
 test('daily 10 is not swamped by sports (every category gets a turn)', () => {
   const picks = G.dailyPick(questions, '2026-11-08');
   const cats = new Set(picks.map(q => q.category));
-  assert.strictEqual(cats.size, 7, 'all 7 categories appear');
+  assert.strictEqual(cats.size, 9, 'all 9 categories appear');
 });
 
 test('mixByCategory deals every card exactly once', () => {
@@ -385,4 +385,34 @@ test('Turkey belongs to both Europe and Asia', () => {
   assert.deepStrictEqual(bank.atlasAlsoIn.Turkey, ['Europe'], 'the Europe continent map colors Turkey as Europe');
   const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
   assert.ok(/'Turkey'/.test(/var EUROPE = \[([\s\S]*?)\];/.exec(app)[1]), 'the Europe sports map colors Turkey as Europe');
+});
+
+test('Lakes: the most important lakes, every Great Lake, scored by their outline', () => {
+  const lakes = questions.filter(q => q.category === 'lakes');
+  assert.ok(lakes.length >= 30, lakes.length + ' lakes');
+  for (const id of ['lake-superior', 'lake-michigan', 'lake-huron', 'lake-erie', 'lake-ontario']) {
+    const q = lakes.find(x => x.id === id);
+    assert.ok(q && q.area, id + ' is a lake card with its real outline');
+  }
+  const sup = lakes.find(q => q.id === 'lake-superior');
+  const pin = (lat, lon) => G.scoreGuess({ lat, lon }, sup, G.areaDistance(sup.area, { lat, lon }).miles);
+  assert.ok(pin(47.3, -89.9).bullseye, 'a pin in the western end of Lake Superior counts');
+  assert.ok(!pin(41.88, -87.63).bullseye, 'Chicago is not on Lake Superior');
+  assert.ok(lakes.filter(q => !q.area).length <= 4, 'only a few small lakes fall back to a point');
+});
+
+test('Landmarks: 50 famous places with precise spots and kid-friendly facts', () => {
+  const lm = questions.filter(q => q.category === 'landmarks');
+  assert.strictEqual(lm.length, 50);
+  for (const id of ['eiffel-tower', 'golden-gate-bridge', 'statue-of-liberty', 'taj-mahal', 'great-wall', 'sydney-opera-house', 'machu-picchu']) {
+    assert.ok(lm.find(q => q.id === id), id);
+  }
+  for (const q of lm) {
+    assert.ok(q.lat >= -90 && q.lat <= 90 && q.lon >= -180 && q.lon <= 180 && q.fact && q.prompt.startsWith('Where '), q.id);
+    assert.ok(q.toleranceMiles <= 300, q.id);
+  }
+  const eiffel = lm.find(q => q.id === 'eiffel-tower');
+  assert.ok(G.scoreGuess({ lat: 48.86, lon: 2.35 }, eiffel).bullseye, 'a pin in central Paris finds the Eiffel Tower');
+  const cats = bank.categories.map(c => c.id);
+  assert.ok(cats.includes('lakes') && cats.includes('landmarks'), 'both are categories on the home screen');
 });
