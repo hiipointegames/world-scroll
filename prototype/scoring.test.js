@@ -351,3 +351,14 @@ test('players can zoom in deep, toward their pin, and jump back out', () => {
   assert.ok(app.includes('zoom.scaleBy, k, on ? p : [W / 2, H / 2]'), '+ and - zoom toward the pin');
   assert.ok(app.includes('class="zoom-reset"') && app.includes('resetZoom'), 'a button shows the whole map again');
 });
+
+test('Canada and Australia show their province and state borders', () => {
+  const b = require('./vendor/provinces.json').features.map(f => f.properties.country + ': ' + f.properties.name);
+  for (const n of ['Canada: Manitoba - Saskatchewan', 'Canada: Ontario - Manitoba', 'Canada: Nunavut - Manitoba', 'Canada: Alberta - British Columbia',
+    'Canada: Québec - Ontario', 'Australia: Victoria - New South Wales', 'Australia: Queensland - Northern Territory', 'Australia: Western Australia - South Australia',
+    'Australia: Australian Capital Territory - New South Wales']) assert.ok(b.includes(n), n);
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  assert.ok(app.includes("provinces: DATA.regions[regionId].projection === 'albersUsa' ? '' : path(WS_PROVINCES)"), 'maps draw the borders');
+  const lakes = require('./vendor/lakes-50m.json').features.map(f => f.properties.name);
+  for (const n of ['Lake Winnipeg', 'Lake Manitoba', 'Great Slave Lake', 'Great Bear Lake', 'Lake Eyre North', 'Lake Torrens']) assert.ok(lakes.includes(n), n);
+});

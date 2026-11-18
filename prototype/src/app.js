@@ -253,6 +253,8 @@
       other: L.other ? path(L.other) || '' : '', focus: path(L.focus) || '', borders: L.borders ? path(L.borders) || '' : '',
       inner: L.inner ? path(L.inner) || '' : '',
       lakes: path(WS_LAKES) || '', // big lakes as water, so the Great Lakes (and Michigan's shape) show
+      // Canada's provinces and Australia's states (the US-only map uses its own projection and skips them)
+      provinces: DATA.regions[regionId].projection === 'albersUsa' ? '' : path(WS_PROVINCES) || '',
       sphere: regionId === 'world' ? path({ type: 'Sphere' }) : '',
       grid: regionId === 'world' ? path(d3.geoGraticule10()) : ''
     };
@@ -283,6 +285,7 @@
     zg.append('path').attr('d', P.other).attr('fill', COLOR.other);
     zg.append('path').attr('d', P.focus).attr('fill', COLOR.focus);
     if (P.inner) zg.append('path').attr('d', P.inner).attr('class', 'm-inner');
+    if (P.provinces) zg.append('path').attr('d', P.provinces).attr('class', 'm-inner');
     // lakes go on top of the state lines, so state borders that run out into the lakes are hidden
     if (P.lakes) zg.append('path').attr('d', P.lakes).attr('class', 'm-lakes').attr('fill', COLOR.water);
     zg.append('path').attr('d', P.borders).attr('class', 'm-borders');
