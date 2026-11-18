@@ -49,6 +49,7 @@
   // After the guess, show the full team name (the question itself leaves out the city).
   function fullName(q) { return q.team ? q.team.charAt(0).toUpperCase() + q.team.slice(1) : subjectOf(q); }
   var ICON = {
+    fit: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
     flame: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFB547" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2c1 4 5 6 5 11a5 5 0 0 1-10 0c0-3 2-4 2-7 2 1 3 3 3 3"/></svg>',
     star: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3DDCC4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg>',
     back: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>',
@@ -315,10 +316,12 @@
       }
     }
 
-    // How far players can zoom in: the world map needs more room to find small countries.
-    var maxZoom = regionId === 'world' ? 20 : 12;
+    // How far players can zoom in: deep enough to place a pin on a city block-sized spot.
+    // The world map needs the most room (from the whole planet down to a small country or city).
+    var maxZoom = regionId === 'world' ? 80 : 40;
+    var wrap = host.parentNode;
     var zoom = d3.zoom().scaleExtent([1, maxZoom]).extent([[0, 0], [W, H]]).translateExtent([[0, 0], [W, H]])
-      .on('zoom', function (e) { t = e.transform; place(); });
+      .on('zoom', function (e) { t = e.transform; place(); if (wrap) wrap.classList.toggle('zoomed', t.k > 1.05); });
     svg.call(zoom).on('dblclick.zoom', null);
 
     svg.on('click', function (e) {
@@ -353,7 +356,13 @@
           setTimeout(function () { c.remove(); }, 1100 + d);
         });
       },
-      zoomBy: function (k) { svg.transition().duration(220).call(zoom.scaleBy, k); },
+      // + and − zoom toward the pin once there is one (and it's on screen), otherwise toward the middle.
+      zoomBy: function (k) {
+        var p = guess && screenOf(guess), on = p && p[0] >= 0 && p[1] >= 0 && p[0] <= W && p[1] <= H;
+        svg.transition().duration(240).call(zoom.scaleBy, k, on ? p : [W / 2, H / 2]);
+      },
+      // Back out to the whole map in one tap.
+      resetZoom: function () { svg.transition().duration(320).call(zoom.transform, d3.zoomIdentity); },
       // opts.shape: a country to light up; opts.target: where the dashed line should end.
       reveal: function (card, opts) {
         locked = true;
@@ -853,7 +862,8 @@
         : '<h2 class="prompt long">' + esc(q.prompt) + '</h2>') +
       (showMeta && feed.spec.kind !== 'daily' ? '<div class="meta">' + esc(metaLine(q)) + '</div>' : '') + '</div>' + // the Daily 10 row already says CARD n OF 10
       '<div class="map-wrap"><div class="map"></div>' +
-      '<div class="zoom-btns"><button class="zoom-in" aria-label="Zoom in">+</button><button class="zoom-out" aria-label="Zoom out">−</button></div></div>' +
+      '<div class="zoom-btns"><button class="zoom-in" aria-label="Zoom in">+</button><button class="zoom-out" aria-label="Zoom out">−</button>' +
+      '<button class="zoom-reset" aria-label="Show the whole map">' + ICON.fit + '</button></div></div>' +
       '<div class="panel" aria-live="polite"></div>' +
       '<div class="actions"><button class="btn ghost skip">Skip</button>' +
       '<button class="btn primary lock" disabled>Drop a pin first</button></div>' +
@@ -890,6 +900,7 @@
     hint(c);
     el.querySelector('.zoom-in').onclick = function () { c.map.zoomBy(2); };
     el.querySelector('.zoom-out').onclick = function () { c.map.zoomBy(0.5); };
+    el.querySelector('.zoom-reset').onclick = function () { c.map.resetZoom(); };
     el.querySelector('.skip').onclick = advance;
     el.querySelector('.lock').onclick = function () { c.revealed ? advance() : lockIn(c); };
     el.querySelector('.peek').onclick = advance;
@@ -1090,7 +1101,7 @@
     return '<div class="sd-wrap"><button class="daily-sports" id="go-sports-daily">' +
       '<span class="sd-icon">' + trophyIcon(TIERS.gold.color, 22, true) + '</span>' +
       '<span class="sd-text"><span class="sd-label">DAILY SPORTS 10</span>' +
-      '<span class="sd-title">' + (done ? 'You scored ' + hits + '/10 today' : '10 teams, all sports. Same for everyone.') + '</span></span>' +
+      '<span class="sd-title">' + (done ? 'You scored ' + hits + '/10 today' : '10 teams. Same for everyone.') + '</span></span>' +
       '<span class="sd-go">' + (done ? 'Share' : 'Play') + '</span></button></div>';
   }
   function openSportsDaily() {

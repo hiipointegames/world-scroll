@@ -343,3 +343,11 @@ test('big lakes are drawn as water (the Great Lakes show Michigan)', () => {
   const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
   assert.ok(app.includes("attr('class', 'm-lakes')"), 'every map paints the lakes');
 });
+
+test('players can zoom in deep, toward their pin, and jump back out', () => {
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  const m = /var maxZoom = regionId === 'world' \? (\d+) : (\d+);/.exec(app);
+  assert.ok(m && +m[1] >= 80 && +m[2] >= 40, 'world map zooms to 80x, region maps to 40x');
+  assert.ok(app.includes('zoom.scaleBy, k, on ? p : [W / 2, H / 2]'), '+ and - zoom toward the pin');
+  assert.ok(app.includes('class="zoom-reset"') && app.includes('resetZoom'), 'a button shows the whole map again');
+});

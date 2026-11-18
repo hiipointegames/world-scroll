@@ -411,6 +411,11 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .zoom-btns button { width: 44px; height: 44px; border-radius: 22px; border: none; background: rgba(26, 35, 80, .9); color: var(--text);
   font-size: 22px; line-height: 1; cursor: pointer; }
 .zoom-btns button:hover { background: var(--outline-2); }
+.zoom-btns .zoom-reset { display: none; place-items: center; font-size: 0; }
+.map-wrap.zoomed .zoom-reset { display: grid; animation: pop .3s cubic-bezier(.3, 1.8, .5, 1); }
+/* On a short map (small phones, after lock-in) the buttons sit in a row so they don't cover the map */
+.map-wrap { container-type: size; }
+@container (max-height: 170px) { .zoom-btns { flex-direction: row; top: 8px; right: 8px; gap: 6px; } }
 
 .panel { min-height: 128px; box-sizing: border-box; background: var(--surface); border-radius: 16px; padding: 13px 16px;
   display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
@@ -474,7 +479,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .result-list li + li { border-top: 1px solid var(--outline); }
 .result-list .dot { width: 10px; height: 10px; }
 .row-n { width: 18px; color: var(--dim); font-variant-numeric: tabular-nums; }
-.row-name { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row-name { flex: 1; min-width: 0; line-height: 1.25; overflow-wrap: anywhere; } /* long names wrap instead of being cut off */
 .row-miles { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
 .row-pts { width: 50px; text-align: right; color: var(--teal); font-weight: 600; font-variant-numeric: tabular-nums; }
 .results-note { margin: 0; text-align: center; font-size: 13px; color: var(--dim); }
@@ -522,9 +527,13 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   .card.revealed .map-wrap { min-height: 70px; }
   .card.revealed .chip { display: none; } /* the category is already known once you've guessed; frees a line for the fact */
 }
+/* Short phones: Sports has five rows above the card, so before the guess the hint box steps aside
+   (the button already says "Drop a pin first") and the Lock in button stays on screen. */
+@media (max-height: 640px) { .screen.sports .card:not(.revealed) .panel { display: none; } }
 /* Shortest phones (iPhone SE in Safari): the remaining tab rows also step aside while a result shows. */
 @media (max-height: 620px) {
   .screen:has(.card.revealed:not(.above)) :is(.region-tabs, .geo-tabs, .meter-row) { display: none; }
+
 }
 @media (prefers-reduced-motion: reduce) {
   .dsq.big, .m-ripple, .btn.primary.ready, .panel.revealed .res-verdict, .intro-foot .btn.big { animation: none; }
