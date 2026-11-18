@@ -1093,11 +1093,13 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
   var countryBorders = topojson.mesh(WS_WORLD, WS_WORLD.objects.countries, function (a, b) { return a !== b; });
   var usNation = topojson.feature(WS_US, WS_US.objects.nation);
   var usStateLines = topojson.mesh(WS_US, WS_US.objects.states, function (a, b) { return a !== b; });
+  // Countries shown in the Europe colour on the Europe sports map. Russia counts (Moscow, St. Petersburg,
+  // Kaliningrad), matching the capitals data; Turkey is filed under Asia there, so it stays a neighbour.
   var EUROPE = ['Albania', 'Andorra', 'Austria', 'Belarus', 'Belgium', 'Bosnia and Herz.', 'Bulgaria', 'Croatia',
     'Cyprus', 'N. Cyprus', 'Czechia', 'Denmark', 'Estonia', 'Faeroe Is.', 'Finland', 'France', 'Germany', 'Greece',
     'Guernsey', 'Hungary', 'Iceland', 'Ireland', 'Isle of Man', 'Italy', 'Jersey', 'Kosovo', 'Latvia', 'Liechtenstein',
     'Lithuania', 'Luxembourg', 'Macedonia', 'Malta', 'Moldova', 'Monaco', 'Montenegro', 'Netherlands', 'Norway',
-    'Poland', 'Portugal', 'Romania', 'San Marino', 'Serbia', 'Slovakia', 'Slovenia', 'Spain', 'Sweden',
+    'Poland', 'Portugal', 'Romania', 'Russia', 'San Marino', 'Serbia', 'Slovakia', 'Slovenia', 'Spain', 'Sweden',
     'Switzerland', 'Ukraine', 'United Kingdom', 'Vatican', 'Åland'];
   function fc(features) { return { type: 'FeatureCollection', features: features }; }
   function split(isFocus) {

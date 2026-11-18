@@ -362,3 +362,11 @@ test('Canada and Australia show their province and state borders', () => {
   const lakes = require('./vendor/lakes-50m.json').features.map(f => f.properties.name);
   for (const n of ['Lake Winnipeg', 'Lake Manitoba', 'Great Slave Lake', 'Great Bear Lake', 'Lake Eyre North', 'Lake Torrens']) assert.ok(lakes.includes(n), n);
 });
+
+test('the Europe map counts Russia as Europe and shows the big European lakes', () => {
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  const list = /var EUROPE = \[([\s\S]*?)\];/.exec(app)[1];
+  assert.ok(/'Russia'/.test(list), 'Moscow and St. Petersburg are in the Europe colour, not the "neighbour" colour');
+  const lakes = require('./vendor/lakes-50m.json').features.map(f => f.properties.name);
+  for (const n of ['Lake Geneva', 'Bodensee', 'Vänern', 'Vättern', 'Lake Ladoga', 'Lake Onega', 'Lake Balaton', 'IJsselmeer']) assert.ok(lakes.includes(n), n);
+});
