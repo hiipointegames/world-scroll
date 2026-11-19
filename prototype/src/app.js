@@ -235,10 +235,13 @@
   // The world map and the ocean map (which also shows both poles) are drawn as a globe.
   function isGlobe(regionId) { return regionId === 'world' || !!DATA.regions[regionId].globe; }
 
-  function makeProjection(regionId, W, H) {
+  // keep: room to leave free for the zoom buttons ({ right, top } in px), so the map never sits under them
+  // (Maine used to hide behind the − button on the US states map).
+  function makeProjection(regionId, W, H, keep) {
     var r = DATA.regions[regionId];
+    var right = (keep && keep.right) || 0, top = (keep && keep.top) || 0;
     if (r.projection === 'albersUsa') { // lower 48 with Alaska and Hawaii insets
-      return d3.geoAlbersUsa().fitExtent([[8, 8], [W - 8, H - 8]], usNation);
+      return d3.geoAlbersUsa().fitExtent([[8, 8 + top], [W - 8 - right, H - 8]], usNation);
     }
     var b = r.bounds;
     var pts = [];
@@ -248,14 +251,14 @@
     }
     var proj = isGlobe(regionId) ? d3.geoNaturalEarth1() : d3.geoMercator();
     if (r.rotate) proj.rotate([r.rotate, 0]); // Oceania straddles the 180° line
-    proj.fitExtent([[6, 6], [W - 6, H - 6]], { type: 'MultiPoint', coordinates: pts });
-    proj.clipExtent([[0, 0], [W, H]]);
+    proj.fitExtent([[6, 6 + top], [W - 6 - right, H - 6]], { type: 'MultiPoint', coordinates: pts });
+    proj.clipExtent([[0, 0], [W, H]]); // land beyond the region still fills the space next to the buttons
     return proj;
   }
 
   var pathCache = {};
   function regionPaths(regionId, W, H, proj) {
-    var key = regionId + '|' + W + '|' + H;
+    var key = regionId + '|' + W + '|' + H + '|' + proj.scale() + '|' + proj.translate();
     if (pathCache[key]) return pathCache[key];
     var path = d3.geoPath(proj), L = layersFor(regionId);
     var out = {
@@ -275,7 +278,16 @@
   // Renders a region, turns taps into lat/lon, draws the guess pin and (after lock-in) the answer.
   function createMap(host, regionId, onTap) {
     var W = Math.max(200, Math.round(host.clientWidth)), H = Math.max(80, Math.round(host.clientHeight)); // draw at the box's real size, so a short map isn't squeezed (dark side strips)
-    var proj = makeProjection(regionId, W, H);
+    function fitProjection() {
+      if (isGlobe(regionId)) return makeProjection(regionId, W, H);
+      var btns = host.parentNode && host.parentNode.querySelector('.zoom-btns'), hr = host.getBoundingClientRect();
+      if (!btns || !btns.offsetWidth) return makeProjection(regionId, W, H);
+      var br = btns.getBoundingClientRect();
+      var beside = makeProjection(regionId, W, H, { right: Math.max(0, hr.right - br.left) + 4 });
+      var below = makeProjection(regionId, W, H, { top: Math.max(0, br.bottom - hr.top) + 4 });
+      return beside.scale() >= below.scale() ? beside : below;
+    }
+    var proj = fitProjection();
     var P = regionPaths(regionId, W, H, proj);
     var NS = 'http://www.w3.org/2000/svg';
     var svgEl = document.createElementNS(NS, 'svg');
@@ -451,7 +463,7 @@
           var w = Math.round(host.clientWidth), h = Math.round(host.clientHeight);
           if (!w || !h || (Math.abs(w - W) < 3 && Math.abs(h - H) < 3)) return;
           W = Math.max(200, w); H = Math.max(80, h);
-          proj = makeProjection(regionId, W, H);
+          proj = fitProjection();
           P = regionPaths(regionId, W, H, proj);
           svg.attr('viewBox', '0 0 ' + W + ' ' + H);
           bg.attr('width', W).attr('height', H);

@@ -235,6 +235,12 @@
   ],
   "geoTabs": [
     {
+      "id": "us-states",
+      "label": "US states",
+      "region": "us-states",
+      "only": "capitals"
+    },
+    {
       "id": "all",
       "label": "All"
     },
@@ -259,20 +265,14 @@
       "region": "north-america"
     },
     {
-      "id": "South America",
-      "label": "S. America",
-      "region": "south-america"
-    },
-    {
       "id": "Oceania",
       "label": "Oceania",
       "region": "oceania"
     },
     {
-      "id": "us-states",
-      "label": "US states",
-      "region": "us-states",
-      "only": "capitals"
+      "id": "South America",
+      "label": "S. America",
+      "region": "south-america"
     }
   ],
   "questions": [

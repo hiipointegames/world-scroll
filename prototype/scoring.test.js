@@ -511,6 +511,13 @@ test('small phones: long "Where is" titles shrink, and big point totals stay sho
   for (const n of [0, 999, 9999, 10819, 99999, 125400, 999999, 1260000]) assert.ok(fmtPts(n).length <= 5, n + ' fits in five characters');
 });
 
+test('Capitals tabs: US states first, then All, then the continents A to Z; the US map stays clear of the zoom buttons', () => {
+  assert.deepStrictEqual(bank.geoTabs.map(t => t.label), ['US states', 'All', 'Africa', 'Asia', 'Europe', 'N. America', 'Oceania', 'S. America']);
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  assert.ok(app.includes("return beside.scale() >= below.scale() ? beside : below;"), 'region maps fit beside or below the zoom buttons, never under them');
+  assert.ok(app.includes("d3.geoAlbersUsa().fitExtent([[8, 8 + top], [W - 8 - right, H - 8]], usNation)"), 'the US states map leaves room for the buttons (Maine is tappable)');
+});
+
 test('Russia belongs to both Europe and Asia', () => {
   const inGroup = (q, g) => q.continent === g || (q.alsoIn || []).includes(g);
   const country = questions.find(q => q.id === 'country-russia');
