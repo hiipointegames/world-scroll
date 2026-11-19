@@ -701,19 +701,15 @@
   // --- Welcome screen (first open, or tap the logo) ---
   function showIntro() {
     Sound.setMusic(false);
-    var P = regionPaths('world', 390, 200, makeProjection('world', 390, 200));
-    var spots = [[-60, -3.4], [32.3, 1.4], [103.5, 42.8], [149.1, -35.3], [-94.5, 39], [-2.96, 53.4]];
-    var proj = makeProjection('world', 390, 200);
-    var dots = spots.map(function (s, i) {
-      var p = proj(s);
-      return '<circle class="intro-dot" style="animation-delay:' + (i * 0.45) + 's" cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="4"/>';
-    }).join('');
+    // Each letter of the big wordmark bounces in a wave (see .wave-letter in app.html).
+    var letters = function (word, from) {
+      return word.split('').map(function (ch, i) { return '<i class="wave-letter" style="--i:' + (from + i) + '">' + ch + '</i>'; }).join('');
+    };
     app.innerHTML =
       '<div class="screen intro">' +
-      '<svg class="intro-map" viewBox="0 0 390 200" aria-hidden="true"><path d="' + P.sphere + '" fill="#0F1A40"/>' +
-      '<path d="' + P.focus + '" fill="#2E6F8E"/><path d="' + P.borders + '" class="m-borders"/>' + dots + '</svg>' +
+      '<div class="intro-globe" aria-hidden="true"></div>' + // a spinning 3D globe (fx.js)
       '<div class="intro-body">' +
-      '<div class="intro-brand"><div class="wordmark big">' + GLOBE + 'World<span>Scroll</span></div>' +
+      '<div class="intro-brand"><div class="wordmark big" aria-label="World Scroll">' + GLOBE + letters('World', 0) + '<span>' + letters('Scroll', 5) + '</span></div>' +
       '<h1 class="intro-title">Learn geography by scrolling.</h1>' +
       '<p class="intro-sub">Doomscrolling, but you get smarter. Every card is a place on the map, and every swipe teaches you something new.</p></div>' +
       '<ol class="intro-steps">' +
@@ -723,8 +719,10 @@
       '</ol></div>' +
       '<div class="intro-foot"><button class="btn primary big" id="intro-go">Start scrolling</button></div>' +
       '</div>';
+    FX.welcomeGlobe(app.querySelector('.intro-globe'));
+    FX.floaters(app.querySelector('.screen.intro'), 16);
     document.getElementById('intro-go').onclick = function () {
-      store.seenIntro = true; save(); Sound.play('swoosh'); showPicker();
+      store.seenIntro = true; save(); showPicker({ flyIn: true });
     };
   }
 
@@ -780,7 +778,9 @@
       '<div class="sheet-status">' + (rk.next ? 'Next up: ' + esc(rk.next.name) + '. Just ' + fmt(rk.next.min - store.points) + ' more points to go!' : 'You reached the top. You are a World Legend!') + '</div>',
       { button: 'Let’s climb', cls: 'rank-sheet' });
   }
-  function showPicker() {
+  // opts.flyIn: play the 2-second opening (after the welcome screen, and each time the app opens).
+  function showPicker(opts) {
+    var flyIn = !!(opts && opts.flyIn);
     feed = null; card = null;
     Sound.setMusic(false);
     var count = function (cat) { return QUESTIONS.filter(function (q) { return q.category === cat; }).length; };
@@ -813,19 +813,25 @@
       '<button class="btn primary big" id="go-shuffle">' + ICON.shuffle + 'Shuffle the whole world</button>' +
       '<button class="reset" id="reset">Reset my points and streak</button>' +
       '</div></div>';
-    document.getElementById('go-sports').onclick = function () { startFeed({ kind: 'sports', region: 'usa', sport: 0 }); };
-    document.getElementById('go-shuffle').onclick = function () { startFeed({ kind: 'shuffle' }); };
-    document.getElementById('go-daily').onclick = function () { startFeed({ kind: 'daily' }); };
+    // Leaving the home screen: start the feed, then slam a big pop-up onto it.
+    var launch = function (spec, emoji, text) { startFeed(spec); FX.slam(app, emoji, text); };
+    document.getElementById('go-sports').onclick = function () { launch({ kind: 'sports', region: 'usa', sport: 0 }, '🏟️', 'GAME ON!'); };
+    document.getElementById('go-shuffle').onclick = function () { launch({ kind: 'shuffle' }, '🔀', 'SHUFFLE!'); };
+    document.getElementById('go-daily').onclick = function () { launch({ kind: 'daily' }, '📅', 'DAILY 10!'); };
     document.getElementById('reset').onclick = function () {
       var keepSound = store.sound;
       var keep = { visitDays: store.visitDays, lastVisit: store.lastVisit, tipsSeen: store.tipsSeen, tipDay: store.tipDay, seenIntro: store.seenIntro };
       store = Object.assign(freshStore(), keep); store.sound = keepSound; save(); showPicker(); // tips don't come back after a reset
     };
     app.querySelectorAll('.tile').forEach(function (b) {
-      b.onclick = function () { startFeed({ kind: 'category', category: b.getAttribute('data-cat') }); };
+      b.onclick = function () { var id = b.getAttribute('data-cat'); launch({ kind: 'category', category: id }, CAT_EMOJI[id] || '🌍', 'LET’S GO!'); };
     });
     wireChrome();
-    maybeShowTip();
+    if (flyIn) {
+      var scr = app.querySelector('.screen.picker');
+      scr.classList.add('arriving'); // hidden under the fly-in, then everything bounces in
+      FX.flyIn(app, function () { scr.classList.remove('arriving'); scr.classList.add('arrived'); maybeShowTip(); });
+    } else maybeShowTip();
   }
 
   // --- Feed ---
@@ -1327,5 +1333,6 @@
     list.forEach(function (r, i) { setTimeout(function () { Sound.play('square', !!r.hit); }, 250 + i * 70); });
   }
 
-  if (store.seenIntro) showPicker(); else showIntro();
+  FX.wireTaps(); // every button boings and bursts when tapped (fx.js)
+  if (store.seenIntro) showPicker({ flyIn: true }); else showIntro();
 })();

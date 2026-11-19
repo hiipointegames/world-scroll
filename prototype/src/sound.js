@@ -96,6 +96,23 @@
     square: function (t, hit) { if (hit) tone(N.C6 * (0.9 + Math.random() * 0.2), t, 0.12, { type: 'sine', vol: 0.14 }); else tone(N.E4, t, 0.12, { type: 'triangle', vol: 0.1 }); },
     sparkle: function (t) { [N.E6, N.G6, N.C6 * 2].forEach(function (f, i) { tone(f, t + i * 0.05, 0.18, { type: 'sine', vol: 0.06 }); }); },
     pop: function (t) { tone(600, t, 0.06, { type: 'sine', vol: 0.06, to: 900 }); },
+    // Button taps: a springy cartoon "boing" (a little different every time).
+    boing: function (t) { var f = 260 + Math.random() * 120; tone(f, t, 0.18, { type: 'sine', vol: 0.16, to: f * 2.6 }); tone(f * 1.5, t + 0.05, 0.12, { type: 'triangle', vol: 0.05, to: f * 3 }); },
+    // Pop-up slams ("LET'S GO!"): a punchy thump with a bright chord on top.
+    slam: function (t) {
+      noise(t, 0.18, { freq: 900, vol: 0.14 });
+      tone(110, t, 0.22, { type: 'sine', vol: 0.32, to: 55 });
+      [N.C5, N.G5, N.C6].forEach(function (f) { tone(f, t + 0.03, 0.28, { type: 'square', vol: 0.05, cutoff: 3000 }); });
+    },
+    // The home-screen fly-in: a rising whoosh, then a big boom and a fanfare chord when the logo lands.
+    intro: function (t) {
+      noise(t, 1.0, { filter: 'bandpass', freq: 300, to: 4000, q: 1.2, vol: 0.16 });
+      tone(110, t, 1.0, { type: 'sawtooth', vol: 0.05, to: 880, cutoff: 2400 });
+      var hit = t + 0.95;
+      tone(90, hit, 0.5, { type: 'sine', vol: 0.4, to: 40 });
+      noise(hit, 0.6, { freq: 2500, vol: 0.1 });
+      [N.C5, N.E5, N.G5, N.C6].forEach(function (f, i) { tone(f, hit + 0.05 + i * 0.06, 0.6, { type: 'square', vol: 0.06, cutoff: 3200 }); });
+    },
     trophy: function (t, tier) {
       var runs = {
         bronze: [N.G4, N.C5, N.E5, N.G5],

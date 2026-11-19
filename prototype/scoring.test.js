@@ -518,6 +518,25 @@ test('Capitals tabs: US states first, then All, then the continents A to Z; the 
   assert.ok(app.includes("d3.geoAlbersUsa().fitExtent([[8, 8 + top], [W - 8 - right, H - 8]], usNation)"), 'the US states map leaves room for the buttons (Maine is tappable)');
 });
 
+test('the juice (fx.js): built into the game, safe for photosensitive players, calm when reduced motion is on', () => {
+  const fs = require('fs'), path = require('path');
+  const fx = fs.readFileSync(path.join(__dirname, 'src/fx.js'), 'utf8');
+  const html = fs.readFileSync(path.join(__dirname, 'src/app.html'), 'utf8');
+  const app = fs.readFileSync(path.join(__dirname, 'src/app.js'), 'utf8');
+  const built = fs.readFileSync(path.join(__dirname, 'world-scroll.html'), 'utf8');
+  assert.ok(built.includes('root.FX = {'), 'fx.js is inlined in the built game');
+  assert.ok(/prefers-reduced-motion: reduce\)'\)\.matches/.test(fx) && fx.includes('if (calm)'), 'every effect checks reduced motion');
+  assert.ok(/\.fx-flyin\.slam \.fx-flash \{ animation: one-flash \.4s ease-out; \}/.test(html), 'the fly-in flashes once (no strobe)');
+  assert.ok(!/infinite[^;]*one-flash|one-flash[^;]*infinite/.test(html), 'the white flash never repeats');
+  assert.ok(app.includes('showPicker({ flyIn: true })'), 'the home screen opens with the fly-in');
+  assert.ok(app.includes("FX.slam(app, emoji, text)"), 'picking a feed slams a pop-up');
+  assert.ok(app.includes('FX.welcomeGlobe(') && app.includes('FX.wireTaps()'), 'welcome globe and tap bursts are on');
+  const reduce = html.slice(html.lastIndexOf('@media (prefers-reduced-motion: reduce)'));
+  for (const sel of ['.wave-letter', '.fx-floaters', '.wm-globe', '.sports-hero', '#go-daily', '.fx-boing']) assert.ok(reduce.includes(sel), sel + ' stops under reduced motion');
+  const sound = fs.readFileSync(path.join(__dirname, 'src/sound.js'), 'utf8');
+  for (const n of ['boing', 'slam', 'intro']) assert.ok(sound.includes('    ' + n + ': function'), n + ' sound exists');
+});
+
 test('Russia belongs to both Europe and Asia', () => {
   const inGroup = (q, g) => q.continent === g || (q.alsoIn || []).includes(g);
   const country = questions.find(q => q.id === 'country-russia');

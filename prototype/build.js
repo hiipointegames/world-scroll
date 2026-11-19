@@ -13,6 +13,7 @@ const json = (p) => JSON.stringify(JSON.parse(read(p)));
 const parts = {
   '/*__SCORING__*/': read('src/scoring.js'),
   '/*__SOUND__*/': read('src/sound.js'),
+  '/*__FX__*/': read('src/fx.js'),
   '/*__QUESTIONS__*/': JSON.stringify(loadData()),
   '/*__WORLD__*/': json('vendor/countries-50m.json'),
   '/*__US__*/': json('vendor/states-10m.json'),
