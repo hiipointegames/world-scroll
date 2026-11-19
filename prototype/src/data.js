@@ -98,6 +98,9 @@ function loadData() {
   const facts = readJson('place-facts.json');
   bank.questions = bank.questions.concat(placeQuestions(world, facts, readJson('country-nerd-facts.json').facts), teamQuestions(roster));
   addNerdFacts(bank.questions, readJson('sports-facts.json').facts);
+  // Cities and capitals get 🤓 Nerd facts too (data/city-nerd-facts.json).
+  const cityNerd = readJson('city-nerd-facts.json').facts;
+  for (const q of bank.questions) if ((q.category === 'cities' || q.category === 'capitals') && cityNerd[q.id]) q.nerd = cityNerd[q.id];
   // Deep Dives: rare bonus cards with a pop-up of in-depth facts (data/deep-dives.json).
   const dives = readJson('deep-dives.json').dives;
   for (const q of bank.questions) if (dives[q.id]) q.deepDive = dives[q.id];

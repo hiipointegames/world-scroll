@@ -1,0 +1,4136 @@
+{
+ "_about": "Nerd facts for Cities and Capitals cards (the 🤓 Nerd facts pop-up). Keyed by card id. Each fact: [label, text], kid-friendly, 160 characters max.",
+ "_verify": "Written from memory on 2026-11-19. Fact-check before launch.",
+ "facts": {
+  "rio": [
+   [
+    "Landmark",
+    "The Christ the Redeemer statue looks over Rio from the top of Corcovado mountain."
+   ],
+   [
+    "Culture",
+    "Rio's Carnival parades feature samba schools with thousands of dancers each."
+   ],
+   [
+    "Sports",
+    "Rio hosted the 2016 Summer Olympics, the first ever in South America."
+   ]
+  ],
+  "new-york": [
+   [
+    "Landmark",
+    "The Empire State Building has its own zip code, 10118, and its lights change colors for holidays."
+   ],
+   [
+    "Food",
+    "New York-style pizza is famous for huge, thin slices you fold in half to eat."
+   ],
+   [
+    "Nickname",
+    "New York is called 'the city that never sleeps' because its subway runs all day and all night."
+   ]
+  ],
+  "los-angeles": [
+   [
+    "Landmark",
+    "The giant Hollywood sign first said 'Hollywoodland' when it went up in 1923."
+   ],
+   [
+    "Movie magic",
+    "Disneyland, the first Disney theme park, opened just outside LA in 1955."
+   ],
+   [
+    "Name",
+    "Los Angeles means 'the angels' in Spanish."
+   ]
+  ],
+  "chicago": [
+   [
+    "Invention",
+    "The world's first skyscraper, the Home Insurance Building, went up in Chicago in 1885."
+   ],
+   [
+    "Food",
+    "Chicago is famous for deep-dish pizza, baked in a tall pan like a pie."
+   ],
+   [
+    "Landmark",
+    "Every St. Patrick's Day, Chicago dyes its river bright green."
+   ]
+  ],
+  "houston": [
+   [
+    "Space",
+    "When Apollo 11 landed on the Moon in 1969, the astronauts radioed: 'Houston, Tranquility Base here. The Eagle has landed.'"
+   ],
+   [
+    "Sports",
+    "Houston's Astrodome, opened in 1965, was the world's first domed sports stadium."
+   ],
+   [
+    "Size",
+    "Houston is the biggest city in Texas and the fourth-biggest in the US."
+   ]
+  ],
+  "miami": [
+   [
+    "Culture",
+    "Miami's Little Havana neighborhood is famous for Cuban coffee, music and dominoes in the park."
+   ],
+   [
+    "Nature",
+    "Miami sits between two national parks: the Everglades and Biscayne Bay."
+   ],
+   [
+    "Landmark",
+    "South Beach is lined with pastel Art Deco buildings from the 1930s."
+   ]
+  ],
+  "san-francisco": [
+   [
+    "Landmark",
+    "San Francisco's cable cars are the only moving National Historic Landmark in the US."
+   ],
+   [
+    "Food",
+    "Sourdough bread has been a San Francisco favorite since the Gold Rush."
+   ],
+   [
+    "Nature",
+    "Thick fog often rolls through the Golden Gate. Locals have even given it a nickname: Karl!"
+   ]
+  ],
+  "seattle": [
+   [
+    "Food",
+    "The first Starbucks opened at Seattle's Pike Place Market in 1971."
+   ],
+   [
+    "Culture",
+    "At Pike Place Market, fishmongers toss whole salmon through the air to each other."
+   ],
+   [
+    "Nature",
+    "On clear days, snowy Mount Rainier towers over the city."
+   ]
+  ],
+  "new-orleans": [
+   [
+    "Food",
+    "New Orleans is famous for beignets, square doughnuts covered in powdered sugar."
+   ],
+   [
+    "Culture",
+    "Mardi Gras parades toss colorful beads to crowds lining the streets."
+   ],
+   [
+    "Famous face",
+    "Jazz legend Louis Armstrong was born in New Orleans."
+   ]
+  ],
+  "las-vegas": [
+   [
+    "Landmark",
+    "The Las Vegas Strip glows so brightly that it can be seen from space."
+   ],
+   [
+    "Nature",
+    "Hoover Dam, one of the biggest dams in the US, is about 30 miles away."
+   ],
+   [
+    "Culture",
+    "Las Vegas has some of the biggest hotels in the world, with thousands of rooms each."
+   ]
+  ],
+  "toronto": [
+   [
+    "Landmark",
+    "The CN Tower was the world's tallest free-standing structure for more than 30 years."
+   ],
+   [
+    "Sports",
+    "The Toronto Raptors won the 2019 NBA title, the first team outside the US to do it."
+   ],
+   [
+    "Culture",
+    "Almost half of Toronto's people were born outside Canada, making it one of the most diverse cities in the world."
+   ]
+  ],
+  "montreal": [
+   [
+    "Food",
+    "Montreal is famous for poutine, fries with cheese curds and gravy, and wood-fired bagels."
+   ],
+   [
+    "Sports",
+    "Montreal hosted the 1976 Summer Olympics."
+   ],
+   [
+    "Culture",
+    "The Cirque du Soleil circus started in the Montreal area in 1984."
+   ]
+  ],
+  "vancouver": [
+   [
+    "Nature",
+    "Stanley Park is even bigger than New York's Central Park."
+   ],
+   [
+    "Movie magic",
+    "So many movies and shows are filmed here that it's nicknamed 'Hollywood North.'"
+   ],
+   [
+    "Nature",
+    "Vancouver has beaches and ski slopes so close that you can do both in one day."
+   ]
+  ],
+  "guadalajara": [
+   [
+    "Food",
+    "Guadalajara is known for tortas ahogadas, crusty sandwiches dunked in tomato sauce."
+   ],
+   [
+    "Culture",
+    "The Mexican Hat Dance, the national dance of Mexico, comes from this region."
+   ],
+   [
+    "Nickname",
+    "Guadalajara is called the 'Pearl of the West.'"
+   ]
+  ],
+  "cancun": [
+   [
+    "History",
+    "Cancún was a small fishing island until it was turned into a beach resort in the 1970s."
+   ],
+   [
+    "Nature",
+    "Cancún's underwater museum has hundreds of statues on the sea floor that grow coral."
+   ],
+   [
+    "Nature",
+    "The Mesoamerican Reef, the second-biggest barrier reef on Earth, runs along this coast."
+   ]
+  ],
+  "sao-paulo": [
+   [
+    "Food",
+    "São Paulo has one of the biggest Japanese communities outside Japan, so sushi is everywhere."
+   ],
+   [
+    "Sports",
+    "Brazilian football legend Pelé played for Santos, near São Paulo, for most of his career."
+   ],
+   [
+    "Culture",
+    "São Paulo's Paulista Avenue closes to cars on Sundays for people to walk, bike and play music."
+   ]
+  ],
+  "medellin": [
+   [
+    "Famous face",
+    "Artist Fernando Botero, famous for painting and sculpting round, puffy figures, was from Medellín."
+   ],
+   [
+    "Transport",
+    "Medellín's cable cars, the Metrocable, carry people up the steep hillsides."
+   ],
+   [
+    "Culture",
+    "Every August, Medellín's Flower Festival fills the streets with giant flower displays."
+   ]
+  ],
+  "cusco": [
+   [
+    "Landmark",
+    "Cusco's Inca stone walls fit together so tightly that a knife blade can't slip between the stones."
+   ],
+   [
+    "Nature",
+    "Cusco sits more than 11,000 feet high in the Andes."
+   ],
+   [
+    "History",
+    "Cusco is the gateway to Machu Picchu, the famous Inca city in the clouds."
+   ]
+  ],
+  "barcelona-city": [
+   [
+    "Famous face",
+    "Architect Antoni Gaudí designed many of Barcelona's wavy, colorful buildings and Park Güell."
+   ],
+   [
+    "Sports",
+    "Barcelona hosted the 1992 Summer Olympics."
+   ],
+   [
+    "Culture",
+    "La Rambla is a famous tree-lined street full of street performers."
+   ]
+  ],
+  "milan": [
+   [
+    "Art",
+    "Leonardo da Vinci's painting The Last Supper is on a wall in Milan."
+   ],
+   [
+    "Landmark",
+    "Milan's cathedral, the Duomo, has more than 3,000 statues."
+   ],
+   [
+    "Culture",
+    "La Scala in Milan is one of the most famous opera houses in the world."
+   ]
+  ],
+  "venice": [
+   [
+    "Culture",
+    "Venice's gondolas are always painted black, and gondoliers steer them with a single oar."
+   ],
+   [
+    "Culture",
+    "The Venice Carnival is famous for its fancy masks."
+   ],
+   [
+    "Famous face",
+    "Explorer Marco Polo, who traveled to China in the 1200s, came from Venice."
+   ]
+  ],
+  "munich": [
+   [
+    "Culture",
+    "Munich's Glockenspiel clock has life-size figures that dance and spin every day."
+   ],
+   [
+    "Sports",
+    "Bayern Munich is Germany's most successful football club."
+   ],
+   [
+    "Invention",
+    "BMW cars are made in Munich, and the company's headquarters is shaped like four car cylinders."
+   ]
+  ],
+  "istanbul": [
+   [
+    "Landmark",
+    "The Hagia Sophia, with its giant dome, was built about 1,500 years ago."
+   ],
+   [
+    "Culture",
+    "The Grand Bazaar is one of the oldest and biggest covered markets in the world, with thousands of shops."
+   ],
+   [
+    "Food",
+    "Simit, a ring of bread covered in sesame seeds, is sold on Istanbul street corners."
+   ]
+  ],
+  "st-petersburg": [
+   [
+    "Art",
+    "The Hermitage Museum has about 3 million artworks and objects, and cats help guard it from mice!"
+   ],
+   [
+    "Nature",
+    "In early summer, it's light almost all night long. These are called the White Nights."
+   ],
+   [
+    "Culture",
+    "The city has so many canals and bridges that it's called the 'Venice of the North.'"
+   ]
+  ],
+  "manchester": [
+   [
+    "Sports",
+    "Manchester is home to two giant football clubs, Manchester United and Manchester City."
+   ],
+   [
+    "Invention",
+    "The first computer to store a program in its memory ran in Manchester in 1948."
+   ],
+   [
+    "Culture",
+    "Famous bands like Oasis started in Manchester."
+   ]
+  ],
+  "liverpool-city": [
+   [
+    "Landmark",
+    "The Royal Liver Building has two giant bird statues, the Liver Birds, watching over the river."
+   ],
+   [
+    "Sports",
+    "Liverpool is home to two Premier League clubs, Liverpool and Everton."
+   ],
+   [
+    "Culture",
+    "The Beatles first played at the Cavern Club, a little cellar music club."
+   ]
+  ],
+  "geneva": [
+   [
+    "Landmark",
+    "Geneva's Jet d'Eau fountain shoots water about 460 feet into the air."
+   ],
+   [
+    "Culture",
+    "The Red Cross was founded in Geneva in 1863."
+   ],
+   [
+    "Invention",
+    "Geneva is famous for fine watchmaking."
+   ]
+  ],
+  "marseille": [
+   [
+    "Food",
+    "Marseille is the home of bouillabaisse, a fish stew with lots of herbs."
+   ],
+   [
+    "History",
+    "Marseille's Old Port has been a busy harbor for about 2,600 years."
+   ],
+   [
+    "Culture",
+    "France's national anthem is called 'La Marseillaise' after singers from Marseille."
+   ]
+  ],
+  "dubai": [
+   [
+    "Culture",
+    "Dubai has an indoor ski slope inside a shopping mall in the desert."
+   ],
+   [
+    "Landmark",
+    "The Palm Jumeirah is a giant man-made island shaped like a palm tree."
+   ],
+   [
+    "Culture",
+    "Dubai's police have super-fast sports cars in their patrol fleet."
+   ]
+  ],
+  "mumbai": [
+   [
+    "Culture",
+    "Mumbai's dabbawalas deliver about 200,000 home-cooked lunches every day, almost never mixing one up."
+   ],
+   [
+    "Landmark",
+    "The Gateway of India, a giant stone arch, stands on Mumbai's waterfront."
+   ],
+   [
+    "Sports",
+    "Cricket is everywhere: kids play on beaches, streets and fields all over Mumbai."
+   ]
+  ],
+  "shanghai": [
+   [
+    "Transport",
+    "Shanghai's maglev train floats above its track on magnets, with no wheels touching the rails."
+   ],
+   [
+    "Landmark",
+    "The Shanghai Tower is the tallest building in China."
+   ],
+   [
+    "Culture",
+    "The Bund is a famous riverside walk lined with grand old buildings."
+   ]
+  ],
+  "hong-kong": [
+   [
+    "Transport",
+    "Hong Kong has the world's longest outdoor covered escalator system, carrying people up a hill."
+   ],
+   [
+    "Culture",
+    "Every night, the Symphony of Lights show makes the skyline flash with lasers and lights."
+   ],
+   [
+    "Food",
+    "Hong Kong is famous for dim sum, small dishes like dumplings and buns."
+   ]
+  ],
+  "osaka": [
+   [
+    "Landmark",
+    "Osaka Castle is surrounded by moats and cherry trees."
+   ],
+   [
+    "Food",
+    "Okonomiyaki, a savory pancake you can fill with almost anything, is an Osaka favorite."
+   ],
+   [
+    "Movie magic",
+    "Osaka has Universal Studios Japan, home to Super Nintendo World."
+   ]
+  ],
+  "kyoto": [
+   [
+    "Landmark",
+    "Kyoto's Fushimi Inari shrine has thousands of bright orange gates lining paths up a mountain."
+   ],
+   [
+    "Culture",
+    "Kyoto has around 1,600 Buddhist temples."
+   ],
+   [
+    "Nature",
+    "Kyoto's Arashiyama bamboo forest has stalks taller than houses."
+   ]
+  ],
+  "sydney": [
+   [
+    "Landmark",
+    "People can climb to the top of the Sydney Harbour Bridge, nicknamed 'the Coathanger.'"
+   ],
+   [
+    "Culture",
+    "Sydney's New Year's Eve fireworks are among the first big celebrations on Earth each year."
+   ],
+   [
+    "Nature",
+    "Bondi Beach is one of the world's most famous surfing beaches."
+   ]
+  ],
+  "melbourne": [
+   [
+    "Sports",
+    "Melbourne hosts the Australian Open tennis tournament every January."
+   ],
+   [
+    "Transport",
+    "Melbourne has the biggest tram network in the world."
+   ],
+   [
+    "Sports",
+    "The Melbourne Cricket Ground holds about 100,000 fans."
+   ]
+  ],
+  "auckland": [
+   [
+    "Landmark",
+    "The Sky Tower is the tallest structure in New Zealand, and brave people jump off it on a wire."
+   ],
+   [
+    "Nickname",
+    "Auckland is called the 'City of Sails' because so many people own boats."
+   ],
+   [
+    "Culture",
+    "Auckland has the biggest Polynesian population of any city in the world."
+   ]
+  ],
+  "orlando": [
+   [
+    "Space",
+    "NASA's Kennedy Space Center, where rockets launch to space, is about an hour from Orlando."
+   ],
+   [
+    "Movie magic",
+    "Walt Disney World's Magic Kingdom opened near Orlando in 1971."
+   ],
+   [
+    "Nature",
+    "Orlando is surrounded by more than 100 lakes."
+   ]
+  ],
+  "johannesburg": [
+   [
+    "Famous face",
+    "Nelson Mandela lived on Vilakazi Street in Soweto, a street that also housed fellow Nobel winner Desmond Tutu."
+   ],
+   [
+    "Nature",
+    "Johannesburg has millions of trees, one of the biggest city forests in the world."
+   ],
+   [
+    "Sports",
+    "Johannesburg's FNB Stadium hosted the 2010 World Cup final."
+   ]
+  ],
+  "lagos": [
+   [
+    "Culture",
+    "Lagos is the heart of Nollywood, one of the biggest movie industries in the world."
+   ],
+   [
+    "Culture",
+    "Afrobeat music was made famous by Fela Kuti in Lagos."
+   ],
+   [
+    "Nature",
+    "Lagos is built on islands and lagoons along the Atlantic coast."
+   ]
+  ],
+  "marrakesh": [
+   [
+    "Culture",
+    "Jemaa el-Fnaa square fills with storytellers, musicians and food stalls every night."
+   ],
+   [
+    "Nature",
+    "The Majorelle Garden is famous for its bright cobalt-blue buildings and cactuses."
+   ],
+   [
+    "Nature",
+    "On clear days, the snowy Atlas Mountains can be seen from Marrakesh."
+   ]
+  ],
+  "casablanca": [
+   [
+    "Landmark",
+    "The Hassan II Mosque has a minaret about 690 feet tall, one of the tallest in the world."
+   ],
+   [
+    "Movie magic",
+    "Casablanca is a famous 1942 movie named after the city, though it was filmed in Hollywood!"
+   ],
+   [
+    "Name",
+    "Casablanca means 'white house' in Spanish."
+   ]
+  ],
+  "alexandria": [
+   [
+    "History",
+    "The Lighthouse of Alexandria was one of the Seven Wonders of the Ancient World."
+   ],
+   [
+    "History",
+    "Its ancient library was one of the greatest libraries in the world."
+   ],
+   [
+    "Landmark",
+    "The modern Bibliotheca Alexandrina library has a giant tilted roof shaped like a sun disc."
+   ]
+  ],
+  "karachi": [
+   [
+    "Culture",
+    "Karachi's colorful trucks and buses are painted with flowers, birds and patterns."
+   ],
+   [
+    "Nature",
+    "Clifton Beach is a favorite spot for camel rides by the Arabian Sea."
+   ],
+   [
+    "Food",
+    "Karachi is famous for biryani, a spiced rice dish."
+   ]
+  ],
+  "ho-chi-minh": [
+   [
+    "Transport",
+    "Ho Chi Minh City has millions of motorbikes zipping through its streets."
+   ],
+   [
+    "Food",
+    "Bánh mì, a crunchy baguette sandwich, is a famous street food here."
+   ],
+   [
+    "Landmark",
+    "Its grand Central Post Office is often said to have been designed with help from Gustave Eiffel's company."
+   ]
+  ],
+  "busan": [
+   [
+    "Nature",
+    "Haeundae Beach is one of the most famous beaches in Korea."
+   ],
+   [
+    "Culture",
+    "Gamcheon Culture Village is a hillside neighborhood painted in rainbow colors."
+   ],
+   [
+    "Movie magic",
+    "The Busan International Film Festival is one of Asia's biggest movie festivals."
+   ]
+  ],
+  "bangalore": [
+   [
+    "Nickname",
+    "Bangalore is called the 'Garden City of India' for its many parks."
+   ],
+   [
+    "Space",
+    "India's space agency, ISRO, which sent spacecraft to the Moon and Mars, is based here."
+   ],
+   [
+    "Nature",
+    "Lalbagh Botanical Garden has a glass house modeled on London's Crystal Palace."
+   ]
+  ],
+  "perth-city": [
+   [
+    "Wildlife",
+    "Quokkas, small smiley marsupials, live on Rottnest Island, near Perth."
+   ],
+   [
+    "Nature",
+    "Perth's Kings Park is one of the biggest city parks in the world."
+   ],
+   [
+    "Nature",
+    "Perth is one of the sunniest big cities in Australia."
+   ]
+  ],
+  "timbuktu": [
+   [
+    "Landmark",
+    "Djinguereber Mosque, made of mud and wood, was built in the 1300s."
+   ],
+   [
+    "Nickname",
+    "Timbuktu was called the 'City of 333 Saints.'"
+   ],
+   [
+    "Culture",
+    "People say 'from here to Timbuktu' to mean somewhere really far away."
+   ]
+  ],
+  "mecca": [
+   [
+    "Culture",
+    "Millions of Muslims from around the world travel to Mecca every year for the Hajj pilgrimage."
+   ],
+   [
+    "Landmark",
+    "The Kaaba, a cube-shaped building covered in black cloth, stands in the center of the Great Mosque."
+   ],
+   [
+    "Landmark",
+    "The Makkah Clock Tower has one of the biggest clock faces in the world."
+   ]
+  ],
+  "capital-algeria": [
+   [
+    "Landmark",
+    "Algiers' Casbah is an old hillside neighborhood of twisting lanes and stairways, a UNESCO World Heritage Site."
+   ],
+   [
+    "Landmark",
+    "The Maqam Echahid monument has three giant concrete palm leaves rising over the city."
+   ],
+   [
+    "Nickname",
+    "Algiers is one of the biggest cities on the Mediterranean coast of Africa."
+   ]
+  ],
+  "capital-angola": [
+   [
+    "Landmark",
+    "Luanda's Fortress of São Miguel sits on a hill overlooking the bay and holds a museum."
+   ],
+   [
+    "Nature",
+    "Mussulo, a long sandy peninsula near Luanda, is a favorite beach escape."
+   ],
+   [
+    "Food",
+    "Fish and funge, a smooth cassava dish, are favorite meals in Luanda."
+   ]
+  ],
+  "capital-benin": [
+   [
+    "Culture",
+    "Porto-Novo's colorful old houses mix Brazilian, African and French styles."
+   ],
+   [
+    "Nature",
+    "Porto-Novo sits on a big coastal lagoon near the Nigerian border."
+   ],
+   [
+    "Culture",
+    "The city's ethnographic museum shows traditional masks and royal objects."
+   ]
+  ],
+  "capital-botswana": [
+   [
+    "History",
+    "Gaborone was built in the 1960s to become the capital when Botswana became independent."
+   ],
+   [
+    "Landmark",
+    "The Three Dikgosi Monument honors three chiefs who helped found the country."
+   ],
+   [
+    "Wildlife",
+    "Mokolodi Nature Reserve, near the city, protects rhinos, giraffes and cheetahs."
+   ]
+  ],
+  "capital-burkina-faso": [
+   [
+    "Culture",
+    "Ouagadougou hosts SIAO, one of Africa's biggest crafts fairs."
+   ],
+   [
+    "Nickname",
+    "People often call the city 'Ouaga' for short."
+   ],
+   [
+    "Culture",
+    "The city has a big outdoor sculpture park with granite art by local artists."
+   ]
+  ],
+  "capital-burundi": [
+   [
+    "Culture",
+    "Gitega is the home of Burundi's famous royal drummers."
+   ],
+   [
+    "History",
+    "Gitega was the old royal capital before becoming the official capital again."
+   ],
+   [
+    "Nature",
+    "Gitega sits in green hills in the middle of the country."
+   ]
+  ],
+  "capital-cabo-verde": [
+   [
+    "Culture",
+    "Praia's lively music scene is full of morna and funaná songs."
+   ],
+   [
+    "History",
+    "Cidade Velha, near Praia, was the first town built by Europeans in the tropics."
+   ],
+   [
+    "Nature",
+    "Praia sits on Santiago, Cabo Verde's biggest island."
+   ]
+  ],
+  "capital-cameroon": [
+   [
+    "Landmark",
+    "Yaoundé's Reunification Monument is a spiral tower you can walk up."
+   ],
+   [
+    "Nature",
+    "Mount Fébé, one of Yaoundé's hills, has views over the whole city."
+   ],
+   [
+    "Culture",
+    "Makossa, a dance music style from Cameroon, is popular in the city's clubs and radios."
+   ]
+  ],
+  "capital-central-african-republic": [
+   [
+    "Nature",
+    "Bangui sits on the banks of the Ubangi River, a big branch of the Congo River."
+   ],
+   [
+    "Culture",
+    "Bangui's craft markets sell carvings made from local woods."
+   ],
+   [
+    "Nickname",
+    "Bangui was once nicknamed 'La Coquette,' meaning 'the pretty one.'"
+   ]
+  ],
+  "capital-chad": [
+   [
+    "Landmark",
+    "N'Djamena's Grand Mosque has tall white minarets."
+   ],
+   [
+    "Culture",
+    "The city's national museum shows ancient tools and fossils from Chad's deserts."
+   ],
+   [
+    "Nature",
+    "N'Djamena sits right on the border with Cameroon."
+   ]
+  ],
+  "capital-comoros": [
+   [
+    "Culture",
+    "Moroni's old Medina has narrow alleys and carved wooden doors."
+   ],
+   [
+    "Landmark",
+    "The Old Friday Mosque in Moroni was first built in the 1400s."
+   ],
+   [
+    "Nature",
+    "Moroni's harbor looks out over the Indian Ocean."
+   ]
+  ],
+  "capital-republic-of-the-congo": [
+   [
+    "Landmark",
+    "The Basilica of Sainte-Anne has a bright green tiled roof."
+   ],
+   [
+    "Culture",
+    "Brazzaville hosts FESPAM, a big festival of African music."
+   ],
+   [
+    "Nature",
+    "The Congo River rapids roar just outside the city."
+   ]
+  ],
+  "capital-democratic-republic-of-the-congo": [
+   [
+    "Language",
+    "Kinshasa is the biggest French-speaking city in the world."
+   ],
+   [
+    "Wildlife",
+    "Lola ya Bonobo, near Kinshasa, is a sanctuary that cares for bonobos, close cousins of chimpanzees."
+   ],
+   [
+    "Sports",
+    "In 1974, Kinshasa hosted the famous 'Rumble in the Jungle' boxing match starring Muhammad Ali."
+   ]
+  ],
+  "capital-ivory-coast-cote-d-ivoire": [
+   [
+    "Wildlife",
+    "Crocodiles live in the lake around the Presidential Palace in Yamoussoukro."
+   ],
+   [
+    "Landmark",
+    "Its Basilica of Our Lady of Peace was inspired by St. Peter's in Rome."
+   ],
+   [
+    "History",
+    "Yamoussoukro was the hometown of Ivory Coast's first president, Félix Houphouët-Boigny."
+   ]
+  ],
+  "capital-djibouti": [
+   [
+    "Food",
+    "Skoudehkaris, a spiced rice and meat dish, is Djibouti's national meal."
+   ],
+   [
+    "Culture",
+    "The city's central market is full of spices, fabrics and baskets."
+   ],
+   [
+    "Big export",
+    "Djibouti City's giant port handles most of the goods going to and from Ethiopia."
+   ]
+  ],
+  "capital-egypt": [
+   [
+    "Culture",
+    "Cairo's Khan el-Khalili bazaar has been a busy market for more than 600 years."
+   ],
+   [
+    "Nickname",
+    "Cairo is called the 'City of a Thousand Minarets.'"
+   ],
+   [
+    "Landmark",
+    "The Cairo Tower is shaped like a lotus flower and stands on an island in the Nile."
+   ]
+  ],
+  "capital-equatorial-guinea": [
+   [
+    "Landmark",
+    "Malabo's cathedral has two tall towers and Gothic-style arches."
+   ],
+   [
+    "Wildlife",
+    "Rare monkeys like the drill live in the forests of Bioko Island, near Malabo."
+   ],
+   [
+    "Nature",
+    "Malabo's harbor sits inside the rim of an old volcano crater."
+   ]
+  ],
+  "capital-eritrea": [
+   [
+    "Culture",
+    "People in Asmara love cappuccinos and bicycles, a mix of local and Italian life."
+   ],
+   [
+    "Nature",
+    "Asmara sits about 7,600 feet high, so its weather stays cool."
+   ],
+   [
+    "Landmark",
+    "Asmara's whole city center is a UNESCO World Heritage Site."
+   ]
+  ],
+  "capital-eswatini": [
+   [
+    "Culture",
+    "Mbabane's craft markets sell glass animals and handwoven baskets."
+   ],
+   [
+    "Nature",
+    "Mbabane is near the Ezulwini Valley, the 'Valley of Heaven.'"
+   ],
+   [
+    "History",
+    "Mbabane grew from a trading stop on the road to Mozambique."
+   ]
+  ],
+  "capital-ethiopia": [
+   [
+    "History",
+    "Lucy, one of the most famous early human skeletons ever found, is kept in Addis Ababa's National Museum."
+   ],
+   [
+    "Culture",
+    "Merkato in Addis Ababa is one of the biggest open-air markets in Africa."
+   ],
+   [
+    "Nature",
+    "Addis Ababa sits about 7,700 feet high, one of the highest capitals in the world."
+   ]
+  ],
+  "capital-gabon": [
+   [
+    "Name",
+    "Libreville means 'free town' in French."
+   ],
+   [
+    "Nature",
+    "Pongara National Park, across the bay, has beaches where sea turtles nest."
+   ],
+   [
+    "Landmark",
+    "Libreville's St. Michael's Church is covered with carved wooden columns."
+   ]
+  ],
+  "capital-gambia": [
+   [
+    "Landmark",
+    "Arch 22, a giant gateway with a museum on top, welcomes visitors to Banjul."
+   ],
+   [
+    "Wildlife",
+    "Kachikally Pool, near Banjul, has friendly crocodiles that people visit."
+   ],
+   [
+    "Culture",
+    "Albert Market in Banjul is full of colorful fabrics, fish and spices."
+   ]
+  ],
+  "capital-ghana": [
+   [
+    "Landmark",
+    "Independence Square in Accra has a big Black Star Gate honoring Ghana's freedom."
+   ],
+   [
+    "Culture",
+    "Makola Market in Accra is one of the busiest markets in West Africa."
+   ],
+   [
+    "Nature",
+    "Labadi Beach is Accra's most popular beach."
+   ]
+  ],
+  "capital-guinea": [
+   [
+    "Culture",
+    "The Les Ballets Africains dance company is based in Conakry."
+   ],
+   [
+    "Nature",
+    "The Îles de Loos, small islands just offshore, are popular beach getaways."
+   ],
+   [
+    "Culture",
+    "Conakry's markets are famous for music and colorful cloth."
+   ]
+  ],
+  "capital-guinea-bissau": [
+   [
+    "Culture",
+    "Bissau's Carnival features giant masks and costumes from many local groups."
+   ],
+   [
+    "Nature",
+    "Bissau sits on the wide Geba River estuary."
+   ],
+   [
+    "History",
+    "Bissau's old Portuguese fort still stands near the waterfront."
+   ]
+  ],
+  "capital-kenya": [
+   [
+    "Wildlife",
+    "At the Sheldrick Wildlife Trust in Nairobi, rescued baby elephants are raised before returning to the wild."
+   ],
+   [
+    "Wildlife",
+    "Nairobi's Giraffe Centre lets visitors feed rare Rothschild giraffes face to face."
+   ],
+   [
+    "Name",
+    "Nairobi's name comes from a Maasai phrase meaning 'cool water.'"
+   ]
+  ],
+  "capital-lesotho": [
+   [
+    "Nature",
+    "Maseru sits on the Caledon River, right on the border with South Africa."
+   ],
+   [
+    "History",
+    "Maseru means 'place of red sandstone' in Sesotho."
+   ],
+   [
+    "Culture",
+    "Ponies are a common way to travel in Lesotho's mountains near the city."
+   ]
+  ],
+  "capital-liberia": [
+   [
+    "Landmark",
+    "Providence Island in Monrovia is where many early settlers first arrived."
+   ],
+   [
+    "Culture",
+    "Waterside Market is Monrovia's biggest and busiest market."
+   ],
+   [
+    "Nature",
+    "Monrovia is one of the rainiest capital cities in the world."
+   ]
+  ],
+  "capital-libya": [
+   [
+    "Landmark",
+    "Tripoli's Red Castle is a huge fortress by the sea that holds a museum."
+   ],
+   [
+    "Nickname",
+    "Tripoli is called the 'Bride of the Sea' for its seaside setting."
+   ],
+   [
+    "Culture",
+    "Tripoli's old medina has covered markets selling copper, gold and fabrics."
+   ]
+  ],
+  "capital-madagascar": [
+   [
+    "Landmark",
+    "The Rova, a royal palace complex, sits on the highest hill of Antananarivo."
+   ],
+   [
+    "Nickname",
+    "People call the city 'Tana' for short."
+   ],
+   [
+    "Wildlife",
+    "Lemurs live at Lemurs' Park, a short drive from the city."
+   ]
+  ],
+  "capital-malawi": [
+   [
+    "History",
+    "Lilongwe became Malawi's capital in 1975."
+   ],
+   [
+    "Wildlife",
+    "The Lilongwe Wildlife Centre rescues and cares for injured wild animals."
+   ],
+   [
+    "Culture",
+    "Lilongwe's Old Town market sells carvings and crafts."
+   ]
+  ],
+  "capital-mali": [
+   [
+    "Landmark",
+    "Bamako's Martyrs' Bridge crosses the wide Niger River."
+   ],
+   [
+    "Culture",
+    "Bamako's National Museum has beautiful masks and textiles."
+   ],
+   [
+    "Culture",
+    "Bamako is famous for musicians like Amadou and Mariam."
+   ]
+  ],
+  "capital-mauritania": [
+   [
+    "Culture",
+    "At Nouakchott's fishing beach, hundreds of colorful wooden boats come in each afternoon."
+   ],
+   [
+    "History",
+    "Nouakchott was built as the new capital around 1960."
+   ],
+   [
+    "Nature",
+    "Sand dunes from the Sahara reach the edges of the city."
+   ]
+  ],
+  "capital-mauritius": [
+   [
+    "Culture",
+    "Port Louis's Caudan Waterfront has a street of colorful umbrellas floating above it."
+   ],
+   [
+    "Culture",
+    "Port Louis has a Chinatown and markets with food from India, China, Africa and France."
+   ],
+   [
+    "Nature",
+    "Pieter Both mountain near Port Louis has a giant balancing rock on top."
+   ]
+  ],
+  "capital-morocco": [
+   [
+    "Landmark",
+    "Rabat's Kasbah of the Udayas is a blue-and-white old neighborhood overlooking the ocean."
+   ],
+   [
+    "Culture",
+    "Rabat's Mausoleum of Mohammed V has guards in bright uniforms."
+   ],
+   [
+    "History",
+    "Rabat has been a royal city for more than 800 years."
+   ]
+  ],
+  "capital-mozambique": [
+   [
+    "Landmark",
+    "Maputo's train station is one of the most beautiful in the world, with a green dome."
+   ],
+   [
+    "Food",
+    "Maputo is famous for giant prawns and peri-peri chicken."
+   ],
+   [
+    "Landmark",
+    "Maputo's old fortress, built of red stone, stands near the bay."
+   ]
+  ],
+  "capital-namibia": [
+   [
+    "Landmark",
+    "Windhoek's Christuskirche church looks like a gingerbread house."
+   ],
+   [
+    "Culture",
+    "Windhoek mixes Namibian and German traditions, with some street names in German."
+   ],
+   [
+    "Nature",
+    "Windhoek is ringed by hills and natural hot springs."
+   ]
+  ],
+  "capital-niger": [
+   [
+    "Culture",
+    "Niamey's Grand Market is one of the biggest markets in West Africa."
+   ],
+   [
+    "Nature",
+    "Hippos sometimes swim in the Niger River near Niamey."
+   ],
+   [
+    "Landmark",
+    "The Kennedy Bridge crosses the Niger River in Niamey."
+   ]
+  ],
+  "capital-nigeria": [
+   [
+    "Landmark",
+    "Abuja's National Mosque has a golden dome and four tall minarets."
+   ],
+   [
+    "History",
+    "Abuja was built in the 1980s in the middle of Nigeria."
+   ],
+   [
+    "Landmark",
+    "Aso Rock, a huge granite rock, rises behind Abuja's government buildings."
+   ]
+  ],
+  "capital-rwanda": [
+   [
+    "Nature",
+    "Kigali is spread across rolling green hills."
+   ],
+   [
+    "Culture",
+    "Kigali's Inema Arts Center shows paintings by local artists."
+   ],
+   [
+    "Rule",
+    "Kigali's car-free zone in the city center is a favorite place to walk."
+   ]
+  ],
+  "capital-sao-tome-and-principe": [
+   [
+    "Culture",
+    "São Tomé's colorful colonial buildings line its seaside avenue."
+   ],
+   [
+    "Food",
+    "Chocolate made from local cocoa is sold all around the city."
+   ],
+   [
+    "Nature",
+    "The equator passes just south of the island, at Ilhéu das Rolas."
+   ]
+  ],
+  "capital-senegal": [
+   [
+    "Culture",
+    "Dakar's seaside Corniche road has outdoor gyms where people work out by the ocean."
+   ],
+   [
+    "Culture",
+    "Dakar's colorful 'car rapide' minibuses are painted with eyes and flowers."
+   ],
+   [
+    "Culture",
+    "Sandaga Market is one of Dakar's busiest markets, full of fabrics and music."
+   ]
+  ],
+  "capital-seychelles": [
+   [
+    "Culture",
+    "Victoria's Sir Selwyn Selwyn-Clarke Market sells fresh fish, spices and tropical fruit."
+   ],
+   [
+    "Nature",
+    "Victoria sits on Mahé, the biggest island of the Seychelles."
+   ],
+   [
+    "Wildlife",
+    "Giant tortoises live at the botanical garden in Victoria."
+   ]
+  ],
+  "capital-sierra-leone": [
+   [
+    "Landmark",
+    "Freetown's Cotton Tree was a giant, centuries-old symbol of the city."
+   ],
+   [
+    "Nature",
+    "Freetown's beaches, like Lumley Beach, stretch along the Atlantic."
+   ],
+   [
+    "History",
+    "Fourah Bay College in Freetown, opened in 1827, is one of the oldest universities in West Africa."
+   ]
+  ],
+  "capital-somalia": [
+   [
+    "Nature",
+    "Lido Beach is Mogadishu's favorite seaside spot."
+   ],
+   [
+    "Culture",
+    "Mogadishu's old buildings mix Somali, Arab and Italian styles."
+   ],
+   [
+    "Culture",
+    "Bakara Market is Mogadishu's biggest market."
+   ]
+  ],
+  "capital-south-africa": [
+   [
+    "Nickname",
+    "Pretoria is called the 'Jacaranda City.'"
+   ],
+   [
+    "Landmark",
+    "The Union Buildings, the president's offices, sit on a hill with big terraced gardens."
+   ],
+   [
+    "History",
+    "A giant 30-foot statue of Nelson Mandela stands at the Union Buildings."
+   ]
+  ],
+  "capital-south-sudan": [
+   [
+    "Size",
+    "Juba is one of the fastest-growing cities in Africa."
+   ],
+   [
+    "Nature",
+    "The Nile flows right past the city."
+   ],
+   [
+    "Culture",
+    "Konyo Konyo market is one of Juba's busiest markets."
+   ]
+  ],
+  "capital-sudan": [
+   [
+    "Landmark",
+    "Tuti Island sits right where the Blue Nile and the White Nile meet."
+   ],
+   [
+    "History",
+    "Khartoum's name may mean 'elephant's trunk,' after the shape where the rivers join."
+   ],
+   [
+    "Culture",
+    "The National Museum has ancient temples rescued from rising Nile waters."
+   ]
+  ],
+  "capital-tanzania": [
+   [
+    "History",
+    "Dodoma was chosen as the new capital in 1973 because it's in the middle of the country."
+   ],
+   [
+    "Culture",
+    "Tanzania's Parliament meets in Dodoma."
+   ],
+   [
+    "Nature",
+    "Dodoma sits on a dry, high plateau."
+   ]
+  ],
+  "capital-togo": [
+   [
+    "Landmark",
+    "Lomé's Independence Monument stands in a big square downtown."
+   ],
+   [
+    "Nature",
+    "Lomé's beaches are lined with tall coconut palms."
+   ],
+   [
+    "Nature",
+    "Lomé is right on the border with Ghana."
+   ]
+  ],
+  "capital-tunisia": [
+   [
+    "Landmark",
+    "The Bardo Museum in Tunis has one of the world's biggest collections of Roman mosaics."
+   ],
+   [
+    "Culture",
+    "Tunis's old medina has more than 700 historic buildings."
+   ],
+   [
+    "Nature",
+    "Tunis sits beside a big lake that opens to the Mediterranean."
+   ]
+  ],
+  "capital-uganda": [
+   [
+    "Landmark",
+    "Namirembe Cathedral sits on top of one of Kampala's hills, with views over the whole city."
+   ],
+   [
+    "Culture",
+    "Owino Market is one of the biggest markets in East Africa."
+   ],
+   [
+    "Transport",
+    "Boda-bodas, motorbike taxis, zip around Kampala's hills."
+   ]
+  ],
+  "capital-zambia": [
+   [
+    "History",
+    "Lusaka was planned as the capital in the 1930s."
+   ],
+   [
+    "Culture",
+    "Lusaka's Sunday craft market fills a parking lot with carvings and fabrics."
+   ],
+   [
+    "Wildlife",
+    "Lusaka National Park, close to the city, has rhinos and giraffes."
+   ]
+  ],
+  "capital-zimbabwe": [
+   [
+    "Landmark",
+    "Harare's Balancing Rocks, piles of giant boulders, are on Zimbabwe's money."
+   ],
+   [
+    "Culture",
+    "The National Gallery of Zimbabwe in Harare shows famous stone sculptures."
+   ],
+   [
+    "Nature",
+    "Harare is nicknamed 'the Sunshine City.'"
+   ]
+  ],
+  "capital-afghanistan": [
+   [
+    "Nature",
+    "Kabul sits in a valley surrounded by the Hindu Kush mountains."
+   ],
+   [
+    "Culture",
+    "Kite flying is a hugely popular pastime in Kabul."
+   ],
+   [
+    "History",
+    "Kabul has been a stop on trade routes for more than 3,000 years."
+   ]
+  ],
+  "capital-armenia": [
+   [
+    "Landmark",
+    "The Cascade in Yerevan is a giant stairway of fountains and gardens with art museums inside."
+   ],
+   [
+    "History",
+    "Yerevan was founded in 782 BC, so it's older than Rome."
+   ],
+   [
+    "Culture",
+    "Yerevan's Matenadaran holds thousands of ancient handwritten books."
+   ]
+  ],
+  "capital-azerbaijan": [
+   [
+    "History",
+    "Baku's old walled city has the Maiden Tower, which is about 900 years old or older."
+   ],
+   [
+    "Nature",
+    "Baku is the lowest-lying capital in the world, below sea level by the Caspian Sea."
+   ],
+   [
+    "Culture",
+    "Baku's carpet museum is built in the shape of a rolled-up carpet."
+   ]
+  ],
+  "capital-bahrain": [
+   [
+    "Landmark",
+    "The Bahrain World Trade Center has three giant wind turbines between its two towers."
+   ],
+   [
+    "History",
+    "Bahrain's pearling trail in Muharraq is a UNESCO World Heritage Site."
+   ],
+   [
+    "Culture",
+    "Manama's Bab Al Bahrain gate leads into a busy old market."
+   ]
+  ],
+  "capital-bangladesh": [
+   [
+    "Landmark",
+    "Bangladesh's National Parliament building in Dhaka, by architect Louis Kahn, is famous for its giant geometric shapes."
+   ],
+   [
+    "Culture",
+    "Dhaka hosts a giant book fair every February."
+   ],
+   [
+    "Nature",
+    "Dhaka sits beside the Buriganga River."
+   ]
+  ],
+  "capital-bhutan": [
+   [
+    "Culture",
+    "Instead of traffic lights, police officers direct traffic in Thimphu with graceful hand signals."
+   ],
+   [
+    "Landmark",
+    "A giant golden Buddha statue sits on a hill overlooking Thimphu."
+   ],
+   [
+    "Wildlife",
+    "Thimphu has a preserve for the takin, Bhutan's national animal."
+   ]
+  ],
+  "capital-brunei": [
+   [
+    "Culture",
+    "The Royal Regalia Museum holds a golden chariot used in royal parades."
+   ],
+   [
+    "Wildlife",
+    "Proboscis monkeys, with big long noses, live in the mangroves near the city."
+   ],
+   [
+    "Nature",
+    "Water taxis zip across the Brunei River all day long."
+   ]
+  ],
+  "capital-cambodia": [
+   [
+    "Culture",
+    "Phnom Penh's Central Market is a giant yellow Art Deco dome."
+   ],
+   [
+    "Culture",
+    "During the Water Festival, colorful dragon boats race on the river."
+   ],
+   [
+    "Name",
+    "Phnom Penh means 'Penh's Hill,' after a woman named Penh who founded a temple there."
+   ]
+  ],
+  "capital-china": [
+   [
+    "Landmark",
+    "Tiananmen Square is one of the biggest city squares in the world."
+   ],
+   [
+    "Culture",
+    "The Temple of Heaven is where emperors once prayed for good harvests."
+   ],
+   [
+    "Sports",
+    "Beijing is the only city to host both the Summer and Winter Olympics, in 2008 and 2022."
+   ]
+  ],
+  "capital-georgia": [
+   [
+    "Transport",
+    "A cable car carries visitors over Tbilisi to the old Narikala Fortress."
+   ],
+   [
+    "Landmark",
+    "The Bridge of Peace is a curvy glass-and-steel bridge that lights up at night."
+   ],
+   [
+    "Culture",
+    "Tbilisi's old town is full of houses with carved wooden balconies."
+   ]
+  ],
+  "capital-india": [
+   [
+    "Landmark",
+    "The Lotus Temple in New Delhi is shaped like a giant white lotus flower."
+   ],
+   [
+    "Culture",
+    "Delhi's Chandni Chowk market is one of the oldest and busiest in India."
+   ],
+   [
+    "History",
+    "Qutub Minar in Delhi is one of the tallest brick towers in the world, built in the 1200s."
+   ]
+  ],
+  "capital-indonesia": [
+   [
+    "Culture",
+    "Jakarta's Old Town, Kota Tua, has a square lined with Dutch colonial buildings."
+   ],
+   [
+    "Landmark",
+    "The Istiqlal Mosque is one of the largest mosques in Southeast Asia."
+   ],
+   [
+    "Nature",
+    "Indonesia is building a new capital, Nusantara, on the island of Borneo."
+   ]
+  ],
+  "capital-iran": [
+   [
+    "Landmark",
+    "The Azadi Tower is a white marble gateway that welcomes people to Tehran."
+   ],
+   [
+    "Culture",
+    "Tehran's Grand Bazaar has miles of covered lanes full of shops."
+   ],
+   [
+    "Culture",
+    "The National Jewelry Treasury in Tehran holds the Darya-ye Noor, one of the biggest pink diamonds."
+   ]
+  ],
+  "capital-iraq": [
+   [
+    "Landmark",
+    "The Tigris River flows right through the middle of Baghdad."
+   ],
+   [
+    "Culture",
+    "Al-Mutanabbi Street is Baghdad's famous book-market street."
+   ],
+   [
+    "Food",
+    "Masgouf, fish slow-roasted beside an open fire, is a Baghdad specialty."
+   ]
+  ],
+  "capital-japan": [
+   [
+    "Landmark",
+    "Tokyo Skytree, about 2,080 feet tall, is the tallest tower in the world."
+   ],
+   [
+    "Transport",
+    "Tokyo's trains are so on time that a train company once apologized for leaving 20 seconds early!"
+   ],
+   [
+    "Culture",
+    "Tokyo has more Michelin-starred restaurants than any other city."
+   ]
+  ],
+  "capital-jordan": [
+   [
+    "Food",
+    "Amman's Habibah sweet shop is famous for knafeh, a cheesy, syrupy dessert."
+   ],
+   [
+    "Landmark",
+    "The Citadel, on Amman's highest hill, has a giant stone hand from an ancient statue."
+   ],
+   [
+    "Culture",
+    "Rainbow Street in Amman is lined with cafés and art shops."
+   ]
+  ],
+  "capital-kazakhstan": [
+   [
+    "Landmark",
+    "Khan Shatyr is a giant see-through tent with an indoor beach inside."
+   ],
+   [
+    "Nature",
+    "Astana is one of the coldest capital cities in the world."
+   ],
+   [
+    "History",
+    "Astana's name simply means 'the capital' in Kazakh."
+   ]
+  ],
+  "capital-kuwait": [
+   [
+    "Culture",
+    "Souq Al-Mubarakiya is one of Kuwait's oldest markets, famous for dates and spices."
+   ],
+   [
+    "Landmark",
+    "The Liberation Tower is one of the tallest telecom towers in the world."
+   ],
+   [
+    "Culture",
+    "The Kuwait Scientific Center has an aquarium with a giant shark tank."
+   ]
+  ],
+  "capital-kyrgyzstan": [
+   [
+    "Culture",
+    "Osh Bazaar in Bishkek is full of dried fruit, nuts and felt crafts."
+   ],
+   [
+    "Nature",
+    "Ala Archa National Park, with glaciers and snowy peaks, is just outside the city."
+   ],
+   [
+    "Landmark",
+    "The giant statue of Manas, the hero of Kyrgyz legend, stands in the city."
+   ]
+  ],
+  "capital-laos": [
+   [
+    "Landmark",
+    "Patuxai is a big victory gate in Vientiane, with a viewing deck on top."
+   ],
+   [
+    "Culture",
+    "Every evening, a night market fills the Mekong riverbank."
+   ],
+   [
+    "Landmark",
+    "Buddha Park, near Vientiane, has more than 200 giant concrete statues."
+   ]
+  ],
+  "capital-lebanon": [
+   [
+    "Landmark",
+    "Pigeon Rocks are two giant rock arches standing in the sea off Beirut."
+   ],
+   [
+    "Food",
+    "Beirut is famous for mezze, many small dishes like hummus and tabbouleh shared together."
+   ],
+   [
+    "Culture",
+    "The National Museum of Beirut has ancient treasures from many civilizations."
+   ]
+  ],
+  "capital-malaysia": [
+   [
+    "Landmark",
+    "The Batu Caves, near Kuala Lumpur, have a giant golden statue and 272 rainbow-painted steps."
+   ],
+   [
+    "Name",
+    "Kuala Lumpur means 'muddy river mouth' in Malay."
+   ],
+   [
+    "Landmark",
+    "The KL Tower has a glass box on top where visitors seem to float in the sky."
+   ]
+  ],
+  "capital-maldives": [
+   [
+    "Landmark",
+    "Malé is linked to the airport island by the China-Maldives Friendship Bridge."
+   ],
+   [
+    "Culture",
+    "Malé's Old Friday Mosque is built from coral stone carved by hand."
+   ],
+   [
+    "Size",
+    "Malé is one of the most crowded cities in the world, packed onto about 3 square miles."
+   ]
+  ],
+  "capital-mongolia": [
+   [
+    "Landmark",
+    "A giant silver statue of a horseman stands outside Ulaanbaatar."
+   ],
+   [
+    "Culture",
+    "Many families on the edge of the city live in round felt tents called gers."
+   ],
+   [
+    "Culture",
+    "Gandan Monastery has a statue more than 80 feet tall inside."
+   ]
+  ],
+  "capital-myanmar": [
+   [
+    "History",
+    "Naypyidaw's name means 'abode of kings.'"
+   ],
+   [
+    "Landmark",
+    "Uppatasanti Pagoda in Naypyidaw is almost the same height as Yangon's famous Shwedagon Pagoda."
+   ],
+   [
+    "Nature",
+    "Naypyidaw has a big zoo with a penguin house kept cool year-round."
+   ]
+  ],
+  "capital-nepal": [
+   [
+    "Culture",
+    "Kathmandu's Kumari is a girl honored as a living goddess."
+   ],
+   [
+    "Landmark",
+    "Swayambhunath is nicknamed the 'Monkey Temple' because monkeys live there."
+   ],
+   [
+    "Landmark",
+    "Boudhanath has one of the biggest stupas in the world, painted with watching eyes."
+   ]
+  ],
+  "capital-north-korea": [
+   [
+    "Landmark",
+    "The Juche Tower in Pyongyang is a tall stone tower topped with a red flame."
+   ],
+   [
+    "Culture",
+    "Pyongyang's metro has stations decorated with chandeliers and murals."
+   ],
+   [
+    "Food",
+    "Pyongyang naengmyeon, cold buckwheat noodles, is a famous dish."
+   ]
+  ],
+  "capital-oman": [
+   [
+    "Landmark",
+    "Muscat's Sultan Qaboos Grand Mosque has a giant crystal chandelier."
+   ],
+   [
+    "Culture",
+    "Muttrah Souq is famous for frankincense, silver and spices."
+   ],
+   [
+    "Culture",
+    "The Royal Opera House Muscat was the first opera house in the Arabian Gulf."
+   ]
+  ],
+  "capital-pakistan": [
+   [
+    "Landmark",
+    "The Faisal Mosque in Islamabad is shaped like a desert tent and is one of the biggest mosques in the world."
+   ],
+   [
+    "Nature",
+    "Monkeys and leopards live in Margalla Hills National Park, right next to the city."
+   ],
+   [
+    "Culture",
+    "The Pakistan Monument is shaped like a blooming flower."
+   ]
+  ],
+  "capital-philippines": [
+   [
+    "Transport",
+    "Jeepneys, colorful buses first made from old jeeps, carry people all around Manila."
+   ],
+   [
+    "Landmark",
+    "Manila's Fort Santiago is a stone fort from the 1500s."
+   ],
+   [
+    "Culture",
+    "Rizal Park honors José Rizal, a national hero and writer."
+   ]
+  ],
+  "capital-qatar": [
+   [
+    "Culture",
+    "Souq Waqif is a busy old market with spices, falcons and traditional crafts."
+   ],
+   [
+    "Landmark",
+    "The National Museum of Qatar is shaped like a desert rose crystal."
+   ],
+   [
+    "Sports",
+    "Doha hosted the 2022 FIFA World Cup final at nearby Lusail Stadium."
+   ]
+  ],
+  "capital-saudi-arabia": [
+   [
+    "History",
+    "Masmak Fortress, made of mud brick, is one of Riyadh's oldest buildings."
+   ],
+   [
+    "Nature",
+    "The Edge of the World is a giant cliff near Riyadh with views over the desert."
+   ],
+   [
+    "Culture",
+    "Riyadh Season is a giant festival with concerts, games and food."
+   ]
+  ],
+  "capital-singapore": [
+   [
+    "Nature",
+    "Singapore's Gardens by the Bay has a cloud forest with a tall indoor waterfall."
+   ],
+   [
+    "Landmark",
+    "Marina Bay Sands has a giant rooftop pool that looks like it's floating in the sky."
+   ],
+   [
+    "Food",
+    "Hawker centers serve cheap, tasty food, and some stalls have Michelin stars!"
+   ]
+  ],
+  "capital-south-korea": [
+   [
+    "Landmark",
+    "N Seoul Tower sits on a mountain in the middle of the city."
+   ],
+   [
+    "Culture",
+    "Seoul's Cheonggyecheon is a stream that was uncovered and turned into a long park."
+   ],
+   [
+    "Sports",
+    "Seoul hosted the 1988 Summer Olympics."
+   ]
+  ],
+  "capital-sri-lanka": [
+   [
+    "Name",
+    "Its full name, Sri Jayawardenepura Kotte, is one of the longest capital names in the world."
+   ],
+   [
+    "Landmark",
+    "Sri Lanka's Parliament building sits on an island in a lake."
+   ],
+   [
+    "Culture",
+    "Kotte was an old royal city hundreds of years ago."
+   ]
+  ],
+  "capital-syria": [
+   [
+    "Landmark",
+    "The Umayyad Mosque in Damascus is one of the oldest and largest mosques in the world."
+   ],
+   [
+    "Culture",
+    "Damascus is famous for Damask, a fancy woven fabric named after the city."
+   ],
+   [
+    "Culture",
+    "The Al-Hamidiyah Souq is a long covered market in the old city."
+   ]
+  ],
+  "capital-taiwan": [
+   [
+    "Transport",
+    "Taipei's Maokong Gondola glides over green tea farms in the hills."
+   ],
+   [
+    "Culture",
+    "Taipei's National Palace Museum has a famous jade carving shaped like a cabbage."
+   ],
+   [
+    "Transport",
+    "Taipei 101 has some of the fastest elevators in the world."
+   ]
+  ],
+  "capital-tajikistan": [
+   [
+    "Landmark",
+    "Dushanbe has one of the tallest flagpoles in the world."
+   ],
+   [
+    "Culture",
+    "Dushanbe's teahouse, Chaikhana Rohat, is decorated with painted columns."
+   ],
+   [
+    "Nature",
+    "The Pamir Mountains, the 'Roof of the World,' rise in the east of the country."
+   ]
+  ],
+  "capital-thailand": [
+   [
+    "Landmark",
+    "Wat Arun, the Temple of Dawn, is decorated with colorful bits of porcelain."
+   ],
+   [
+    "Culture",
+    "Bangkok's Chatuchak Weekend Market has around 15,000 stalls."
+   ],
+   [
+    "Nickname",
+    "Thai people call Bangkok 'Krung Thep,' meaning 'City of Angels.'"
+   ]
+  ],
+  "capital-timor-leste": [
+   [
+    "Nature",
+    "Dili's beaches are a top spot to watch dolphins and whales."
+   ],
+   [
+    "Culture",
+    "Tais Market sells colorful hand-woven cloth."
+   ],
+   [
+    "Food",
+    "Dili's cafés serve coffee grown in Timor-Leste's own mountains."
+   ]
+  ],
+  "capital-turkiye-turkey": [
+   [
+    "Landmark",
+    "Anıtkabir, a giant monument on a hill, honors Atatürk, founder of modern Türkiye."
+   ],
+   [
+    "History",
+    "Ankara became the capital in 1923."
+   ],
+   [
+    "Culture",
+    "Ankara's old citadel has winding streets with views over the city."
+   ]
+  ],
+  "capital-turkmenistan": [
+   [
+    "Landmark",
+    "Ashgabat has a giant indoor Ferris wheel inside a building."
+   ],
+   [
+    "Culture",
+    "Ashgabat's Tolkuchka Bazaar sells Turkmen carpets and camel-wool crafts."
+   ],
+   [
+    "Landmark",
+    "The Turkmen horse statue near the city celebrates the golden Akhal-Teke horses."
+   ]
+  ],
+  "capital-united-arab-emirates": [
+   [
+    "Culture",
+    "Louvre Abu Dhabi has a giant dome that lets in a 'rain of light.'"
+   ],
+   [
+    "Culture",
+    "Ferrari World in Abu Dhabi has one of the fastest roller coasters in the world."
+   ],
+   [
+    "Nature",
+    "Abu Dhabi is built on an island in the Arabian Gulf."
+   ]
+  ],
+  "capital-uzbekistan": [
+   [
+    "Culture",
+    "Chorsu Bazaar is a huge market under a giant blue dome."
+   ],
+   [
+    "History",
+    "Tashkent was an important stop on the Silk Road."
+   ],
+   [
+    "Landmark",
+    "The Tashkent TV Tower is one of the tallest towers in Central Asia."
+   ]
+  ],
+  "capital-vietnam": [
+   [
+    "Culture",
+    "Hanoi's Old Quarter has streets named after what they once sold, like Silk Street."
+   ],
+   [
+    "Culture",
+    "Egg coffee, made with whipped egg yolk, was invented in Hanoi."
+   ],
+   [
+    "Transport",
+    "On Train Street, a train squeezes through a narrow lane right past people's front doors."
+   ]
+  ],
+  "capital-yemen": [
+   [
+    "History",
+    "Sanaa is one of the oldest cities in the world where people have always lived."
+   ],
+   [
+    "Culture",
+    "Sanaa's colored-glass windows, called qamariya, glow at night."
+   ],
+   [
+    "Culture",
+    "Bab al-Yemen is the famous gate to Sanaa's old city."
+   ]
+  ],
+  "capital-albania": [
+   [
+    "Landmark",
+    "The Pyramid of Tirana, a big old concrete building, was turned into a tech center for young people."
+   ],
+   [
+    "Transport",
+    "The Dajti Express cable car carries visitors up a mountain right next to Tirana."
+   ],
+   [
+    "Culture",
+    "Tirana's Blloku neighborhood is packed with colorful cafés."
+   ]
+  ],
+  "capital-andorra": [
+   [
+    "Culture",
+    "Andorra la Vella's main street is famous for shopping, with lots of shops selling sports gear."
+   ],
+   [
+    "Nature",
+    "Caldea, one of the biggest spas in Europe, uses warm mountain spring water."
+   ],
+   [
+    "Nature",
+    "Ski slopes are just a short drive from the capital."
+   ]
+  ],
+  "capital-austria": [
+   [
+    "Landmark",
+    "Vienna's giant Ferris wheel, the Wiener Riesenrad, has been turning since 1897."
+   ],
+   [
+    "Wildlife",
+    "Schönbrunn Zoo in Vienna, opened in 1752, is the oldest zoo still running in the world."
+   ],
+   [
+    "Food",
+    "The Sachertorte, a rich chocolate cake with apricot jam, was invented in Vienna."
+   ]
+  ],
+  "capital-belarus": [
+   [
+    "Culture",
+    "Minsk's old Trinity Suburb has colorful little houses along the river."
+   ],
+   [
+    "Landmark",
+    "The Victory Square obelisk stands in the middle of a big roundabout."
+   ],
+   [
+    "Culture",
+    "Minsk's Upper Town has pretty old churches and a white town hall."
+   ]
+  ],
+  "capital-belgium": [
+   [
+    "Landmark",
+    "Manneken Pis, a tiny bronze statue of a boy, has more than 1,000 costumes!"
+   ],
+   [
+    "Culture",
+    "Every two years, Brussels' Grand Place is covered with a giant carpet made of flowers."
+   ],
+   [
+    "Culture",
+    "Comic strip art is painted on walls all over Brussels, including Tintin and the Smurfs."
+   ]
+  ],
+  "capital-bosnia-and-herzegovina": [
+   [
+    "Landmark",
+    "The Sebilj, a wooden fountain in Sarajevo's old bazaar, is a favorite spot for pigeons."
+   ],
+   [
+    "Culture",
+    "In Sarajevo, people drink Bosnian coffee from small copper pots called džezva."
+   ],
+   [
+    "Transport",
+    "A cable car carries visitors up Mount Trebević, above the city."
+   ]
+  ],
+  "capital-bulgaria": [
+   [
+    "Landmark",
+    "Sofia's Alexander Nevsky Cathedral has shining gold domes."
+   ],
+   [
+    "History",
+    "Sofia is one of the oldest cities in Europe, around 7,000 years old."
+   ],
+   [
+    "Culture",
+    "Ancient Roman ruins can be seen inside Sofia's subway stations!"
+   ]
+  ],
+  "capital-croatia": [
+   [
+    "Culture",
+    "In Zagreb's Upper Town, lamplighters still light the gas street lamps by hand every evening."
+   ],
+   [
+    "Transport",
+    "Zagreb's funicular is one of the shortest public railways in the world, only about 216 feet long."
+   ],
+   [
+    "Culture",
+    "Zagreb's Advent Christmas market has been voted one of the best in Europe."
+   ]
+  ],
+  "capital-cyprus": [
+   [
+    "Culture",
+    "Nicosia's Laiki Geitonia is a pretty old neighborhood of stone houses and cafés."
+   ],
+   [
+    "Food",
+    "Halloumi cheese and souvlaki are favorite foods in Nicosia."
+   ],
+   [
+    "Landmark",
+    "Nicosia's Venetian walls have 11 star-shaped bastions."
+   ]
+  ],
+  "capital-czechia-czech-republic": [
+   [
+    "Landmark",
+    "Prague Castle is one of the biggest castle complexes in the world."
+   ],
+   [
+    "Landmark",
+    "The Charles Bridge has 30 statues lining its sides."
+   ],
+   [
+    "Culture",
+    "Prague has a famous 'Dancing House,' a building that looks like two dancers."
+   ]
+  ],
+  "capital-denmark": [
+   [
+    "Landmark",
+    "Copenhagen's Nyhavn harbor is lined with bright-colored old houses."
+   ],
+   [
+    "Culture",
+    "Copenhagen's Round Tower has a spiral ramp instead of stairs, so a horse and carriage could ride up."
+   ],
+   [
+    "Nature",
+    "Copenhagen's harbor water is so clean that people swim in it."
+   ]
+  ],
+  "capital-estonia": [
+   [
+    "Culture",
+    "Tallinn's Town Hall Pharmacy has been open since the 1400s."
+   ],
+   [
+    "Landmark",
+    "Tallinn's old town is ringed by stone walls and towers with red roofs."
+   ],
+   [
+    "Culture",
+    "Tallinn's TV Tower lets brave visitors walk outside on its edge."
+   ]
+  ],
+  "capital-finland": [
+   [
+    "Culture",
+    "Helsinki has a public sauna right on the harbor where people jump into the sea."
+   ],
+   [
+    "Landmark",
+    "Temppeliaukio Church is carved right into solid rock."
+   ],
+   [
+    "Culture",
+    "Helsinki's Oodi library lends out sewing machines, video games and tools."
+   ]
+  ],
+  "capital-france": [
+   [
+    "Landmark",
+    "Paris has a smaller Statue of Liberty on an island in the Seine River."
+   ],
+   [
+    "Food",
+    "Bakers in Paris compete every year to bake the city's best baguette."
+   ],
+   [
+    "Landmark",
+    "The Arc de Triomphe sits in a giant traffic circle where 12 avenues meet."
+   ]
+  ],
+  "capital-germany": [
+   [
+    "Landmark",
+    "The Reichstag, Germany's parliament, has a glass dome visitors can walk up inside."
+   ],
+   [
+    "Culture",
+    "Berlin has a museum island with five world-famous museums."
+   ],
+   [
+    "Food",
+    "Currywurst, sausage with curry ketchup, was invented in Berlin in 1949."
+   ]
+  ],
+  "capital-greece": [
+   [
+    "Culture",
+    "Athens' Evzones, the presidential guards, wear skirts with 400 pleats and shoes with pom-poms."
+   ],
+   [
+    "Sports",
+    "Athens hosted the first modern Olympic Games in 1896."
+   ],
+   [
+    "Landmark",
+    "The Panathenaic Stadium is made entirely of marble."
+   ]
+  ],
+  "capital-hungary": [
+   [
+    "Landmark",
+    "Budapest's Parliament building is one of the biggest in Europe, with 691 rooms."
+   ],
+   [
+    "Transport",
+    "Budapest's metro Line 1, opened in 1896, is one of the oldest subways in the world."
+   ],
+   [
+    "Landmark",
+    "The Chain Bridge was the first permanent bridge across the Danube in Hungary."
+   ]
+  ],
+  "capital-iceland": [
+   [
+    "Landmark",
+    "Hallgrímskirkja church in Reykjavík is shaped like flowing lava columns."
+   ],
+   [
+    "Food",
+    "Reykjavík is famous for hot dogs topped with crispy fried onions."
+   ],
+   [
+    "Nature",
+    "From Reykjavík, you can sometimes see the northern lights dancing in winter."
+   ]
+  ],
+  "capital-ireland": [
+   [
+    "Landmark",
+    "Dublin's Ha'penny Bridge got its name from the half-penny toll people once paid to cross."
+   ],
+   [
+    "Culture",
+    "Dublin has lots of colorful front doors, a famous city symbol."
+   ],
+   [
+    "Wildlife",
+    "Phoenix Park, one of Europe's biggest city parks, has a herd of wild deer."
+   ]
+  ],
+  "capital-italy": [
+   [
+    "Landmark",
+    "The Pantheon in Rome has the world's largest unsupported concrete dome, nearly 2,000 years old."
+   ],
+   [
+    "Food",
+    "Gelato and pizza bianca are favorite Roman treats."
+   ],
+   [
+    "Culture",
+    "Rome has more than 2,000 public drinking fountains with fresh water."
+   ]
+  ],
+  "capital-kosovo": [
+   [
+    "Landmark",
+    "The National Library of Kosovo in Pristina is covered with 99 domes and a metal net."
+   ],
+   [
+    "Nature",
+    "Germia Park, on the edge of Pristina, is a big forest park with a huge outdoor pool."
+   ],
+   [
+    "Culture",
+    "Pristina's Mother Teresa Boulevard is a busy walking street with cafés."
+   ]
+  ],
+  "capital-latvia": [
+   [
+    "Culture",
+    "Riga's Central Market is housed in giant old airship hangars."
+   ],
+   [
+    "Landmark",
+    "The House of the Blackheads has a fancy decorated front."
+   ],
+   [
+    "Culture",
+    "Riga's old town is a UNESCO World Heritage Site."
+   ]
+  ],
+  "capital-liechtenstein": [
+   [
+    "Culture",
+    "Vaduz has a famous postage stamp museum."
+   ],
+   [
+    "Culture",
+    "The Kunstmuseum in Vaduz is a black cube-shaped art museum."
+   ],
+   [
+    "Size",
+    "Vaduz is one of the smallest capitals in Europe, with only about 6,000 people."
+   ]
+  ],
+  "capital-lithuania": [
+   [
+    "Culture",
+    "Užupis, a neighborhood in Vilnius, jokingly declared itself a republic, with its own constitution on a wall."
+   ],
+   [
+    "Landmark",
+    "Gediminas' Tower sits on a hill above Vilnius."
+   ],
+   [
+    "Culture",
+    "Vilnius is famous for its many baroque churches."
+   ]
+  ],
+  "capital-luxembourg": [
+   [
+    "Nature",
+    "Luxembourg City's Grund neighborhood sits at the bottom of a deep river valley."
+   ],
+   [
+    "Culture",
+    "Luxembourg City is home to several important European Union offices."
+   ],
+   [
+    "Landmark",
+    "The Adolphe Bridge has two decks, one for cars and one for bikes."
+   ]
+  ],
+  "capital-north-macedonia": [
+   [
+    "Landmark",
+    "Skopje's main square has a giant statue of a horse rider on top of a fountain."
+   ],
+   [
+    "Landmark",
+    "The Stone Bridge in Skopje has crossed the Vardar River for hundreds of years."
+   ],
+   [
+    "Transport",
+    "A cable car runs up Mount Vodno to a giant cross that lights up at night."
+   ]
+  ],
+  "capital-malta": [
+   [
+    "Culture",
+    "Valletta's Saluting Battery fires a cannon at noon every day."
+   ],
+   [
+    "Landmark",
+    "St. John's Co-Cathedral has a floor covered with colorful marble designs."
+   ],
+   [
+    "History",
+    "Valletta was one of the first planned cities in Europe, with straight streets."
+   ]
+  ],
+  "capital-moldova": [
+   [
+    "Culture",
+    "Chișinău's Central Market is one of the biggest markets in the region."
+   ],
+   [
+    "Landmark",
+    "Chișinău's Arch of Victory stands in front of its cathedral park."
+   ],
+   [
+    "Nature",
+    "Chișinău has many lakes and parks, like Valea Morilor."
+   ]
+  ],
+  "capital-monaco": [
+   [
+    "Nature",
+    "Monaco's Exotic Garden has thousands of cactuses growing on a cliff."
+   ],
+   [
+    "Culture",
+    "The Prince's Palace has a changing of the guard ceremony every day at noon."
+   ],
+   [
+    "Size",
+    "Monaco is so small that you can walk across the whole country in about an hour."
+   ]
+  ],
+  "capital-montenegro": [
+   [
+    "Landmark",
+    "Podgorica's Millennium Bridge has a tall pylon and cables like a harp."
+   ],
+   [
+    "Nature",
+    "Podgorica is one of the hottest cities in Europe in summer."
+   ],
+   [
+    "Nature",
+    "Lake Skadar, the biggest lake in the Balkans, is close to the city."
+   ]
+  ],
+  "capital-netherlands": [
+   [
+    "Culture",
+    "Amsterdam has more than 1,500 bridges."
+   ],
+   [
+    "Art",
+    "Amsterdam's Rijksmuseum holds famous paintings by Rembrandt and Vermeer."
+   ],
+   [
+    "Culture",
+    "Houses in Amsterdam have hooks at the top to lift furniture through the windows."
+   ]
+  ],
+  "capital-norway": [
+   [
+    "Landmark",
+    "Oslo's Opera House has a sloping roof that people can walk right up onto."
+   ],
+   [
+    "Culture",
+    "The Vigeland Park in Oslo has more than 200 sculptures by one artist."
+   ],
+   [
+    "Culture",
+    "Oslo's Fram Museum holds a famous polar exploration ship."
+   ]
+  ],
+  "capital-poland": [
+   [
+    "Food",
+    "Warsaw is famous for pączki, round doughnuts filled with jam."
+   ],
+   [
+    "Culture",
+    "Little bronze mermaid statues are Warsaw's symbol."
+   ],
+   [
+    "Landmark",
+    "The Palace of Culture and Science is one of the tallest buildings in Poland."
+   ]
+  ],
+  "capital-portugal": [
+   [
+    "Landmark",
+    "Lisbon's 25 de Abril Bridge looks a lot like San Francisco's Golden Gate Bridge."
+   ],
+   [
+    "Culture",
+    "Fado, a soulful style of Portuguese singing, fills Lisbon's old neighborhoods."
+   ],
+   [
+    "Culture",
+    "Lisbon's streets and walls are covered with blue and white painted tiles called azulejos."
+   ]
+  ],
+  "capital-romania": [
+   [
+    "Culture",
+    "Bucharest's Cărturești Carusel bookstore is a bright white building nicknamed 'the Carousel of Light.'"
+   ],
+   [
+    "Landmark",
+    "Bucharest has its own Arc de Triomphe."
+   ],
+   [
+    "Nickname",
+    "Bucharest was once nicknamed 'Little Paris.'"
+   ]
+  ],
+  "capital-russia": [
+   [
+    "Transport",
+    "Moscow's metro stations are so fancy, with chandeliers and mosaics, that they're called 'underground palaces.'"
+   ],
+   [
+    "Landmark",
+    "The Kremlin's walls have 20 towers, some topped with glowing red stars."
+   ],
+   [
+    "Culture",
+    "The Bolshoi Theatre is one of the most famous ballet theaters in the world."
+   ]
+  ],
+  "capital-san-marino": [
+   [
+    "Transport",
+    "A cable car carries visitors up from the town below to the old city on top."
+   ],
+   [
+    "Culture",
+    "San Marino issues its own stamps and coins, which collectors love."
+   ],
+   [
+    "Nature",
+    "From the top of the city you can see the Adriatic Sea."
+   ]
+  ],
+  "capital-serbia": [
+   [
+    "Landmark",
+    "The Church of Saint Sava in Belgrade is one of the biggest Orthodox churches in the world."
+   ],
+   [
+    "Culture",
+    "Belgrade's riverboat clubs, called splavovi, float on the Sava and Danube."
+   ],
+   [
+    "Culture",
+    "Belgrade's Kalemegdan fortress park even has a dinosaur park for kids."
+   ]
+  ],
+  "capital-slovakia": [
+   [
+    "Landmark",
+    "Bratislava's UFO Bridge has a flying-saucer-shaped restaurant on top."
+   ],
+   [
+    "Culture",
+    "Funny bronze statues, like a man peeking out of a manhole, pop up around Bratislava."
+   ],
+   [
+    "Landmark",
+    "Bratislava Castle is a big white castle with four corner towers."
+   ]
+  ],
+  "capital-slovenia": [
+   [
+    "Landmark",
+    "Ljubljana's Triple Bridge is three bridges side by side over the river."
+   ],
+   [
+    "Rule",
+    "Ljubljana's city center is car-free, with free electric carts for older people."
+   ],
+   [
+    "Culture",
+    "Ljubljana was named the European Green Capital in 2016."
+   ]
+  ],
+  "capital-spain": [
+   [
+    "Culture",
+    "Madrid's Retiro Park has a Crystal Palace made of glass and iron."
+   ],
+   [
+    "Culture",
+    "Madrid's Puerta del Sol has a plaque marking 'Kilometer Zero,' the center of Spain's roads."
+   ],
+   [
+    "Sports",
+    "Madrid is home to Real Madrid and Atlético Madrid."
+   ]
+  ],
+  "capital-sweden": [
+   [
+    "Culture",
+    "Stockholm's Vasa Museum holds a giant 400-year-old wooden ship raised from the harbor."
+   ],
+   [
+    "Culture",
+    "Stockholm's metro is called the world's longest art gallery."
+   ],
+   [
+    "Culture",
+    "Stockholm's Skansen is the world's first open-air museum, with old farmhouses and Nordic animals."
+   ]
+  ],
+  "capital-switzerland": [
+   [
+    "Wildlife",
+    "Bern's Bear Park beside the river is home to real brown bears, the city's symbol."
+   ],
+   [
+    "Famous face",
+    "Albert Einstein worked out his famous ideas while living in Bern."
+   ],
+   [
+    "Culture",
+    "Bern's old town has about 4 miles of covered arcades for shopping."
+   ]
+  ],
+  "capital-ukraine": [
+   [
+    "Landmark",
+    "Kyiv's metro Arsenalna station is one of the deepest in the world."
+   ],
+   [
+    "Landmark",
+    "Kyiv Pechersk Lavra is a monastery with golden domes and underground caves."
+   ],
+   [
+    "Culture",
+    "Andriyivskyy Descent is a winding street full of art and street performers."
+   ]
+  ],
+  "capital-united-kingdom": [
+   [
+    "Movie magic",
+    "King's Cross Station has a Platform 9¾ sign and a luggage trolley disappearing into the wall."
+   ],
+   [
+    "Culture",
+    "Shakespeare's Globe is a copy of the theater where his plays were first performed."
+   ],
+   [
+    "Famous face",
+    "Paddington Bear, the marmalade-loving bear from Peru, was named after London's Paddington Station."
+   ]
+  ],
+  "capital-vatican-city": [
+   [
+    "Culture",
+    "The Vatican has its own guards, the Swiss Guard, who wear striped uniforms."
+   ],
+   [
+    "Landmark",
+    "St. Peter's Basilica is one of the biggest churches in the world."
+   ],
+   [
+    "Art",
+    "The Vatican Museums have about 4 miles of hallways full of art."
+   ]
+  ],
+  "capital-antigua-and-barbuda": [
+   [
+    "Culture",
+    "St. John's hosts a colorful summer Carnival with calypso music."
+   ],
+   [
+    "Culture",
+    "Heritage Quay is where cruise ships dock right in the city."
+   ],
+   [
+    "Sports",
+    "Cricket legend Viv Richards has a stadium named after him near St. John's."
+   ]
+  ],
+  "capital-bahamas": [
+   [
+    "Wildlife",
+    "Ardastra Gardens in Nassau has marching flamingos, the national bird."
+   ],
+   [
+    "Culture",
+    "Nassau's Straw Market sells handmade straw hats and baskets."
+   ],
+   [
+    "Culture",
+    "Junkanoo parades fill Nassau's streets with music on Boxing Day and New Year's Day."
+   ]
+  ],
+  "capital-barbados": [
+   [
+    "Culture",
+    "Bridgetown has its own Parliament, one of the oldest in the Commonwealth."
+   ],
+   [
+    "Culture",
+    "Kadooment Day ends the Crop Over festival with a giant costume parade."
+   ],
+   [
+    "Food",
+    "Flying fish and cou-cou is the national dish of Barbados."
+   ]
+  ],
+  "capital-belize": [
+   [
+    "History",
+    "Belmopan was built inland after a hurricane hit Belize City in 1961."
+   ],
+   [
+    "Culture",
+    "Belmopan's market sells fresh tropical fruit and tamales."
+   ],
+   [
+    "Nature",
+    "Jaguars and toucans live in forests not far from the city."
+   ]
+  ],
+  "capital-canada": [
+   [
+    "Landmark",
+    "Ottawa's Parliament Hill has the Peace Tower and a flame that burns all year."
+   ],
+   [
+    "Food",
+    "BeaverTails, a flat fried pastry, became famous in Ottawa."
+   ],
+   [
+    "Culture",
+    "Ottawa's Tulip Festival started when the Netherlands sent thousands of tulip bulbs as a thank-you gift."
+   ]
+  ],
+  "capital-costa-rica": [
+   [
+    "Landmark",
+    "San José's National Theater is decorated with gold and marble."
+   ],
+   [
+    "Culture",
+    "The Gold Museum in San José has thousands of ancient gold objects."
+   ],
+   [
+    "Food",
+    "Gallo pinto, rice and beans, is the classic Costa Rican breakfast."
+   ]
+  ],
+  "capital-cuba": [
+   [
+    "Landmark",
+    "El Malecón is a famous seaside wall where people gather to watch waves crash."
+   ],
+   [
+    "Culture",
+    "Havana is famous for salsa dancing and son music."
+   ],
+   [
+    "Culture",
+    "Havana's Capitolio building looks like the US Capitol."
+   ]
+  ],
+  "capital-dominica": [
+   [
+    "Nature",
+    "Trafalgar Falls, two waterfalls side by side, is near Roseau."
+   ],
+   [
+    "Nature",
+    "Champagne Reef, near Roseau, has bubbles from underwater volcanic vents."
+   ],
+   [
+    "Culture",
+    "Roseau's World Creole Music Festival fills the town every October."
+   ]
+  ],
+  "capital-dominican-republic": [
+   [
+    "Landmark",
+    "Santo Domingo has the first cathedral built in the Americas."
+   ],
+   [
+    "History",
+    "Calle Las Damas in Santo Domingo is the oldest paved street in the Americas."
+   ],
+   [
+    "Nature",
+    "Los Tres Ojos are three cave lakes in a park inside the city."
+   ]
+  ],
+  "capital-el-salvador": [
+   [
+    "Landmark",
+    "San Salvador's Metropolitan Cathedral has a colorful tiled front."
+   ],
+   [
+    "Landmark",
+    "The Monument to the Divine Savior of the World stands on a globe in a big square."
+   ],
+   [
+    "Nature",
+    "El Boquerón, a volcano crater with a park, is just outside the city."
+   ]
+  ],
+  "capital-grenada": [
+   [
+    "Culture",
+    "St. George's market is full of spices like cinnamon, cloves and cocoa."
+   ],
+   [
+    "Landmark",
+    "Fort George overlooks the harbor from a hilltop."
+   ],
+   [
+    "Nature",
+    "Grand Anse Beach, near St. George's, is one of the Caribbean's most famous beaches."
+   ]
+  ],
+  "capital-guatemala": [
+   [
+    "Nature",
+    "Pacaya volcano, near the city, lets hikers toast marshmallows on warm lava rocks."
+   ],
+   [
+    "Culture",
+    "Guatemala City's markets sell colorful handwoven textiles."
+   ],
+   [
+    "History",
+    "Kaminaljuyú, ancient Maya ruins, lie inside Guatemala City."
+   ]
+  ],
+  "capital-haiti": [
+   [
+    "Culture",
+    "At Easter, kids in Haiti fly colorful homemade kites."
+   ],
+   [
+    "Culture",
+    "Port-au-Prince's artists are famous for recycled metal sculptures."
+   ],
+   [
+    "Food",
+    "Griot, crispy fried pork, is a favorite dish."
+   ]
+  ],
+  "capital-honduras": [
+   [
+    "Landmark",
+    "A giant statue of Christ looks over Tegucigalpa from a hill."
+   ],
+   [
+    "Culture",
+    "Tegucigalpa's name may mean 'silver mountain' in an old native language."
+   ],
+   [
+    "Food",
+    "Baleadas, tortillas filled with beans and cheese, are a favorite snack."
+   ]
+  ],
+  "capital-jamaica": [
+   [
+    "Sports",
+    "A statue of sprinter Usain Bolt stands at Kingston's National Stadium."
+   ],
+   [
+    "Culture",
+    "Devon House in Kingston is famous for its ice cream."
+   ],
+   [
+    "Nature",
+    "The Blue Mountains, where famous coffee grows, rise behind Kingston."
+   ]
+  ],
+  "capital-mexico": [
+   [
+    "Landmark",
+    "Chapultepec Park in Mexico City is twice the size of New York's Central Park and has a castle."
+   ],
+   [
+    "Culture",
+    "In Xochimilco, colorful boats float along canals with mariachi bands playing."
+   ],
+   [
+    "Culture",
+    "Mexico City has more museums than almost any other city in the world."
+   ]
+  ],
+  "capital-nicaragua": [
+   [
+    "Nature",
+    "Masaya Volcano, near Managua, has a glowing lava lake you can peek into."
+   ],
+   [
+    "Landmark",
+    "Managua's 'Trees of Life' are giant colorful metal tree sculptures."
+   ],
+   [
+    "Food",
+    "Gallo pinto and fried plantains are favorite Nicaraguan foods."
+   ]
+  ],
+  "capital-panama": [
+   [
+    "Landmark",
+    "Panama City's Biomuseo is a colorful building designed by Frank Gehry."
+   ],
+   [
+    "Culture",
+    "Casco Viejo, the old town, is full of colorful buildings and plazas."
+   ],
+   [
+    "Landmark",
+    "Ships waiting to enter the Panama Canal line up in the bay near the city."
+   ]
+  ],
+  "capital-saint-kitts-and-nevis": [
+   [
+    "Landmark",
+    "Brimstone Hill Fortress, near Basseterre, is a giant hilltop fort."
+   ],
+   [
+    "Culture",
+    "St. Kitts Music Festival brings big stars every summer."
+   ],
+   [
+    "Nature",
+    "The beaches of Frigate Bay are just a few minutes from Basseterre."
+   ]
+  ],
+  "capital-saint-lucia": [
+   [
+    "Culture",
+    "Derek Walcott Square honors Saint Lucia's Nobel Prize-winning poet."
+   ],
+   [
+    "History",
+    "The Castries Market has been selling local food and crafts since 1894."
+   ],
+   [
+    "Culture",
+    "Castries hosts a big Friday-night street party called Gros Islet Jump-Up nearby."
+   ]
+  ],
+  "capital-saint-vincent-and-the-grenadines": [
+   [
+    "Landmark",
+    "Fort Charlotte, on a ridge above Kingstown, looks out over the Grenadines."
+   ],
+   [
+    "Culture",
+    "Vincy Mas is the island's colorful Carnival."
+   ],
+   [
+    "Wildlife",
+    "The rare Saint Vincent parrot, the national bird, lives in the island's forests."
+   ]
+  ],
+  "capital-trinidad-and-tobago": [
+   [
+    "Landmark",
+    "The 'Magnificent Seven' are seven grand old mansions beside Port of Spain's big park."
+   ],
+   [
+    "Nature",
+    "The Queen's Park Savannah is a huge open park in the middle of the city."
+   ],
+   [
+    "Food",
+    "Doubles, fried bread with curried chickpeas, is a famous street snack."
+   ]
+  ],
+  "capital-united-states": [
+   [
+    "Landmark",
+    "The Lincoln statue inside the Lincoln Memorial is about 19 feet tall."
+   ],
+   [
+    "Landmark",
+    "The US Capitol's giant dome is made of cast iron painted white."
+   ],
+   [
+    "Wildlife",
+    "The Smithsonian's National Zoo has famous giant pandas."
+   ]
+  ],
+  "capital-argentina": [
+   [
+    "Culture",
+    "La Boca's Caminito is a little street painted in bright, rainbow colors."
+   ],
+   [
+    "Landmark",
+    "The Obelisk of Buenos Aires stands in the middle of the city's widest avenue."
+   ],
+   [
+    "Culture",
+    "Buenos Aires has more bookstores per person than almost any city in the world."
+   ]
+  ],
+  "capital-bolivia": [
+   [
+    "History",
+    "Bolivia's declaration of independence was signed in Sucre in 1825."
+   ],
+   [
+    "Nature",
+    "Cal Orck'o, near Sucre, is a giant wall covered with thousands of dinosaur footprints."
+   ],
+   [
+    "Culture",
+    "Sucre is famous for chocolate shops."
+   ]
+  ],
+  "capital-brazil": [
+   [
+    "Landmark",
+    "Brasília's cathedral looks like hands reaching up to the sky."
+   ],
+   [
+    "Famous face",
+    "Architect Oscar Niemeyer designed many of Brasília's curvy buildings."
+   ],
+   [
+    "Nature",
+    "Brasília has a giant man-made lake, Lake Paranoá."
+   ]
+  ],
+  "capital-chile": [
+   [
+    "Landmark",
+    "Gran Torre Santiago is the tallest building in South America."
+   ],
+   [
+    "Transport",
+    "A funicular carries visitors up San Cristóbal Hill for views of the city."
+   ],
+   [
+    "Nature",
+    "Ski resorts in the Andes are about an hour from Santiago."
+   ]
+  ],
+  "capital-colombia": [
+   [
+    "Culture",
+    "Bogotá's Gold Museum has more than 50,000 gold pieces, including a famous golden raft."
+   ],
+   [
+    "Transport",
+    "Bogotá's TransMilenio buses run in their own lanes like a subway on wheels."
+   ],
+   [
+    "Landmark",
+    "A cable car climbs Monserrate mountain, high above the city."
+   ]
+  ],
+  "capital-ecuador": [
+   [
+    "Landmark",
+    "The Middle of the World monument marks the equator just outside Quito."
+   ],
+   [
+    "Nature",
+    "Quito sits about 9,350 feet high, one of the highest capitals in the world."
+   ],
+   [
+    "Transport",
+    "A cable car takes visitors up the slopes of Pichincha volcano."
+   ]
+  ],
+  "capital-guyana": [
+   [
+    "Landmark",
+    "Georgetown's Stabroek Market has a big iron clock tower."
+   ],
+   [
+    "Wildlife",
+    "Manatees live in the ponds of Georgetown's National Park."
+   ],
+   [
+    "Culture",
+    "Georgetown has a seawall built to protect the city from the ocean."
+   ]
+  ],
+  "capital-paraguay": [
+   [
+    "Culture",
+    "Asunción is called the 'Mother of Cities' because settlers from here founded many other towns."
+   ],
+   [
+    "Culture",
+    "Asunción's Pantheon of Heroes is a domed monument downtown."
+   ],
+   [
+    "Nature",
+    "Asunción sits on the Paraguay River."
+   ]
+  ],
+  "capital-peru": [
+   [
+    "Landmark",
+    "Lima has ancient pyramids made of adobe bricks right in the middle of the city."
+   ],
+   [
+    "Nature",
+    "Lima is built on cliffs above the Pacific, and paragliders soar over the beach."
+   ],
+   [
+    "Culture",
+    "Lima's Magic Water Circuit is a park with 13 fountains that light up at night."
+   ]
+  ],
+  "capital-suriname": [
+   [
+    "Culture",
+    "Paramaribo is famous for its mix of cultures and foods, from Indian roti to Javanese noodles."
+   ],
+   [
+    "Landmark",
+    "Fort Zeelandia is an old star-shaped fort on the river."
+   ],
+   [
+    "Nature",
+    "Paramaribo sits on the Suriname River, near the Atlantic Ocean."
+   ]
+  ],
+  "capital-uruguay": [
+   [
+    "Landmark",
+    "Montevideo's Palacio Salvo was once the tallest building in South America."
+   ],
+   [
+    "Culture",
+    "Candombe drumming parades fill Montevideo's streets on weekends."
+   ],
+   [
+    "Sports",
+    "Montevideo's Centenario Stadium hosted the first World Cup final in 1930."
+   ]
+  ],
+  "capital-venezuela": [
+   [
+    "Landmark",
+    "Caracas has one of the world's longest-running cable cars, up Ávila Mountain."
+   ],
+   [
+    "Famous face",
+    "Simón Bolívar, who helped free much of South America, was born in Caracas."
+   ],
+   [
+    "Food",
+    "Arepas, stuffed corn cakes, are sold everywhere in Caracas."
+   ]
+  ],
+  "capital-australia": [
+   [
+    "Landmark",
+    "Canberra's Parliament House has a grass-covered roof you can walk on."
+   ],
+   [
+    "Culture",
+    "Every spring, Canberra holds Floriade, a giant flower festival."
+   ],
+   [
+    "Nature",
+    "Kangaroos often hop around Canberra's parks and fields."
+   ]
+  ],
+  "capital-fiji": [
+   [
+    "Culture",
+    "Suva's municipal market is one of the biggest in the South Pacific."
+   ],
+   [
+    "Culture",
+    "The Fiji Museum in Suva holds a giant canoe and old sea charts."
+   ],
+   [
+    "Nature",
+    "Suva is one of the rainiest cities in Fiji."
+   ]
+  ],
+  "capital-kiribati": [
+   [
+    "Culture",
+    "On Tarawa, people travel between islands on causeways built over the water."
+   ],
+   [
+    "Nature",
+    "Tarawa's lagoon is ringed by palm-covered islets."
+   ],
+   [
+    "Culture",
+    "Kiribati dancers wear outfits made of woven pandanus leaves."
+   ]
+  ],
+  "capital-marshall-islands": [
+   [
+    "Nature",
+    "Laura Beach, at the far end of Majuro, is a favorite swimming spot."
+   ],
+   [
+    "Nature",
+    "Majuro's road runs for about 30 miles along the thin atoll."
+   ],
+   [
+    "Culture",
+    "Majuro hosts canoe races with traditional outrigger boats."
+   ]
+  ],
+  "capital-micronesia": [
+   [
+    "Nature",
+    "Kepirohi Waterfall, a wide curtain of water, is a favorite spot on Pohnpei."
+   ],
+   [
+    "Nature",
+    "Pohnpei's waterfalls and rainforests surround the capital."
+   ],
+   [
+    "Food",
+    "Pohnpei is famous for its tiny, spicy Pohnpei pepper."
+   ]
+  ],
+  "capital-nauru": [
+   [
+    "Size",
+    "The Yaren District is only about half a square mile."
+   ],
+   [
+    "Culture",
+    "Nauru's parliament meets in Yaren."
+   ],
+   [
+    "Nature",
+    "Yaren sits right next to the airport and the ocean."
+   ]
+  ],
+  "capital-new-zealand": [
+   [
+    "Culture",
+    "Wellington's Te Papa museum has a colossal squid, one of the biggest ever found."
+   ],
+   [
+    "Movie magic",
+    "Wellington is home to Weta Workshop, which made props for The Lord of the Rings."
+   ],
+   [
+    "Transport",
+    "A bright red cable car climbs from the city to the botanical garden."
+   ]
+  ],
+  "capital-palau": [
+   [
+    "History",
+    "Ngerulmud became the capital in 2006."
+   ],
+   [
+    "Landmark",
+    "Palau's Capitol building looks a lot like the US Capitol."
+   ],
+   [
+    "Nature",
+    "Ngerulmud sits on Babeldaob, Palau's biggest island."
+   ]
+  ],
+  "capital-papua-new-guinea": [
+   [
+    "Landmark",
+    "Port Moresby's Parliament House is shaped like a traditional spirit house."
+   ],
+   [
+    "Culture",
+    "The Hiri Moale Festival celebrates old trading voyages by canoe."
+   ],
+   [
+    "Nature",
+    "Varirata National Park, near the city, has birds-of-paradise."
+   ]
+  ],
+  "capital-samoa": [
+   [
+    "Culture",
+    "Apia's flea market sells colorful lavalava wraps."
+   ],
+   [
+    "Nature",
+    "To Sua Ocean Trench is a giant swimming hole an hour from Apia."
+   ],
+   [
+    "Culture",
+    "Samoan fire knife dancing is performed at shows in Apia."
+   ]
+  ],
+  "capital-solomon-islands": [
+   [
+    "Culture",
+    "Honiara's Central Market sells fresh fruit, fish and shell crafts."
+   ],
+   [
+    "Nature",
+    "Honiara's botanical garden is full of tropical orchids."
+   ],
+   [
+    "Nature",
+    "Coral reefs full of fish are a short boat ride from Honiara."
+   ]
+  ],
+  "capital-tonga": [
+   [
+    "Culture",
+    "Nukuʻalofa's Talamahu Market sells tapa cloth made from tree bark."
+   ],
+   [
+    "Name",
+    "Nukuʻalofa means 'abode of love.'"
+   ],
+   [
+    "Culture",
+    "Most Tongans attend church on Sunday, and most shops close for the day."
+   ]
+  ],
+  "capital-tuvalu": [
+   [
+    "Culture",
+    "Funafuti has just one main road."
+   ],
+   [
+    "Nature",
+    "Funafuti's lagoon is a protected marine area full of turtles and fish."
+   ],
+   [
+    "Culture",
+    "Tuvalu's fatele dance mixes singing and clapping in big groups."
+   ]
+  ],
+  "capital-vanuatu": [
+   [
+    "Culture",
+    "Port Vila's market is open day and night, with farmers sleeping beside their stalls."
+   ],
+   [
+    "Nature",
+    "Mele Cascades, near Port Vila, are waterfalls with turquoise pools."
+   ],
+   [
+    "Culture",
+    "Port Vila hosts a big string band music festival."
+   ]
+  ],
+  "state-capital-alabama": [
+   [
+    "Space",
+    "Alabama's Huntsville, a few hours north of Montgomery, built the rockets that took astronauts to the Moon."
+   ],
+   [
+    "Landmark",
+    "Alabama's capitol has two spiral staircases with no center support."
+   ],
+   [
+    "Nature",
+    "Montgomery sits on the Alabama River."
+   ]
+  ],
+  "state-capital-alaska": [
+   [
+    "Nature",
+    "The Mendenhall Glacier, a giant river of ice, is just outside Juneau."
+   ],
+   [
+    "Wildlife",
+    "Humpback whales and bald eagles are often seen near Juneau."
+   ],
+   [
+    "Size",
+    "Juneau's city area is bigger than the whole state of Rhode Island."
+   ]
+  ],
+  "state-capital-arizona": [
+   [
+    "Nature",
+    "Giant saguaro cactuses, which can grow taller than a house, grow around Phoenix."
+   ],
+   [
+    "Name",
+    "Phoenix is named after the mythical bird that rises from the ashes."
+   ],
+   [
+    "Sports",
+    "Phoenix hosts baseball's spring training games every March."
+   ]
+  ],
+  "state-capital-arkansas": [
+   [
+    "Famous face",
+    "Little Rock has the Clinton Presidential Center, honoring Bill Clinton."
+   ],
+   [
+    "Landmark",
+    "The Big Dam Bridge is one of the longest walking-and-biking bridges built for people in the US."
+   ],
+   [
+    "Nature",
+    "Arkansas has the only public diamond mine in the world where you keep what you find."
+   ]
+  ],
+  "state-capital-california": [
+   [
+    "Food",
+    "Sacramento calls itself 'America's Farm-to-Fork Capital' because farms surround the city."
+   ],
+   [
+    "Transport",
+    "Sacramento was the western end of the first railroad across America, finished in 1869."
+   ],
+   [
+    "History",
+    "The Pony Express mail riders ended their route in Sacramento in 1860."
+   ]
+  ],
+  "state-capital-colorado": [
+   [
+    "Sports",
+    "At Denver's high altitude, baseballs fly farther, so Coors Field has extra-deep outfield walls."
+   ],
+   [
+    "Nature",
+    "Red Rocks, a concert stage built into giant red cliffs, is just outside Denver."
+   ],
+   [
+    "Nature",
+    "The Rocky Mountains rise right on Denver's western edge."
+   ]
+  ],
+  "state-capital-connecticut": [
+   [
+    "Culture",
+    "Hartford is called the 'Insurance Capital of the World.'"
+   ],
+   [
+    "Landmark",
+    "Bushnell Park in Hartford has one of the oldest carousels in the US, from 1914."
+   ],
+   [
+    "Famous face",
+    "Harriet Beecher Stowe, author of Uncle Tom's Cabin, lived next door to Mark Twain."
+   ]
+  ],
+  "state-capital-delaware": [
+   [
+    "Sports",
+    "Dover Motor Speedway is nicknamed 'the Monster Mile.'"
+   ],
+   [
+    "Size",
+    "Delaware is the second-smallest state in the US."
+   ],
+   [
+    "Culture",
+    "Dover Air Force Base has a museum full of historic airplanes you can see up close."
+   ]
+  ],
+  "state-capital-florida": [
+   [
+    "Culture",
+    "Tallahassee is home to Florida State University and Florida A&M."
+   ],
+   [
+    "Nature",
+    "Tallahassee's roads are lined with canopy roads, shaded by huge oak trees draped in Spanish moss."
+   ],
+   [
+    "History",
+    "Tallahassee's Mission San Luis shows what life was like in a 1600s Spanish and Apalachee village."
+   ]
+  ],
+  "state-capital-georgia": [
+   [
+    "Food",
+    "Coca-Cola was invented in Atlanta in 1886, and you can visit the World of Coca-Cola there."
+   ],
+   [
+    "Wildlife",
+    "The Georgia Aquarium in Atlanta is one of the largest aquariums in the world, with whale sharks."
+   ],
+   [
+    "Sports",
+    "Atlanta hosted the 1996 Summer Olympics."
+   ]
+  ],
+  "state-capital-hawaii": [
+   [
+    "Nature",
+    "Diamond Head, an old volcano crater, rises over Honolulu."
+   ],
+   [
+    "Sports",
+    "Waikiki Beach in Honolulu is where surfing legend Duke Kahanamoku grew up."
+   ],
+   [
+    "Nature",
+    "Hanauma Bay, near Honolulu, is a protected bay where people snorkel with tropical fish."
+   ]
+  ],
+  "state-capital-idaho": [
+   [
+    "Nature",
+    "The Boise River Greenbelt is a 25-mile path along the river through the city."
+   ],
+   [
+    "Sports",
+    "Boise State's football field is famous for its bright blue turf."
+   ],
+   [
+    "Wildlife",
+    "The World Center for Birds of Prey in Boise cares for falcons and condors."
+   ]
+  ],
+  "state-capital-illinois": [
+   [
+    "Food",
+    "The corn dog on a stick was popularized in Springfield as the 'Cozy Dog.'"
+   ],
+   [
+    "Culture",
+    "Springfield's Abraham Lincoln Presidential Library is one of the most visited presidential museums."
+   ],
+   [
+    "Transport",
+    "Historic Route 66 runs right through Springfield."
+   ]
+  ],
+  "state-capital-indiana": [
+   [
+    "Sports",
+    "The Indianapolis Motor Speedway is so big that a golf course fits inside it."
+   ],
+   [
+    "Culture",
+    "Indianapolis has the biggest children's museum in the world."
+   ],
+   [
+    "Food",
+    "The winner of the Indy 500 drinks milk to celebrate, a tradition since 1936."
+   ]
+  ],
+  "state-capital-iowa": [
+   [
+    "Culture",
+    "The State Capitol in Des Moines has a gold dome covered in real gold leaf."
+   ],
+   [
+    "Food",
+    "Iowa grows more corn than almost any other state."
+   ],
+   [
+    "Culture",
+    "Des Moines' Pappajohn Sculpture Park is full of giant modern art."
+   ]
+  ],
+  "state-capital-kansas": [
+   [
+    "History",
+    "Topeka's Brown v. Board of Education case led to the end of school segregation in 1954."
+   ],
+   [
+    "Nature",
+    "Kansas grows more wheat than almost any other state, earning the nickname 'Breadbasket of America.'"
+   ],
+   [
+    "Landmark",
+    "A statue called Ad Astra, an archer aiming at the stars, stands on top of the Capitol dome."
+   ]
+  ],
+  "state-capital-kentucky": [
+   [
+    "Landmark",
+    "Frankfort's Capitol has a giant floral clock made of thousands of plants."
+   ],
+   [
+    "Sports",
+    "Kentucky is famous for the Kentucky Derby horse race, held in Louisville."
+   ],
+   [
+    "Nature",
+    "Frankfort sits in a curvy bend of the Kentucky River."
+   ]
+  ],
+  "state-capital-louisiana": [
+   [
+    "Food",
+    "Louisiana is famous for gumbo, jambalaya and crawfish."
+   ],
+   [
+    "Nature",
+    "Swamps near Baton Rouge are home to alligators and herons."
+   ],
+   [
+    "Sports",
+    "Baton Rouge is home to LSU and its live tiger mascot, Mike."
+   ]
+  ],
+  "state-capital-maine": [
+   [
+    "History",
+    "Augusta's Old Fort Western is the oldest wooden fort still standing in the US, built in 1754."
+   ],
+   [
+    "Nature",
+    "Maine is the first place in the US to see the sunrise for much of the year."
+   ],
+   [
+    "Culture",
+    "Maine's capitol dome is topped by a statue called Wisdom."
+   ]
+  ],
+  "state-capital-maryland": [
+   [
+    "Culture",
+    "Annapolis is often called the 'Sailing Capital of the World.'"
+   ],
+   [
+    "Landmark",
+    "Maryland's State House is the oldest state capitol still used by lawmakers."
+   ],
+   [
+    "Food",
+    "Maryland is famous for blue crabs, often steamed with spicy seasoning."
+   ]
+  ],
+  "state-capital-massachusetts": [
+   [
+    "Culture",
+    "Boston's Freedom Trail is a red-brick line that leads to 16 historic sites."
+   ],
+   [
+    "Culture",
+    "The first public school in America, Boston Latin School, opened in 1635."
+   ],
+   [
+    "Sports",
+    "The Boston Marathon is the world's oldest yearly marathon, first run in 1897."
+   ]
+  ],
+  "state-capital-michigan": [
+   [
+    "Culture",
+    "Lansing is home to Michigan State University, the Spartans."
+   ],
+   [
+    "Nature",
+    "Michigan is the only state made of two peninsulas."
+   ],
+   [
+    "Culture",
+    "Lansing's R.E. Olds Transportation Museum shows early cars built in the city."
+   ]
+  ],
+  "state-capital-minnesota": [
+   [
+    "Culture",
+    "Saint Paul's Cathedral is one of the biggest churches in the US."
+   ],
+   [
+    "Food",
+    "Minnesota is famous for the 'Juicy Lucy,' a burger with melted cheese inside."
+   ],
+   [
+    "Famous face",
+    "Charles Schulz, creator of Peanuts and Charlie Brown, grew up in Saint Paul."
+   ]
+  ],
+  "state-capital-mississippi": [
+   [
+    "Famous face",
+    "Author Eudora Welty lived in Jackson, and her house is now a museum."
+   ],
+   [
+    "Nature",
+    "The Mississippi River gives the state its name."
+   ],
+   [
+    "Culture",
+    "Jackson hosts the Mississippi State Fair every October."
+   ]
+  ],
+  "state-capital-missouri": [
+   [
+    "Landmark",
+    "Missouri's Capitol has giant murals by artist Thomas Hart Benton."
+   ],
+   [
+    "Landmark",
+    "The Gateway Arch in St. Louis, Missouri, is the tallest arch in the world."
+   ],
+   [
+    "Nature",
+    "The Katy Trail, a long bike path, passes near Jefferson City."
+   ]
+  ],
+  "state-capital-montana": [
+   [
+    "Nature",
+    "Helena is near the Gates of the Mountains, a canyon on the Missouri River named by Lewis and Clark."
+   ],
+   [
+    "Landmark",
+    "Helena's Cathedral of St. Helena has twin spires modeled on a church in Vienna."
+   ],
+   [
+    "Wildlife",
+    "Bighorn sheep and mountain goats live in the mountains around Helena."
+   ]
+  ],
+  "state-capital-nebraska": [
+   [
+    "Food",
+    "The Reuben sandwich and Kool-Aid both come from Nebraska."
+   ],
+   [
+    "Culture",
+    "Lincoln is home to the University of Nebraska Cornhuskers, whose stadium fills with red-clad fans."
+   ],
+   [
+    "Nature",
+    "Every spring, about a million sandhill cranes stop along Nebraska's Platte River."
+   ]
+  ],
+  "state-capital-nevada": [
+   [
+    "Landmark",
+    "Nevada's Capitol has a silver-colored dome, honoring the state's silver mining."
+   ],
+   [
+    "Nature",
+    "Lake Tahoe, a deep blue mountain lake, is a short drive from Carson City."
+   ],
+   [
+    "Culture",
+    "Carson City's old mint once made US coins from Nevada silver."
+   ]
+  ],
+  "state-capital-new-hampshire": [
+   [
+    "Culture",
+    "New Hampshire holds the first presidential primary election in every election year."
+   ],
+   [
+    "Space",
+    "Concord's McAuliffe-Shepard Discovery Center is a space museum with a planetarium."
+   ],
+   [
+    "Nature",
+    "Mount Washington in New Hampshire has some of the strongest winds ever measured."
+   ]
+  ],
+  "state-capital-new-jersey": [
+   [
+    "Invention",
+    "Thomas Edison made his famous light bulb and the phonograph at his lab in Menlo Park, New Jersey."
+   ],
+   [
+    "Food",
+    "New Jersey is called the Garden State and is famous for blueberries and tomatoes."
+   ],
+   [
+    "Landmark",
+    "Trenton's capitol dome is covered with gold leaf."
+   ]
+  ],
+  "state-capital-new-mexico": [
+   [
+    "Culture",
+    "Santa Fe's Palace of the Governors is the oldest public building in the US still in use."
+   ],
+   [
+    "Food",
+    "New Mexicans love green and red chile; ask for 'Christmas' to get both!"
+   ],
+   [
+    "Culture",
+    "Santa Fe's capitol is round, and it's nicknamed the 'Roundhouse.'"
+   ]
+  ],
+  "state-capital-new-york": [
+   [
+    "Landmark",
+    "New York's Capitol in Albany has a famous 'Million Dollar Staircase.'"
+   ],
+   [
+    "Landmark",
+    "The Empire State Plaza has a giant egg-shaped concert hall called 'the Egg.'"
+   ],
+   [
+    "Nature",
+    "Albany sits on the Hudson River, which flows down to New York City."
+   ]
+  ],
+  "state-capital-north-carolina": [
+   [
+    "Invention",
+    "The Wright brothers made the first airplane flight at Kitty Hawk, North Carolina, in 1903."
+   ],
+   [
+    "Culture",
+    "Raleigh is part of the Research Triangle, a big center for science and technology."
+   ],
+   [
+    "Culture",
+    "Raleigh drops a giant acorn on New Year's Eve, like New York's ball drop."
+   ]
+  ],
+  "state-capital-north-dakota": [
+   [
+    "Landmark",
+    "North Dakota's Capitol is a tall Art Deco tower nicknamed the 'Skyscraper of the Prairie.'"
+   ],
+   [
+    "Famous face",
+    "Sakakawea, who guided Lewis and Clark, has a statue at the Capitol."
+   ],
+   [
+    "Culture",
+    "Bismarck hosts a big powwow each September with dancers from many tribes."
+   ]
+  ],
+  "state-capital-ohio": [
+   [
+    "Culture",
+    "Columbus has the German Village, a neighborhood of old brick houses and streets."
+   ],
+   [
+    "Space",
+    "Ohio has produced more astronauts than almost any other state, including Neil Armstrong and John Glenn."
+   ],
+   [
+    "Culture",
+    "Columbus hosts the Arnold Sports Festival, one of the biggest sports festivals in the world."
+   ]
+  ],
+  "state-capital-oklahoma": [
+   [
+    "Landmark",
+    "Oklahoma City's Myriad Botanical Gardens has a tube-shaped greenhouse full of tropical plants."
+   ],
+   [
+    "Culture",
+    "Oklahoma City's Bricktown has a canal with water taxis."
+   ],
+   [
+    "Sports",
+    "The Oklahoma City Thunder won the NBA title in 2025."
+   ]
+  ],
+  "state-capital-oregon": [
+   [
+    "Nature",
+    "Silver Falls State Park, near Salem, has a trail that goes behind waterfalls."
+   ],
+   [
+    "Culture",
+    "Salem's Riverfront Carousel has horses carved by local volunteers."
+   ],
+   [
+    "Food",
+    "Oregon is famous for hazelnuts, berries and Christmas trees."
+   ]
+  ],
+  "state-capital-pennsylvania": [
+   [
+    "Food",
+    "Hershey, Pennsylvania, nicknamed 'Chocolatetown,' is a short drive from Harrisburg."
+   ],
+   [
+    "Culture",
+    "The Pennsylvania Farm Show in Harrisburg is the biggest indoor farm show in the US."
+   ],
+   [
+    "Landmark",
+    "The Walnut Street Bridge lets people walk across the Susquehanna River."
+   ]
+  ],
+  "state-capital-rhode-island": [
+   [
+    "Size",
+    "Rhode Island is the smallest state in the US."
+   ],
+   [
+    "Landmark",
+    "Rhode Island's State House has one of the biggest self-supporting marble domes in the world."
+   ],
+   [
+    "Culture",
+    "Providence is home to Brown University and the Rhode Island School of Design."
+   ]
+  ],
+  "state-capital-south-carolina": [
+   [
+    "Wildlife",
+    "Riverbanks Zoo in Columbia has gorillas, koalas and an aquarium."
+   ],
+   [
+    "Nature",
+    "Congaree National Park, near Columbia, has some of the tallest trees in the eastern US."
+   ],
+   [
+    "Culture",
+    "Columbia is home to the University of South Carolina Gamecocks."
+   ]
+  ],
+  "state-capital-south-dakota": [
+   [
+    "Nature",
+    "Pierre sits on the Missouri River near Lake Oahe, a giant reservoir."
+   ],
+   [
+    "Wildlife",
+    "Bison roam the wide grasslands around Pierre."
+   ],
+   [
+    "Name",
+    "Pierre is pronounced 'peer,' not like the French name."
+   ]
+  ],
+  "state-capital-tennessee": [
+   [
+    "Landmark",
+    "Nashville has a full-size copy of the ancient Greek Parthenon, with a giant statue of Athena."
+   ],
+   [
+    "Culture",
+    "The Grand Ole Opry, a famous country music radio show, has run since 1925."
+   ],
+   [
+    "Food",
+    "Nashville hot chicken is fried chicken coated in spicy pepper paste."
+   ]
+  ],
+  "state-capital-texas": [
+   [
+    "Landmark",
+    "The Texas Capitol in Austin is taller than the US Capitol in Washington, D.C."
+   ],
+   [
+    "Culture",
+    "Austin's slogan is 'Keep Austin Weird.'"
+   ],
+   [
+    "Culture",
+    "Austin hosts South by Southwest, a giant music, film and tech festival."
+   ]
+  ],
+  "state-capital-utah": [
+   [
+    "Nature",
+    "Five national parks are a few hours' drive from Salt Lake City, including Arches and Zion."
+   ],
+   [
+    "Food",
+    "Utah eats more Jell-O per person than almost any other state."
+   ],
+   [
+    "Sports",
+    "Ski resorts are less than an hour from downtown Salt Lake City."
+   ]
+  ],
+  "state-capital-vermont": [
+   [
+    "Food",
+    "Ben & Jerry's ice cream was started in Vermont in 1978."
+   ],
+   [
+    "Landmark",
+    "Montpelier's capitol dome is covered in gold leaf, with a statue of the goddess of farming on top."
+   ],
+   [
+    "Culture",
+    "Montpelier is the only state capital without a McDonald's."
+   ]
+  ],
+  "state-capital-virginia": [
+   [
+    "History",
+    "Richmond's Capitol was designed by Thomas Jefferson."
+   ],
+   [
+    "Culture",
+    "Virginia is called the 'Mother of Presidents' because eight presidents were born there."
+   ],
+   [
+    "Culture",
+    "Richmond's Maymont park has a petting farm, gardens and wildlife exhibits."
+   ]
+  ],
+  "state-capital-washington": [
+   [
+    "Culture",
+    "Washington's Capitol in Olympia has one of the tallest masonry domes in the world."
+   ],
+   [
+    "Nature",
+    "Olympic National Park, with rainforests and glaciers, is a short drive away."
+   ],
+   [
+    "Food",
+    "Washington grows more apples than any other state."
+   ]
+  ],
+  "state-capital-west-virginia": [
+   [
+    "Nature",
+    "West Virginia is called the 'Mountain State' because almost all of it is hilly or mountainous."
+   ],
+   [
+    "Landmark",
+    "The New River Gorge Bridge, a long steel arch, is about an hour from Charleston."
+   ],
+   [
+    "Food",
+    "The pepperoni roll, a bread roll baked with pepperoni inside, is West Virginia's famous snack."
+   ]
+  ],
+  "state-capital-wisconsin": [
+   [
+    "Culture",
+    "Madison's Saturday farmers market circles the whole Capitol Square."
+   ],
+   [
+    "Food",
+    "Wisconsin makes more cheese than any other state."
+   ],
+   [
+    "Culture",
+    "Madison's Capitol is the tallest building in the city by law."
+   ]
+  ],
+  "state-capital-wyoming": [
+   [
+    "Size",
+    "Wyoming has the fewest people of any US state."
+   ],
+   [
+    "Nature",
+    "Yellowstone, the world's first national park, is mostly in Wyoming."
+   ],
+   [
+    "Culture",
+    "Wyoming was the first state to let women vote, in 1869."
+   ]
+  ]
+ }
+}

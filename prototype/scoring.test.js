@@ -582,7 +582,7 @@ test('every country card has 3 kid-friendly nerd facts, led by how many people l
   assert.deepStrictEqual(dupes, [], 'no fact repeated across countries');
   assert.ok(countries.every(q => !q.nerd.some(n => n[1] === q.fact)), 'nerd facts add something new, not the card fact again');
   const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
-  assert.ok(app.includes("var kind = q.category === 'sports' ? 'SPORTS' : 'COUNTRY';"), 'the pop-up says COUNTRY NERD FACTS on country cards');
+  assert.ok(app.includes("countries: 'Country', cities: 'City', capitals: 'Capital'"), 'the pop-up title names the kind of card');
 });
 
 test('country population facts say what the number means (ranking nearby, or a comparison kids can picture)', () => {
@@ -633,6 +633,16 @@ test('shared links show a rich preview: title, description and a 1200x630 card i
   assert.strictEqual(png.readUInt32BE(16), 1200, 'image is 1200 wide');
   assert.strictEqual(png.readUInt32BE(20), 630, 'image is 630 tall');
   assert.ok(png.length < 1024 * 1024, 'under 1 MB so previews load fast');
+});
+
+test('every city and capital card (world and US state) has 3 kid-friendly nerd facts, none repeating the card', () => {
+  const cards = questions.filter(q => q.category === 'cities' || q.category === 'capitals');
+  assert.strictEqual(cards.length, 295, '50 cities + 195 world capitals + 50 state capitals');
+  assert.deepStrictEqual(cards.filter(q => !q.nerd || q.nerd.length !== 3).map(q => q.id), [], 'three each');
+  assert.deepStrictEqual(cards.filter(q => q.nerd.some(n => n[1] === q.fact)).map(q => q.id), [], 'nerd facts add something new');
+  const all = cards.flatMap(q => q.nerd.map(n => n[1]));
+  assert.strictEqual(new Set(all).size, all.length, 'no fact used twice');
+  for (const id of ['new-york', 'capital-japan', 'state-capital-texas', 'capital-united-kingdom']) assert.ok(cards.find(q => q.id === id).nerd, id);
 });
 
 test('Russia belongs to both Europe and Asia', () => {
