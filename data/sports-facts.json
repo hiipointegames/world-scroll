@@ -1,8 +1,19 @@
 {
  "_about": "Sports nerd facts shown on the result card (first one) and in the Nerd facts pop-up (all). Keyed by card id. Each fact: [label, text], kid-friendly, 160 chars max.",
  "_verify": [
+  "blues",
+  "bombers",
+  "bulldogs",
+  "cats",
+  "demons",
+  "dockers",
+  "giants",
   "gstaad",
+  "hawks",
   "hurricanes",
+  "kangaroos",
+  "lions",
+  "magpies",
   "mlb-chicago-cubs",
   "mlb-toronto-blue-jays",
   "mls-san-diego-fc",
@@ -14,6 +25,10 @@
   "nwsl-denver-summit-fc",
   "nwsl-racing-louisville-fc",
   "paris-masters",
+  "power",
+  "saints",
+  "suns",
+  "tigers",
   "usl1-athletic-club-boise",
   "usl1-av-alta-fc",
   "usl1-charlotte-independence",
@@ -3664,6 +3679,156 @@
    [
     "Nerd stat",
     "Their team color is purple."
+   ]
+  ],
+  "magpies": [
+   [
+    "Big moment",
+    "Their 2023 premiership was the club's 16th."
+   ],
+   [
+    "The colors",
+    "Black and white stripes, just like a magpie's feathers."
+   ]
+  ],
+  "blues": [
+   [
+    "Where it began",
+    "Founded in 1864, one of the oldest clubs in the league."
+   ],
+   [
+    "Nerd stat",
+    "Carlton has won 16 premierships, tied for the most in the league."
+   ]
+  ],
+  "bombers": [
+   [
+    "Where it began",
+    "Founded in 1872 in Melbourne's northwest."
+   ],
+   [
+    "Nerd stat",
+    "Their 16 premierships are tied for the most in league history."
+   ]
+  ],
+  "tigers": [
+   [
+    "Where it began",
+    "Founded in 1885, with a yellow-and-black sash on their jumper."
+   ],
+   [
+    "Big moment",
+    "Their 2020 Grand Final at the Gabba was the first ever played outside Victoria."
+   ]
+  ],
+  "hawks": [
+   [
+    "Big moment",
+    "Premiers three years running: 2013, 2014 and 2015."
+   ],
+   [
+    "Road trip",
+    "They also play some home games in Launceston, Tasmania."
+   ]
+  ],
+  "demons": [
+   [
+    "Where it began",
+    "Founded in 1858, they helped write the first rules of Aussie rules football."
+   ],
+   [
+    "Big moment",
+    "Their 2021 premiership was the club's first in 57 years."
+   ]
+  ],
+  "saints": [
+   [
+    "Where it began",
+    "Founded in 1873, named after a seaside suburb of Melbourne."
+   ],
+   [
+    "Big moment",
+    "Their one premiership came in 1966, by a single point!"
+   ]
+  ],
+  "kangaroos": [
+   [
+    "Where it began",
+    "Founded in 1869, they wear blue and white stripes."
+   ],
+   [
+    "Big moment",
+    "Premiers in 1975, 1977, 1996 and 1999."
+   ]
+  ],
+  "bulldogs": [
+   [
+    "Where it began",
+    "Founded in 1877 as Footscray, in Melbourne's west."
+   ],
+   [
+    "Big moment",
+    "Their 2016 premiership ended a 62-year wait."
+   ]
+  ],
+  "cats": [
+   [
+    "Where it began",
+    "Founded in 1859, the league's second-oldest club."
+   ],
+   [
+    "Home ground",
+    "Kardinia Park sits in Geelong, about an hour from Melbourne."
+   ]
+  ],
+  "lions": [
+   [
+    "Where it began",
+    "Formed in 1996 when the Brisbane Bears joined with Fitzroy."
+   ],
+   [
+    "Big moment",
+    "Premiers three years running: 2001, 2002 and 2003."
+   ]
+  ],
+  "suns": [
+   [
+    "Where it began",
+    "Joined the league in 2011."
+   ],
+   [
+    "The colors",
+    "Red, gold and blue, for the sunny Gold Coast."
+   ]
+  ],
+  "giants": [
+   [
+    "Where it began",
+    "Joined in 2012 as the league's newest club."
+   ],
+   [
+    "Road trip",
+    "They also play some home games in Canberra."
+   ]
+  ],
+  "dockers": [
+   [
+    "Where it began",
+    "Joined in 1995, Western Australia's second club."
+   ],
+   [
+    "The colors",
+    "Purple, with an anchor for Fremantle's harbor."
+   ]
+  ],
+  "power": [
+   [
+    "Where it began",
+    "Founded in 1870, they joined the national league in 1997."
+   ],
+   [
+    "Big moment",
+    "Premiers in 2004."
    ]
   ]
  }

@@ -387,6 +387,20 @@ test('Turkey belongs to both Europe and Asia', () => {
   assert.ok(/'Turkey'/.test(/var EUROPE = \[([\s\S]*?)\];/.exec(app)[1]), 'the Europe sports map colors Turkey as Europe');
 });
 
+test('AFL: all 18 clubs, each pinned in its home city', () => {
+  const afl = questions.filter(q => q.region === 'australia' && q.sport === 'afl');
+  const ids = ['eagles', 'crows', 'swans', 'magpies', 'blues', 'bombers', 'tigers', 'hawks', 'demons', 'saints',
+    'kangaroos', 'bulldogs', 'cats', 'lions', 'suns', 'giants', 'dockers', 'power'];
+  assert.deepStrictEqual(afl.map(q => q.id).sort(), ids.slice().sort());
+  const b = bank.regions.australia.bounds;
+  for (const q of afl) {
+    assert.ok(q.venue, q.id + ' names its home ground');
+    assert.ok(q.lon > b.lonMin && q.lon < b.lonMax && q.lat > b.latMin && q.lat < b.latMax, q.id + ' fits on the Australia map');
+  }
+  const melb = afl.filter(q => q.answer === 'Melbourne, Victoria').length;
+  assert.strictEqual(melb, 9, 'nine clubs are based in Melbourne');
+});
+
 test('Russia belongs to both Europe and Asia', () => {
   const inGroup = (q, g) => q.continent === g || (q.alsoIn || []).includes(g);
   const country = questions.find(q => q.id === 'country-russia');
