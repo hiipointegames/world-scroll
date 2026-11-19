@@ -549,6 +549,27 @@ test('gameplay juice: every result gets a reaction (bullseye party, fire for hot
   assert.ok(/function reveal\(screen, vibe, at, word\) \{\n    var v = VIBE_FX\[vibe\];\n    if \(calm/.test(fx), 'reactions are skipped under reduced motion');
 });
 
+test('facts are current as of November 18, 2026 (titles won in the 2025-26 seasons)', () => {
+  const card = (id) => questions.find(q => q.id === id);
+  const all = (id) => [card(id).fact].concat((card(id).nerd || []).map(n => n[1])).join(' ');
+  assert.match(card('nba-new-york-knicks').fact, /1970, 1973 and 2026/, 'Knicks: 2026 NBA champions, shown first');
+  assert.match(card('nfl-seattle-seahawks').fact, /2013 and 2025 seasons/, 'Seahawks: Super Bowl LX');
+  assert.match(card('nhl-carolina-hurricanes').fact, /2006 and 2026/, 'Hurricanes: 2026 Stanley Cup');
+  assert.match(card('mlb-milwaukee-brewers').fact, /first-ever World Series in 2026/, 'Brewers: first World Series');
+  assert.match(all('mls-inter-miami-cf'), /first MLS Cup in December 2025/);
+  assert.match(all('nwsl-gotham-fc'), /2023 and 2025/);
+  assert.match(all('scorchers'), /six titles/);
+  assert.match(all('lions'), /2024 to 2026/);
+  assert.match(all('ubb'), /2025 and again in 2026/);
+  assert.match(all('roosters'), /2026 premiers/);
+  assert.match(all('arsenal'), /Premier League champions in 2026/);
+  assert.match(all('toulouse'), /four in a row from 2023 to 2026/);
+  const cityFact = (name) => questions.find(q => q.category === 'capitals' && q.prompt === 'Where is ' + name + '?').fact;
+  assert.ok(!/is the biggest city area in the world/.test(cityFact('Tokyo')), 'the UN (2025) ranks Jakarta first, Tokyo third');
+  assert.match(cityFact('Jakarta'), /biggest city in the world/);
+  assert.ok(!/is the largest city in the Southern Hemisphere/.test(card('sao-paulo').fact), 'Jakarta is bigger and also south of the equator');
+});
+
 test('Russia belongs to both Europe and Asia', () => {
   const inGroup = (q, g) => q.continent === g || (q.alsoIn || []).includes(g);
   const country = questions.find(q => q.id === 'country-russia');
