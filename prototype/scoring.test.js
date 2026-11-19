@@ -428,6 +428,20 @@ test('Premier League and La Liga: all 20 clubs of the 2026-27 season, each with 
   }
 });
 
+test('Top 14: all 14 clubs of the 2026-27 season, each with its stadium', () => {
+  const top14 = questions.filter(q => q.sport === 'rugby' && q.league === 'Top 14');
+  assert.deepStrictEqual(top14.map(q => q.id).sort(), ['bayonne', 'castres', 'clermont', 'larochelle', 'lou', 'mhr', 'pau',
+    'racing92', 'stadefrancais', 'toulon', 'toulouse', 'ubb', 'usap', 'vannes']);
+  for (const q of top14) assert.ok(q.venue, q.id + ' names its stadium');
+});
+
+test('US leagues have every team', () => {
+  const usa = require('../data/usa-teams.json');
+  const count = (lg) => usa.teams.filter(t => t[0] === lg).length;
+  assert.deepStrictEqual({ nfl: count('nfl'), nba: count('nba'), mlb: count('mlb'), nhl: count('nhl'), mls: count('mls'), nwsl: count('nwsl') },
+    { nfl: 32, nba: 30, mlb: 30, nhl: 32, mls: 30, nwsl: 16 });
+});
+
 test('Russia belongs to both Europe and Asia', () => {
   const inGroup = (q, g) => q.continent === g || (q.alsoIn || []).includes(g);
   const country = questions.find(q => q.id === 'country-russia');

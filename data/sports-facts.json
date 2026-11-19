@@ -4,6 +4,7 @@
   "alaves",
   "astonvilla",
   "atletico",
+  "bayonne",
   "betis",
   "blues",
   "bombers",
@@ -12,6 +13,7 @@
   "brighton",
   "bulldogs",
   "bulldogs-nrl",
+  "castres",
   "cats",
   "celta",
   "chelsea",
@@ -39,13 +41,16 @@
   "ipswich",
   "kangaroos",
   "knights",
+  "larochelle",
   "leeds",
   "levante",
   "lions",
+  "lou",
   "magpies",
   "malaga",
   "mancity",
   "manutd",
+  "mhr",
   "mlb-chicago-cubs",
   "mlb-toronto-blue-jays",
   "mls-san-diego-fc",
@@ -59,6 +64,7 @@
   "osasuna",
   "panthers",
   "paris-masters",
+  "pau",
   "power",
   "rabbitohs",
   "racing",
@@ -72,6 +78,7 @@
   "sevilla",
   "sharks",
   "spurs",
+  "stadefrancais",
   "stars",
   "strikers",
   "sunderland",
@@ -79,6 +86,9 @@
   "thunder",
   "tigers",
   "titans",
+  "toulon",
+  "ubb",
+  "usap",
   "usl1-athletic-club-boise",
   "usl1-av-alta-fc",
   "usl1-charlotte-independence",
@@ -130,6 +140,7 @@
   "uslsl-sporting-club-jacksonville",
   "uslsl-tampa-bay-sun-fc",
   "valencia",
+  "vannes",
   "villarreal",
   "wests-tigers"
  ],
@@ -4412,6 +4423,116 @@
    [
     "Nerd stat",
     "Their town has only about 50,000 people, yet they play in Europe's big competitions."
+   ]
+  ],
+  "bayonne": [
+   [
+    "The colors",
+    "Sky blue and white."
+   ],
+   [
+    "Hometown",
+    "Bayonne is famous for its chocolate, made there for hundreds of years."
+   ]
+  ],
+  "ubb": [
+   [
+    "Where it began",
+    "Formed in 2006 when two local clubs joined together."
+   ],
+   [
+    "The venue",
+    "Their stadium holds about 33,500 fans."
+   ]
+  ],
+  "castres": [
+   [
+    "Where it began",
+    "Founded in 1906."
+   ],
+   [
+    "The colors",
+    "Blue and white."
+   ]
+  ],
+  "larochelle": [
+   [
+    "The colors",
+    "Yellow and black."
+   ],
+   [
+    "Hometown",
+    "A seaside town on the Atlantic with a famous old harbor."
+   ]
+  ],
+  "lou": [
+   [
+    "Where it began",
+    "Founded in 1896."
+   ],
+   [
+    "Big moment",
+    "Won the European Challenge Cup in 2022."
+   ]
+  ],
+  "mhr": [
+   [
+    "Where it began",
+    "The club was formed in 1986."
+   ],
+   [
+    "The colors",
+    "Blue and white."
+   ]
+  ],
+  "pau": [
+   [
+    "Where it began",
+    "Founded in 1902."
+   ],
+   [
+    "The colors",
+    "Green and white."
+   ]
+  ],
+  "usap": [
+   [
+    "Where it began",
+    "Formed in 1933."
+   ],
+   [
+    "The colors",
+    "Red and gold, the colors of Catalonia."
+   ]
+  ],
+  "stadefrancais": [
+   [
+    "Where it began",
+    "Founded in 1883."
+   ],
+   [
+    "The venue",
+    "Their stadium sits right next to the Parc des Princes football stadium."
+   ]
+  ],
+  "toulon": [
+   [
+    "The venue",
+    "Stade Mayol sits right by the harbor in the middle of town."
+   ],
+   [
+    "The colors",
+    "Red and black."
+   ]
+  ],
+  "vannes": [
+   [
+    "Big moment",
+    "Won the 2026 second-division final to return to the Top 14."
+   ],
+   [
+    "Hometown",
+    "Vannes has a medieval old town with ancient stone walls."
    ]
   ]
  }
