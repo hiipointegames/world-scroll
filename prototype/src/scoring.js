@@ -90,14 +90,13 @@
     return mixBy(sports, function (q) { return q.region + '/' + q.sport; },
       seededRandom('world-scroll-sports-daily-' + dateKey), count || 10);
   }
-  // The text players share: score, a green/red square per card, and an invite.
+  // The text players share: the game and date, the score, and a green/red square per card.
   // Used by both daily games; only the game name in the first line changes.
   function dailyShareText(gameName, dateLabel, results) {
     var hits = results.filter(function (r) { return r.hit; }).length;
     return 'World Scroll · ' + gameName + ' · ' + dateLabel + '\n' +
       hits + '/' + results.length + ' ' + (hits >= 8 ? '🏆' : hits >= 5 ? '🎯' : '📍') + '\n' +
-      results.map(function (r) { return r.hit ? '🟩' : '🟥'; }).join('') + '\n' +
-      'Can you beat my score? Learn geography by scrolling.';
+      results.map(function (r) { return r.hit ? '🟩' : '🟥'; }).join('');
   }
   function sportsShareText(dateLabel, results) { return dailyShareText('Daily Sports 10', dateLabel, results); }
   // A fun, kid-friendly title for a Daily 10 score.

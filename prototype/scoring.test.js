@@ -105,7 +105,7 @@ test('Daily Sports 10: same 10 for everyone today, spread across sports and regi
 test('Daily Sports 10 share text shows the score and one square per card', () => {
   const results = [true, true, false, true, true, true, false, true, false, true].map(hit => ({ hit }));
   assert.strictEqual(G.sportsShareText('Nov 8', results),
-    'World Scroll · Daily Sports 10 · Nov 8\n7/10 🎯\n🟩🟩🟥🟩🟩🟩🟥🟩🟥🟩\nCan you beat my score? Learn geography by scrolling.');
+    'World Scroll · Daily Sports 10 · Nov 8\n7/10 🎯\n🟩🟩🟥🟩🟩🟩🟥🟩🟥🟩');
   assert.strictEqual(G.sportsTitle(10), 'Perfect 10! Legend status.');
   assert.strictEqual(G.sportsTitle(0), 'Warm-up round. Back tomorrow!');
 });
@@ -200,7 +200,7 @@ test('Daily 10 and Daily Sports 10 count a guess as correct within 250 miles (tr
 test('Daily 10 share text matches the Daily Sports 10 format, with its own name', () => {
   const results = [true, false, true, true, true, true, true, false, true, true].map(hit => ({ hit }));
   assert.strictEqual(G.dailyShareText('Daily 10', 'Nov 10', results),
-    'World Scroll · Daily 10 · Nov 10\n8/10 🏆\n🟩🟥🟩🟩🟩🟩🟩🟥🟩🟩\nCan you beat my score? Learn geography by scrolling.');
+    'World Scroll · Daily 10 · Nov 10\n8/10 🏆\n🟩🟥🟩🟩🟩🟩🟩🟥🟩🟩');
   assert.strictEqual(G.dailyTitle(10), 'Perfect 10! World explorer.');
   assert.strictEqual(G.dailyTitle(2), 'Warm-up round. Back tomorrow!');
   const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
