@@ -414,6 +414,20 @@ test('NRL has all 17 clubs and the Big Bash all 8 teams, each with its home grou
   }
 });
 
+test('Premier League and La Liga: all 20 clubs of the 2026-27 season, each with its stadium', () => {
+  const clubs = (league) => questions.filter(q => q.sport === 'football' && q.league === league);
+  const epl = clubs('Premier League'), liga = clubs('La Liga');
+  assert.strictEqual(epl.length, 20, 'Premier League clubs');
+  assert.strictEqual(liga.length, 20, 'La Liga clubs');
+  for (const id of ['coventry', 'ipswich', 'hull', 'everton', 'spurs']) assert.ok(epl.some(q => q.id === id), id + ' in the Premier League');
+  for (const id of ['racing', 'deportivo', 'malaga', 'atletico', 'villarreal']) assert.ok(liga.some(q => q.id === id), id + ' in La Liga');
+  const b = bank.regions.europe.bounds;
+  for (const q of epl.concat(liga)) {
+    assert.ok(q.venue, q.id + ' names its stadium');
+    assert.ok(q.lon > b.lonMin && q.lon < b.lonMax && q.lat > b.latMin && q.lat < b.latMax, q.id + ' fits on the Europe map');
+  }
+});
+
 test('Russia belongs to both Europe and Asia', () => {
   const inGroup = (q, g) => q.continent === g || (q.alsoIn || []).includes(g);
   const country = questions.find(q => q.id === 'country-russia');

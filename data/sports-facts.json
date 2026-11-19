@@ -1,26 +1,51 @@
 {
  "_about": "Sports nerd facts shown on the result card (first one) and in the Nerd facts pop-up (all). Keyed by card id. Each fact: [label, text], kid-friendly, 160 chars max.",
  "_verify": [
+  "alaves",
+  "astonvilla",
+  "atletico",
+  "betis",
   "blues",
   "bombers",
+  "bournemouth",
+  "brentford",
+  "brighton",
   "bulldogs",
   "bulldogs-nrl",
   "cats",
+  "celta",
+  "chelsea",
+  "coventry",
   "cowboys",
+  "crystalpalace",
   "demons",
+  "deportivo",
   "dockers",
   "dolphins",
   "dragons",
   "eels",
+  "elche",
+  "espanyol",
+  "everton",
+  "forest",
+  "fulham",
+  "getafe",
   "giants",
   "gstaad",
   "hawks",
   "heat",
+  "hull",
   "hurricanes",
+  "ipswich",
   "kangaroos",
   "knights",
+  "leeds",
+  "levante",
   "lions",
   "magpies",
+  "malaga",
+  "mancity",
+  "manutd",
   "mlb-chicago-cubs",
   "mlb-toronto-blue-jays",
   "mls-san-diego-fc",
@@ -31,18 +56,25 @@
   "nwsl-boston-legacy-fc",
   "nwsl-denver-summit-fc",
   "nwsl-racing-louisville-fc",
+  "osasuna",
   "panthers",
   "paris-masters",
   "power",
   "rabbitohs",
+  "racing",
   "raiders",
+  "rayo",
+  "realsociedad",
   "renegades",
   "roosters",
   "saints",
   "sea-eagles",
+  "sevilla",
   "sharks",
+  "spurs",
   "stars",
   "strikers",
+  "sunderland",
   "suns",
   "thunder",
   "tigers",
@@ -97,6 +129,8 @@
   "uslsl-lexington-sc",
   "uslsl-sporting-club-jacksonville",
   "uslsl-tampa-bay-sun-fc",
+  "valencia",
+  "villarreal",
   "wests-tigers"
  ],
  "facts": {
@@ -4038,6 +4072,346 @@
    [
     "Big moment",
     "Champions in the 2015-16 season."
+   ]
+  ],
+  "astonvilla": [
+   [
+    "Where it began",
+    "Founded in 1874 by members of a church cricket team."
+   ],
+   [
+    "Big moment",
+    "Champions of Europe in 1982."
+   ]
+  ],
+  "bournemouth": [
+   [
+    "Where it began",
+    "Founded in 1899 on England's sunny south coast."
+   ],
+   [
+    "Nerd stat",
+    "Their stadium is one of the smallest in the league, with about 11,000 seats."
+   ]
+  ],
+  "brentford": [
+   [
+    "Where it began",
+    "Founded in 1889."
+   ],
+   [
+    "The venue",
+    "They moved into their new stadium in 2020, a short walk from their old home."
+   ]
+  ],
+  "brighton": [
+   [
+    "Where it began",
+    "Founded in 1901."
+   ],
+   [
+    "The venue",
+    "Their stadium opened in 2011."
+   ]
+  ],
+  "chelsea": [
+   [
+    "Big moment",
+    "Champions of Europe in 2012 and 2021."
+   ],
+   [
+    "The colors",
+    "Royal blue, which is why fans call them the Blues."
+   ]
+  ],
+  "coventry": [
+   [
+    "Where it began",
+    "Started in 1883 by workers at a bicycle factory."
+   ],
+   [
+    "Big moment",
+    "Won the FA Cup in 1987."
+   ]
+  ],
+  "crystalpalace": [
+   [
+    "The name",
+    "The Crystal Palace was built of glass for the Great Exhibition of 1851."
+   ],
+   [
+    "Big moment",
+    "Won the FA Cup in 2025, their first major trophy."
+   ]
+  ],
+  "everton": [
+   [
+    "Where it began",
+    "Founded in 1878 as St Domingo's, a church team."
+   ],
+   [
+    "The venue",
+    "In 2025 they moved to a brand-new stadium on the River Mersey waterfront."
+   ]
+  ],
+  "fulham": [
+   [
+    "Where it began",
+    "Founded in 1879, the oldest professional club in London."
+   ],
+   [
+    "The name",
+    "A little cottage in the corner of the ground gives them their nickname."
+   ]
+  ],
+  "hull": [
+   [
+    "Where it began",
+    "Founded in 1904."
+   ],
+   [
+    "Big moment",
+    "Won the 2026 play-off final at Wembley to reach the top flight."
+   ]
+  ],
+  "ipswich": [
+   [
+    "Where it began",
+    "Founded in 1878."
+   ],
+   [
+    "Big moment",
+    "League champions in 1962, in their very first top-flight season!"
+   ]
+  ],
+  "leeds": [
+   [
+    "Where it began",
+    "Founded in 1919."
+   ],
+   [
+    "The venue",
+    "Elland Road has been their home since the club began."
+   ]
+  ],
+  "mancity": [
+   [
+    "Where it began",
+    "Founded in 1880 as St. Mark's, a church team."
+   ],
+   [
+    "Big moment",
+    "Champions of Europe in 2023."
+   ]
+  ],
+  "manutd": [
+   [
+    "Where it began",
+    "Founded in 1878 by railway workers, as Newton Heath."
+   ],
+   [
+    "Nerd stat",
+    "They have won 20 English league titles."
+   ]
+  ],
+  "forest": [
+   [
+    "Where it began",
+    "Founded in 1865, one of the oldest clubs in the world."
+   ],
+   [
+    "The venue",
+    "The City Ground sits right beside the River Trent."
+   ]
+  ],
+  "sunderland": [
+   [
+    "Where it began",
+    "Founded in 1879 by a schoolteacher."
+   ],
+   [
+    "Big moment",
+    "Won the FA Cup in 1973."
+   ]
+  ],
+  "spurs": [
+   [
+    "Where it began",
+    "Founded in 1882 by schoolboys from a cricket club."
+   ],
+   [
+    "Big moment",
+    "Won the Europa League in 2025."
+   ]
+  ],
+  "alaves": [
+   [
+    "Where it began",
+    "Founded in 1921 in the Basque Country."
+   ],
+   [
+    "Big moment",
+    "Reached a European final, the UEFA Cup, in 2001."
+   ]
+  ],
+  "atletico": [
+   [
+    "Where it began",
+    "Founded in 1903 by Basque students living in Madrid."
+   ],
+   [
+    "The venue",
+    "Their stadium opened in 2017."
+   ]
+  ],
+  "celta": [
+   [
+    "Where it began",
+    "Founded in 1923."
+   ],
+   [
+    "The colors",
+    "Sky blue, like the flag of Galicia."
+   ]
+  ],
+  "deportivo": [
+   [
+    "Big moment",
+    "Spanish champions in 2000."
+   ],
+   [
+    "Return",
+    "Back in La Liga in 2026 after eight years away."
+   ]
+  ],
+  "elche": [
+   [
+    "Where it began",
+    "Founded in 1923."
+   ],
+   [
+    "Hometown",
+    "Their city is famous for a giant grove of palm trees."
+   ]
+  ],
+  "espanyol": [
+   [
+    "Where it began",
+    "Founded in 1900 by university students."
+   ],
+   [
+    "The colors",
+    "Blue and white stripes."
+   ]
+  ],
+  "getafe": [
+   [
+    "Where it began",
+    "The club was founded in 1983."
+   ],
+   [
+    "Big moment",
+    "Reached the Spanish cup final in 2007 and 2008."
+   ]
+  ],
+  "levante": [
+   [
+    "Where it began",
+    "Founded in 1909, the oldest club in their city."
+   ],
+   [
+    "The colors",
+    "Blue and dark red."
+   ]
+  ],
+  "malaga": [
+   [
+    "The venue",
+    "La Rosaleda sits beside a river, close to the Mediterranean Sea."
+   ],
+   [
+    "Return",
+    "Back in La Liga in 2026 after winning the play-off final."
+   ]
+  ],
+  "osasuna": [
+   [
+    "Where it began",
+    "Founded in 1920."
+   ],
+   [
+    "Nerd stat",
+    "Their fans are known as some of the loudest in Spain."
+   ]
+  ],
+  "racing": [
+   [
+    "Where it began",
+    "Founded in 1913."
+   ],
+   [
+    "The venue",
+    "El Sardinero stands right by a beach on the Bay of Biscay."
+   ]
+  ],
+  "rayo": [
+   [
+    "Where it began",
+    "Founded in 1924 in a neighborhood of Madrid."
+   ],
+   [
+    "The venue",
+    "Their small stadium is tucked right into the neighborhood."
+   ]
+  ],
+  "betis": [
+   [
+    "Where it began",
+    "Founded in 1907."
+   ],
+   [
+    "Big moment",
+    "Spanish champions in 1935."
+   ]
+  ],
+  "realsociedad": [
+   [
+    "Big moment",
+    "Spanish champions two years in a row, in 1981 and 1982."
+   ],
+   [
+    "The colors",
+    "Blue and white stripes."
+   ]
+  ],
+  "sevilla": [
+   [
+    "Where it began",
+    "Founded in 1890."
+   ],
+   [
+    "The colors",
+    "White shirts with red trim."
+   ]
+  ],
+  "valencia": [
+   [
+    "Where it began",
+    "Founded in 1919."
+   ],
+   [
+    "The name",
+    "Fans are called Che, a friendly local word like saying hey!"
+   ]
+  ],
+  "villarreal": [
+   [
+    "Big moment",
+    "Won the Europa League in 2021."
+   ],
+   [
+    "Nerd stat",
+    "Their town has only about 50,000 people, yet they play in Europe's big competitions."
    ]
   ]
  }
