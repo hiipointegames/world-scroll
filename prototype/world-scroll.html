@@ -1346,7 +1346,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
     host.insertBefore(layer, host.firstChild);
   }
 
-  // ---------- home screen: the fly-in (about 2.4 seconds) ----------
+  // ---------- home screen: the fly-in (about 2.9 seconds) ----------
   // 0.0–1.0s: start zoomed way in on one spot, whoosh out while spinning fast.
   // ~1.0s: one flash, a shockwave, and WORLD SCROLL slams onto the screen. 1.0–1.6s: the globe spins, pins pop.
   // 1.6–2.0s: everything blasts away and the home screen bounces in. A tap skips it.
@@ -1391,7 +1391,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
         });
       } : null });
       if (t > 0.85 && !slammed) { slammed = true; ov.classList.add('slam'); }
-      if (t >= 2.4) return finish(); // long enough for the letters to land and catch the shine
+      if (t >= 2.9) return finish(); // long enough to land the letters, catch the shine and read the tagline
       requestAnimationFrame(frame);
     })(t0);
   }
