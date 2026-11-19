@@ -131,9 +131,9 @@
       "color": "#9BE7A8"
     },
     {
-      "id": "rivers",
-      "label": "Rivers & oceans",
-      "color": "#3DDCC4"
+      "id": "landmarks",
+      "label": "Landmarks",
+      "color": "#D7A8FF"
     },
     {
       "id": "mountains",
@@ -151,9 +151,9 @@
       "color": "#7CC4FF"
     },
     {
-      "id": "landmarks",
-      "label": "Landmarks",
-      "color": "#D7A8FF"
+      "id": "rivers",
+      "label": "Rivers & oceans",
+      "color": "#3DDCC4"
     },
     {
       "id": "sports",

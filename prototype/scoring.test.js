@@ -610,6 +610,10 @@ test('Landmarks: 50 famous places with precise spots and kid-friendly facts', ()
   assert.ok(G.scoreGuess({ lat: 48.86, lon: 2.35 }, eiffel).bullseye, 'a pin in central Paris finds the Eiffel Tower');
   const cats = bank.categories.map(c => c.id);
   assert.ok(cats.includes('lakes') && cats.includes('landmarks'), 'both are categories on the home screen');
+  assert.deepStrictEqual(cats.filter(c => c !== 'sports'), ['countries', 'capitals', 'cities', 'landmarks', 'mountains', 'deserts', 'lakes', 'rivers'],
+    'home tiles: Landmarks and Rivers & oceans swapped places');
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  assert.ok(app.includes("lakes: '⛵'") && app.includes("cities: '🏙️'"), 'Lakes & seas has a water icon, different from Cities');
 });
 
 test('home screen: no daily goal line, Daily 10 sits above the tiles and Shuffle below them', () => {

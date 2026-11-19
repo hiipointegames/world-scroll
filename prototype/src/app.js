@@ -100,7 +100,7 @@
     cold: ['Brrr, cold!', 'Way off!', 'Next one’s yours!']
   };
   var VIBE_SOUND = { bullseye: 'bullseye', scorching: 'scorching', hot: 'hit', warm: 'warm', chilly: 'chilly', cold: 'cold' };
-  var CAT_EMOJI = { countries: '🌍', capitals: '🏛️', cities: '🏙️', rivers: '🌊', mountains: '⛰️', deserts: '🏜️', lakes: '🏞️', landmarks: '🗽' };
+  var CAT_EMOJI = { countries: '🌍', capitals: '🏛️', cities: '🏙️', rivers: '🌊', mountains: '⛰️', deserts: '🏜️', lakes: '⛵', landmarks: '🗽' };
   function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
   var REDUCE_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var combo = 0; // good guesses in a row this sitting
