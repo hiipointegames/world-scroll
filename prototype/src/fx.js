@@ -39,12 +39,20 @@
     var sea = c.createRadialGradient(ctr[0] - r * 0.35, ctr[1] - r * 0.35, r * 0.1, ctr[0], ctr[1], r);
     sea.addColorStop(0, '#1F3A86'); sea.addColorStop(1, '#0F1A40');
     c.fillStyle = sea; c.beginPath(); path({ type: 'Sphere' }); c.fill();
-    c.strokeStyle = 'rgba(61,220,196,.18)'; c.lineWidth = 0.7; c.beginPath(); path(graticule); c.stroke();
-    c.fillStyle = '#2E6F8E'; c.beginPath(); path(getLand()); c.fill();
-    c.strokeStyle = 'rgba(61,220,196,.55)'; c.lineWidth = 0.8; c.stroke();
+    c.strokeStyle = 'rgba(140,200,255,.09)'; c.lineWidth = 0.6; c.beginPath(); path(graticule); c.stroke(); // faint grid
+    var landFill = c.createLinearGradient(ctr[0] - r, ctr[1] - r, ctr[0] + r, ctr[1] + r);
+    landFill.addColorStop(0, '#46A3AE'); landFill.addColorStop(1, '#2A6A86');
+    c.fillStyle = landFill; c.beginPath(); path(getLand()); c.fill();
+    c.strokeStyle = 'rgba(190,255,240,.38)'; c.lineWidth = 0.6; c.stroke(); // fine coastlines
+    // light from the top left, shadow on the far side: it reads as a real ball, not a flat disc
+    var shade = c.createRadialGradient(ctr[0] - r * 0.45, ctr[1] - r * 0.5, r * 0.05, ctr[0], ctr[1], r * 1.02);
+    shade.addColorStop(0, 'rgba(255,255,255,.20)'); shade.addColorStop(0.45, 'rgba(255,255,255,0)');
+    shade.addColorStop(0.8, 'rgba(4,8,30,.18)'); shade.addColorStop(1, 'rgba(4,8,30,.55)');
+    c.fillStyle = shade; c.beginPath(); path({ type: 'Sphere' }); c.fill();
     if (opts.extras) opts.extras(c, path);
-    // a bright rim so it reads as a ball
-    c.strokeStyle = 'rgba(255,255,255,.35)'; c.lineWidth = 1.5; c.beginPath(); path({ type: 'Sphere' }); c.stroke();
+    // a glowing atmosphere rim, like Earth seen from space
+    c.save(); c.shadowColor = 'rgba(110,235,255,.85)'; c.shadowBlur = Math.min(24, r * 0.12);
+    c.strokeStyle = 'rgba(170,240,255,.55)'; c.lineWidth = 1.6; c.beginPath(); path({ type: 'Sphere' }); c.stroke(); c.restore();
   }
   var visible = function (proj, p) { var r = proj.rotate(); return d3.geoDistance(p, [-r[0], -r[1]]) < Math.PI / 2 - 0.05; };
 
@@ -113,18 +121,25 @@
     host.insertBefore(layer, host.firstChild);
   }
 
-  // ---------- home screen: the 2-second fly-in ----------
+  // ---------- home screen: the fly-in (about 2.4 seconds) ----------
   // 0.0–1.0s: start zoomed way in on one spot, whoosh out while spinning fast.
   // ~1.0s: one flash, a shockwave, and WORLD SCROLL slams onto the screen. 1.0–1.6s: the globe spins, pins pop.
   // 1.6–2.0s: everything blasts away and the home screen bounces in. A tap skips it.
   function flyIn(host, done) {
     if (calm) { if (done) done(); return; }
     var ov = document.createElement('div'); ov.className = 'fx-flyin'; ov.setAttribute('aria-hidden', 'true');
+    // Each letter is its own span so they can land one after another (see .fx-wm in app.html).
+    var letters = function (word, from) {
+      return word.split('').map(function (ch, i) { return '<i style="--i:' + (from + i) + '">' + ch + '</i>'; }).join('');
+    };
     ov.innerHTML = '<canvas></canvas><div class="fx-flash"></div><div class="fx-ring"></div><div class="fx-ring r2"></div>' +
-      '<div class="fx-logo"><span>WORLD</span><span>SCROLL</span></div>';
+      '<div class="fx-logo"><div class="fx-wm"><span class="w">' + letters('World', 0) + '</span><span class="s">' + letters('Scroll', 5) + '</span></div>' +
+      '<div class="fx-tag">LEARN GEOGRAPHY BY SCROLLING</div></div>';
     host.appendChild(ov);
     var cv = ov.querySelector('canvas'), w = host.clientWidth, h = host.clientHeight, c = sizeCanvas(cv, w, h);
     var R = Math.min(w, h) * 0.36, start = SPOTS[Math.floor(Math.random() * SPOTS.length)];
+    // The wordmark sits just under the globe on every phone (on short screens a fixed spot would overlap it).
+    ov.querySelector('.fx-logo').style.top = Math.min(h - 118, h * 0.42 + R + 26) + 'px';
     var proj = d3.geoOrthographic().clipAngle(90).translate([w / 2, h * 0.42]);
     var t0 = performance.now(), finished = false, slammed = false;
     var easeOut = function (x) { return 1 - Math.pow(1 - x, 3); };
@@ -132,7 +147,7 @@
     function finish() {
       if (finished) return; finished = true;
       ov.classList.add('out');
-      setTimeout(function () { ov.remove(); }, 380);
+      setTimeout(function () { ov.remove(); }, 430);
       if (done) done();
     }
     ov.addEventListener('pointerdown', finish);
@@ -145,11 +160,13 @@
         SPOTS.forEach(function (s, i) {
           if (!visible(proj, s)) return;
           var p = proj(s), k = Math.min(1, Math.max(0, (t - 1 - i * 0.03) * 6));
-          c.fillStyle = COLORS[i % 3]; c.beginPath(); c.arc(p[0], p[1], 5 * k * (1 + 0.5 * Math.sin(k * Math.PI)), 0, 2 * Math.PI); c.fill();
+          var rr = 5 * k * (1 + 0.5 * Math.sin(k * Math.PI));
+          c.fillStyle = COLORS[i % 3]; c.beginPath(); c.arc(p[0], p[1], rr, 0, 2 * Math.PI); c.fill();
+          c.fillStyle = '#FFFFFF'; c.beginPath(); c.arc(p[0], p[1], rr * 0.38, 0, 2 * Math.PI); c.fill(); // crisp white center
         });
       } : null });
-      if (t > 0.95 && !slammed) { slammed = true; ov.classList.add('slam'); }
-      if (t >= 2.0) return finish();
+      if (t > 0.85 && !slammed) { slammed = true; ov.classList.add('slam'); }
+      if (t >= 2.4) return finish(); // long enough for the letters to land and catch the shine
       requestAnimationFrame(frame);
     })(t0);
   }

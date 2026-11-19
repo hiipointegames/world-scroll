@@ -599,25 +599,49 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   -webkit-background-clip: text; background-clip: text; color: transparent; animation: title-shine 3s ease-in-out .5s infinite; }
 
 /* Home screen fly-in (2 seconds) */
-.fx-flyin { position: absolute; inset: 0; z-index: 60; overflow: hidden; background: radial-gradient(ellipse at 50% 42%, #18245E, #0B1026 70%); cursor: pointer; }
+.fx-flyin { position: absolute; inset: 0; z-index: 60; overflow: hidden; cursor: pointer;
+  background:
+    radial-gradient(1.2px 1.2px at 12% 18%, rgba(255,255,255,.7), transparent 60%), radial-gradient(1px 1px at 78% 12%, rgba(255,255,255,.55), transparent 60%),
+    radial-gradient(1.3px 1.3px at 88% 64%, rgba(169,198,255,.6), transparent 60%), radial-gradient(1px 1px at 22% 78%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(1.1px 1.1px at 58% 92%, rgba(255,211,107,.5), transparent 60%), radial-gradient(1px 1px at 6% 52%, rgba(255,255,255,.45), transparent 60%),
+    radial-gradient(ellipse at 50% 42%, #1A2766, #0B1026 70%); }
 .fx-flyin canvas { display: block; }
-.fx-flyin.out { animation: flyin-out .38s cubic-bezier(.5, 0, .9, .4) forwards; pointer-events: none; }
-@keyframes flyin-out { to { transform: scale(2.4) rotate(10deg); opacity: 0; } }
+.fx-flyin.out { animation: flyin-out .42s cubic-bezier(.4, 0, .2, 1) forwards; pointer-events: none; }
+@keyframes flyin-out { to { transform: scale(1.08); opacity: 0; filter: blur(6px); } } /* a clean fade and push-in, no tilt */
 .fx-flash { position: absolute; inset: 0; background: #FFF; opacity: 0; pointer-events: none; }
 .fx-flyin.slam .fx-flash { animation: one-flash .4s ease-out; } /* a single flash, never a strobe */
-@keyframes one-flash { from { opacity: .8; } to { opacity: 0; } }
+@keyframes one-flash { from { opacity: .55; } to { opacity: 0; } }
 .fx-ring { position: absolute; left: 50%; top: 42%; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; border: 5px solid var(--gold); opacity: 0; }
 .fx-ring.r2 { border-color: var(--teal); }
 .fx-flyin.slam .fx-ring { animation: ring-out .8s ease-out forwards; }
 .fx-flyin.slam .fx-ring.r2 { animation-delay: .12s; }
 @keyframes ring-out { from { opacity: 1; transform: scale(.5); } to { opacity: 0; transform: scale(15); border-width: 1px; } }
-.fx-logo { position: absolute; left: 0; right: 0; top: 72%; display: flex; flex-direction: column; align-items: center; opacity: 0;
-  font-family: var(--font-display); font-weight: 700; font-size: 50px; line-height: .92; letter-spacing: 2px; }
-.fx-logo span { color: var(--text); text-shadow: 0 5px 0 #26306A, 0 0 26px rgba(61, 220, 196, .7); }
-.fx-logo span + span { color: var(--gold); text-shadow: 0 5px 0 #9A5A00, 0 0 30px rgba(255, 181, 71, .8); }
-.fx-flyin.slam .fx-logo { animation: logo-slam .55s cubic-bezier(.2, 1.7, .4, 1) forwards, logo-shake .32s .5s; }
-@keyframes logo-slam { from { opacity: 0; transform: scale(3.6) rotate(-14deg); } to { opacity: 1; transform: scale(1) rotate(-4deg); } }
-@keyframes logo-shake { 25% { translate: -6px 3px; } 50% { translate: 6px -3px; } 75% { translate: -3px 0; } }
+/* The hero wordmark: World (pearl) + Scroll (polished gold), letters landing one by one, then one glint of light */
+.fx-flyin { container-type: inline-size; }
+.fx-logo { position: absolute; left: 0; right: 0; top: 66%; display: flex; flex-direction: column; align-items: center; gap: 12px; pointer-events: none; }
+.fx-logo::before { content: ''; position: absolute; left: 50%; top: 42%; width: 120%; height: 160%; translate: -50% -50%; opacity: 0;
+  background: radial-gradient(ellipse 45% 40% at 50% 50%, rgba(255, 181, 71, .32), rgba(255, 181, 71, 0) 70%); }
+.fx-flyin.slam .fx-logo::before { animation: aura-in 1s ease-out .2s forwards; }
+@keyframes aura-in { to { opacity: 1; } }
+.fx-wm { position: relative; display: flex; font-family: var(--font-display); font-weight: 700; font-size: min(14.5cqw, 62px); line-height: 1; letter-spacing: -.5px;
+  filter: drop-shadow(0 8px 22px rgba(0, 0, 0, .55)); }
+.fx-wm i { display: inline-block; font-style: normal; opacity: 0; transform: translateY(.45em) scale(.7); filter: blur(10px);
+  background-image: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, .95) 50%, transparent 62%),
+    linear-gradient(180deg, #FFFFFF 0%, #F6F3EA 48%, #C8D2F0 100%);
+  background-size: 260% 100%, 100% 100%; background-position: 160% 0, 0 0; background-repeat: no-repeat;
+  -webkit-background-clip: text; background-clip: text; color: transparent; }
+.fx-wm .s i { background-image: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, .95) 50%, transparent 62%),
+    linear-gradient(180deg, #FFF7DA 0%, #FFD877 34%, #FFB547 60%, #DB850F 100%); }
+.fx-flyin.slam .fx-wm i { animation: letter-in .55s cubic-bezier(.2, 1.25, .35, 1) forwards, glint .9s ease-in-out 1.05s forwards;
+  animation-delay: calc(var(--i) * 34ms), calc(1.05s + var(--i) * 24ms); }
+@keyframes letter-in { to { opacity: 1; transform: none; filter: blur(0); } }
+@keyframes glint { to { background-position: -60% 0, 0 0; } }
+.fx-tag { display: flex; align-items: center; gap: 10px; font: 600 11px/1 var(--font-body); letter-spacing: 5px; color: rgba(214, 220, 245, .88); opacity: 0;
+  white-space: nowrap; }
+.fx-tag::before, .fx-tag::after { content: ''; width: 18px; height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 211, 107, .9)); }
+.fx-tag::after { background: linear-gradient(90deg, rgba(255, 211, 107, .9), transparent); }
+.fx-flyin.slam .fx-tag { animation: tag-in .8s ease-out .5s forwards; }
+@keyframes tag-in { from { opacity: 0; letter-spacing: 4.5px; } to { opacity: 1; letter-spacing: 2.4px; } }
 /* ...then the home screen blasts in, piece by piece */
 .screen.picker.arrived .picker-body > * { animation: blast-in .6s cubic-bezier(.3, 1.7, .5, 1) both; }
 .screen.picker.arrived .picker-body > :nth-child(2) { animation-delay: .06s; }
@@ -1224,12 +1248,20 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
     var sea = c.createRadialGradient(ctr[0] - r * 0.35, ctr[1] - r * 0.35, r * 0.1, ctr[0], ctr[1], r);
     sea.addColorStop(0, '#1F3A86'); sea.addColorStop(1, '#0F1A40');
     c.fillStyle = sea; c.beginPath(); path({ type: 'Sphere' }); c.fill();
-    c.strokeStyle = 'rgba(61,220,196,.18)'; c.lineWidth = 0.7; c.beginPath(); path(graticule); c.stroke();
-    c.fillStyle = '#2E6F8E'; c.beginPath(); path(getLand()); c.fill();
-    c.strokeStyle = 'rgba(61,220,196,.55)'; c.lineWidth = 0.8; c.stroke();
+    c.strokeStyle = 'rgba(140,200,255,.09)'; c.lineWidth = 0.6; c.beginPath(); path(graticule); c.stroke(); // faint grid
+    var landFill = c.createLinearGradient(ctr[0] - r, ctr[1] - r, ctr[0] + r, ctr[1] + r);
+    landFill.addColorStop(0, '#46A3AE'); landFill.addColorStop(1, '#2A6A86');
+    c.fillStyle = landFill; c.beginPath(); path(getLand()); c.fill();
+    c.strokeStyle = 'rgba(190,255,240,.38)'; c.lineWidth = 0.6; c.stroke(); // fine coastlines
+    // light from the top left, shadow on the far side: it reads as a real ball, not a flat disc
+    var shade = c.createRadialGradient(ctr[0] - r * 0.45, ctr[1] - r * 0.5, r * 0.05, ctr[0], ctr[1], r * 1.02);
+    shade.addColorStop(0, 'rgba(255,255,255,.20)'); shade.addColorStop(0.45, 'rgba(255,255,255,0)');
+    shade.addColorStop(0.8, 'rgba(4,8,30,.18)'); shade.addColorStop(1, 'rgba(4,8,30,.55)');
+    c.fillStyle = shade; c.beginPath(); path({ type: 'Sphere' }); c.fill();
     if (opts.extras) opts.extras(c, path);
-    // a bright rim so it reads as a ball
-    c.strokeStyle = 'rgba(255,255,255,.35)'; c.lineWidth = 1.5; c.beginPath(); path({ type: 'Sphere' }); c.stroke();
+    // a glowing atmosphere rim, like Earth seen from space
+    c.save(); c.shadowColor = 'rgba(110,235,255,.85)'; c.shadowBlur = Math.min(24, r * 0.12);
+    c.strokeStyle = 'rgba(170,240,255,.55)'; c.lineWidth = 1.6; c.beginPath(); path({ type: 'Sphere' }); c.stroke(); c.restore();
   }
   var visible = function (proj, p) { var r = proj.rotate(); return d3.geoDistance(p, [-r[0], -r[1]]) < Math.PI / 2 - 0.05; };
 
@@ -1298,18 +1330,25 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
     host.insertBefore(layer, host.firstChild);
   }
 
-  // ---------- home screen: the 2-second fly-in ----------
+  // ---------- home screen: the fly-in (about 2.4 seconds) ----------
   // 0.0–1.0s: start zoomed way in on one spot, whoosh out while spinning fast.
   // ~1.0s: one flash, a shockwave, and WORLD SCROLL slams onto the screen. 1.0–1.6s: the globe spins, pins pop.
   // 1.6–2.0s: everything blasts away and the home screen bounces in. A tap skips it.
   function flyIn(host, done) {
     if (calm) { if (done) done(); return; }
     var ov = document.createElement('div'); ov.className = 'fx-flyin'; ov.setAttribute('aria-hidden', 'true');
+    // Each letter is its own span so they can land one after another (see .fx-wm in app.html).
+    var letters = function (word, from) {
+      return word.split('').map(function (ch, i) { return '<i style="--i:' + (from + i) + '">' + ch + '</i>'; }).join('');
+    };
     ov.innerHTML = '<canvas></canvas><div class="fx-flash"></div><div class="fx-ring"></div><div class="fx-ring r2"></div>' +
-      '<div class="fx-logo"><span>WORLD</span><span>SCROLL</span></div>';
+      '<div class="fx-logo"><div class="fx-wm"><span class="w">' + letters('World', 0) + '</span><span class="s">' + letters('Scroll', 5) + '</span></div>' +
+      '<div class="fx-tag">LEARN GEOGRAPHY BY SCROLLING</div></div>';
     host.appendChild(ov);
     var cv = ov.querySelector('canvas'), w = host.clientWidth, h = host.clientHeight, c = sizeCanvas(cv, w, h);
     var R = Math.min(w, h) * 0.36, start = SPOTS[Math.floor(Math.random() * SPOTS.length)];
+    // The wordmark sits just under the globe on every phone (on short screens a fixed spot would overlap it).
+    ov.querySelector('.fx-logo').style.top = Math.min(h - 118, h * 0.42 + R + 26) + 'px';
     var proj = d3.geoOrthographic().clipAngle(90).translate([w / 2, h * 0.42]);
     var t0 = performance.now(), finished = false, slammed = false;
     var easeOut = function (x) { return 1 - Math.pow(1 - x, 3); };
@@ -1317,7 +1356,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
     function finish() {
       if (finished) return; finished = true;
       ov.classList.add('out');
-      setTimeout(function () { ov.remove(); }, 380);
+      setTimeout(function () { ov.remove(); }, 430);
       if (done) done();
     }
     ov.addEventListener('pointerdown', finish);
@@ -1330,11 +1369,13 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
         SPOTS.forEach(function (s, i) {
           if (!visible(proj, s)) return;
           var p = proj(s), k = Math.min(1, Math.max(0, (t - 1 - i * 0.03) * 6));
-          c.fillStyle = COLORS[i % 3]; c.beginPath(); c.arc(p[0], p[1], 5 * k * (1 + 0.5 * Math.sin(k * Math.PI)), 0, 2 * Math.PI); c.fill();
+          var rr = 5 * k * (1 + 0.5 * Math.sin(k * Math.PI));
+          c.fillStyle = COLORS[i % 3]; c.beginPath(); c.arc(p[0], p[1], rr, 0, 2 * Math.PI); c.fill();
+          c.fillStyle = '#FFFFFF'; c.beginPath(); c.arc(p[0], p[1], rr * 0.38, 0, 2 * Math.PI); c.fill(); // crisp white center
         });
       } : null });
-      if (t > 0.95 && !slammed) { slammed = true; ov.classList.add('slam'); }
-      if (t >= 2.0) return finish();
+      if (t > 0.85 && !slammed) { slammed = true; ov.classList.add('slam'); }
+      if (t >= 2.4) return finish(); // long enough for the letters to land and catch the shine
       requestAnimationFrame(frame);
     })(t0);
   }
