@@ -544,7 +544,10 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 }
 /* Short phones: Sports has five rows above the card, so before the guess the hint box steps aside
    (the button already says "Drop a pin first") and the Lock in button stays on screen. */
-@media (max-height: 640px) { .screen.sports .card:not(.revealed) .panel { display: none; } }
+@media (max-height: 640px) {
+  .screen.sports .card:not(.revealed) .panel { display: none; }
+  .screen.sports .map-wrap { min-height: 96px; } /* the map can shrink a little more so Skip / Lock in keep their bottom spacing */
+}
 /* Shortest phones (iPhone SE in Safari): the remaining tab rows also step aside while a result shows. */
 @media (max-height: 620px) {
   .screen:has(.card.revealed:not(.above)) :is(.region-tabs, .geo-tabs, .meter-row) { display: none; }

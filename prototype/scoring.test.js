@@ -341,7 +341,9 @@ test('big lakes are drawn as water (the Great Lakes show Michigan)', () => {
   const lakes = require('./vendor/lakes-50m.json').features.map(f => f.properties.name);
   for (const n of ['Lake Superior', 'Lake Michigan', 'Lake Huron', 'Lake Erie', 'Lake Ontario']) assert.ok(lakes.includes(n), n);
   const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
-  assert.ok(app.includes("attr('class', 'm-lakes')"), 'every map paints the lakes');
+  assert.ok(app.includes("layer('lakes', 'm-lakes', COLOR.water);"), 'every map paints the lakes');
+  assert.ok(app.includes('new ResizeObserver(') && app.includes("layers.forEach(function (l) { l[0].attr('d', P[l[1]] || ''); });"),
+    'a map redraws at its new size when the card layout changes (no squeezed map with dark side strips)');
 });
 
 test('players can zoom in deep, toward their pin, and jump back out', () => {
@@ -493,6 +495,20 @@ test('Lakes & seas: famous seas scored by their real outline, and "Your pin" nam
   const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
   assert.ok(app.includes("if (!where) where = waterAt(g);"), 'a pin in the water names the sea or ocean');
   assert.ok(app.includes('rivers, oceans, lakes, seas'), 'the welcome screen mentions oceans and seas');
+});
+
+test('small phones: long "Where is" titles shrink, and big point totals stay short so the top bar fits', () => {
+  const src = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  assert.ok(src.includes("(subjectOf(q).length > 18 ? ' long' : '')"), 'long names like "The Queen\'s Club Championships" use the smaller title');
+  const fmt = (n) => Math.round(n).toLocaleString('en-US');
+  const fmtPts = eval('(' + /function fmtPts\(n\) \{[\s\S]*?\n  \}/.exec(src)[0] + ')');
+  assert.strictEqual(fmtPts(9999), '9,999');
+  assert.strictEqual(fmtPts(10819), '10.8k');
+  assert.strictEqual(fmtPts(10000), '10k');
+  assert.strictEqual(fmtPts(125400), '125k');
+  assert.strictEqual(fmtPts(350000), '350k');
+  assert.strictEqual(fmtPts(1260000), '1.2M');
+  for (const n of [0, 999, 9999, 10819, 99999, 125400, 999999, 1260000]) assert.ok(fmtPts(n).length <= 5, n + ' fits in five characters');
 });
 
 test('Russia belongs to both Europe and Asia', () => {

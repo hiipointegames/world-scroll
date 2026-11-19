@@ -35,6 +35,13 @@
     return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
   }
   function fmt(n) { return Math.round(n).toLocaleString('en-US'); }
+  // The points chip in the top bar: short for big totals (10.8k, 125k, 1.2M) so the bar fits a small phone.
+  function fmtPts(n) {
+    n = Math.round(n);
+    if (n < 10000) return fmt(n);
+    if (n < 1e6) return (n < 1e5 ? (Math.floor(n / 100) / 10).toFixed(1).replace(/\.0$/, '') : Math.floor(n / 1000)) + 'k';
+    return (Math.floor(n / 1e5) / 10).toFixed(1).replace(/\.0$/, '') + 'M';
+  }
   function sportDef(q) {
     for (var i = 0; i < DATA.sportsTabs.length; i++) {
       var tab = DATA.sportsTabs[i];
@@ -267,7 +274,7 @@
   // ---------- Map component ----------
   // Renders a region, turns taps into lat/lon, draws the guess pin and (after lock-in) the answer.
   function createMap(host, regionId, onTap) {
-    var W = Math.max(200, Math.round(host.clientWidth)), H = Math.max(140, Math.round(host.clientHeight));
+    var W = Math.max(200, Math.round(host.clientWidth)), H = Math.max(80, Math.round(host.clientHeight)); // draw at the box's real size, so a short map isn't squeezed (dark side strips)
     var proj = makeProjection(regionId, W, H);
     var P = regionPaths(regionId, W, H, proj);
     var NS = 'http://www.w3.org/2000/svg';
@@ -282,15 +289,24 @@
 
     svg.append('rect').attr('width', W).attr('height', H).attr('fill', isGlobe(regionId) ? COLOR.ink : COLOR.water);
     var zg = svg.append('g');
-    if (P.sphere) zg.append('path').attr('d', P.sphere).attr('fill', COLOR.water);
-    if (P.grid) zg.append('path').attr('d', P.grid).attr('class', 'm-grid');
-    zg.append('path').attr('d', P.other).attr('fill', COLOR.other);
-    zg.append('path').attr('d', P.focus).attr('fill', COLOR.focus);
-    if (P.inner) zg.append('path').attr('d', P.inner).attr('class', 'm-inner');
-    if (P.provinces) zg.append('path').attr('d', P.provinces).attr('class', 'm-inner');
+    var bg = svg.select('rect');
+    var layers = []; // [path, key in P]: redrawn if the map box changes size
+    function layer(key, cls, fill) {
+      if (!P[key]) return;
+      var el = zg.append('path').attr('d', P[key]);
+      if (cls) el.attr('class', cls);
+      if (fill) el.attr('fill', fill);
+      layers.push([el, key]);
+    }
+    layer('sphere', null, COLOR.water);
+    layer('grid', 'm-grid');
+    layer('other', null, COLOR.other);
+    layer('focus', null, COLOR.focus);
+    layer('inner', 'm-inner');
+    layer('provinces', 'm-inner');
     // lakes go on top of the state lines, so state borders that run out into the lakes are hidden
-    if (P.lakes) zg.append('path').attr('d', P.lakes).attr('class', 'm-lakes').attr('fill', COLOR.water);
-    zg.append('path').attr('d', P.borders).attr('class', 'm-borders');
+    layer('lakes', 'm-lakes', COLOR.water);
+    layer('borders', 'm-borders');
     var tolPath = zg.append('path').attr('class', 'm-tol');
 
     var pins = svg.append('g');
@@ -348,8 +364,9 @@
     });
 
     var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var shown = null, riverLine = null; // the revealed answer, kept so a resize can redraw it
 
-    return {
+    var api = {
       // Where the answer sits, as a fraction of the map box (for floating points).
       answerFrac: function () { if (!target) return [0.5, 0.5]; var a = screenOf(target); return [a[0] / W, a[1] / H]; },
       // Two teal rings bursting out of the answer: the bullseye shockwave.
@@ -372,6 +389,22 @@
       reveal: function (card, opts) {
         locked = true;
         target = (opts && opts.target) || { lat: card.lat, lon: card.lon };
+        shown = { card: card, opts: opts };
+        drawAnswer(card, opts, reduceMotion ? 0 : null);
+        if (reduceMotion) { progress = 1; place(); return; }
+        var start = performance.now();
+        (function step(now) {
+          progress = Math.min(1, (now - start) / 550);
+          progress = 1 - Math.pow(1 - progress, 3);
+          place();
+          if (progress < 1) requestAnimationFrame(step);
+          else answerBody.classed('drop', true);
+        })(start);
+      }
+    };
+
+    // The answer's highlight, and the zoom that frames it. ms: animation time (null = the normal one).
+    function drawAnswer(card, opts, ms) {
         if (opts && opts.area) { // the whole desert or range lights up
           tolPath.attr('d', d3.geoPath(proj)(opts.area) || '').classed('m-area', true).classed('m-water', card.kind === 'ocean' || card.kind === 'sea');
         } else if (opts && opts.line) { // the whole river lights up, with a soft band for the bullseye zone
@@ -380,7 +413,8 @@
           var pxPerDeg = Math.abs(proj([card.lon, card.lat + 0.5])[1] - proj([card.lon, card.lat - 0.5])[1]) || 1; // 1° north-south
           tolPath.attr('d', d3.geoPath(proj)(riverGeo) || '').classed('m-river', true)
             .style('--zone', Math.max(6, Math.min(80, zoneDeg * pxPerDeg * 2)) + 'px');
-          tolPath.clone().classed('m-tol m-river', false).classed('m-river-line', true).attr('style', null);
+          if (!riverLine) riverLine = tolPath.clone().classed('m-tol m-river', false).classed('m-river-line', true).attr('style', null);
+          riverLine.attr('d', tolPath.attr('d'));
         } else if (opts && opts.shape) {
           tolPath.attr('d', d3.geoPath(proj)(opts.shape) || '').classed('m-shape', true);
         } else {
@@ -397,23 +431,40 @@
           var k = Math.max(1, Math.min(maxZoom, 0.8 / Math.max((x1 - x0) / W, (y1 - y0) / H)));
           // Something as big as an ocean already fills the map: keep the whole map in view instead of sliding it.
           var fit = k < 1.2 ? d3.zoomIdentity : d3.zoomIdentity.translate(W / 2, H / 2).scale(k).translate(-(x0 + x1) / 2, -(y0 + y1) / 2);
-          svg.transition().duration(reduceMotion ? 0 : 700).call(zoom.transform, fit);
+          svg.transition().duration(ms == null ? 700 : ms).call(zoom.transform, fit);
         } else {
           // If the player zoomed in and the answer is off screen, zoom back out first.
           var off = [a, g].some(function (p) { return p[0] < 0 || p[1] < 0 || p[0] > W || p[1] > H; });
-          if (off) svg.transition().duration(reduceMotion ? 0 : 350).call(zoom.transform, d3.zoomIdentity);
+          if (off) svg.transition().duration(ms == null ? 350 : ms).call(zoom.transform, d3.zoomIdentity);
         }
-        if (reduceMotion) { progress = 1; place(); return; }
-        var start = performance.now();
-        (function step(now) {
-          progress = Math.min(1, (now - start) / 550);
-          progress = 1 - Math.pow(1 - progress, 3);
+    }
+
+    // The card layout can change after the map is drawn (a card waiting off screen, tab rows stepping aside
+    // after lock-in). Redraw at the new size instead of squeezing the old drawing, which left dark side strips.
+    if (window.ResizeObserver) {
+      var pending = false;
+      new ResizeObserver(function () {
+        if (pending) return;
+        pending = true;
+        requestAnimationFrame(function () {
+          pending = false;
+          var w = Math.round(host.clientWidth), h = Math.round(host.clientHeight);
+          if (!w || !h || (Math.abs(w - W) < 3 && Math.abs(h - H) < 3)) return;
+          W = Math.max(200, w); H = Math.max(80, h);
+          proj = makeProjection(regionId, W, H);
+          P = regionPaths(regionId, W, H, proj);
+          svg.attr('viewBox', '0 0 ' + W + ' ' + H);
+          bg.attr('width', W).attr('height', H);
+          layers.forEach(function (l) { l[0].attr('d', P[l[1]] || ''); });
+          zoom.extent([[0, 0], [W, H]]).translateExtent([[0, 0], [W, H]]);
+          svg.interrupt();
+          if (shown) drawAnswer(shown.card, shown.opts, 0);
+          else svg.call(zoom.transform, d3.zoomIdentity);
           place();
-          if (progress < 1) requestAnimationFrame(step);
-          else answerBody.classed('drop', true);
-        })(start);
-      }
-    };
+        });
+      }).observe(host);
+    }
+    return api;
   }
 
   // ---------- screens ----------
@@ -434,7 +485,7 @@
   function statChips(extra) {
     return '<div class="stats">' +
       '<button class="stat" id="stat-streak" aria-label="Day streak. What is this?">' + ICON.flame + '<span>' + shownStreak() + '</span></button>' +
-      '<button class="stat" id="stat-points" aria-label="Points. What is this?">' + ICON.star + '<span>' + fmt(store.points) + '</span></button>' +
+      '<button class="stat" id="stat-points" aria-label="Points. What is this?">' + ICON.star + '<span data-n="' + store.points + '">' + fmtPts(store.points) + '</span></button>' +
       (extra || '') + '</div>';
   }
   function soundButton() {
@@ -616,12 +667,12 @@
     if (s) s.querySelector('span').textContent = shownStreak();
     if (!p) return;
     var span = p.querySelector('span');
-    var from = shownPoints == null ? +span.textContent.replace(/,/g, '') : shownPoints, to = store.points, t0 = performance.now();
+    var from = shownPoints == null ? +(span.dataset.n || 0) : shownPoints, to = store.points, t0 = performance.now();
     shownPoints = to;
     p.classList.remove('bump'); void p.offsetWidth; p.classList.add('bump');
     (function tick(now) { // count up to the new total
       var k = Math.min(1, (now - t0) / 700), e = 1 - Math.pow(1 - k, 3);
-      span.textContent = fmt(from + (to - from) * e);
+      span.textContent = fmtPts(from + (to - from) * e);
       if (k < 1 && span.isConnected) requestAnimationFrame(tick);
     })(t0);
   }
@@ -878,7 +929,7 @@
     el.innerHTML =
       '<div class="card-head">' + (showMeta ? soundButton() : '') +
       '<span class="chip" style="background:' + cat.color + '">' + esc(chipText.toUpperCase()) + '</span>' +
-      (where ? '<div class="kicker">Where is…</div><h2 class="prompt">' + esc(subjectOf(q)) + '</h2>'
+      (where ? '<div class="kicker">Where is…</div><h2 class="prompt' + (subjectOf(q).length > 18 ? ' long' : '') + '">' + esc(subjectOf(q)) + '</h2>'
         : '<h2 class="prompt long">' + esc(q.prompt) + '</h2>') +
       (showMeta && feed.spec.kind !== 'daily' ? '<div class="meta">' + esc(metaLine(q)) + '</div>' : '') + '</div>' + // the Daily 10 row already says CARD n OF 10
       '<div class="map-wrap"><div class="map"></div>' +
