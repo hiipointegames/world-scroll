@@ -596,6 +596,27 @@ test('country population facts say what the number means (ranking nearby, or a c
   assert.match(pop('country-vatican-city'), /fewest of any country in the world/);
 });
 
+test('Deep Dives: every Great Lake, plus one rare card in each other category, packed with kid-friendly facts', () => {
+  const dives = questions.filter(q => q.deepDive);
+  for (const id of ['lake-superior', 'lake-michigan', 'lake-huron', 'lake-erie', 'lake-ontario']) assert.ok(dives.some(q => q.id === id), id + ' has a Deep Dive');
+  const cats = new Set(dives.map(q => q.category));
+  for (const c of ['lakes', 'mountains', 'deserts', 'countries', 'capitals', 'cities', 'rivers', 'landmarks', 'sports']) assert.ok(cats.has(c), c + ' has a Deep Dive');
+  assert.ok(dives.find(q => q.id === 'himalayas') && dives.find(q => q.id === 'sahara'), 'one mountain range and one desert');
+  const known = require('../data/deep-dives.json').dives;
+  assert.deepStrictEqual(Object.keys(known).filter(id => !questions.some(q => q.id === id)), [], 'every Deep Dive belongs to a real card');
+  const banned = /\b(war|wars|battle|kill\w*|murder\w*|death|dead|died|die|blood\w*|bomb\w*|weapon\w*|gun\w*|sex\w*|nude|drunk|beer|wine|whisk(e)?y|vodka|rum|alcohol\w*|drug\w*|prison|slave\w*|massacre|genocide|terror\w*|violen\w*|invad\w*|invasion|conquer\w*|executed|sank|sunk|drown\w*)\b/i;
+  for (const q of dives) {
+    assert.ok(q.deepDive.facts.length >= 8, q.id + ' has at least 8 facts');
+    assert.ok(q.deepDive.emoji && q.deepDive.tagline, q.id + ' has an emoji and a tagline');
+    for (const [label, text] of q.deepDive.facts) {
+      assert.ok(label && text.length <= 180, q.id + ': ' + text);
+      assert.ok(!banned.test(text), q.id + ' is kid-friendly: ' + text);
+    }
+  }
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  assert.ok(app.includes('FX.rareFind(') && app.includes('FX.unlocked(') && app.includes('function deepSheet(q)'), 'RARE FIND on landing, UNLOCKED after the guess, then the pop-up');
+});
+
 test('Russia belongs to both Europe and Asia', () => {
   const inGroup = (q, g) => q.continent === g || (q.alsoIn || []).includes(g);
   const country = questions.find(q => q.id === 'country-russia');

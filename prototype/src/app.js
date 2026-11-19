@@ -551,7 +551,7 @@
     ov.addEventListener('click', function (e) {
       if (e.target === ov || e.target.closest('[data-close]')) { closeSheet(); if (opts && opts.onClose) opts.onClose(); }
     });
-    ov.querySelector('[data-close]').focus();
+    ov.querySelector('[data-close]').focus({ preventScroll: true }); // long pop-ups (Deep Dives) open at the top, not scrolled to the button
     if (opts && opts.confetti) confetti(ov, opts.confetti);
   }
   function closeSheet() { var o = app.querySelector('.sheet-overlay'); if (o) o.remove(); }
@@ -572,6 +572,19 @@
     openSheet(sheetHead('<span class="nerd-emoji" aria-hidden="true">🤓</span>', kind + ' NERD FACTS', esc(fullName(q))) +
       (q.venue ? '<div class="sheet-text small">' + esc(q.venue) + ' · ' + esc(q.answer.replace(/\s*\(.*?\)/g, '')) + '</div>' : '') +
       '<div class="nerd-list">' + rows + '</div>', { button: 'Back to the game', cls: 'nerd-sheet' });
+  }
+
+  // Deep Dive: a rare card's bonus pop-up, full of in-depth facts (plus a country's nerd facts, if it has them).
+  function deepSheet(q) {
+    var d = q.deepDive, facts = d.facts.concat(q.category === 'sports' ? [] : (q.nerd || []));
+    var rows = facts.map(function (f, i) {
+      return '<div class="nerd-row deep-row" style="--i:' + i + '"><div class="nerd-label">' + esc(f[0]) + '</div><div class="nerd-text">' + esc(f[1]) + '</div></div>';
+    }).join('');
+    Sound.play('trophy', 'gold');
+    openSheet(sheetHead('<span class="deep-emoji" aria-hidden="true">' + d.emoji + '</span>', '💎 DEEP DIVE · RARE FIND', esc(fullName(q))) +
+      '<div class="sheet-text small deep-tagline">' + esc(d.tagline) + '</div>' +
+      '<div class="nerd-list">' + rows + '</div>',
+      { button: 'Back to the game', cls: 'nerd-sheet deep-sheet', confetti: [COLOR.gold, COLOR.teal, COLOR.pink, '#FFFFFF'] });
   }
 
   function streakSheet() {
@@ -951,12 +964,13 @@
     var chipText = q.category === 'sports' ? (q.league || (sp && sp.label) || cat.label) : cat.label;
     var showMeta = !isSportsLook(); // sports screens show the hot-streak meter / daily row instead
     var el = document.createElement('section');
-    el.className = 'card';
-    el.setAttribute('aria-label', 'Question card');
+    el.className = 'card' + (q.deepDive ? ' deep' : '');
+    el.setAttribute('aria-label', q.deepDive ? 'Question card with a Deep Dive' : 'Question card');
     var next = isLastDaily() ? null : itemAt(feed.idx + 1);
     el.innerHTML =
       '<div class="card-head">' + (showMeta ? soundButton() : '') +
-      '<span class="chip" style="background:' + cat.color + '">' + esc(chipText.toUpperCase()) + '</span>' +
+      '<span class="chip-row"><span class="chip" style="background:' + cat.color + '">' + esc(chipText.toUpperCase()) + '</span>' +
+      (q.deepDive ? '<span class="chip deep-chip">💎 DEEP DIVE</span>' : '') + '</span>' +
       (where ? '<div class="kicker">Where is…</div><h2 class="prompt' + (subjectOf(q).length > 18 ? ' long' : '') + '">' + esc(subjectOf(q)) + '</h2>'
         : '<h2 class="prompt long">' + esc(q.prompt) + '</h2>') +
       (showMeta && feed.spec.kind !== 'daily' ? '<div class="meta">' + esc(metaLine(q)) + '</div>' : '') + '</div>' + // the Daily 10 row already says CARD n OF 10
@@ -1004,6 +1018,7 @@
     el.querySelector('.lock').onclick = function () { c.revealed ? advance() : lockIn(c); };
     el.querySelector('.peek').onclick = advance;
     card = c;
+    if (q.deepDive) setTimeout(function () { if (card === c && !c.revealed) FX.rareFind(app.querySelector('.screen')); }, animate ? 450 : 250);
     if (isDailyKind()) renderDailyRow(); // move the row's "CARD n OF 10" along with the new card
     if (animate && old) {
       busy = true;
@@ -1070,7 +1085,8 @@
       : fmt(r.miles) + ' miles off';
     c.el.querySelector('.panel').innerHTML =
       '<div class="res-top"><span class="res-verdict v-' + vibe + (r.bullseye || (isSport && hit) ? ' bull' : '') + (isSport && hit ? ' sport' : '') + '">' + verdict + '</span>' +
-      '<span class="res-right">' + (c.q.nerd ? '<button class="nerd-btn" aria-label="' + (isSport ? 'Sports' : 'Country') + ' nerd facts">🤓 Nerd facts</button>' : '') +
+      '<span class="res-right">' + (c.q.deepDive ? '<button class="deep-btn" aria-label="Open the Deep Dive">💎 Deep Dive</button>'
+        : c.q.nerd ? '<button class="nerd-btn" aria-label="' + (isSport ? 'Sports' : 'Country') + ' nerd facts">🤓 Nerd facts</button>' : '') +
       '<span class="res-pts" data-pts="' + r.points + '">+0 pts</span></span></div>' +
       '<div class="res-miles">' + milesLine + streakNote + ' · ' + secs.toFixed(1) + 's</div>' +
       '<div class="res-answer"><span class="answer-dot"></span><span>' + esc(c.q.answer) + (c.q.venue ? '<span class="venue"> · ' + esc(c.q.venue) + '</span>' : '') + '</span></div>' +
@@ -1078,6 +1094,11 @@
       '<div class="res-fact' + (c.q.nerd ? ' has-nerd' : '') + '">' + ICON.bulb + '<span><b>Now you know:</b> ' + esc(c.q.fact) + '</span></div>';
     var nb = c.el.querySelector('.nerd-btn');
     if (nb) nb.onclick = function (e) { e.stopPropagation(); Sound.play('tap'); nerdSheet(c.q); };
+    var db = c.el.querySelector('.deep-btn');
+    if (db) {
+      db.onclick = function (e) { e.stopPropagation(); deepSheet(c.q); };
+      setTimeout(function () { if (c.el.isConnected) { FX.unlocked(app.querySelector('.screen')); db.classList.add('unlocked'); } }, 2300);
+    }
     c.el.querySelector('.panel').classList.add('revealed');
     c.el.classList.add('revealed');
     countUpPoints(c.el.querySelector('.res-pts'), r.points);

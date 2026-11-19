@@ -255,6 +255,23 @@
     }
   }
 
+  // ---------- Deep Dives: a rare bonus card ----------
+  // Landing on one: a gold RARE FIND! banner with sparkles. After the guess: DEEP DIVE UNLOCKED!
+  function banner(screen, cls, emoji, title, sub, sound) {
+    if (!screen) return;
+    var el = document.createElement('div'); el.className = 'fx-banner ' + cls; el.setAttribute('role', 'status');
+    el.innerHTML = '<span class="fx-banner-emoji" aria-hidden="true">' + emoji + '</span><b>' + title + '</b>' + (sub ? '<span>' + sub + '</span>' : '');
+    screen.appendChild(el);
+    try { Sound.play(sound); } catch (e) { }
+    if (!calm) {
+      var r = el.getBoundingClientRect();
+      setTimeout(function () { burst(r.left + r.width / 2, r.top + r.height / 2, true); }, 150);
+    }
+    setTimeout(function () { el.remove(); }, calm ? 2200 : 2600);
+  }
+  function rareFind(screen) { banner(screen, 'rare', '💎', 'RARE FIND!', 'This spot hides a secret Deep Dive. Drop your pin to unlock it!', 'sparkle'); }
+  function unlocked(screen) { banner(screen, 'unlocked', '🔓', 'DEEP DIVE UNLOCKED!', 'Tap the gold 💎 Deep Dive button for bonus facts.', 'hit'); }
+
   // ---------- every button: boing + burst ----------
   var SELECTOR = 'button, .tile, .pill, .tab';
   function wireTaps() {
@@ -269,5 +286,5 @@
   }
 
   root.FX = { welcomeGlobe: welcomeGlobe, floaters: floaters, flyIn: flyIn, burst: burst, slam: slam, wireTaps: wireTaps, calm: calm,
-    reveal: reveal, pinBurst: pinBurst };
+    reveal: reveal, pinBurst: pinBurst, rareFind: rareFind, unlocked: unlocked };
 })(this);

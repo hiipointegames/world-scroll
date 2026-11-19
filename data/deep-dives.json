@@ -1,0 +1,201 @@
+{
+ "_about": "Deep Dives: rare bonus cards. Landing on one shows a RARE FIND banner; after the guess, a Deep Dive button opens these in-depth facts. Keyed by card id. Each fact: [label, text], kid-friendly, 180 characters max.",
+ "_verify": "Written from memory on 2026-11-19. Fact-check before launch.",
+ "dives": {
+  "lake-superior": {
+   "emoji": "🌊",
+   "tagline": "The giant of the Great Lakes",
+   "facts": [
+    ["World record", "Lake Superior is the biggest freshwater lake on Earth by surface area. It's almost as big as the whole state of Maine!"],
+    ["Fresh water", "It holds about 10% of all the fresh water sitting on Earth's surface."],
+    ["Where it is", "It touches three US states, Minnesota, Wisconsin and Michigan, and the Canadian province of Ontario."],
+    ["Super deep", "Its deepest spot is about 1,333 feet down, deeper than the Eiffel Tower is tall."],
+    ["Its first name", "The Ojibwe people call it Gichigami, which means 'great sea.'"],
+    ["History", "In the 1600s and 1700s, French voyageurs paddled giant birch-bark canoes across it, carrying beaver furs to trade."],
+    ["What ships carry", "Today, 1,000-foot ships called 'lakers' carry iron ore from Minnesota's mines across the lake to make steel."],
+    ["The Soo Locks", "At the Soo Locks, giant water elevators lift and lower ships about 21 feet between Lake Superior and Lake Huron."],
+    ["Wild island", "Isle Royale, a national park out in the lake, is famous for its moose and wolves."],
+    ["Brrr", "Deep down, its water stays about 39°F all year round."]
+   ]
+  },
+  "lake-michigan": {
+   "emoji": "🏖️",
+   "tagline": "Big cities, giant dunes and a backwards river",
+   "facts": [
+    ["Where it is", "Lake Michigan touches four states: Michigan, Indiana, Illinois and Wisconsin."],
+    ["Big cities", "Chicago and Milwaukee both sit right on its shores."],
+    ["Secret twin", "Lake Michigan and Lake Huron are joined by a wide strait, so scientists say they're really one giant lake: Michigan-Huron."],
+    ["Mighty bridge", "The Mackinac Bridge stretches about 5 miles across the strait between the two lakes."],
+    ["No cars allowed", "On Mackinac Island, cars are banned. People get around by bike, on foot and by horse, and the island is famous for fudge."],
+    ["How Chicago grew", "In the 1800s, ships carried grain, lumber and goods across the lake, and a canal linked it to the Mississippi. Chicago boomed into a giant city."],
+    ["A backwards river", "In 1900, engineers made the Chicago River flow backward, away from the lake, to keep the lake's water clean."],
+    ["Dunes", "Indiana Dunes National Park sits on its southern shore, with sandy hills and beaches."],
+    ["Its name", "Its name likely comes from an Ojibwe word meaning 'great water.'"]
+   ]
+  },
+  "lake-huron": {
+   "emoji": "🏝️",
+   "tagline": "The lake with the longest shoreline",
+   "facts": [
+    ["Where it is", "Lake Huron touches the state of Michigan and the Canadian province of Ontario."],
+    ["First seen", "It was the first Great Lake that European explorers saw, when Samuel de Champlain arrived in 1615."],
+    ["Its name", "French explorers named it after the Huron, or Wendat, people who lived along its shores."],
+    ["Longest shore", "Counting all its islands, Lake Huron has the longest shoreline of any of the Great Lakes."],
+    ["The sixth Great Lake", "Georgian Bay, part of Lake Huron, is so big that people nickname it the 'sixth Great Lake.'"],
+    ["Rock pillars", "Flowerpot Island has tall rock towers shaped like giant flowerpots, carved by waves over thousands of years."],
+    ["What ships carry", "Ships carry iron ore, grain and limestone across it. Michigan's shore has one of the biggest limestone quarries in the world."],
+    ["Underwater museum", "Thunder Bay Marine Sanctuary protects nearly 100 historic shipwrecks that divers can explore."],
+    ["Twin lake", "It's connected to Lake Michigan by a wide strait, and both lakes sit at the same water level."]
+   ]
+  },
+  "lake-erie": {
+   "emoji": "🎢",
+   "tagline": "Canals, roller coasters and Niagara Falls",
+   "facts": [
+    ["Where it is", "Lake Erie touches four states, Michigan, Ohio, Pennsylvania and New York, plus Ontario in Canada."],
+    ["The Erie Canal", "In 1825, the Erie Canal linked Lake Erie to the Hudson River and New York City. Boats carried grain east and goods west, and New York boomed."],
+    ["Niagara Falls", "Lake Erie's water flows down the Niagara River and pours over Niagara Falls on its way to Lake Ontario."],
+    ["Fishing", "Lake Erie is famous for walleye, a tasty fish, and has more fish than any other Great Lake."],
+    ["Coaster capital", "Cedar Point, one of the world's most famous roller coaster parks, sits on a peninsula in Lake Erie."],
+    ["Rock and roll", "Cleveland's Rock and Roll Hall of Fame stands right on the lake's shore."],
+    ["Frozen lake", "Because it's so shallow, Lake Erie often freezes almost all the way across in winter."],
+    ["Its name", "It's named after the Erie people. Their name is often translated as 'long tail,' maybe after the mountain lion."],
+    ["Island fun", "Ohio's Lake Erie islands, like South Bass Island, are favorite summer spots for boating and ice cream."]
+   ]
+  },
+  "lake-ontario": {
+   "emoji": "🏙️",
+   "tagline": "The gateway to the ocean",
+   "facts": [
+    ["Where it is", "Lake Ontario touches New York State and the Canadian province of Ontario."],
+    ["Big city", "Toronto, Canada's biggest city, sits on its shore, with the tall CN Tower looking out over the water."],
+    ["Small but deep", "It's the smallest Great Lake by area, but it's much deeper than Lake Erie, about 800 feet at its deepest."],
+    ["Ocean highway", "Since 1959, the St. Lawrence Seaway has let big ocean ships sail from the Atlantic through Lake Ontario all the way to Lake Superior."],
+    ["What ships carry", "Ships on the Seaway carry grain, steel, salt and iron ore between the Great Lakes and the rest of the world."],
+    ["Niagara", "The Niagara River brings Lake Erie's water over Niagara Falls and into Lake Ontario."],
+    ["Thousand Islands", "Where the lake flows into the St. Lawrence River are the Thousand Islands. Thousand Island salad dressing is named after them!"],
+    ["Snow machine", "Cold winds blowing over the lake dump huge 'lake-effect' snowfalls on nearby towns like Oswego, New York."],
+    ["Its name", "Its name comes from an Iroquoian word often translated as 'lake of shining waters.'"]
+   ]
+  },
+  "himalayas": {
+   "emoji": "🏔️",
+   "tagline": "The roof of the world",
+   "facts": [
+    ["Tallest on Earth", "Mount Everest, in the Himalayas, is the tallest mountain on Earth at about 29,032 feet."],
+    ["Its name", "Himalaya means 'home of snow' in Sanskrit, an ancient language of India."],
+    ["Still growing", "The Himalayas are still rising a tiny bit every year, because India keeps slowly pushing into the rest of Asia."],
+    ["Sea fossils", "Fossils of sea creatures have been found high up near Everest's top, because these rocks were once under an ocean!"],
+    ["Giant peaks", "Ten of the world's 14 mountains taller than 8,000 meters are in the Himalayas."],
+    ["First to the top", "Tenzing Norgay and Edmund Hillary were the first people to reach the top of Everest, in 1953."],
+    ["Mountain experts", "The Sherpa people of Nepal are famous for guiding climbers up the highest peaks."],
+    ["Water tower", "Great rivers like the Ganges, the Indus and the Brahmaputra start in Himalayan glaciers, bringing water to over a billion people."],
+    ["Wildlife", "Snow leopards and red pandas live in the Himalayas."],
+    ["Legend", "Local stories tell of the yeti, a big, hairy snow creature. No one has ever proven it's real!"]
+   ]
+  },
+  "sahara": {
+   "emoji": "🐪",
+   "tagline": "The biggest hot desert on Earth",
+   "facts": [
+    ["Super size", "The Sahara is about as big as the whole United States."],
+    ["Many countries", "It stretches across parts of 11 countries in North Africa."],
+    ["Desert desert", "'Sahara' comes from the Arabic word for desert, so the 'Sahara Desert' means 'Desert Desert'!"],
+    ["Not just sand", "Only about a quarter of the Sahara is sand dunes. The rest is gravel plains, rocky plateaus and mountains."],
+    ["Green Sahara", "About 6,000 to 10,000 years ago, the Sahara was green, with lakes, hippos and giraffes. Ancient rock art shows them!"],
+    ["Mega dunes", "Some of its sand dunes are taller than a 50-story building."],
+    ["Camel caravans", "For hundreds of years, camel caravans crossed the Sahara carrying salt north and south, and traders swapped it for gold."],
+    ["Hot and cold", "Days can be scorching, but nights can get cold enough for frost, and snow has even fallen in the Algerian Sahara."],
+    ["Big ears", "The fennec fox lives here. Its huge ears help it hear bugs underground and stay cool."]
+   ]
+  },
+  "country-egypt": {
+   "emoji": "🏺",
+   "tagline": "Pyramids, pharaohs and the mighty Nile",
+   "facts": [
+    ["The Nile", "Almost everyone in Egypt lives near the Nile River. Each year its floods once left rich soil for farming."],
+    ["Hieroglyphs", "Ancient Egyptians wrote with hieroglyphs, picture symbols. There were more than 700 of them!"],
+    ["Code cracked", "The Rosetta Stone, found in 1799, had the same message in three scripts, which helped a scholar decode hieroglyphs in 1822."],
+    ["Treasure found", "In 1922, Howard Carter found King Tutankhamun's tomb, packed with treasures and a famous golden mask."],
+    ["The Sphinx", "The Great Sphinx has a lion's body and a human head, carved from one giant piece of rock."],
+    ["Cat lovers", "Ancient Egyptians adored cats and honored Bastet, a goddess with the head of a cat."],
+    ["Shortcut for ships", "The Suez Canal, opened in 1869, lets ships sail between the Mediterranean and Red Seas instead of going all the way around Africa."],
+    ["Invention", "Ancient Egyptians made one of the first toothpastes, using crushed salt, mint and flowers."],
+    ["Big city", "Cairo, the capital, is one of the biggest cities in Africa."]
+   ]
+  },
+  "capital-united-states": {
+   "emoji": "🏛️",
+   "tagline": "The capital of the United States",
+   "facts": [
+    ["Its name", "D.C. stands for 'District of Columbia.' It's named after George Washington and Christopher Columbus."],
+    ["Planned city", "The city was designed in 1791 by Pierre L'Enfant, with wide avenues and big circles."],
+    ["Moving capital", "New York and Philadelphia were the capital first. The government moved to Washington in 1800."],
+    ["The White House", "The White House has 132 rooms and 35 bathrooms. Every president since John Adams has lived there."],
+    ["Biggest library", "The Library of Congress is the biggest library in the world, with millions of books, maps and recordings."],
+    ["Two colors", "The Washington Monument is two shades of stone because building paused for years and new stone was used to finish it."],
+    ["Cherry blossoms", "In 1912, Japan gave the city 3,000 cherry trees. Their pink blooms bring a huge festival every spring."],
+    ["Free fun", "Most Smithsonian museums are free, including the Air and Space Museum and the National Zoo."]
+   ]
+  },
+  "new-york": {
+   "emoji": "🗽",
+   "tagline": "The Big Apple",
+   "facts": [
+    ["Five boroughs", "New York City has five boroughs: Manhattan, Brooklyn, Queens, the Bronx and Staten Island."],
+    ["Old name", "Before 1664 it was a Dutch town called New Amsterdam."],
+    ["First capital", "George Washington became the first US president here in 1789, when New York was the nation's capital."],
+    ["Front door", "About 12 million people arrived in America through Ellis Island in New York Harbor between 1892 and 1954."],
+    ["Huge park", "Central Park is bigger than the whole country of Monaco."],
+    ["Subway city", "Its subway has 472 stations, one of the biggest subway systems in the world."],
+    ["Many voices", "Hundreds of languages are spoken in New York City, more than almost anywhere on Earth."],
+    ["Big Apple", "The nickname 'the Big Apple' became famous in the 1920s, thanks to a newspaper writer who covered horse racing."],
+    ["New Year's", "A giant glowing ball has dropped in Times Square to welcome the New Year since 1907."]
+   ]
+  },
+  "mississippi": {
+   "emoji": "🚢",
+   "tagline": "America's great river highway",
+   "facts": [
+    ["Tiny start", "The Mississippi begins at Lake Itasca in Minnesota, where it's so small you can walk across it on stepping stones."],
+    ["Long trip", "It flows about 2,340 miles south to the Gulf of Mexico. A raindrop takes about 90 days to make the whole trip!"],
+    ["Ten states", "It runs through or along 10 states, from Minnesota down to Louisiana."],
+    ["Its name", "Its name comes from an Ojibwe word meaning 'great river.'"],
+    ["Steamboat days", "In the 1800s, paddle-wheel steamboats carried cotton, sugar, grain and passengers up and down the river."],
+    ["Mark Twain", "Author Mark Twain was a riverboat pilot. His pen name was a river call meaning the water was 12 feet deep, safe for boats."],
+    ["River trucks", "Today barges carry grain, coal and more. One barge can carry as much as about 70 big trucks."],
+    ["Water stairs", "On the upper river, 29 locks and dams work like giant water stairs to lift and lower boats."],
+    ["Music river", "Jazz was born in New Orleans, near the river's mouth, and blues and rock grew up along its banks."]
+   ]
+  },
+  "statue-of-liberty": {
+   "emoji": "🗽",
+   "tagline": "Lady Liberty",
+   "facts": [
+    ["Full name", "Her official name is 'Liberty Enlightening the World.'"],
+    ["The designers", "French sculptor Frédéric Auguste Bartholdi designed her, and Gustave Eiffel, of the Eiffel Tower, built her iron skeleton."],
+    ["Shipped in pieces", "She crossed the ocean from France in about 350 pieces packed in 214 crates."],
+    ["Size", "She's about 151 feet tall, and about 305 feet with her base. Her index finger is 8 feet long!"],
+    ["Stairs", "Visitors climb 354 steps to reach the crown, which has 25 windows."],
+    ["Crown rays", "The seven rays on her crown stand for the seven seas and seven continents."],
+    ["Freedom", "Broken chains lie at her feet, a symbol of freedom."],
+    ["The torch", "Visitors haven't been allowed up in the torch since 1916. Her original torch is now in a museum on the island."],
+    ["Welcome", "For millions of people arriving by ship, she was their very first sight of America."]
+   ]
+  },
+  "nfl-green-bay-packers": {
+   "emoji": "🧀",
+   "tagline": "Small town, giant football history",
+   "facts": [
+    ["Small town", "Green Bay is the smallest city in America with a major pro sports team, about 107,000 people."],
+    ["Most titles", "The Packers have won 13 NFL championships, the most of any team, including four Super Bowls."],
+    ["Cheeseheads", "Fans proudly wear foam hats shaped like wedges of cheese, a nod to Wisconsin's famous dairy farms."],
+    ["The Ice Bowl", "In the 1967 championship game, called the Ice Bowl, it was about 13 degrees below zero at Lambeau Field."],
+    ["Lambeau Leap", "After scoring at home, players jump into the stands to celebrate with fans. It's called the Lambeau Leap."],
+    ["Frozen tundra", "Lambeau Field is nicknamed 'the frozen tundra' because of its freezing winter games."],
+    ["Waiting list", "The waiting list for season tickets is so long that families sign up babies so they might get seats one day."],
+    ["Old team", "Founded in 1919, they're the oldest NFL team still playing in the same town."]
+   ]
+  }
+ }
+}
