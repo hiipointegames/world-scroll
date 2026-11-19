@@ -2,7 +2,7 @@
   "version": 1,
   "notes": "All 197 countries and territories (193 UN members + Vatican City, Palestine, Taiwan and Kosovo) and their capitals, plus the 50 US state capitals. 'atlas' = the country's name in the world-atlas map file (used for its border shape). Capital lat/lon filled from general knowledge (city-level). capital = null means no capital card (disputed). Facts need a fact-check before launch.",
   "alsoIn_about": "Countries that span two continents. They show in both continents' tabs and are colored as part of both continent maps.",
-  "alsoIn": { "Turkey": ["Europe"] },
+  "alsoIn": { "Turkey": ["Europe"], "Russia": ["Asia"] },
   "columns": ["atlas", "name", "continent", "capital", "lat", "lon"],
   "countries": [
     ["Algeria", "Algeria", "Africa", "Algiers", 36.75, 3.06],

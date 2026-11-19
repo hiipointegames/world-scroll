@@ -387,6 +387,18 @@ test('Turkey belongs to both Europe and Asia', () => {
   assert.ok(/'Turkey'/.test(/var EUROPE = \[([\s\S]*?)\];/.exec(app)[1]), 'the Europe sports map colors Turkey as Europe');
 });
 
+test('Russia belongs to both Europe and Asia', () => {
+  const inGroup = (q, g) => q.continent === g || (q.alsoIn || []).includes(g);
+  const country = questions.find(q => q.id === 'country-russia');
+  const capital = questions.find(q => q.category === 'capitals' && /Moscow/.test(q.prompt));
+  for (const q of [country, capital]) {
+    assert.ok(inGroup(q, 'Europe'), q.id + ' still shows in the Europe tab');
+    assert.ok(inGroup(q, 'Asia'), q.id + ' shows in the Asia tab');
+  }
+  assert.match(country.answer, /Asia and Europe/);
+  assert.deepStrictEqual(bank.atlasAlsoIn.Russia, ['Asia'], 'the Asia continent map colors Russia as Asia');
+});
+
 test('Lakes: the most important lakes, every Great Lake, scored by their outline', () => {
   const lakes = questions.filter(q => q.category === 'lakes');
   assert.ok(lakes.length >= 30, lakes.length + ' lakes');
