@@ -627,7 +627,7 @@ test('shared links show a rich preview: title, description and a 1200x630 card i
   const og = (p) => (new RegExp('<meta property="og:' + p + '" content="([^"]+)"').exec(built) || [])[1];
   assert.strictEqual(og('title'), 'World Scroll: learn geography by scrolling');
   assert.ok(og('description') && !/tap the map|map tap/i.test(og('description')), 'a description (never "tap the map")');
-  assert.strictEqual(og('image'), 'https://hiipointegames.github.io/world-scroll/prototype/og-image.png', 'an absolute image link, so Messages can fetch it');
+  assert.match(og('image'), /^https:\/\/hiipointegames\.github\.io\/world-scroll\/prototype\/og-image\.png\?v=\d+$/, 'an absolute image link (with a version number, so apps fetch a changed card)');
   assert.ok(built.includes('<meta name="twitter:card" content="summary_large_image">'));
   const png = fs.readFileSync(path.join(__dirname, 'og-image.png'));
   assert.strictEqual(png.readUInt32BE(16), 1200, 'image is 1200 wide');
