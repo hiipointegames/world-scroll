@@ -600,7 +600,10 @@ test('Deep Dives: every Great Lake, plus one rare card in each other category, p
   const dives = questions.filter(q => q.deepDive);
   for (const id of ['lake-superior', 'lake-michigan', 'lake-huron', 'lake-erie', 'lake-ontario']) assert.ok(dives.some(q => q.id === id), id + ' has a Deep Dive');
   const cats = new Set(dives.map(q => q.category));
-  for (const c of ['lakes', 'mountains', 'deserts', 'countries', 'capitals', 'cities', 'rivers', 'landmarks', 'sports']) assert.ok(cats.has(c), c + ' has a Deep Dive');
+  for (const c of ['lakes', 'mountains', 'deserts', 'countries', 'capitals', 'rivers', 'landmarks', 'sports']) assert.ok(cats.has(c), c + ' has a Deep Dive');
+  const ids = dives.map(q => q.id);
+  for (const id of ['country-thailand', 'capital-united-kingdom', 'capital-united-states', 'eiffel-tower', 'nba-minnesota-timberwolves']) assert.ok(ids.includes(id), id);
+  for (const id of ['country-egypt', 'new-york', 'statue-of-liberty', 'nfl-green-bay-packers']) assert.ok(!ids.includes(id), id + ' was swapped out');
   assert.ok(dives.find(q => q.id === 'himalayas') && dives.find(q => q.id === 'sahara'), 'one mountain range and one desert');
   const known = require('../data/deep-dives.json').dives;
   assert.deepStrictEqual(Object.keys(known).filter(id => !questions.some(q => q.id === id)), [], 'every Deep Dive belongs to a real card');
