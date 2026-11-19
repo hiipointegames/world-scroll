@@ -401,6 +401,19 @@ test('AFL: all 18 clubs, each pinned in its home city', () => {
   assert.strictEqual(melb, 9, 'nine clubs are based in Melbourne');
 });
 
+test('NRL has all 17 clubs and the Big Bash all 8 teams, each with its home ground', () => {
+  const ids = (sport) => questions.filter(q => q.region === 'australia' && q.sport === sport).map(q => q.id).sort();
+  assert.deepStrictEqual(ids('nrl'), ['broncos', 'bulldogs-nrl', 'cowboys', 'dolphins', 'dragons', 'eels', 'knights', 'nzwarriors',
+    'panthers', 'rabbitohs', 'raiders', 'roosters', 'sea-eagles', 'sharks', 'storm', 'titans', 'wests-tigers']);
+  assert.deepStrictEqual(ids('bbl'), ['heat', 'hurricanes', 'renegades', 'scorchers', 'sixers', 'stars', 'strikers', 'thunder']);
+  const b = bank.regions.australia.bounds;
+  for (const q of questions.filter(q => q.region === 'australia')) {
+    assert.ok(q.venue, q.id + ' names its home ground');
+    assert.ok(!/bet|beer|brew|pines/i.test(q.venue), q.id + ': kid-friendly venue name (no betting or beer brands)');
+    assert.ok(q.lon > b.lonMin && q.lon < b.lonMax && q.lat > b.latMin && q.lat < b.latMax, q.id + ' fits on the Australia map');
+  }
+});
+
 test('Russia belongs to both Europe and Asia', () => {
   const inGroup = (q, g) => q.continent === g || (q.alsoIn || []).includes(g);
   const country = questions.find(q => q.id === 'country-russia');

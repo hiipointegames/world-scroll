@@ -4,14 +4,21 @@
   "blues",
   "bombers",
   "bulldogs",
+  "bulldogs-nrl",
   "cats",
+  "cowboys",
   "demons",
   "dockers",
+  "dolphins",
+  "dragons",
+  "eels",
   "giants",
   "gstaad",
   "hawks",
+  "heat",
   "hurricanes",
   "kangaroos",
+  "knights",
   "lions",
   "magpies",
   "mlb-chicago-cubs",
@@ -24,11 +31,22 @@
   "nwsl-boston-legacy-fc",
   "nwsl-denver-summit-fc",
   "nwsl-racing-louisville-fc",
+  "panthers",
   "paris-masters",
   "power",
+  "rabbitohs",
+  "raiders",
+  "renegades",
+  "roosters",
   "saints",
+  "sea-eagles",
+  "sharks",
+  "stars",
+  "strikers",
   "suns",
+  "thunder",
   "tigers",
+  "titans",
   "usl1-athletic-club-boise",
   "usl1-av-alta-fc",
   "usl1-charlotte-independence",
@@ -78,7 +96,8 @@
   "uslsl-fort-lauderdale-united-fc",
   "uslsl-lexington-sc",
   "uslsl-sporting-club-jacksonville",
-  "uslsl-tampa-bay-sun-fc"
+  "uslsl-tampa-bay-sun-fc",
+  "wests-tigers"
  ],
  "facts": {
   "nfl-buffalo-bills": [
@@ -3829,6 +3848,196 @@
    [
     "Big moment",
     "Premiers in 2004."
+   ]
+  ],
+  "raiders": [
+   [
+    "Where it began",
+    "Joined the league in 1982."
+   ],
+   [
+    "Big moment",
+    "Premiers in 1989, 1990 and 1994."
+   ]
+  ],
+  "bulldogs-nrl": [
+   [
+    "Where it began",
+    "Founded in 1935 in Canterbury, Sydney."
+   ],
+   [
+    "The colors",
+    "Blue and white, with a bulldog as their mascot."
+   ]
+  ],
+  "sharks": [
+   [
+    "Where it began",
+    "Joined the league in 1967."
+   ],
+   [
+    "Big moment",
+    "Their 2016 premiership was the club's first ever."
+   ]
+  ],
+  "dolphins": [
+   [
+    "Where it began",
+    "Joined in 2023 as the league's 17th club."
+   ],
+   [
+    "Hometown",
+    "The club comes from Redcliffe, on the shore of Moreton Bay."
+   ]
+  ],
+  "titans": [
+   [
+    "Where it began",
+    "Joined the league in 2007."
+   ],
+   [
+    "The colors",
+    "Light blue, gold and white."
+   ]
+  ],
+  "sea-eagles": [
+   [
+    "Where it began",
+    "Founded in 1947 in Manly, a beach suburb of Sydney."
+   ],
+   [
+    "The colors",
+    "Maroon and white."
+   ]
+  ],
+  "knights": [
+   [
+    "Where it began",
+    "Joined the league in 1988."
+   ],
+   [
+    "Big moment",
+    "Premiers in 1997 and 2001."
+   ]
+  ],
+  "cowboys": [
+   [
+    "Where it began",
+    "Joined the league in 1995."
+   ],
+   [
+    "Big moment",
+    "Their first premiership came in 2015, in a golden-point thriller."
+   ]
+  ],
+  "eels": [
+   [
+    "Where it began",
+    "Founded in 1947."
+   ],
+   [
+    "The colors",
+    "Blue and gold, with an eel as their emblem."
+   ]
+  ],
+  "panthers": [
+   [
+    "Where it began",
+    "Joined the league in 1967, at the foot of the Blue Mountains."
+   ],
+   [
+    "Big moment",
+    "Premiers four years running: 2021, 2022, 2023 and 2024."
+   ]
+  ],
+  "rabbitohs": [
+   [
+    "Where it began",
+    "A founding club of the league in 1908."
+   ],
+   [
+    "Nerd stat",
+    "They have won the most premierships in league history."
+   ]
+  ],
+  "dragons": [
+   [
+    "Where it began",
+    "Formed in 1999 when St George joined with the Illawarra Steelers."
+   ],
+   [
+    "Nerd stat",
+    "St George won 11 premierships in a row, from 1956 to 1966!"
+   ]
+  ],
+  "roosters": [
+   [
+    "Where it began",
+    "A founding club of the league in 1908."
+   ],
+   [
+    "The colors",
+    "Red, white and blue."
+   ]
+  ],
+  "wests-tigers": [
+   [
+    "Where it began",
+    "Formed in 2000 when the Balmain Tigers joined with Western Suburbs."
+   ],
+   [
+    "Big moment",
+    "Premiers in 2005."
+   ]
+  ],
+  "strikers": [
+   [
+    "Where it began",
+    "A founding team of the Big Bash League in 2011."
+   ],
+   [
+    "The colors",
+    "Bright blue."
+   ]
+  ],
+  "heat": [
+   [
+    "Where it began",
+    "A founding team of the Big Bash League in 2011."
+   ],
+   [
+    "Big moment",
+    "Champions in the 2012-13 and 2023-24 seasons."
+   ]
+  ],
+  "renegades": [
+   [
+    "Where it began",
+    "A founding team of the Big Bash League in 2011."
+   ],
+   [
+    "Nerd stat",
+    "Their stadium's roof can close, so rain can't stop the game."
+   ]
+  ],
+  "stars": [
+   [
+    "Where it began",
+    "A founding team of the Big Bash League in 2011."
+   ],
+   [
+    "The venue",
+    "The MCG holds about 100,000 fans, the biggest ground in Australia."
+   ]
+  ],
+  "thunder": [
+   [
+    "Where it began",
+    "A founding team of the Big Bash League in 2011."
+   ],
+   [
+    "Big moment",
+    "Champions in the 2015-16 season."
    ]
   ]
  }
