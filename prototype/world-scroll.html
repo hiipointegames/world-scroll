@@ -648,6 +648,62 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 @keyframes slam-text { from { opacity: 0; transform: scale(4) rotate(-16deg); } }
 @keyframes slam-out { 0%, 72% { opacity: 1; } 100% { opacity: 0; transform: scale(1.25); } }
 
+/* Gameplay: each new card pops in */
+.card-head .chip { animation: chip-in .5s cubic-bezier(.3, 1.7, .5, 1) both; }
+@keyframes chip-in { from { transform: scale(0) rotate(-20deg); } }
+.card-head .prompt { animation: prompt-pop .6s .08s cubic-bezier(.3, 1.6, .5, 1) both; }
+@keyframes prompt-pop { from { opacity: 0; transform: scale(.4) translateY(14px); } }
+.m-plane { font-size: 20px; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .6)); pointer-events: none; }
+.fx-bit.small { width: 5px; height: 5px; border-radius: 50%; }
+
+/* Result reactions (fx.js reveal): bullseye party, a wall of fire for hot guesses, snow for cold ones */
+.fx-reveal { position: absolute; inset: 0; z-index: 45; pointer-events: none; overflow: hidden; }
+.fx-word { position: absolute; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 8px;
+  font-family: var(--font-display); font-weight: 700; font-size: 46px; letter-spacing: 1px; -webkit-text-stroke: 2px var(--ink);
+  animation: word-slam 1.6s cubic-bezier(.2, 1.6, .4, 1) forwards; }
+.fx-word span { font-size: 40px; -webkit-text-stroke: 0; animation: word-emoji .35s ease-in-out infinite alternate; }
+.fx-word span + b + span { animation-delay: .17s; }
+@keyframes word-emoji { to { transform: scale(1.25) rotate(12deg); } }
+@keyframes word-slam { 0% { opacity: 0; transform: scale(3.5) rotate(-12deg); } 18% { opacity: 1; transform: scale(1) rotate(-3deg); }
+  75% { opacity: 1; transform: scale(1.06) rotate(-3deg); } 100% { opacity: 0; transform: scale(.8) translateY(-30px); } }
+.v-bullseye .fx-word { color: var(--gold); text-shadow: 0 5px 0 #9A5A00, 0 0 40px rgba(255, 181, 71, .9); font-size: 52px; }
+.v-scorching .fx-word, .v-hot .fx-word { color: #FF8A2B; text-shadow: 0 5px 0 #8A2A00, 0 0 34px rgba(255, 90, 20, .95); }
+.v-warm .fx-word { color: #FFD36B; text-shadow: 0 4px 0 #8A6000, 0 0 26px rgba(255, 211, 107, .8); font-size: 40px; }
+.v-chilly .fx-word, .v-cold .fx-word { color: #BDEBFF; text-shadow: 0 4px 0 #1D4E7A, 0 0 30px rgba(124, 196, 255, .9); font-size: 40px; }
+/* bullseye: golden sunburst spinning out of the answer, and a rain of stars */
+.fx-rays { position: absolute; width: 760px; height: 760px; margin: -380px 0 0 -380px; border-radius: 50%;
+  background: repeating-conic-gradient(rgba(255, 181, 71, .55) 0 9deg, transparent 9deg 18deg);
+  -webkit-mask: radial-gradient(circle, #000 8%, transparent 62%); mask: radial-gradient(circle, #000 8%, transparent 62%);
+  animation: rays 2.1s ease-out forwards; }
+@keyframes rays { 0% { opacity: 0; transform: scale(.15) rotate(0); } 18% { opacity: 1; } 100% { opacity: 0; transform: scale(1.1) rotate(140deg); } }
+.fx-rain { position: absolute; top: -50px; animation: rain-fall 1.7s cubic-bezier(.4, 0, .8, .6) forwards; }
+@keyframes rain-fall { to { transform: translateY(950px) rotate(600deg); } }
+.screen.fx-quake { animation: quake .6s; }
+@keyframes quake { 10%, 50%, 90% { translate: -8px 3px; rotate: -.7deg; } 30%, 70% { translate: 8px -3px; rotate: .7deg; } }
+/* scorching / hot: flames burn up the screen from the bottom */
+.fx-heat { position: absolute; left: 0; right: 0; bottom: 0; height: 65%; animation: heat 2.1s ease-out forwards;
+  background: linear-gradient(to top, rgba(255, 80, 10, .6), rgba(255, 160, 40, .28) 45%, transparent); }
+.v-hot .fx-heat { height: 38%; }
+@keyframes heat { 0% { opacity: 0; } 15% { opacity: 1; } 70% { opacity: .85; } 100% { opacity: 0; } }
+.fx-flame { position: absolute; bottom: -70px; transform-origin: 50% 100%; filter: drop-shadow(0 0 14px rgba(255, 110, 0, .95));
+  animation: flame-rise 2s ease-out forwards, flame-flicker .16s ease-in-out infinite alternate; }
+@keyframes flame-rise { 0% { transform: translateY(0) scale(.5); opacity: 0; } 10% { opacity: 1; }
+  45% { transform: translateY(calc(var(--reach) * -560px)) scale(1.35); }
+  65% { transform: translateY(calc(var(--reach) * -600px)) scale(1.15) rotate(-7deg); }
+  100% { transform: translateY(calc(var(--reach) * -900px)) scale(.5); opacity: 0; } }
+@keyframes flame-flicker { to { scale: 1.18 .88; } }
+/* warm: a sun pops out of the answer */
+.fx-sun { position: absolute; font-size: 72px; transform: translate(-50%, -50%); filter: drop-shadow(0 0 22px rgba(255, 211, 107, .95));
+  animation: sun-pop 1.7s cubic-bezier(.2, 1.6, .4, 1) forwards; }
+@keyframes sun-pop { 0% { transform: translate(-50%, -50%) scale(0) rotate(-180deg); } 30% { transform: translate(-50%, -50%) scale(1.25) rotate(0); }
+  80% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -50%) scale(.6) rotate(90deg); } }
+/* chilly / cold: snow drifts down; cold also frosts the edges and shivers */
+.fx-snow { position: absolute; top: -40px; animation: snow-fall 2.1s linear forwards; }
+@keyframes snow-fall { to { transform: translate(var(--sway), 640px) rotate(360deg); opacity: 0; } }
+.fx-frost { position: absolute; inset: 0; box-shadow: inset 0 0 70px 24px rgba(189, 235, 255, .6); animation: heat 2.1s ease-out forwards; }
+.screen.fx-shiver { animation: shiver .6s; }
+@keyframes shiver { 20%, 60% { translate: -4px 0; } 40%, 80% { translate: 4px 0; } }
+
 @media (prefers-reduced-motion: reduce) {
   .dsq.big, .m-ripple, .btn.primary.ready, .panel.revealed .res-verdict, .intro-foot .btn.big { animation: none; }
   .card, .m-tol { transition: none; }
@@ -655,6 +711,8 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   .sports-hero::after { display: none; }
   .wave-letter, .fx-floaters, .tile-emoji, .wm-globe, .sports-hero, #go-daily, .pc-badge, .step-n, .picker-head h1 { animation: none; }
   .fx-boing { animation: none !important; }
+  .card-head .chip, .card-head .prompt, .screen.fx-quake, .screen.fx-shiver { animation: none; }
+  .m-plane, .fx-reveal { display: none !important; }
   .phone::before, .phone::after, .tile, .progress-card, .pc-bar i, .intro-brand > *, .intro-steps li, .intro-title, .btn.lock::after,
   .combo-badge, .combo-fire, .toast, .toast-icon, .res-pts.pop, .map-wrap.shake { animation: none; }
   .intro-title { color: var(--text); background: none; }
@@ -1001,6 +1059,13 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
       tone(110, t, 0.22, { type: 'sine', vol: 0.32, to: 55 });
       [N.C5, N.G5, N.C6].forEach(function (f) { tone(f, t + 0.03, 0.28, { type: 'square', vol: 0.05, cutoff: 3000 }); });
     },
+    // Hot guesses: a roaring whoosh of fire with crackles.
+    fire: function (t) {
+      noise(t, 0.9, { filter: 'bandpass', freq: 400, to: 1800, q: 0.8, vol: 0.14 });
+      for (var i = 0; i < 9; i++) noise(t + 0.05 + Math.random() * 0.8, 0.03, { freq: 2500 + Math.random() * 3000, vol: 0.08 });
+    },
+    // Cold guesses: a glassy, icy shimmer coming down.
+    freeze: function (t) { [N.C6 * 2, N.G6, N.E6, N.C6].forEach(function (f, i) { tone(f, t + i * 0.08, 0.3, { type: 'sine', vol: 0.05 }); }); noise(t, 0.5, { freq: 7000, vol: 0.03 }); },
     // The home-screen fly-in: a rising whoosh, then a big boom and a fanfare chord when the logo lands.
     intro: function (t) {
       noise(t, 1.0, { filter: 'bandpass', freq: 300, to: 4000, q: 1.2, vol: 0.16 });
@@ -1280,6 +1345,70 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
     setTimeout(function () { el.remove(); }, 1100);
   }
 
+  // ---------- result reactions: how close was the guess? ----------
+  // screen: the game screen; vibe: bullseye / scorching / hot / warm / chilly / cold (scoring.js vibeFor);
+  // at: where the answer is, in px from the screen's top-left; word: the big slam text (e.g. "GOOOAL!" for sports).
+  var VIBE_FX = {
+    bullseye: { emoji: '🎯', word: 'BULLSEYE!', sound: null },
+    scorching: { emoji: '🔥', word: 'SCORCHING!', sound: 'fire', flames: 18, reach: 1 },
+    hot: { emoji: '🔥', word: 'HOT!', sound: 'fire', flames: 10, reach: .55 },
+    warm: { emoji: '☀️', word: 'WARM!', sound: null },
+    chilly: { emoji: '❄️', word: 'CHILLY!', sound: 'freeze', snow: 9 },
+    cold: { emoji: '🥶', word: 'BRRR!', sound: 'freeze', snow: 18, frost: true }
+  };
+  function reveal(screen, vibe, at, word) {
+    var v = VIBE_FX[vibe];
+    if (calm || !screen || !v) return;
+    var el = document.createElement('div'); el.className = 'fx-reveal v-' + vibe; el.setAttribute('aria-hidden', 'true');
+    var html = '';
+    if (vibe === 'bullseye') {
+      html += '<div class="fx-rays" style="left:' + at.x + 'px;top:' + at.y + 'px"></div>';
+      for (var i = 0; i < 16; i++) { // a rain of stars and targets
+        html += '<span class="fx-rain" style="left:' + (Math.random() * 96) + '%;animation-delay:' + (Math.random() * .6).toFixed(2) + 's;font-size:' +
+          (18 + Math.random() * 16).toFixed(0) + 'px">' + ['⭐', '🎯', '🎉', '✨', '🏆'][i % 5] + '</span>';
+      }
+      screen.classList.remove('fx-quake'); void screen.offsetWidth; screen.classList.add('fx-quake');
+      setTimeout(function () { screen.classList.remove('fx-quake'); }, 700);
+      var r = screen.getBoundingClientRect();
+      [0, 220, 440].forEach(function (d, k) { // three fireworks around the answer
+        setTimeout(function () { burst(r.left + at.x + (k - 1) * 70, r.top + at.y - 30 + (k % 2) * 50, true); }, d);
+      });
+    }
+    if (v.flames) { // a wall of fire burning up the screen
+      html += '<div class="fx-heat"></div>';
+      for (var j = 0; j < v.flames; j++) {
+        html += '<span class="fx-flame" style="left:' + ((j + Math.random() * .6) / v.flames * 100).toFixed(1) + '%;--reach:' + v.reach +
+          ';animation-delay:' + (Math.random() * .35).toFixed(2) + 's;font-size:' + (30 + Math.random() * 26).toFixed(0) + 'px">🔥</span>';
+      }
+    }
+    if (v.snow) { // snowflakes drifting down
+      for (var s = 0; s < v.snow; s++) {
+        html += '<span class="fx-snow" style="left:' + (Math.random() * 96) + '%;animation-delay:' + (Math.random() * .7).toFixed(2) + 's;font-size:' +
+          (14 + Math.random() * 16).toFixed(0) + 'px;--sway:' + (Math.random() * 60 - 30).toFixed(0) + 'px">' + (s % 5 === 0 && v.frost ? '🥶' : '❄️') + '</span>';
+      }
+      if (v.frost) html += '<div class="fx-frost"></div>';
+    }
+    if (vibe === 'warm') html += '<span class="fx-sun" style="left:' + at.x + 'px;top:' + at.y + 'px">☀️</span>';
+    html += '<div class="fx-word" style="top:' + Math.max(70, at.y - 40) + 'px"><span>' + v.emoji + '</span><b>' + (word || v.word) + '</b><span>' + v.emoji + '</span></div>';
+    el.innerHTML = html;
+    screen.appendChild(el);
+    if (v.sound) { try { Sound.play(v.sound); } catch (e) { } }
+    if (vibe === 'cold' || vibe === 'chilly') { screen.classList.remove('fx-shiver'); void screen.offsetWidth; screen.classList.add('fx-shiver'); setTimeout(function () { screen.classList.remove('fx-shiver'); }, 650); }
+    setTimeout(function () { el.remove(); }, 2300);
+  }
+  // A small sparkle where a pin lands on the map.
+  function pinBurst(x, y) {
+    if (calm) return;
+    var L = fxLayer();
+    for (var i = 0; i < 8; i++) {
+      var p = document.createElement('i'), a = i / 8 * Math.PI * 2, d = 22 + Math.random() * 14;
+      p.className = 'fx-bit small'; p.style.background = i % 2 ? '#FFB547' : '#FFFFFF';
+      p.style.left = x + 'px'; p.style.top = y + 'px';
+      p.style.setProperty('--dx', Math.cos(a) * d + 'px'); p.style.setProperty('--dy', Math.sin(a) * d + 'px'); p.style.setProperty('--rot', '0deg');
+      L.appendChild(p); setTimeout(function (el) { el.remove(); }, 800, p);
+    }
+  }
+
   // ---------- every button: boing + burst ----------
   var SELECTOR = 'button, .tile, .pill, .tab';
   function wireTaps() {
@@ -1293,7 +1422,8 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
     }, true);
   }
 
-  root.FX = { welcomeGlobe: welcomeGlobe, floaters: floaters, flyIn: flyIn, burst: burst, slam: slam, wireTaps: wireTaps, calm: calm };
+  root.FX = { welcomeGlobe: welcomeGlobe, floaters: floaters, flyIn: flyIn, burst: burst, slam: slam, wireTaps: wireTaps, calm: calm,
+    reveal: reveal, pinBurst: pinBurst };
 })(this);
 </script>
 <script>
@@ -1632,6 +1762,8 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
     var answerBody = answer.append('g').attr('class', 'm-answer');
     answerBody.append('circle').attr('r', 10).attr('fill', 'none').attr('stroke', COLOR.teal).attr('stroke-width', 3);
     answerBody.append('circle').attr('r', 3.5).attr('fill', COLOR.teal);
+    var plane = pins.append('text').attr('class', 'm-plane').attr('text-anchor', 'middle').attr('dominant-baseline', 'central')
+      .text('✈️').style('display', 'none'); // flies from the pin to the answer on lock-in
     var guessPin = pins.append('g').style('display', 'none');
     var guessBody = guessPin.append('g').attr('class', 'm-pin');
     guessBody.append('circle').attr('r', 8).attr('fill', COLOR.gold).attr('stroke', COLOR.ink).attr('stroke-width', 2);
@@ -1650,6 +1782,12 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
           line.style('display', null).attr('x1', g[0]).attr('y1', g[1])
             .attr('x2', g[0] + (a[0] - g[0]) * progress).attr('y2', g[1] + (a[1] - g[1]) * progress);
           answer.style('display', progress >= 1 ? null : 'none').attr('transform', 'translate(' + a[0] + ',' + a[1] + ')');
+          var flying = progress > 0 && progress < 1 && Math.hypot(a[0] - g[0], a[1] - g[1]) > 24;
+          plane.style('display', flying ? null : 'none');
+          if (flying) { // the emoji points up-right, so turn it 45° more than the line's angle
+            var ang = Math.atan2(a[1] - g[1], a[0] - g[0]) * 180 / Math.PI + 45;
+            plane.attr('transform', 'translate(' + (g[0] + (a[0] - g[0]) * progress) + ',' + (g[1] + (a[1] - g[1]) * progress) + ') rotate(' + ang + ')');
+          }
         }
       }
     }
@@ -1674,6 +1812,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
       var g = screenOf(guess); // a ripple where the pin lands
       var rp = pins.insert('circle', ':first-child').attr('class', 'm-ripple').attr('r', 9).attr('cx', g[0]).attr('cy', g[1]);
       setTimeout(function () { rp.remove(); }, 650);
+      if (window.FX) FX.pinBurst(e.clientX, e.clientY);
       guessBody.classed('drop', false);
       void guessBody.node().getBoundingClientRect();
       guessBody.classed('drop', true);
@@ -2025,7 +2164,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
       '<div class="intro-foot"><button class="btn primary big" id="intro-go">Start scrolling</button></div>' +
       '</div>';
     FX.welcomeGlobe(app.querySelector('.intro-globe'));
-    FX.floaters(app.querySelector('.screen.intro'), 16);
+    FX.floaters(app.querySelector('.screen.intro'), 11); // 16 felt busy; a third fewer
     document.getElementById('intro-go').onclick = function () {
       store.seenIntro = true; save(); showPicker({ flyIn: true });
     };
@@ -2337,6 +2476,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
       Sound.play(isSport && hit ? 'scorching' : VIBE_SOUND[vibe]);
       floatPoints(c, r.points, vibe);
       if (r.bullseye) bullseyeFx(c);
+      reactFx(c, vibe, isSport && hit ? verdict.toUpperCase() : null);
       if (combo >= 2) showCombo(c, combo);
     }, 560);
     if (r.bullseye || (isSport && hit)) { // a little party for a great guess
@@ -2403,6 +2543,15 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
     d.style.top = Math.max(18, Math.min(85, f[1] * 100)) + '%';
     wrap.appendChild(d);
     setTimeout(function () { d.remove(); }, 1400);
+  }
+  // The big reaction over the whole screen: a bullseye party, flames for hot guesses, snow for cold ones (fx.js).
+  function reactFx(c, vibe, word) {
+    var scr = app.querySelector('.screen'), wrap = c.el.querySelector('.map-wrap');
+    if (!scr || !wrap) return;
+    var sr = scr.getBoundingClientRect(), wr = wrap.getBoundingClientRect(), f = c.map.answerFrac();
+    var x = Math.max(40, Math.min(sr.width - 40, wr.left - sr.left + f[0] * wr.width));
+    var y = Math.max(60, Math.min(sr.height - 60, wr.top - sr.top + f[1] * wr.height));
+    FX.reveal(scr, vibe, { x: x, y: y }, word);
   }
   function bullseyeFx(c) {
     Sound.play('boom');

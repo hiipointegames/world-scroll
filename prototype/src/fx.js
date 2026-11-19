@@ -191,6 +191,70 @@
     setTimeout(function () { el.remove(); }, 1100);
   }
 
+  // ---------- result reactions: how close was the guess? ----------
+  // screen: the game screen; vibe: bullseye / scorching / hot / warm / chilly / cold (scoring.js vibeFor);
+  // at: where the answer is, in px from the screen's top-left; word: the big slam text (e.g. "GOOOAL!" for sports).
+  var VIBE_FX = {
+    bullseye: { emoji: '🎯', word: 'BULLSEYE!', sound: null },
+    scorching: { emoji: '🔥', word: 'SCORCHING!', sound: 'fire', flames: 18, reach: 1 },
+    hot: { emoji: '🔥', word: 'HOT!', sound: 'fire', flames: 10, reach: .55 },
+    warm: { emoji: '☀️', word: 'WARM!', sound: null },
+    chilly: { emoji: '❄️', word: 'CHILLY!', sound: 'freeze', snow: 9 },
+    cold: { emoji: '🥶', word: 'BRRR!', sound: 'freeze', snow: 18, frost: true }
+  };
+  function reveal(screen, vibe, at, word) {
+    var v = VIBE_FX[vibe];
+    if (calm || !screen || !v) return;
+    var el = document.createElement('div'); el.className = 'fx-reveal v-' + vibe; el.setAttribute('aria-hidden', 'true');
+    var html = '';
+    if (vibe === 'bullseye') {
+      html += '<div class="fx-rays" style="left:' + at.x + 'px;top:' + at.y + 'px"></div>';
+      for (var i = 0; i < 16; i++) { // a rain of stars and targets
+        html += '<span class="fx-rain" style="left:' + (Math.random() * 96) + '%;animation-delay:' + (Math.random() * .6).toFixed(2) + 's;font-size:' +
+          (18 + Math.random() * 16).toFixed(0) + 'px">' + ['⭐', '🎯', '🎉', '✨', '🏆'][i % 5] + '</span>';
+      }
+      screen.classList.remove('fx-quake'); void screen.offsetWidth; screen.classList.add('fx-quake');
+      setTimeout(function () { screen.classList.remove('fx-quake'); }, 700);
+      var r = screen.getBoundingClientRect();
+      [0, 220, 440].forEach(function (d, k) { // three fireworks around the answer
+        setTimeout(function () { burst(r.left + at.x + (k - 1) * 70, r.top + at.y - 30 + (k % 2) * 50, true); }, d);
+      });
+    }
+    if (v.flames) { // a wall of fire burning up the screen
+      html += '<div class="fx-heat"></div>';
+      for (var j = 0; j < v.flames; j++) {
+        html += '<span class="fx-flame" style="left:' + ((j + Math.random() * .6) / v.flames * 100).toFixed(1) + '%;--reach:' + v.reach +
+          ';animation-delay:' + (Math.random() * .35).toFixed(2) + 's;font-size:' + (30 + Math.random() * 26).toFixed(0) + 'px">🔥</span>';
+      }
+    }
+    if (v.snow) { // snowflakes drifting down
+      for (var s = 0; s < v.snow; s++) {
+        html += '<span class="fx-snow" style="left:' + (Math.random() * 96) + '%;animation-delay:' + (Math.random() * .7).toFixed(2) + 's;font-size:' +
+          (14 + Math.random() * 16).toFixed(0) + 'px;--sway:' + (Math.random() * 60 - 30).toFixed(0) + 'px">' + (s % 5 === 0 && v.frost ? '🥶' : '❄️') + '</span>';
+      }
+      if (v.frost) html += '<div class="fx-frost"></div>';
+    }
+    if (vibe === 'warm') html += '<span class="fx-sun" style="left:' + at.x + 'px;top:' + at.y + 'px">☀️</span>';
+    html += '<div class="fx-word" style="top:' + Math.max(70, at.y - 40) + 'px"><span>' + v.emoji + '</span><b>' + (word || v.word) + '</b><span>' + v.emoji + '</span></div>';
+    el.innerHTML = html;
+    screen.appendChild(el);
+    if (v.sound) { try { Sound.play(v.sound); } catch (e) { } }
+    if (vibe === 'cold' || vibe === 'chilly') { screen.classList.remove('fx-shiver'); void screen.offsetWidth; screen.classList.add('fx-shiver'); setTimeout(function () { screen.classList.remove('fx-shiver'); }, 650); }
+    setTimeout(function () { el.remove(); }, 2300);
+  }
+  // A small sparkle where a pin lands on the map.
+  function pinBurst(x, y) {
+    if (calm) return;
+    var L = fxLayer();
+    for (var i = 0; i < 8; i++) {
+      var p = document.createElement('i'), a = i / 8 * Math.PI * 2, d = 22 + Math.random() * 14;
+      p.className = 'fx-bit small'; p.style.background = i % 2 ? '#FFB547' : '#FFFFFF';
+      p.style.left = x + 'px'; p.style.top = y + 'px';
+      p.style.setProperty('--dx', Math.cos(a) * d + 'px'); p.style.setProperty('--dy', Math.sin(a) * d + 'px'); p.style.setProperty('--rot', '0deg');
+      L.appendChild(p); setTimeout(function (el) { el.remove(); }, 800, p);
+    }
+  }
+
   // ---------- every button: boing + burst ----------
   var SELECTOR = 'button, .tile, .pill, .tab';
   function wireTaps() {
@@ -204,5 +268,6 @@
     }, true);
   }
 
-  root.FX = { welcomeGlobe: welcomeGlobe, floaters: floaters, flyIn: flyIn, burst: burst, slam: slam, wireTaps: wireTaps, calm: calm };
+  root.FX = { welcomeGlobe: welcomeGlobe, floaters: floaters, flyIn: flyIn, burst: burst, slam: slam, wireTaps: wireTaps, calm: calm,
+    reveal: reveal, pinBurst: pinBurst };
 })(this);

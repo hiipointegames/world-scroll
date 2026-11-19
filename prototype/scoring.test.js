@@ -537,6 +537,18 @@ test('the juice (fx.js): built into the game, safe for photosensitive players, c
   for (const n of ['boing', 'slam', 'intro']) assert.ok(sound.includes('    ' + n + ': function'), n + ' sound exists');
 });
 
+test('gameplay juice: every result gets a reaction (bullseye party, fire for hot, snow for cold), a plane flies the line', () => {
+  const fs = require('fs'), path = require('path');
+  const fx = fs.readFileSync(path.join(__dirname, 'src/fx.js'), 'utf8');
+  const app = fs.readFileSync(path.join(__dirname, 'src/app.js'), 'utf8');
+  for (const v of ['bullseye', 'scorching', 'hot', 'warm', 'chilly', 'cold']) assert.ok(new RegExp('\\n    ' + v + ': \\{ emoji').test(fx), v + ' has a reaction');
+  assert.ok(/scorching: \{ emoji: '🔥'[^}]*flames: \d+/.test(fx) && /hot: \{ emoji: '🔥'[^}]*flames: \d+/.test(fx), 'hot guesses burn the screen with flames');
+  assert.ok(app.includes("reactFx(c, vibe, isSport && hit ? verdict.toUpperCase() : null);"), 'lock-in fires the reaction (sports hits shout their word)');
+  assert.ok(app.includes("FX.pinBurst(e.clientX, e.clientY)") && app.includes(".text('✈️')"), 'pin sparkle and the plane along the line');
+  assert.ok(app.includes("FX.floaters(app.querySelector('.screen.intro'), 11)"), 'welcome screen has a third fewer floating emoji');
+  assert.ok(/function reveal\(screen, vibe, at, word\) \{\n    var v = VIBE_FX\[vibe\];\n    if \(calm/.test(fx), 'reactions are skipped under reduced motion');
+});
+
 test('Russia belongs to both Europe and Asia', () => {
   const inGroup = (q, g) => q.continent === g || (q.alsoIn || []).includes(g);
   const country = questions.find(q => q.id === 'country-russia');

@@ -327,6 +327,8 @@
     var answerBody = answer.append('g').attr('class', 'm-answer');
     answerBody.append('circle').attr('r', 10).attr('fill', 'none').attr('stroke', COLOR.teal).attr('stroke-width', 3);
     answerBody.append('circle').attr('r', 3.5).attr('fill', COLOR.teal);
+    var plane = pins.append('text').attr('class', 'm-plane').attr('text-anchor', 'middle').attr('dominant-baseline', 'central')
+      .text('✈️').style('display', 'none'); // flies from the pin to the answer on lock-in
     var guessPin = pins.append('g').style('display', 'none');
     var guessBody = guessPin.append('g').attr('class', 'm-pin');
     guessBody.append('circle').attr('r', 8).attr('fill', COLOR.gold).attr('stroke', COLOR.ink).attr('stroke-width', 2);
@@ -345,6 +347,12 @@
           line.style('display', null).attr('x1', g[0]).attr('y1', g[1])
             .attr('x2', g[0] + (a[0] - g[0]) * progress).attr('y2', g[1] + (a[1] - g[1]) * progress);
           answer.style('display', progress >= 1 ? null : 'none').attr('transform', 'translate(' + a[0] + ',' + a[1] + ')');
+          var flying = progress > 0 && progress < 1 && Math.hypot(a[0] - g[0], a[1] - g[1]) > 24;
+          plane.style('display', flying ? null : 'none');
+          if (flying) { // the emoji points up-right, so turn it 45° more than the line's angle
+            var ang = Math.atan2(a[1] - g[1], a[0] - g[0]) * 180 / Math.PI + 45;
+            plane.attr('transform', 'translate(' + (g[0] + (a[0] - g[0]) * progress) + ',' + (g[1] + (a[1] - g[1]) * progress) + ') rotate(' + ang + ')');
+          }
         }
       }
     }
@@ -369,6 +377,7 @@
       var g = screenOf(guess); // a ripple where the pin lands
       var rp = pins.insert('circle', ':first-child').attr('class', 'm-ripple').attr('r', 9).attr('cx', g[0]).attr('cy', g[1]);
       setTimeout(function () { rp.remove(); }, 650);
+      if (window.FX) FX.pinBurst(e.clientX, e.clientY);
       guessBody.classed('drop', false);
       void guessBody.node().getBoundingClientRect();
       guessBody.classed('drop', true);
@@ -720,7 +729,7 @@
       '<div class="intro-foot"><button class="btn primary big" id="intro-go">Start scrolling</button></div>' +
       '</div>';
     FX.welcomeGlobe(app.querySelector('.intro-globe'));
-    FX.floaters(app.querySelector('.screen.intro'), 16);
+    FX.floaters(app.querySelector('.screen.intro'), 11); // 16 felt busy; a third fewer
     document.getElementById('intro-go').onclick = function () {
       store.seenIntro = true; save(); showPicker({ flyIn: true });
     };
@@ -1032,6 +1041,7 @@
       Sound.play(isSport && hit ? 'scorching' : VIBE_SOUND[vibe]);
       floatPoints(c, r.points, vibe);
       if (r.bullseye) bullseyeFx(c);
+      reactFx(c, vibe, isSport && hit ? verdict.toUpperCase() : null);
       if (combo >= 2) showCombo(c, combo);
     }, 560);
     if (r.bullseye || (isSport && hit)) { // a little party for a great guess
@@ -1098,6 +1108,15 @@
     d.style.top = Math.max(18, Math.min(85, f[1] * 100)) + '%';
     wrap.appendChild(d);
     setTimeout(function () { d.remove(); }, 1400);
+  }
+  // The big reaction over the whole screen: a bullseye party, flames for hot guesses, snow for cold ones (fx.js).
+  function reactFx(c, vibe, word) {
+    var scr = app.querySelector('.screen'), wrap = c.el.querySelector('.map-wrap');
+    if (!scr || !wrap) return;
+    var sr = scr.getBoundingClientRect(), wr = wrap.getBoundingClientRect(), f = c.map.answerFrac();
+    var x = Math.max(40, Math.min(sr.width - 40, wr.left - sr.left + f[0] * wr.width));
+    var y = Math.max(60, Math.min(sr.height - 60, wr.top - sr.top + f[1] * wr.height));
+    FX.reveal(scr, vibe, { x: x, y: y }, word);
   }
   function bullseyeFx(c) {
     Sound.play('boom');

@@ -104,6 +104,13 @@
       tone(110, t, 0.22, { type: 'sine', vol: 0.32, to: 55 });
       [N.C5, N.G5, N.C6].forEach(function (f) { tone(f, t + 0.03, 0.28, { type: 'square', vol: 0.05, cutoff: 3000 }); });
     },
+    // Hot guesses: a roaring whoosh of fire with crackles.
+    fire: function (t) {
+      noise(t, 0.9, { filter: 'bandpass', freq: 400, to: 1800, q: 0.8, vol: 0.14 });
+      for (var i = 0; i < 9; i++) noise(t + 0.05 + Math.random() * 0.8, 0.03, { freq: 2500 + Math.random() * 3000, vol: 0.08 });
+    },
+    // Cold guesses: a glassy, icy shimmer coming down.
+    freeze: function (t) { [N.C6 * 2, N.G6, N.E6, N.C6].forEach(function (f, i) { tone(f, t + i * 0.08, 0.3, { type: 'sine', vol: 0.05 }); }); noise(t, 0.5, { freq: 7000, vol: 0.03 }); },
     // The home-screen fly-in: a rising whoosh, then a big boom and a fanfare chord when the logo lands.
     intro: function (t) {
       noise(t, 1.0, { filter: 'bandpass', freq: 300, to: 4000, q: 1.2, vol: 0.16 });
