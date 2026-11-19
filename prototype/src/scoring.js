@@ -174,6 +174,13 @@
   }
   // Distance from a pin to a desert or mountain range (a GeoJSON MultiPolygon): 0 anywhere inside,
   // otherwise the distance to its nearest edge.
+  // Is the guess inside the outline? (Same rule as areaDistance's 0 miles, without measuring.)
+  function inArea(area, guess) {
+    var polys = area.type === 'Polygon' ? [area.coordinates] : area.coordinates;
+    return polys.some(function (p) {
+      return inRing(p[0], guess.lon, guess.lat) && !p.slice(1).some(function (h) { return inRing(h, guess.lon, guess.lat); });
+    });
+  }
   function areaDistance(area, guess) {
     var polys = area.type === 'Polygon' ? [area.coordinates] : area.coordinates, rings = [];
     for (var i = 0; i < polys.length; i++) {
@@ -214,7 +221,7 @@
   var api = {
     EARTH_RADIUS_MI: EARTH_RADIUS_MI, haversineMiles: haversineMiles, pointsFor: pointsFor,
     scoreGuess: scoreGuess, seededRandom: seededRandom, shuffle: shuffle, dailyPick: dailyPick,
-    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, trophyStep: trophyStep, dailyShareText: dailyShareText, dailyTitle: dailyTitle, countVisit: countVisit, tipForDay: tipForDay, lineDistance: lineDistance, areaDistance: areaDistance, vibeFor: vibeFor, comboStep: comboStep, DAILY_GOAL: DAILY_GOAL, cardsToday: cardsToday, RANKS: RANKS, rankFor: rankFor,
+    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, trophyStep: trophyStep, dailyShareText: dailyShareText, dailyTitle: dailyTitle, countVisit: countVisit, tipForDay: tipForDay, lineDistance: lineDistance, areaDistance: areaDistance, inArea: inArea, vibeFor: vibeFor, comboStep: comboStep, DAILY_GOAL: DAILY_GOAL, cardsToday: cardsToday, RANKS: RANKS, rankFor: rankFor,
     dailySportsPick: dailySportsPick, sportsShareText: sportsShareText, sportsTitle: sportsTitle
   };
   if (typeof module === 'object' && module.exports) module.exports = api;

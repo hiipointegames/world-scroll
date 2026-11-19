@@ -20,13 +20,13 @@ Tagline idea: "Doomscrolling, but you get smarter."
 7. Swiping up or tapping "Next" loads the next card. "Skip" also moves on.
 
 ## Areas vs points
-Rivers are scored by distance to the river's real path (`data/rivers.json`). Deserts, mountain ranges and lakes with an outline (`data/areas.json`) count a pin anywhere inside as a bullseye. Single peaks, landmarks and a few small lakes use one point plus `toleranceMiles`. The tools in `prototype/tools/` rebuild these files from Natural Earth.
+Rivers are scored by distance to the river's real path (`data/rivers.json`). Deserts, mountain ranges, lakes, seas and oceans with an outline (`data/areas.json`) count a pin anywhere inside as a bullseye. Each ocean includes its open seas (the Caribbean is Atlantic); seas closed in by land (Mediterranean, Black, Baltic, Red, Persian Gulf, Hudson Bay, Caspian) are not part of any ocean. Ocean cards use the `oceans` map region, which shows both poles. Single peaks, landmarks and a few small lakes use one point plus `toleranceMiles`. The tools in `prototype/tools/` rebuild these files from Natural Earth.
 
 Some answers are areas or lines (rivers, deserts, mountain ranges). For the MVP, each card has one representative lat/lon plus `toleranceMiles`. Any guess within the tolerance counts as a bullseye, and the distance is measured from the representative point. Later this can be upgraded to distance-to-polygon or distance-to-line using GeoJSON.
 
 ## Feeds
 - **Shuffle the whole world**: a mixed feed across all categories.
-- **Single category**: Countries, Capitals, Cities, Rivers, Mountains, Deserts, Lakes, Landmarks.
+- **Single category**: Countries, Capitals, Cities, Rivers & oceans, Mountains, Deserts, Lakes & seas, Landmarks.
 - **Sports**: two levels of tabs.
   - Region row: USA · Europe · Australia
   - Sport row (changes with the region):

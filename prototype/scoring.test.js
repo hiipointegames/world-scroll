@@ -294,7 +294,7 @@ test('rivers are scored by distance to the river itself, not one dot in the midd
   assert.strictEqual(score(29.95, -90.07).bullseye, true, 'New Orleans, near the mouth, is a bullseye');
   assert.strictEqual(score(38.63, -90.2).bullseye, true, 'St. Louis is a bullseye');
   assert.strictEqual(score(39.74, -104.99).bullseye, false, 'Denver is too far west');
-  for (const q of questions.filter(x => x.category === 'rivers')) {
+  for (const q of questions.filter(x => x.category === 'rivers' && x.kind !== 'ocean')) {
     assert.ok(q.line && q.line.length, q.id + ' has a river path');
     const mid = G.lineDistance(q.line, { lat: q.lat, lon: q.lon }).miles;
     assert.ok(mid < 150, q.id + ': its map point sits near its own river (' + Math.round(mid) + ' mi)');
@@ -346,7 +346,7 @@ test('big lakes are drawn as water (the Great Lakes show Michigan)', () => {
 
 test('players can zoom in deep, toward their pin, and jump back out', () => {
   const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
-  const m = /var maxZoom = regionId === 'world' \? (\d+) : (\d+);/.exec(app);
+  const m = /var maxZoom = isGlobe\(regionId\) \? (\d+) : (\d+);/.exec(app);
   assert.ok(m && +m[1] >= 80 && +m[2] >= 40, 'world map zooms to 80x, region maps to 40x');
   assert.ok(app.includes('zoom.scaleBy, k, on ? p : [W / 2, H / 2]'), '+ and - zoom toward the pin');
   assert.ok(app.includes('class="zoom-reset"') && app.includes('resetZoom'), 'a button shows the whole map again');
@@ -442,6 +442,59 @@ test('US leagues have every team', () => {
     { nfl: 32, nba: 30, mlb: 30, nhl: 32, mls: 30, nwsl: 16 });
 });
 
+test('Rivers & oceans: all five oceans, scored by their real outline on a map that shows both poles', () => {
+  const ocean = (id) => questions.find(q => q.id === id);
+  const pin = (q, lat, lon) => G.scoreGuess({ lat, lon }, q, G.areaDistance(q.area, { lat, lon }).miles);
+  const ids = questions.filter(q => q.kind === 'ocean').map(q => q.id).sort();
+  assert.deepStrictEqual(ids, ['arctic-ocean', 'atlantic-ocean', 'indian-ocean', 'pacific-ocean', 'southern-ocean']);
+  for (const id of ids) {
+    const q = ocean(id);
+    assert.strictEqual(q.category, 'rivers', id + ' is in the Rivers & oceans deck');
+    assert.ok(q.area && q.area.coordinates.length, id + ' has its outline');
+    assert.strictEqual(q.region, 'oceans');
+  }
+  const atl = ocean('atlantic-ocean'), pac = ocean('pacific-ocean');
+  assert.ok(pin(atl, 35, -40).bullseye, 'the middle of the North Atlantic');
+  assert.ok(pin(atl, -25, -15).bullseye, 'the South Atlantic');
+  assert.ok(pin(atl, 15, -75).bullseye, 'the Caribbean is part of the Atlantic');
+  assert.ok(pin(atl, 25, -90).bullseye, 'so is the Gulf of Mexico');
+  assert.ok(pin(atl, 56, 3).bullseye, 'and the North Sea');
+  assert.ok(!pin(atl, 35, 18).bullseye, 'the Mediterranean, closed in by land, is not');
+  assert.ok(!pin(atl, 38, -98).bullseye, 'Kansas is not in the ocean');
+  assert.ok(!pin(atl, 30, -150).bullseye, 'the Pacific is not the Atlantic');
+  assert.ok(pin(pac, 30, -150).bullseye && pin(pac, -30, -120).bullseye, 'North and South Pacific');
+  assert.ok(pin(pac, 10, 179.5).bullseye && pin(pac, -10, -179.5).bullseye, 'both sides of the date line');
+  assert.ok(pin(pac, -18, 155).bullseye, 'the Coral Sea is Pacific');
+  assert.ok(pin(ocean('indian-ocean'), -15, 75).bullseye, 'Indian Ocean');
+  assert.ok(pin(ocean('arctic-ocean'), 87, 0).bullseye, 'near the North Pole');
+  assert.ok(pin(ocean('southern-ocean'), -65, 0).bullseye && pin(ocean('southern-ocean'), -63, 150).bullseye, 'around Antarctica');
+  assert.ok(!pin(ocean('southern-ocean'), -15, 75).bullseye, 'the Indian Ocean is not the Southern Ocean');
+  const b = bank.regions.oceans.bounds;
+  assert.ok(b.latMin < -75 && b.latMax > 85, 'the ocean map reaches past the Southern Ocean and up to the Arctic');
+  const cats = Object.fromEntries(bank.categories.map(c => [c.id, c.label]));
+  assert.strictEqual(cats.rivers, 'Rivers & oceans');
+  assert.strictEqual(cats.lakes, 'Lakes & seas');
+});
+
+test('Lakes & seas: famous seas scored by their real outline, and "Your pin" names the water', () => {
+  const sea = (id) => questions.find(q => q.id === id);
+  const pin = (q, lat, lon) => G.scoreGuess({ lat, lon }, q, G.areaDistance(q.area, { lat, lon }).miles);
+  const seas = questions.filter(q => q.kind === 'sea');
+  assert.ok(seas.length >= 15, seas.length + ' seas');
+  for (const q of seas) {
+    assert.strictEqual(q.category, 'lakes', q.id + ' is in the Lakes & seas deck');
+    assert.ok(q.area, q.id + ' has its outline');
+    assert.ok(G.inArea(q.area, { lat: q.lat, lon: q.lon }), q.id + ': its map point is inside the sea');
+  }
+  assert.ok(pin(sea('mediterranean-sea'), 43, 15).bullseye, 'the Adriatic is part of the Mediterranean');
+  assert.ok(pin(sea('mediterranean-sea'), 38, 25).bullseye, 'so is the Aegean');
+  assert.ok(!pin(sea('mediterranean-sea'), 43.2, 34).bullseye, 'the Black Sea is its own sea');
+  assert.ok(pin(sea('caspian-sea'), 42, 50.7).bullseye && !pin(sea('caspian-sea'), 45, 40).bullseye, 'the Caspian now has its real shape');
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  assert.ok(app.includes("if (!where) where = waterAt(g);"), 'a pin in the water names the sea or ocean');
+  assert.ok(app.includes('rivers, oceans, lakes, seas'), 'the welcome screen mentions oceans and seas');
+});
+
 test('Russia belongs to both Europe and Asia', () => {
   const inGroup = (q, g) => q.continent === g || (q.alsoIn || []).includes(g);
   const country = questions.find(q => q.id === 'country-russia');
@@ -495,7 +548,7 @@ test('home screen: no daily goal line, Daily 10 sits above the tiles and Shuffle
 test('home tiles: short subtitles that never need "...", and room under the text', () => {
   const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
   const subs = /var CATEGORY_SUBS = \{([\s\S]*?)\};/.exec(app)[1].match(/'[^']*'/g).map(s => s.slice(1, -1));
-  assert.ok(subs.includes('Famous lakes'));
+  assert.ok(subs.includes('Famous lakes and seas'));
   assert.deepStrictEqual(subs.filter(s => s.length > 23), [], 'subtitles fit on one line of a half-width tile');
   const html = require('fs').readFileSync(require('path').join(__dirname, 'src/app.html'), 'utf8');
   assert.ok(/\.tile \{ min-height: 92px;[^}]*padding: 12px 15px 14px/.test(html), 'tiles grow with their text and keep bottom padding');

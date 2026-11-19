@@ -318,6 +318,8 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 /* Deserts and mountain ranges: the whole area lights up */
 .m-tol.m-area { stroke-dasharray: none; stroke-width: 1.5; stroke-linejoin: round; }
 .revealed .m-tol.m-area { fill-opacity: .32; stroke-opacity: .9; }
+/* Oceans and seas are Natural Earth pieces stitched together: fill only, so the seams between pieces don't show */
+.revealed .m-tol.m-area.m-water { fill-opacity: .7; stroke-opacity: 0; } /* bright enough to stand out from the teal land */
 .m-lakes { stroke: var(--text); stroke-opacity: .14; stroke-width: .5; vector-effect: non-scaling-stroke; }
 /* Rivers: a soft teal band (the bullseye zone) with the river itself drawn on top */
 .m-tol.m-river { fill: none; stroke-dasharray: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: var(--zone, 20px); vector-effect: none; }

@@ -11,6 +11,16 @@
         "latMax": 80
       }
     },
+    "oceans": {
+      "label": "World",
+      "globe": true,
+      "bounds": {
+        "lonMin": -180,
+        "lonMax": 180,
+        "latMin": -82,
+        "latMax": 86
+      }
+    },
     "usa": {
       "label": "USA",
       "bounds": {
@@ -122,7 +132,7 @@
     },
     {
       "id": "rivers",
-      "label": "Rivers",
+      "label": "Rivers & oceans",
       "color": "#3DDCC4"
     },
     {
@@ -137,7 +147,7 @@
     },
     {
       "id": "lakes",
-      "label": "Lakes",
+      "label": "Lakes & seas",
       "color": "#7CC4FF"
     },
     {
@@ -300,6 +310,11 @@
     {"id": "yukon-river", "category": "rivers", "region": "world", "prompt": "Where is the Yukon River?", "answer": "Yukon River, Canada and USA", "lat": 65.5, "lon": -150.2, "toleranceMiles": 250, "fact": "The Yukon runs nearly 2,000 miles from Canada across Alaska. Some salmon swim almost all the way up it every summer."},
     {"id": "arkansas-river", "category": "rivers", "region": "world", "prompt": "Where is the Arkansas River?", "answer": "Arkansas River, USA", "lat": 36.15, "lon": -95.99, "toleranceMiles": 200, "fact": "The Arkansas River starts high in Colorado's Rocky Mountains and flows through Kansas and Oklahoma on its way to Arkansas."},
     {"id": "thames", "category": "rivers", "region": "world", "prompt": "Where is the River Thames?", "answer": "River Thames, England", "lat": 51.5, "lon": -0.9, "toleranceMiles": 75, "fact": "The Thames flows through the heart of London to the North Sea."},
+    {"id": "pacific-ocean", "category": "rivers", "kind": "ocean", "region": "oceans", "prompt": "Where is the Pacific Ocean?", "answer": "Pacific Ocean", "lat": 0, "lon": -160, "toleranceMiles": 25, "fact": "The Pacific is the biggest ocean on Earth. All the world's land could fit inside it!"},
+    {"id": "atlantic-ocean", "category": "rivers", "kind": "ocean", "region": "oceans", "prompt": "Where is the Atlantic Ocean?", "answer": "Atlantic Ocean", "lat": 15, "lon": -40, "toleranceMiles": 25, "fact": "The Atlantic grows a little wider every year, about as fast as your fingernails grow!"},
+    {"id": "indian-ocean", "category": "rivers", "kind": "ocean", "region": "oceans", "prompt": "Where is the Indian Ocean?", "answer": "Indian Ocean", "lat": -20, "lon": 80, "toleranceMiles": 25, "fact": "The Indian Ocean is the warmest ocean in the world."},
+    {"id": "arctic-ocean", "category": "rivers", "kind": "ocean", "region": "oceans", "prompt": "Where is the Arctic Ocean?", "answer": "Arctic Ocean, around the North Pole", "lat": 80, "lon": 0, "toleranceMiles": 25, "fact": "The Arctic is the smallest ocean, and much of it is covered by floating sea ice. Polar bears hunt on the ice!"},
+    {"id": "southern-ocean", "category": "rivers", "kind": "ocean", "region": "oceans", "prompt": "Where is the Southern Ocean?", "answer": "Southern Ocean, around Antarctica", "lat": -65, "lon": 0, "toleranceMiles": 25, "fact": "The Southern Ocean swirls all the way around Antarctica. Penguins, seals and whales live there."},
     {"id": "everest", "category": "mountains", "region": "world", "prompt": "Where is Mount Everest?", "answer": "Mount Everest, Nepal and China", "lat": 27.99, "lon": 86.93, "toleranceMiles": 40, "fact": "At 29,032 feet, Everest is the highest mountain on Earth."},
     {"id": "k2", "category": "mountains", "region": "world", "prompt": "Where is K2?", "answer": "K2, Pakistan and China", "lat": 35.88, "lon": 76.51, "toleranceMiles": 40, "fact": "K2 is the world's second-highest mountain."},
     {"id": "denali", "category": "mountains", "region": "world", "prompt": "Where is Denali?", "answer": "Denali, Alaska, USA", "lat": 63.07, "lon": -151.01, "toleranceMiles": 40, "fact": "Denali is the highest peak in North America."},
@@ -524,7 +539,7 @@
     {"id": "lake-titicaca", "category": "lakes", "region": "world", "prompt": "Where is Lake Titicaca?", "answer": "Lake Titicaca, Peru and Bolivia", "lat": -15.9, "lon": -69.4, "toleranceMiles": 50, "fact": "Lake Titicaca sits high in the Andes. Some people there live on floating islands made of woven reeds."},
     {"id": "lake-nicaragua", "category": "lakes", "region": "world", "prompt": "Where is Lake Nicaragua?", "answer": "Lake Nicaragua, Nicaragua", "lat": 11.6, "lon": -85.4, "toleranceMiles": 50, "fact": "Lake Nicaragua is Central America's largest lake. It has hundreds of tiny islands and two volcanoes on Ometepe Island."},
     {"id": "lake-baikal", "category": "lakes", "region": "world", "prompt": "Where is Lake Baikal?", "answer": "Lake Baikal, Siberia, Russia", "lat": 53.5, "lon": 108.2, "toleranceMiles": 50, "fact": "Russia's Lake Baikal is the deepest lake on Earth. It holds about one-fifth of all the fresh lake water in the world."},
-    {"id": "caspian-sea", "category": "lakes", "region": "world", "prompt": "Where is the Caspian Sea?", "answer": "Caspian Sea, between Europe and Asia", "lat": 42.0, "lon": 50.7, "toleranceMiles": 250, "fact": "The Caspian Sea is actually the largest lake on Earth! It's called a sea because its water is salty."},
+    {"id": "caspian-sea", "category": "lakes", "kind": "sea", "region": "world", "prompt": "Where is the Caspian Sea?", "answer": "Caspian Sea, between Europe and Asia", "lat": 42.0, "lon": 50.7, "toleranceMiles": 25, "fact": "The Caspian Sea is actually the largest lake on Earth! It's called a sea because its water is salty."},
     {"id": "dead-sea", "category": "lakes", "region": "world", "prompt": "Where is the Dead Sea?", "answer": "Dead Sea, Israel and Jordan", "lat": 31.5, "lon": 35.5, "toleranceMiles": 25, "fact": "The Dead Sea is so salty that swimmers float like a cork. Its shore is the lowest land on Earth."},
     {"id": "lake-victoria", "category": "lakes", "region": "world", "prompt": "Where is Lake Victoria?", "answer": "Lake Victoria, East Africa", "lat": -1.0, "lon": 33.0, "toleranceMiles": 50, "fact": "Lake Victoria is Africa's largest lake and a main source of the Nile River. Uganda, Kenya and Tanzania share it."},
     {"id": "lake-tanganyika", "category": "lakes", "region": "world", "prompt": "Where is Lake Tanganyika?", "answer": "Lake Tanganyika, East Africa", "lat": -6.1, "lon": 29.5, "toleranceMiles": 50, "fact": "Lake Tanganyika is the longest freshwater lake in the world, stretching about 410 miles through four countries."},
@@ -543,6 +558,20 @@
     {"id": "lake-taupo", "category": "lakes", "region": "world", "prompt": "Where is Lake Taupō?", "answer": "Lake Taupō, New Zealand", "lat": -38.8, "lon": 175.9, "toleranceMiles": 25, "fact": "Lake Taupō is New Zealand's largest lake. It fills a huge crater left by an ancient volcano."},
     {"id": "lake-vanern", "category": "lakes", "region": "world", "prompt": "Where is Lake Vänern?", "answer": "Lake Vänern, Sweden", "lat": 58.9, "lon": 13.2, "toleranceMiles": 50, "fact": "Sweden's Vänern is the largest lake in the European Union."},
     {"id": "sea-of-galilee", "category": "lakes", "region": "world", "prompt": "Where is the Sea of Galilee?", "answer": "Sea of Galilee, Israel", "lat": 32.82, "lon": 35.59, "toleranceMiles": 25, "fact": "The Sea of Galilee is a freshwater lake in Israel. It's the lowest freshwater lake on Earth."},
+    {"id": "mediterranean-sea", "category": "lakes", "kind": "sea", "region": "world", "prompt": "Where is the Mediterranean Sea?", "answer": "Mediterranean Sea, between Europe and Africa", "lat": 35, "lon": 18, "toleranceMiles": 25, "fact": "The Mediterranean is almost completely surrounded by land: Europe, Africa and Asia."},
+    {"id": "caribbean-sea", "category": "lakes", "kind": "sea", "region": "world", "prompt": "Where is the Caribbean Sea?", "answer": "Caribbean Sea, Central America and the islands", "lat": 15, "lon": -75, "toleranceMiles": 25, "fact": "The Caribbean Sea is dotted with more than 7,000 islands and reefs."},
+    {"id": "red-sea", "category": "lakes", "kind": "sea", "region": "world", "prompt": "Where is the Red Sea?", "answer": "Red Sea, between Africa and Arabia", "lat": 20, "lon": 38.5, "toleranceMiles": 25, "fact": "The Red Sea has amazing coral reefs, full of colorful fish."},
+    {"id": "black-sea", "category": "lakes", "kind": "sea", "region": "world", "prompt": "Where is the Black Sea?", "answer": "Black Sea, between Europe and Asia", "lat": 43.2, "lon": 34, "toleranceMiles": 25, "fact": "The Black Sea connects to the Mediterranean through a narrow strait in Istanbul called the Bosporus."},
+    {"id": "baltic-sea", "category": "lakes", "kind": "sea", "region": "world", "prompt": "Where is the Baltic Sea?", "answer": "Baltic Sea, northern Europe", "lat": 57.5, "lon": 19, "toleranceMiles": 25, "fact": "The Baltic is not very salty, so parts of it freeze over in winter."},
+    {"id": "north-sea", "category": "lakes", "kind": "sea", "region": "world", "prompt": "Where is the North Sea?", "answer": "North Sea, between Britain and mainland Europe", "lat": 56, "lon": 3, "toleranceMiles": 25, "fact": "The North Sea has huge wind farms that make clean energy for millions of homes."},
+    {"id": "arabian-sea", "category": "lakes", "kind": "sea", "region": "world", "prompt": "Where is the Arabian Sea?", "answer": "Arabian Sea, between India and Arabia", "lat": 15, "lon": 64, "toleranceMiles": 25, "fact": "Whale sharks, the biggest fish in the world, swim in the Arabian Sea."},
+    {"id": "south-china-sea", "category": "lakes", "kind": "sea", "region": "world", "prompt": "Where is the South China Sea?", "answer": "South China Sea, Southeast Asia", "lat": 12, "lon": 114, "toleranceMiles": 25, "fact": "The South China Sea is one of the busiest shipping routes on Earth."},
+    {"id": "bering-sea", "category": "lakes", "kind": "sea", "region": "world", "prompt": "Where is the Bering Sea?", "answer": "Bering Sea, between Alaska and Russia", "lat": 58, "lon": -178, "toleranceMiles": 25, "fact": "The Bering Sea is famous for its giant king crabs."},
+    {"id": "sea-of-japan", "category": "lakes", "kind": "sea", "region": "world", "prompt": "Where is the Sea of Japan?", "answer": "Sea of Japan (East Sea), between Japan and Korea", "lat": 40, "lon": 135, "toleranceMiles": 25, "fact": "This sea is also called the East Sea. It lies between Japan, Korea and Russia."},
+    {"id": "coral-sea", "category": "lakes", "kind": "sea", "region": "world", "prompt": "Where is the Coral Sea?", "answer": "Coral Sea, off northeast Australia", "lat": -18, "lon": 155, "toleranceMiles": 25, "fact": "The Coral Sea is home to the Great Barrier Reef, the biggest coral reef system in the world."},
+    {"id": "tasman-sea", "category": "lakes", "kind": "sea", "region": "world", "prompt": "Where is the Tasman Sea?", "answer": "Tasman Sea, between Australia and New Zealand", "lat": -40, "lon": 160, "toleranceMiles": 25, "fact": "The Tasman Sea is named after Abel Tasman, a Dutch explorer who sailed there in 1642."},
+    {"id": "sargasso-sea", "category": "lakes", "kind": "sea", "region": "world", "prompt": "Where is the Sargasso Sea?", "answer": "Sargasso Sea, North Atlantic Ocean", "lat": 28, "lon": -60, "toleranceMiles": 25, "fact": "The Sargasso Sea is the only sea with no coastline! Ocean currents form its edges."},
+    {"id": "yellow-sea", "category": "lakes", "kind": "sea", "region": "world", "prompt": "Where is the Yellow Sea?", "answer": "Yellow Sea, between China and Korea", "lat": 36, "lon": 123, "toleranceMiles": 25, "fact": "The Yellow Sea gets its name from the golden sand and mud that rivers wash into it."},
     {"id": "eiffel-tower", "category": "landmarks", "region": "world", "prompt": "Where is the Eiffel Tower?", "answer": "Eiffel Tower · Paris, France", "lat": 48.8584, "lon": 2.2945, "toleranceMiles": 25, "fact": "Built for a world's fair in 1889, the Eiffel Tower was once the tallest structure on Earth. It gets repainted about every 7 years."},
     {"id": "statue-of-liberty", "category": "landmarks", "region": "world", "prompt": "Where is the Statue of Liberty?", "answer": "Statue of Liberty · New York City, USA", "lat": 40.6892, "lon": -74.0445, "toleranceMiles": 25, "fact": "The Statue of Liberty was a gift from France in 1886. Her copper skin started shiny brown and slowly turned green."},
     {"id": "golden-gate-bridge", "category": "landmarks", "region": "world", "prompt": "Where is the Golden Gate Bridge?", "answer": "Golden Gate Bridge · San Francisco, USA", "lat": 37.8199, "lon": -122.4783, "toleranceMiles": 25, "fact": "The Golden Gate Bridge's color is called International Orange. It was picked so the bridge stands out in the fog."},

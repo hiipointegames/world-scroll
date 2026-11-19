@@ -15,11 +15,12 @@
     gold: '#FFB547', teal: '#3DDCC4', pink: '#FF6FA8', text: '#F4F1E8'
   };
   // What the result says for a pin inside / near an outlined place.
-  var AREA_WORDS = { deserts: ['Right inside the desert', 'desert'], mountains: ['Right in the mountains', 'mountains'], lakes: ['Right on the lake', 'lake'] };
+  var AREA_WORDS = { deserts: ['Right inside the desert', 'desert'], mountains: ['Right in the mountains', 'mountains'], lakes: ['Right on the lake', 'lake'],
+    sea: ['Right in the sea', 'sea'], ocean: ['Right in the ocean', 'ocean'] }; // sea/ocean cards use their kind
   var CATEGORY_SUBS = {
     countries: 'Every one, by continent', capitals: 'World + US states', cities: 'Iconic cities',
     rivers: 'Follow the water', mountains: 'Peaks and ranges', deserts: 'Sand, ice and rock',
-    lakes: 'Famous lakes', landmarks: 'World-famous wonders'
+    lakes: 'Famous lakes and seas', landmarks: 'World-famous wonders'
   };
 
   // ---------- helpers ----------
@@ -173,7 +174,8 @@
   function layersFor(regionId) {
     if (LAYERS[regionId]) return LAYERS[regionId];
     var r = DATA.regions[regionId];
-    if (r.projection === 'albersUsa') LAYERS[regionId] = { focus: usNation, inner: usStateLines, other: null, borders: null };
+    if (r.globe) LAYERS[regionId] = LAYERS.world; // the ocean map colors land just like the world map
+    else if (r.projection === 'albersUsa') LAYERS[regionId] ={ focus: usNation, inner: usStateLines, other: null, borders: null };
     else {
       var b = r.bounds || {};
       var showsUS = b.lonMin < -67 && b.lonMax > -125 && b.latMin < 49 && b.latMax > 25 || r.continent === 'North America';
@@ -187,6 +189,13 @@
   // ---------- "Your pin: ..." (shown after lock-in): the country, or the US state ----------
   var usStates = topojson.feature(WS_US, WS_US.objects.states).features;
   var ATLAS_NAMES = DATA.atlasNames || {};
+  // Seas first (they're more exact), then oceans. The name is the answer up to the first comma.
+  var WATERS = DATA.questions.filter(function (q) { return q.area && (q.kind === 'sea' || q.kind === 'ocean'); })
+    .sort(function (a, b) { return (a.kind === 'sea' ? 0 : 1) - (b.kind === 'sea' ? 0 : 1); });
+  function waterAt(g) {
+    var hit = WATERS.filter(function (q) { return G.inArea(q.area, g); })[0];
+    return hit ? hit.answer.split(',')[0] : null;
+  }
   function placeOfPin(g) {
     var pt = [g.lon, g.lat], where = null;
     for (var i = 0; i < worldCountries.length && !where; i++) {
@@ -196,6 +205,7 @@
       var st = usStates.filter(function (f) { return d3.geoContains(f, pt); })[0];
       where = st ? st.properties.name + ', USA' : 'USA';
     } else if (where) where = ATLAS_NAMES[where] || where;
+    if (!where) where = waterAt(g); // in the sea: name it ("Caribbean Sea", "Pacific Ocean")
     return where || 'In the water'; // just the spot: a country, or a US state ("Iowa, USA")
   }
 
@@ -215,6 +225,9 @@
     return { miles: best, point: point };
   }
 
+  // The world map and the ocean map (which also shows both poles) are drawn as a globe.
+  function isGlobe(regionId) { return regionId === 'world' || !!DATA.regions[regionId].globe; }
+
   function makeProjection(regionId, W, H) {
     var r = DATA.regions[regionId];
     if (r.projection === 'albersUsa') { // lower 48 with Alaska and Hawaii insets
@@ -226,7 +239,7 @@
       var lon = b.lonMin + (b.lonMax - b.lonMin) * i / 20, lat = b.latMin + (b.latMax - b.latMin) * i / 20;
       pts.push([lon, b.latMin], [lon, b.latMax], [b.lonMin, lat], [b.lonMax, lat]);
     }
-    var proj = regionId === 'world' ? d3.geoNaturalEarth1() : d3.geoMercator();
+    var proj = isGlobe(regionId) ? d3.geoNaturalEarth1() : d3.geoMercator();
     if (r.rotate) proj.rotate([r.rotate, 0]); // Oceania straddles the 180° line
     proj.fitExtent([[6, 6], [W - 6, H - 6]], { type: 'MultiPoint', coordinates: pts });
     proj.clipExtent([[0, 0], [W, H]]);
@@ -244,8 +257,8 @@
       lakes: path(WS_LAKES) || '', // big lakes as water, so the Great Lakes (and Michigan's shape) show
       // Canada's provinces and Australia's states (the US-only map uses its own projection and skips them)
       provinces: DATA.regions[regionId].projection === 'albersUsa' ? '' : path(WS_PROVINCES) || '',
-      sphere: regionId === 'world' ? path({ type: 'Sphere' }) : '',
-      grid: regionId === 'world' ? path(d3.geoGraticule10()) : ''
+      sphere: isGlobe(regionId) ? path({ type: 'Sphere' }) : '',
+      grid: isGlobe(regionId) ? path(d3.geoGraticule10()) : ''
     };
     pathCache[key] = out;
     return out;
@@ -261,13 +274,13 @@
     var svgEl = document.createElementNS(NS, 'svg');
     host.appendChild(svgEl);
     // If the card layout shifts later, the map scales to fit; matching the backdrop hides the edges.
-    host.style.background = regionId === 'world' ? COLOR.ink : COLOR.water;
+    host.style.background = isGlobe(regionId) ? COLOR.ink : COLOR.water;
     var svg = d3.select(svgEl)
       .attr('viewBox', '0 0 ' + W + ' ' + H)
       .attr('role', 'img')
       .attr('aria-label', 'Map of ' + DATA.regions[regionId].label + '. Drop a pin where you think it is.');
 
-    svg.append('rect').attr('width', W).attr('height', H).attr('fill', regionId === 'world' ? COLOR.ink : COLOR.water);
+    svg.append('rect').attr('width', W).attr('height', H).attr('fill', isGlobe(regionId) ? COLOR.ink : COLOR.water);
     var zg = svg.append('g');
     if (P.sphere) zg.append('path').attr('d', P.sphere).attr('fill', COLOR.water);
     if (P.grid) zg.append('path').attr('d', P.grid).attr('class', 'm-grid');
@@ -310,7 +323,7 @@
 
     // How far players can zoom in: deep enough to place a pin on a city block-sized spot.
     // The world map needs the most room (from the whole planet down to a small country or city).
-    var maxZoom = regionId === 'world' ? 80 : 40;
+    var maxZoom = isGlobe(regionId) ? 80 : 40;
     var wrap = host.parentNode;
     var zoom = d3.zoom().scaleExtent([1, maxZoom]).extent([[0, 0], [W, H]]).translateExtent([[0, 0], [W, H]])
       .on('zoom', function (e) { t = e.transform; place(); if (wrap) wrap.classList.toggle('zoomed', t.k > 1.05); });
@@ -360,7 +373,7 @@
         locked = true;
         target = (opts && opts.target) || { lat: card.lat, lon: card.lon };
         if (opts && opts.area) { // the whole desert or range lights up
-          tolPath.attr('d', d3.geoPath(proj)(opts.area) || '').classed('m-area', true);
+          tolPath.attr('d', d3.geoPath(proj)(opts.area) || '').classed('m-area', true).classed('m-water', card.kind === 'ocean' || card.kind === 'sea');
         } else if (opts && opts.line) { // the whole river lights up, with a soft band for the bullseye zone
           var riverGeo = { type: 'MultiLineString', coordinates: opts.line };
           var zoneDeg = (card.toleranceMiles || 250) / G.EARTH_RADIUS_MI * 180 / Math.PI;
@@ -382,7 +395,8 @@
           var gp = proj([guess.lon, guess.lat]);
           var x0 = Math.min(bb[0][0], gp[0]), y0 = Math.min(bb[0][1], gp[1]), x1 = Math.max(bb[1][0], gp[0]), y1 = Math.max(bb[1][1], gp[1]);
           var k = Math.max(1, Math.min(maxZoom, 0.8 / Math.max((x1 - x0) / W, (y1 - y0) / H)));
-          var fit = d3.zoomIdentity.translate(W / 2, H / 2).scale(k).translate(-(x0 + x1) / 2, -(y0 + y1) / 2);
+          // Something as big as an ocean already fills the map: keep the whole map in view instead of sliding it.
+          var fit = k < 1.2 ? d3.zoomIdentity : d3.zoomIdentity.translate(W / 2, H / 2).scale(k).translate(-(x0 + x1) / 2, -(y0 + y1) / 2);
           svg.transition().duration(reduceMotion ? 0 : 700).call(zoom.transform, fit);
         } else {
           // If the player zoomed in and the answer is off screen, zoom back out first.
@@ -640,7 +654,7 @@
       '<h1 class="intro-title">Learn geography by scrolling.</h1>' +
       '<p class="intro-sub">Doomscrolling, but you get smarter. Every card is a place on the map, and every swipe teaches you something new.</p></div>' +
       '<ol class="intro-steps">' +
-      '<li><span class="step-n">1</span><span><b>See a place.</b> Countries, capitals, rivers, lakes, famous landmarks, and where your favorite sports teams play.</span></li>' +
+      '<li><span class="step-n">1</span><span><b>See a place.</b> Countries, capitals, rivers, oceans, lakes, seas, famous landmarks, and where your favorite sports teams play.</span></li>' +
       '<li><span class="step-n">2</span><span><b>Drop a pin.</b> Put it where you think the place is, then lock in your guess.</span></li>' +
       '<li><span class="step-n">3</span><span><b>Learn and swipe.</b> See how close you got, pick up a fact, and swipe up for the next one.</span></li>' +
       '</ol></div>' +
@@ -660,7 +674,7 @@
     },
     explore: function () {
       return sheetHead(GLOBE.replace('class="wm-globe"', 'class="wm-globe tip-globe"'), 'QUICK TIP', 'Have you explored it all?') +
-        '<p class="sheet-text">World Scroll has way more than countries. There are <b>sports teams</b>, <b>landmarks</b>, <b>lakes</b>, <b>rivers</b>, <b>mountains</b>, <b>deserts</b>, <b>capitals</b>, <b>cities</b> and more. Pick something new today!</p>';
+        '<p class="sheet-text">World Scroll has way more than countries. There are <b>sports teams</b>, <b>landmarks</b>, <b>lakes</b>, <b>seas</b>, <b>rivers</b>, <b>oceans</b>, <b>mountains</b>, <b>deserts</b>, <b>capitals</b>, <b>cities</b> and more. Pick something new today!</p>';
     }
   };
   var TIP_BUTTONS = { share: 'Got it', explore: 'Let’s explore' };
@@ -970,8 +984,8 @@
 
     var milesLine = sd ? (r.miles === 0 ? 'Right inside the border' : fmt(r.miles) + ' mi from the border')
       : river ? (r.miles < 1 ? 'Right on the river' : fmt(r.miles) + ' mi from the river' + (r.bullseye ? ' · bullseye zone' : ''))
-      : area ? (r.miles === 0 ? AREA_WORDS[c.q.category][0]
-        : fmt(r.miles) + ' mi from the ' + AREA_WORDS[c.q.category][1] + (r.bullseye ? ' · bullseye zone' : ''))
+      : area ? (r.miles === 0 ? AREA_WORDS[c.q.kind || c.q.category][0]
+        : fmt(r.miles) + ' mi from the ' + AREA_WORDS[c.q.kind || c.q.category][1] + (r.bullseye ? ' · bullseye zone' : ''))
       : r.bullseye ? r.miles + ' mi off · bullseye zone'
       : fmt(r.miles) + ' miles off';
     c.el.querySelector('.panel').innerHTML =

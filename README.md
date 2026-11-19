@@ -7,7 +7,7 @@ A TikTok-style scrolling geography game from HiiPointe Games. *Learn geography b
 - `PROMPT.md`: the original kickoff message for Claude Code.
 - `data/`: the question bank, all JSON.
   - `questions.json`: regions, categories, sports tabs, and hand-written cards (rivers, mountains, deserts, lakes, landmarks, cities, Europe/Australia sports)
-  - `rivers.json`, `areas.json`: real river paths and desert/range/lake outlines used for scoring
+  - `rivers.json`, `areas.json`: real river paths and desert/range/lake/sea/ocean outlines used for scoring
   - `sports-facts.json`: the Sports Nerd Facts
   - `countries.json`: 197 countries and capitals, plus the 50 US state capitals
   - `place-facts.json`: kid-friendly facts for every country and capital
