@@ -568,7 +568,8 @@
     var rows = q.nerd.map(function (f) {
       return '<div class="nerd-row"><div class="nerd-label">' + esc(f[0]) + '</div><div class="nerd-text">' + esc(f[1]) + '</div></div>';
     }).join('');
-    openSheet(sheetHead('<span class="nerd-emoji" aria-hidden="true">🤓</span>', 'SPORTS NERD FACTS', esc(fullName(q))) +
+    var kind = q.category === 'sports' ? 'SPORTS' : 'COUNTRY'; // sports teams and countries both have nerd facts
+    openSheet(sheetHead('<span class="nerd-emoji" aria-hidden="true">🤓</span>', kind + ' NERD FACTS', esc(fullName(q))) +
       (q.venue ? '<div class="sheet-text small">' + esc(q.venue) + ' · ' + esc(q.answer.replace(/\s*\(.*?\)/g, '')) + '</div>' : '') +
       '<div class="nerd-list">' + rows + '</div>', { button: 'Back to the game', cls: 'nerd-sheet' });
   }
@@ -1069,7 +1070,7 @@
       : fmt(r.miles) + ' miles off';
     c.el.querySelector('.panel').innerHTML =
       '<div class="res-top"><span class="res-verdict v-' + vibe + (r.bullseye || (isSport && hit) ? ' bull' : '') + (isSport && hit ? ' sport' : '') + '">' + verdict + '</span>' +
-      '<span class="res-right">' + (c.q.nerd ? '<button class="nerd-btn" aria-label="Sports nerd facts">🤓 Nerd facts</button>' : '') +
+      '<span class="res-right">' + (c.q.nerd ? '<button class="nerd-btn" aria-label="' + (isSport ? 'Sports' : 'Country') + ' nerd facts">🤓 Nerd facts</button>' : '') +
       '<span class="res-pts" data-pts="' + r.points + '">+0 pts</span></span></div>' +
       '<div class="res-miles">' + milesLine + streakNote + ' · ' + secs.toFixed(1) + 's</div>' +
       '<div class="res-answer"><span class="answer-dot"></span><span>' + esc(c.q.answer) + (c.q.venue ? '<span class="venue"> · ' + esc(c.q.venue) + '</span>' : '') + '</span></div>' +

@@ -1,0 +1,2764 @@
+{
+ "_about": "Country nerd facts for the 🤓 Nerd facts pop-up on Countries cards. Keyed by country name as in countries.json. Each fact: [label, text], kid-friendly, 160 characters max.",
+ "_verify": "Written from memory on 2026-11-18, with populations rounded from 2024-25 estimates. Fact-check before launch.",
+ "facts": {
+  "Algeria": [
+   [
+    "People",
+    "About 47 million people live in Algeria."
+   ],
+   [
+    "Nature",
+    "The Sahara covers more than 80% of Algeria. Its Tassili n'Ajjer plateau has thousands of ancient rock paintings."
+   ],
+   [
+    "Famous face",
+    "Writer Albert Camus was born in Algeria and won the Nobel Prize in Literature."
+   ]
+  ],
+  "Angola": [
+   [
+    "People",
+    "About 38 million people live in Angola."
+   ],
+   [
+    "Wildlife",
+    "The giant sable antelope, with huge curved horns, lives only in Angola and is a national symbol."
+   ],
+   [
+    "Culture",
+    "Kizomba, a smooth partner dance now loved around the world, comes from Angola."
+   ]
+  ],
+  "Benin": [
+   [
+    "People",
+    "About 14 million people live in Benin."
+   ],
+   [
+    "Famous face",
+    "Singer Angélique Kidjo, winner of several Grammy Awards, is from Benin."
+   ],
+   [
+    "Culture",
+    "Benin is famous for colorful appliqué cloth banners that tell stories with pictures."
+   ]
+  ],
+  "Botswana": [
+   [
+    "People",
+    "About 2.5 million people live in Botswana."
+   ],
+   [
+    "Nature",
+    "The Okavango River never reaches the sea. It spreads out into a giant delta and soaks into the Kalahari Desert."
+   ],
+   [
+    "Money",
+    "Botswana's money is called the pula, which means 'rain,' because rain is so precious there."
+   ]
+  ],
+  "Burkina Faso": [
+   [
+    "People",
+    "About 23 million people live in Burkina Faso."
+   ],
+   [
+    "Culture",
+    "The Grand Mosque of Bobo-Dioulasso is made of mud brick, with wooden poles sticking out of its walls."
+   ],
+   [
+    "Big export",
+    "Gold and cotton are Burkina Faso's biggest exports."
+   ]
+  ],
+  "Burundi": [
+   [
+    "People",
+    "About 14 million people live in Burundi."
+   ],
+   [
+    "Nature",
+    "Lake Tanganyika, on Burundi's border, is the second-deepest lake in the world."
+   ],
+   [
+    "Nature",
+    "A small stream in Burundi is said to be the farthest-south source of the mighty Nile River."
+   ]
+  ],
+  "Cabo Verde": [
+   [
+    "People",
+    "About half a million people live in Cabo Verde."
+   ],
+   [
+    "Culture",
+    "Morna, a gentle and soulful style of music, is Cabo Verde's national music and a UNESCO treasure."
+   ],
+   [
+    "Nature",
+    "Pico do Fogo is a volcano, and families grow coffee and fruit inside its huge crater."
+   ]
+  ],
+  "Cameroon": [
+   [
+    "People",
+    "About 29 million people live in Cameroon."
+   ],
+   [
+    "Language",
+    "Cameroon has more than 250 local languages, plus French and English as official languages."
+   ],
+   [
+    "Nature",
+    "Mount Cameroon is one of Africa's most active volcanoes, and runners race up it every year."
+   ]
+  ],
+  "Central African Republic": [
+   [
+    "People",
+    "About 5.5 million people live in the Central African Republic."
+   ],
+   [
+    "Wildlife",
+    "In Dzanga-Sangha park, hundreds of forest elephants gather in one big clearing to drink."
+   ],
+   [
+    "Language",
+    "Almost everyone speaks Sango, along with French."
+   ]
+  ],
+  "Chad": [
+   [
+    "People",
+    "About 20 million people live in Chad."
+   ],
+   [
+    "Nature",
+    "Chad's Bodélé Depression is the dustiest place on Earth. Its dust blows across the ocean and feeds the Amazon rainforest!"
+   ],
+   [
+    "Wildlife",
+    "Zakouma National Park is famous for big herds of elephants and giraffes."
+   ]
+  ],
+  "Comoros": [
+   [
+    "People",
+    "About 850,000 people live in the Comoros."
+   ],
+   [
+    "Wildlife",
+    "The coelacanth, a fish thought to be gone for millions of years, was found alive near the Comoros."
+   ],
+   [
+    "Nature",
+    "Mount Karthala, on the main island, has one of the biggest volcano craters in the world."
+   ]
+  ],
+  "Republic of the Congo": [
+   [
+    "People",
+    "About 6 million people live in the Republic of the Congo."
+   ],
+   [
+    "Nature",
+    "Its capital, Brazzaville, sits right across the Congo River from Kinshasa, another country's capital."
+   ],
+   [
+    "Culture",
+    "Congolese 'sapeurs' are famous for wearing super-stylish, colorful suits."
+   ]
+  ],
+  "Democratic Republic of the Congo": [
+   [
+    "People",
+    "About 110 million people live in the Democratic Republic of the Congo."
+   ],
+   [
+    "Nature",
+    "The Congo River is the deepest river in the world, more than 700 feet deep in places."
+   ],
+   [
+    "Culture",
+    "Congolese rumba music is so loved that UNESCO added it to its list of world treasures in 2021."
+   ]
+  ],
+  "Ivory Coast (Côte d'Ivoire)": [
+   [
+    "People",
+    "About 31 million people live in Ivory Coast."
+   ],
+   [
+    "Language",
+    "French is the official language, and Abidjan is one of the biggest French-speaking cities in the world."
+   ],
+   [
+    "Culture",
+    "Coupé-décalé, a bouncy dance music style, was born among Ivorian DJs."
+   ]
+  ],
+  "Djibouti": [
+   [
+    "People",
+    "About 1.1 million people live in Djibouti."
+   ],
+   [
+    "Nature",
+    "Lac Abbé has tall chimney-like rock towers that puff steam, while flamingos wade between them."
+   ],
+   [
+    "Wildlife",
+    "Whale sharks, the biggest fish in the sea, visit Djibouti's coast every winter."
+   ]
+  ],
+  "Egypt": [
+   [
+    "People",
+    "About 116 million people live in Egypt."
+   ],
+   [
+    "Food",
+    "Koshari, a mix of rice, lentils, pasta and tomato sauce, is Egypt's national dish."
+   ],
+   [
+    "Invention",
+    "Ancient Egyptians made one of the first 365-day calendars."
+   ]
+  ],
+  "Equatorial Guinea": [
+   [
+    "People",
+    "About 1.9 million people live in Equatorial Guinea."
+   ],
+   [
+    "Nature",
+    "Its capital, Malabo, is on Bioko Island, not on the mainland."
+   ],
+   [
+    "Wildlife",
+    "Bioko Island is home to rare monkeys, like the drill, found in very few places."
+   ]
+  ],
+  "Eritrea": [
+   [
+    "People",
+    "About 3.5 million people live in Eritrea."
+   ],
+   [
+    "Culture",
+    "Asmara has a famous old gas station shaped like an airplane, the Fiat Tagliero."
+   ],
+   [
+    "Nature",
+    "The Dahlak Archipelago has more than 100 islands surrounded by coral reefs."
+   ]
+  ],
+  "Eswatini": [
+   [
+    "People",
+    "About 1.2 million people live in Eswatini."
+   ],
+   [
+    "Culture",
+    "Eswatini is one of the smallest countries in Africa and one of the last kingdoms in the world."
+   ],
+   [
+    "Wildlife",
+    "Hlane Royal National Park protects rhinos, lions and elephants."
+   ]
+  ],
+  "Ethiopia": [
+   [
+    "People",
+    "About 130 million people live in Ethiopia."
+   ],
+   [
+    "Culture",
+    "Ethiopia has its own calendar with 13 months, and it's about 7 years behind the one most countries use!"
+   ],
+   [
+    "Food",
+    "Injera, a spongy flatbread made from teff grain, is used as a plate and a spoon."
+   ]
+  ],
+  "Gabon": [
+   [
+    "People",
+    "About 2.5 million people live in Gabon."
+   ],
+   [
+    "Wildlife",
+    "The mandrill, the biggest monkey in the world, with a bright red and blue face, lives in Gabon's forests."
+   ],
+   [
+    "Nature",
+    "Gabon created 13 national parks in 2002, protecting about a tenth of the country."
+   ]
+  ],
+  "Gambia": [
+   [
+    "People",
+    "About 2.8 million people live in the Gambia."
+   ],
+   [
+    "Nickname",
+    "The Gambia is called 'the Smiling Coast of Africa.'"
+   ],
+   [
+    "Wildlife",
+    "More than 500 kinds of birds have been spotted here, so birdwatchers love it."
+   ]
+  ],
+  "Ghana": [
+   [
+    "People",
+    "About 34 million people live in Ghana."
+   ],
+   [
+    "Culture",
+    "Ghana's Adinkra symbols are printed on cloth, and each one stands for a saying or idea."
+   ],
+   [
+    "Famous face",
+    "Kofi Annan, a leader of the United Nations who won the Nobel Peace Prize, was from Ghana."
+   ]
+  ],
+  "Guinea": [
+   [
+    "People",
+    "About 14.5 million people live in Guinea."
+   ],
+   [
+    "Nature",
+    "Guinea is called the 'water tower of West Africa' because the Niger, Senegal and Gambia rivers start there."
+   ],
+   [
+    "Culture",
+    "Les Ballets Africains, Guinea's national dance company, has toured the whole world."
+   ]
+  ],
+  "Guinea-Bissau": [
+   [
+    "People",
+    "About 2.2 million people live in Guinea-Bissau."
+   ],
+   [
+    "Culture",
+    "Gumbe is Guinea-Bissau's lively traditional music."
+   ],
+   [
+    "Nature",
+    "The Bijagós Archipelago has about 88 islands, and sea turtles nest on its beaches."
+   ]
+  ],
+  "Kenya": [
+   [
+    "People",
+    "About 56 million people live in Kenya."
+   ],
+   [
+    "Famous face",
+    "Wangari Maathai started a movement that planted millions of trees, and she won the Nobel Peace Prize."
+   ],
+   [
+    "Language",
+    "Swahili words like 'safari' (journey) and 'hakuna matata' (no worries) are spoken in Kenya."
+   ]
+  ],
+  "Lesotho": [
+   [
+    "People",
+    "About 2.3 million people live in Lesotho."
+   ],
+   [
+    "Culture",
+    "People wear colorful Basotho blankets, and the pointy Basotho hat appears on the flag."
+   ],
+   [
+    "Nature",
+    "Maletsunyane Falls drops more than 600 feet in one big leap."
+   ]
+  ],
+  "Liberia": [
+   [
+    "People",
+    "About 5.6 million people live in Liberia."
+   ],
+   [
+    "Flag",
+    "Liberia's flag looks like the US flag, but with just one star."
+   ],
+   [
+    "Wildlife",
+    "Sapo National Park is a huge rainforest home to rare pygmy hippos."
+   ]
+  ],
+  "Libya": [
+   [
+    "People",
+    "About 7.4 million people live in Libya."
+   ],
+   [
+    "Culture",
+    "The old town of Ghadames, the 'pearl of the desert,' has covered streets that stay cool in the heat."
+   ],
+   [
+    "Nature",
+    "Libya's Sahara has some of the hottest and driest places on Earth."
+   ]
+  ],
+  "Madagascar": [
+   [
+    "People",
+    "About 31 million people live in Madagascar."
+   ],
+   [
+    "Nature",
+    "Six kinds of baobab tree grow only in Madagascar, and some line the famous Avenue of the Baobabs."
+   ],
+   [
+    "Movie magic",
+    "The movie Madagascar starred a lion, a zebra, a giraffe and a hippo, animals that don't actually live there!"
+   ]
+  ],
+  "Malawi": [
+   [
+    "People",
+    "About 21 million people live in Malawi."
+   ],
+   [
+    "Nature",
+    "Lake Malawi covers about a fifth of the whole country."
+   ],
+   [
+    "Culture",
+    "The Gule Wamkulu dance, performed in giant masks, is a UNESCO world treasure."
+   ]
+  ],
+  "Mali": [
+   [
+    "People",
+    "About 24 million people live in Mali."
+   ],
+   [
+    "Culture",
+    "Timbuktu was once a famous city of scholars, with hundreds of thousands of old handwritten books."
+   ],
+   [
+    "Famous face",
+    "Singer Salif Keita, called the 'Golden Voice of Africa,' is from Mali."
+   ]
+  ],
+  "Mauritania": [
+   [
+    "People",
+    "About 5 million people live in Mauritania."
+   ],
+   [
+    "Nature",
+    "One of the longest trains in the world, about 1.5 miles long, carries iron ore across the Sahara here."
+   ],
+   [
+    "Culture",
+    "The desert town of Chinguetti has old family libraries full of handwritten books."
+   ]
+  ],
+  "Mauritius": [
+   [
+    "People",
+    "About 1.3 million people live in Mauritius."
+   ],
+   [
+    "Culture",
+    "The 'Blue Penny' stamp from Mauritius is one of the rarest stamps in the world."
+   ],
+   [
+    "Nature",
+    "From the air, sand flowing off its coast looks like an underwater waterfall."
+   ]
+  ],
+  "Morocco": [
+   [
+    "People",
+    "About 38 million people live in Morocco."
+   ],
+   [
+    "Culture",
+    "Chefchaouen is a mountain town painted almost entirely blue."
+   ],
+   [
+    "Movie magic",
+    "Many famous movies have filmed their desert scenes at the studios in Ouarzazate."
+   ]
+  ],
+  "Mozambique": [
+   [
+    "People",
+    "About 34 million people live in Mozambique."
+   ],
+   [
+    "Wildlife",
+    "Dugongs, gentle 'sea cows,' graze on seagrass around the Bazaruto islands."
+   ],
+   [
+    "Culture",
+    "Ilha de Moçambique, a little island town, gave the whole country its name."
+   ]
+  ],
+  "Namibia": [
+   [
+    "People",
+    "About 3 million people live in Namibia."
+   ],
+   [
+    "Nature",
+    "The Namib is thought to be the oldest desert in the world, about 55 million years old."
+   ],
+   [
+    "Wildlife",
+    "Namibia has more cheetahs than any other country."
+   ]
+  ],
+  "Niger": [
+   [
+    "People",
+    "About 27 million people live in Niger."
+   ],
+   [
+    "Wildlife",
+    "Niger is home to West Africa's last wild giraffes, which wander near villages."
+   ],
+   [
+    "Culture",
+    "Agadez's Grand Mosque has a tall mud-brick tower that's hundreds of years old."
+   ]
+  ],
+  "Nigeria": [
+   [
+    "People",
+    "About 230 million people live in Nigeria."
+   ],
+   [
+    "Famous face",
+    "Author Chinua Achebe wrote Things Fall Apart, one of the most-read books from Africa."
+   ],
+   [
+    "Culture",
+    "Afrobeats stars like Burna Boy and Wizkid come from Nigeria."
+   ]
+  ],
+  "Rwanda": [
+   [
+    "People",
+    "About 14 million people live in Rwanda."
+   ],
+   [
+    "Culture",
+    "On the last Saturday of each month, Rwandans join Umuganda, a community clean-up day."
+   ],
+   [
+    "Rule",
+    "Plastic bags have been banned since 2008, making Rwanda one of Africa's cleanest countries."
+   ]
+  ],
+  "São Tomé and Príncipe": [
+   [
+    "People",
+    "About 230,000 people live in São Tomé and Príncipe."
+   ],
+   [
+    "Nature",
+    "Pico Cão Grande is a giant needle-shaped rock tower poking out of the rainforest."
+   ],
+   [
+    "Size",
+    "It's the second-smallest country in Africa."
+   ]
+  ],
+  "Senegal": [
+   [
+    "People",
+    "About 18.5 million people live in Senegal."
+   ],
+   [
+    "Famous face",
+    "Singer Youssou N'Dour is one of Africa's most famous musicians."
+   ],
+   [
+    "Culture",
+    "The African Renaissance Monument in Dakar is the tallest statue in Africa."
+   ]
+  ],
+  "Seychelles": [
+   [
+    "People",
+    "About 130,000 people live in Seychelles, the fewest of any African country."
+   ],
+   [
+    "Nature",
+    "Its granite islands are some of the oldest ocean islands on Earth."
+   ],
+   [
+    "Wildlife",
+    "Aldabra Atoll is home to about 100,000 giant tortoises."
+   ]
+  ],
+  "Sierra Leone": [
+   [
+    "People",
+    "About 8.6 million people live in Sierra Leone."
+   ],
+   [
+    "Nature",
+    "Its capital, Freetown, has one of the biggest natural harbors in the world."
+   ],
+   [
+    "Wildlife",
+    "The Tacugama Sanctuary cares for rescued chimpanzees, the national animal."
+   ]
+  ],
+  "Somalia": [
+   [
+    "People",
+    "About 19 million people live in Somalia."
+   ],
+   [
+    "Culture",
+    "Somalia is called the 'Nation of Poets' because poetry is so loved there."
+   ],
+   [
+    "Culture",
+    "The Laas Geel caves have colorful rock paintings of cows that are thousands of years old."
+   ]
+  ],
+  "South Africa": [
+   [
+    "People",
+    "About 64 million people live in South Africa."
+   ],
+   [
+    "Invention",
+    "The world's first human heart transplant was done in Cape Town in 1967."
+   ],
+   [
+    "Nature",
+    "Table Mountain in Cape Town is one of the oldest mountains on Earth."
+   ]
+  ],
+  "South Sudan": [
+   [
+    "People",
+    "About 12 million people live in South Sudan."
+   ],
+   [
+    "Nature",
+    "The Sudd is one of the biggest wetlands in the world."
+   ],
+   [
+    "Culture",
+    "Cattle are very important in South Sudan and appear in many songs and celebrations."
+   ]
+  ],
+  "Sudan": [
+   [
+    "People",
+    "About 50 million people live in Sudan."
+   ],
+   [
+    "Culture",
+    "The pyramids of Meroë have steep, pointy sides, different from Egypt's."
+   ],
+   [
+    "Food",
+    "Ful medames, a hearty bean stew, is a favorite breakfast."
+   ]
+  ],
+  "Tanzania": [
+   [
+    "People",
+    "About 68 million people live in Tanzania."
+   ],
+   [
+    "Nature",
+    "Lake Tanganyika is the longest freshwater lake in the world."
+   ],
+   [
+    "Famous face",
+    "Freddie Mercury, the singer of the band Queen, was born on Zanzibar."
+   ]
+  ],
+  "Togo": [
+   [
+    "People",
+    "About 9.5 million people live in Togo."
+   ],
+   [
+    "Size",
+    "Togo is very thin: only about 30 miles wide along its coast."
+   ],
+   [
+    "Culture",
+    "Togo is known for colorful wax-print fabrics sold in Lomé's huge market."
+   ]
+  ],
+  "Tunisia": [
+   [
+    "People",
+    "About 12 million people live in Tunisia."
+   ],
+   [
+    "Culture",
+    "Sidi Bou Said is a cliffside village painted white and bright blue."
+   ],
+   [
+    "Food",
+    "Harissa, a spicy red chili paste, is a Tunisian favorite."
+   ]
+  ],
+  "Uganda": [
+   [
+    "People",
+    "About 50 million people live in Uganda."
+   ],
+   [
+    "Nature",
+    "The Rwenzori, the 'Mountains of the Moon,' have snow and glaciers near the equator."
+   ],
+   [
+    "Wildlife",
+    "Queen Elizabeth National Park has lions that climb trees and nap in the branches."
+   ]
+  ],
+  "Zambia": [
+   [
+    "People",
+    "About 21 million people live in Zambia."
+   ],
+   [
+    "Wildlife",
+    "Every year about 10 million fruit bats fly into Kasanka park, one of the biggest animal migrations on Earth."
+   ],
+   [
+    "Nature",
+    "Lake Kariba, shared with Zimbabwe, is one of the biggest human-made lakes in the world."
+   ]
+  ],
+  "Zimbabwe": [
+   [
+    "People",
+    "About 17 million people live in Zimbabwe."
+   ],
+   [
+    "Wildlife",
+    "Hwange National Park has one of Africa's biggest elephant herds."
+   ],
+   [
+    "Culture",
+    "Stone sculptures by Shona artists are famous around the world."
+   ]
+  ],
+  "Afghanistan": [
+   [
+    "People",
+    "About 42 million people live in Afghanistan."
+   ],
+   [
+    "Food",
+    "Kabuli pulao, rice cooked with carrots and raisins, is the national dish."
+   ],
+   [
+    "Nature",
+    "The Wakhan Corridor is a long, skinny strip of land that reaches all the way to China."
+   ]
+  ],
+  "Armenia": [
+   [
+    "People",
+    "About 3 million people live in Armenia."
+   ],
+   [
+    "Language",
+    "Armenia has its own alphabet, created in the year 405 by a scholar named Mesrop Mashtots."
+   ],
+   [
+    "Culture",
+    "Armenia was the first country to make chess a school subject for kids."
+   ]
+  ],
+  "Azerbaijan": [
+   [
+    "People",
+    "About 10 million people live in Azerbaijan."
+   ],
+   [
+    "Nature",
+    "Azerbaijan has about half of all the mud volcanoes on Earth."
+   ],
+   [
+    "Culture",
+    "Mugham, Azerbaijan's traditional music, is a UNESCO world treasure."
+   ]
+  ],
+  "Bahrain": [
+   [
+    "People",
+    "About 1.6 million people live in Bahrain."
+   ],
+   [
+    "Sports",
+    "Bahrain hosts a Formula 1 race under bright floodlights in the desert."
+   ],
+   [
+    "Nature",
+    "Bahrain is a group of islands linked to Saudi Arabia by a 15-mile bridge and causeway."
+   ]
+  ],
+  "Bangladesh": [
+   [
+    "People",
+    "About 175 million people live in Bangladesh."
+   ],
+   [
+    "Nature",
+    "Cox's Bazar has one of the longest natural beaches in the world, about 75 miles long."
+   ],
+   [
+    "Famous face",
+    "Muhammad Yunus won the Nobel Peace Prize for tiny loans that help people start small businesses."
+   ]
+  ],
+  "Bhutan": [
+   [
+    "People",
+    "About 800,000 people live in Bhutan."
+   ],
+   [
+    "Nature",
+    "Bhutan's forests soak up more carbon than the country makes."
+   ],
+   [
+    "Sports",
+    "Archery is Bhutan's national sport."
+   ]
+  ],
+  "Brunei": [
+   [
+    "People",
+    "About 460,000 people live in Brunei."
+   ],
+   [
+    "Culture",
+    "The Sultan's palace is one of the biggest homes in the world, with about 1,800 rooms."
+   ],
+   [
+    "Nature",
+    "About 70% of Brunei is covered in rainforest."
+   ]
+  ],
+  "Cambodia": [
+   [
+    "People",
+    "About 17.5 million people live in Cambodia."
+   ],
+   [
+    "Food",
+    "Fish amok, fish steamed in banana leaves with coconut curry, is a national dish."
+   ],
+   [
+    "Nature",
+    "Tonlé Sap lake grows about five times bigger in the rainy season."
+   ]
+  ],
+  "China": [
+   [
+    "People",
+    "About 1.4 billion people live in China."
+   ],
+   [
+    "Wildlife",
+    "Wild giant pandas live only in the mountains of China."
+   ],
+   [
+    "Language",
+    "More people speak Mandarin Chinese as their first language than any other language."
+   ]
+  ],
+  "Georgia": [
+   [
+    "People",
+    "About 3.7 million people live in Georgia."
+   ],
+   [
+    "Language",
+    "Georgia has its own alphabet, with 33 curly letters."
+   ],
+   [
+    "Culture",
+    "Georgian polyphonic singing, with many voices weaving together, is a UNESCO treasure."
+   ]
+  ],
+  "India": [
+   [
+    "People",
+    "India has the most people of any country: about 1.45 billion."
+   ],
+   [
+    "Movie magic",
+    "India makes more movies every year than any other country. Bollywood is in Mumbai."
+   ],
+   [
+    "Culture",
+    "Yoga began in India thousands of years ago."
+   ]
+  ],
+  "Indonesia": [
+   [
+    "People",
+    "About 280 million people live in Indonesia."
+   ],
+   [
+    "Nature",
+    "Indonesia has more active volcanoes than any other country."
+   ],
+   [
+    "Culture",
+    "Batik, cloth decorated with wax and dye patterns, is a famous Indonesian art."
+   ]
+  ],
+  "Iran": [
+   [
+    "People",
+    "About 90 million people live in Iran."
+   ],
+   [
+    "Culture",
+    "Nowruz, the Persian New Year, starts on the first day of spring."
+   ],
+   [
+    "Culture",
+    "Isfahan's Naqsh-e Jahan Square is one of the biggest city squares in the world."
+   ]
+  ],
+  "Iraq": [
+   [
+    "People",
+    "About 46 million people live in Iraq."
+   ],
+   [
+    "Invention",
+    "Ancient Mesopotamians counted in 60s, which is why an hour has 60 minutes."
+   ],
+   [
+    "Culture",
+    "Babylon, one of the most famous cities of the ancient world, was in Iraq."
+   ]
+  ],
+  "Israel": [
+   [
+    "People",
+    "About 10 million people live in Israel."
+   ],
+   [
+    "Invention",
+    "The USB flash drive and the Waze navigation app were invented in Israel."
+   ],
+   [
+    "Food",
+    "Falafel and hummus are everyday favorites."
+   ]
+  ],
+  "Japan": [
+   [
+    "People",
+    "About 124 million people live in Japan."
+   ],
+   [
+    "Nature",
+    "Japan is made up of about 14,000 islands."
+   ],
+   [
+    "Invention",
+    "Instant noodles were invented in Japan in 1958."
+   ]
+  ],
+  "Jordan": [
+   [
+    "People",
+    "About 11.5 million people live in Jordan."
+   ],
+   [
+    "Movie magic",
+    "Jordan's red desert valleys played the planet Mars in the movie The Martian."
+   ],
+   [
+    "Nature",
+    "The Dead Sea, on Jordan's border, is the lowest place on land on Earth."
+   ]
+  ],
+  "Kazakhstan": [
+   [
+    "People",
+    "About 20 million people live in Kazakhstan."
+   ],
+   [
+    "Nature",
+    "Charyn Canyon is nicknamed the little brother of the Grand Canyon."
+   ],
+   [
+    "Culture",
+    "The capital, Astana, has a tower shaped like a tree holding a golden egg."
+   ]
+  ],
+  "Kuwait": [
+   [
+    "People",
+    "About 4.9 million people live in Kuwait."
+   ],
+   [
+    "Money",
+    "The Kuwaiti dinar is one of the most valuable currencies in the world."
+   ],
+   [
+    "Nature",
+    "Kuwait has no rivers at all."
+   ]
+  ],
+  "Kyrgyzstan": [
+   [
+    "People",
+    "About 7 million people live in Kyrgyzstan."
+   ],
+   [
+    "Nature",
+    "Issyk-Kul is one of the biggest mountain lakes in the world, and it never freezes."
+   ],
+   [
+    "Culture",
+    "The Epic of Manas is one of the longest poems ever told, with about half a million lines."
+   ]
+  ],
+  "Laos": [
+   [
+    "People",
+    "About 7.7 million people live in Laos."
+   ],
+   [
+    "Nature",
+    "Laos is the only Southeast Asian country with no coastline."
+   ],
+   [
+    "Culture",
+    "The Plain of Jars is covered with thousands of giant stone jars from long ago."
+   ]
+  ],
+  "Lebanon": [
+   [
+    "People",
+    "About 5.8 million people live in Lebanon."
+   ],
+   [
+    "Name",
+    "Lebanon's name comes from an old word for 'white,' after its snowy mountains."
+   ],
+   [
+    "Culture",
+    "Byblos is one of the oldest cities on Earth, and the word 'Bible' comes from its name."
+   ]
+  ],
+  "Malaysia": [
+   [
+    "People",
+    "About 35 million people live in Malaysia."
+   ],
+   [
+    "Nature",
+    "The rafflesia, the biggest flower in the world, blooms in Malaysia's rainforests."
+   ],
+   [
+    "Wildlife",
+    "Orangutans, whose name means 'person of the forest,' live in Malaysian Borneo."
+   ]
+  ],
+  "Maldives": [
+   [
+    "People",
+    "About half a million people live in the Maldives."
+   ],
+   [
+    "Nature",
+    "Some Maldives beaches glow blue at night, lit up by tiny sea plankton."
+   ],
+   [
+    "Culture",
+    "The Maldives is famous for hotel rooms built on stilts over the water."
+   ]
+  ],
+  "Mongolia": [
+   [
+    "People",
+    "About 3.5 million people live in Mongolia."
+   ],
+   [
+    "Nature",
+    "The first dinosaur eggs ever recognized by scientists were found in Mongolia's Gobi Desert in the 1920s."
+   ],
+   [
+    "Sports",
+    "The Naadam festival features wrestling, horse racing and archery."
+   ]
+  ],
+  "Myanmar": [
+   [
+    "People",
+    "About 54 million people live in Myanmar."
+   ],
+   [
+    "Culture",
+    "Fishermen on Inle Lake row their boats with one leg."
+   ],
+   [
+    "Culture",
+    "Many people wear thanaka, a yellow paste made from tree bark, on their faces as sunscreen."
+   ]
+  ],
+  "Nepal": [
+   [
+    "People",
+    "About 30 million people live in Nepal."
+   ],
+   [
+    "Flag",
+    "Nepal is the only country whose flag isn't a rectangle. It's two stacked triangles!"
+   ],
+   [
+    "Wildlife",
+    "Chitwan National Park is home to one-horned rhinos and Bengal tigers."
+   ]
+  ],
+  "North Korea": [
+   [
+    "People",
+    "About 26 million people live in North Korea."
+   ],
+   [
+    "Nature",
+    "Mount Kumgang, the 'Diamond Mountain,' is famous for its jagged rocky peaks."
+   ],
+   [
+    "Food",
+    "Kimchi, spicy fermented cabbage, is eaten with almost every meal."
+   ]
+  ],
+  "Oman": [
+   [
+    "People",
+    "About 5 million people live in Oman."
+   ],
+   [
+    "Nature",
+    "Wadi Shab has turquoise pools you can swim through to a waterfall hidden in a cave."
+   ],
+   [
+    "Wildlife",
+    "Green sea turtles come ashore to nest on Ras al Jinz beach."
+   ]
+  ],
+  "Pakistan": [
+   [
+    "People",
+    "About 250 million people live in Pakistan."
+   ],
+   [
+    "Nature",
+    "Three huge mountain ranges meet in Pakistan: the Himalayas, the Karakoram and the Hindu Kush."
+   ],
+   [
+    "Famous face",
+    "Malala Yousafzai became the youngest Nobel Peace Prize winner ever, at age 17."
+   ]
+  ],
+  "Palestine": [
+   [
+    "People",
+    "About 5.5 million people live in Palestine."
+   ],
+   [
+    "Culture",
+    "Jericho is one of the oldest cities in the world, and Bethlehem is a famous old town."
+   ],
+   [
+    "Food",
+    "Musakhan, roasted chicken on flatbread with onions and sumac, is a national dish."
+   ]
+  ],
+  "Philippines": [
+   [
+    "People",
+    "About 115 million people live in the Philippines."
+   ],
+   [
+    "Nature",
+    "The Chocolate Hills are more than 1,200 round hills that turn brown in the dry season."
+   ],
+   [
+    "Wildlife",
+    "The tarsier, a tiny primate with giant eyes, lives in the Philippines."
+   ]
+  ],
+  "Qatar": [
+   [
+    "People",
+    "About 3 million people live in Qatar."
+   ],
+   [
+    "Nature",
+    "At Khor Al Adaid, the 'Inland Sea,' giant sand dunes run right into the sea."
+   ],
+   [
+    "Culture",
+    "Doha's Museum of Islamic Art sits on its own little island."
+   ]
+  ],
+  "Saudi Arabia": [
+   [
+    "People",
+    "About 35 million people live in Saudi Arabia."
+   ],
+   [
+    "Nature",
+    "Saudi Arabia is the biggest country in the world with no permanent rivers."
+   ],
+   [
+    "Food",
+    "Kabsa, spiced rice with chicken or lamb, is the national dish."
+   ]
+  ],
+  "Singapore": [
+   [
+    "People",
+    "About 6 million people live in Singapore."
+   ],
+   [
+    "Rule",
+    "Selling chewing gum is banned in Singapore to help keep the streets clean."
+   ],
+   [
+    "Nature",
+    "Singapore's airport has the Jewel, a giant indoor waterfall surrounded by a forest."
+   ]
+  ],
+  "South Korea": [
+   [
+    "People",
+    "About 51 million people live in South Korea."
+   ],
+   [
+    "Sports",
+    "Taekwondo, a martial art with high kicks, comes from Korea."
+   ],
+   [
+    "Tech",
+    "South Korea has some of the fastest internet in the world."
+   ]
+  ],
+  "Sri Lanka": [
+   [
+    "People",
+    "About 22 million people live in Sri Lanka."
+   ],
+   [
+    "Nature",
+    "Sigiriya, the 'Lion Rock,' has the ruins of a palace on top of a giant rock."
+   ],
+   [
+    "Famous face",
+    "Sri Lanka had the world's first woman prime minister, Sirimavo Bandaranaike, in 1960."
+   ]
+  ],
+  "Syria": [
+   [
+    "People",
+    "About 24 million people live in Syria."
+   ],
+   [
+    "Invention",
+    "One of the world's first alphabets was written in Ugarit, an ancient city in Syria."
+   ],
+   [
+    "Food",
+    "Kibbeh and fattoush salad are favorite Syrian foods."
+   ]
+  ],
+  "Taiwan": [
+   [
+    "People",
+    "About 23 million people live in Taiwan."
+   ],
+   [
+    "Wildlife",
+    "The Formosan black bear, with a white V on its chest, is a national symbol."
+   ],
+   [
+    "Culture",
+    "At the Pingxi Lantern Festival, thousands of glowing sky lanterns float into the night."
+   ]
+  ],
+  "Tajikistan": [
+   [
+    "People",
+    "About 10.5 million people live in Tajikistan."
+   ],
+   [
+    "Nature",
+    "Ismoil Somoni Peak, its tallest mountain, is more than 24,000 feet high."
+   ],
+   [
+    "Language",
+    "Tajik is a close cousin of the Persian language."
+   ]
+  ],
+  "Thailand": [
+   [
+    "People",
+    "About 72 million people live in Thailand."
+   ],
+   [
+    "Culture",
+    "Bangkok's full name in Thai is one of the longest city names in the world."
+   ],
+   [
+    "Culture",
+    "Songkran, the Thai New Year, is celebrated with giant water fights in the streets."
+   ]
+  ],
+  "Timor-Leste": [
+   [
+    "People",
+    "About 1.4 million people live in Timor-Leste."
+   ],
+   [
+    "Language",
+    "Timor-Leste has two official languages: Tetum and Portuguese."
+   ],
+   [
+    "Culture",
+    "Tais, colorful hand-woven cloth, is a UNESCO world treasure."
+   ]
+  ],
+  "Türkiye (Turkey)": [
+   [
+    "People",
+    "About 86 million people live in Türkiye."
+   ],
+   [
+    "Culture",
+    "Istanbul is a giant city that sits on two continents: Europe and Asia."
+   ],
+   [
+    "Nature",
+    "In Cappadocia, hot air balloons float over rock towers nicknamed 'fairy chimneys.'"
+   ]
+  ],
+  "Turkmenistan": [
+   [
+    "People",
+    "About 7 million people live in Turkmenistan."
+   ],
+   [
+    "Nature",
+    "The Karakum Desert covers about 80% of the country."
+   ],
+   [
+    "Flag",
+    "Turkmen carpets are so important that carpet patterns appear on the flag."
+   ]
+  ],
+  "United Arab Emirates": [
+   [
+    "People",
+    "About 11 million people live in the United Arab Emirates."
+   ],
+   [
+    "Space",
+    "In 2021 the UAE's Hope probe reached Mars, the first Arab mission to another planet."
+   ],
+   [
+    "Culture",
+    "Abu Dhabi's Sheikh Zayed Mosque has one of the biggest hand-knotted carpets in the world."
+   ]
+  ],
+  "Uzbekistan": [
+   [
+    "People",
+    "About 37 million people live in Uzbekistan."
+   ],
+   [
+    "Nature",
+    "Uzbekistan is one of only two countries surrounded by countries that also have no coast."
+   ],
+   [
+    "Food",
+    "Round non bread is stamped with pretty patterns before it's baked in clay ovens."
+   ]
+  ],
+  "Vietnam": [
+   [
+    "People",
+    "About 101 million people live in Vietnam."
+   ],
+   [
+    "Nature",
+    "Son Doong is the biggest cave in the world, with its own jungle and clouds inside."
+   ],
+   [
+    "Culture",
+    "Water puppetry, with puppets dancing across a pond, is a Vietnamese art."
+   ]
+  ],
+  "Yemen": [
+   [
+    "People",
+    "About 40 million people live in Yemen."
+   ],
+   [
+    "Nature",
+    "Socotra Island has umbrella-shaped trees and plants found nowhere else on Earth."
+   ],
+   [
+    "Culture",
+    "Sanaa's old houses are decorated with white patterns that look like gingerbread icing."
+   ]
+  ],
+  "Albania": [
+   [
+    "People",
+    "About 2.7 million people live in Albania."
+   ],
+   [
+    "Nature",
+    "The Blue Eye is a bright blue spring so clear you can see deep down into the water."
+   ],
+   [
+    "Culture",
+    "Traditionally, many Albanians nod to say 'no' and shake their heads to say 'yes.'"
+   ]
+  ],
+  "Andorra": [
+   [
+    "People",
+    "About 80,000 people live in Andorra."
+   ],
+   [
+    "Language",
+    "Catalan is Andorra's official language."
+   ],
+   [
+    "Culture",
+    "Andorra has two princes at once: the President of France and a bishop from Spain."
+   ]
+  ],
+  "Austria": [
+   [
+    "People",
+    "About 9.2 million people live in Austria."
+   ],
+   [
+    "Invention",
+    "The snow globe was invented in Vienna around 1900."
+   ],
+   [
+    "Culture",
+    "The Vienna Boys' Choir has been singing for more than 500 years."
+   ]
+  ],
+  "Belarus": [
+   [
+    "People",
+    "About 9.2 million people live in Belarus."
+   ],
+   [
+    "Nature",
+    "Belarus has more than 10,000 lakes, so it's nicknamed the 'Land of Blue Lakes.'"
+   ],
+   [
+    "Famous face",
+    "Painter Marc Chagall, famous for his dreamy, colorful art, was born in Belarus."
+   ]
+  ],
+  "Belgium": [
+   [
+    "People",
+    "About 11.8 million people live in Belgium."
+   ],
+   [
+    "Invention",
+    "The saxophone was invented by a Belgian named Adolphe Sax."
+   ],
+   [
+    "Language",
+    "Belgium has three official languages: Dutch, French and German."
+   ]
+  ],
+  "Bosnia and Herzegovina": [
+   [
+    "People",
+    "About 3.2 million people live in Bosnia and Herzegovina."
+   ],
+   [
+    "Food",
+    "Burek, a flaky spiral pastry filled with meat or cheese, is a favorite."
+   ],
+   [
+    "Nature",
+    "The Una River is famous for its emerald-green water and waterfalls."
+   ]
+  ],
+  "Bulgaria": [
+   [
+    "People",
+    "About 6.4 million people live in Bulgaria."
+   ],
+   [
+    "Language",
+    "The Cyrillic alphabet, used by millions of people today, was developed in Bulgaria long ago."
+   ],
+   [
+    "Culture",
+    "Each March, Bulgarians wear red-and-white martenitsa bracelets to welcome spring."
+   ]
+  ],
+  "Croatia": [
+   [
+    "People",
+    "About 3.9 million people live in Croatia."
+   ],
+   [
+    "Wildlife",
+    "The spotted Dalmatian dog is named after Croatia's Dalmatia region."
+   ],
+   [
+    "Movie magic",
+    "Dubrovnik's old town was a filming spot for Star Wars: The Last Jedi."
+   ]
+  ],
+  "Cyprus": [
+   [
+    "People",
+    "About 1.3 million people live in Cyprus."
+   ],
+   [
+    "Nature",
+    "Cyprus is one of the sunniest places in Europe."
+   ],
+   [
+    "Wildlife",
+    "Loggerhead and green sea turtles nest on its beaches every summer."
+   ]
+  ],
+  "Czechia (Czech Republic)": [
+   [
+    "People",
+    "About 10.9 million people live in Czechia."
+   ],
+   [
+    "Culture",
+    "Prague's astronomical clock, built in 1410, still ticks today."
+   ],
+   [
+    "Language",
+    "The word 'robot' was first used in a Czech play in 1920."
+   ]
+  ],
+  "Denmark": [
+   [
+    "People",
+    "About 6 million people live in Denmark."
+   ],
+   [
+    "Culture",
+    "Copenhagen has more bikes than cars."
+   ],
+   [
+    "Language",
+    "Hygge, a Danish word for a cozy, happy feeling, is now used around the world."
+   ]
+  ],
+  "Estonia": [
+   [
+    "People",
+    "About 1.4 million people live in Estonia."
+   ],
+   [
+    "Culture",
+    "Estonia's Song Festival brings together about 30,000 singers on one stage."
+   ],
+   [
+    "Nature",
+    "About half of Estonia is covered in forest."
+   ]
+  ],
+  "Finland": [
+   [
+    "People",
+    "About 5.6 million people live in Finland."
+   ],
+   [
+    "Famous face",
+    "The Moomins were created by Finnish author and artist Tove Jansson."
+   ],
+   [
+    "Culture",
+    "Finland hosts funny world championships, like air guitar and mobile phone throwing."
+   ]
+  ],
+  "France": [
+   [
+    "People",
+    "About 68 million people live in France."
+   ],
+   [
+    "Culture",
+    "France is the most visited country in the world."
+   ],
+   [
+    "Invention",
+    "Louis Braille invented the Braille reading system for blind people when he was a teenager."
+   ]
+  ],
+  "Germany": [
+   [
+    "People",
+    "About 84 million people live in Germany."
+   ],
+   [
+    "Culture",
+    "Germany has around 20,000 castles."
+   ],
+   [
+    "Famous face",
+    "Composer Ludwig van Beethoven was born in Bonn, Germany."
+   ]
+  ],
+  "Greece": [
+   [
+    "People",
+    "About 10.4 million people live in Greece."
+   ],
+   [
+    "Nature",
+    "Greece has about 6,000 islands, and only around 200 have people living on them."
+   ],
+   [
+    "Sports",
+    "The marathon race is named after Marathon, a town in Greece."
+   ]
+  ],
+  "Hungary": [
+   [
+    "People",
+    "About 9.6 million people live in Hungary."
+   ],
+   [
+    "Nature",
+    "Budapest sits on more than 100 hot springs, and people swim in warm outdoor baths in winter."
+   ],
+   [
+    "Invention",
+    "The ballpoint pen was invented by Hungarian journalist László Bíró."
+   ]
+  ],
+  "Iceland": [
+   [
+    "People",
+    "About 390,000 people live in Iceland."
+   ],
+   [
+    "Nature",
+    "Iceland has no mosquitoes at all."
+   ],
+   [
+    "Nature",
+    "Iceland heats most of its homes with hot water from deep underground."
+   ]
+  ],
+  "Ireland": [
+   [
+    "People",
+    "About 5.3 million people live in Ireland."
+   ],
+   [
+    "Culture",
+    "The harp is Ireland's national symbol, and it's even on Irish coins."
+   ],
+   [
+    "Famous face",
+    "Authors James Joyce and Oscar Wilde were both from Ireland."
+   ]
+  ],
+  "Italy": [
+   [
+    "People",
+    "About 59 million people live in Italy."
+   ],
+   [
+    "Invention",
+    "Alessandro Volta invented the electric battery, and the word 'volt' is named after him."
+   ],
+   [
+    "Culture",
+    "Venice is built on about 118 small islands linked by around 400 bridges."
+   ]
+  ],
+  "Kosovo": [
+   [
+    "People",
+    "About 1.6 million people live in Kosovo."
+   ],
+   [
+    "Culture",
+    "Kosovo has one of the youngest populations in Europe."
+   ],
+   [
+    "Nature",
+    "The Mirusha waterfalls are a chain of lakes and falls in a rocky canyon."
+   ]
+  ],
+  "Latvia": [
+   [
+    "People",
+    "About 1.9 million people live in Latvia."
+   ],
+   [
+    "Culture",
+    "Riga has one of the biggest collections of Art Nouveau buildings in the world."
+   ],
+   [
+    "Culture",
+    "Latvians say the first decorated Christmas tree stood in Riga in 1510."
+   ]
+  ],
+  "Liechtenstein": [
+   [
+    "People",
+    "About 40,000 people live in Liechtenstein."
+   ],
+   [
+    "Nature",
+    "Liechtenstein is surrounded by countries that also have no coast, one of only two in the world."
+   ],
+   [
+    "Sports",
+    "All of Liechtenstein's Olympic medals have been won in skiing."
+   ]
+  ],
+  "Lithuania": [
+   [
+    "People",
+    "About 2.9 million people live in Lithuania."
+   ],
+   [
+    "Language",
+    "Lithuanian is one of the oldest languages still spoken in Europe."
+   ],
+   [
+    "Sports",
+    "Basketball is Lithuania's most loved sport."
+   ]
+  ],
+  "Luxembourg": [
+   [
+    "People",
+    "About 670,000 people live in Luxembourg."
+   ],
+   [
+    "Rule",
+    "In 2020 Luxembourg made buses, trams and trains free for everyone."
+   ],
+   [
+    "Language",
+    "People speak Luxembourgish, French and German."
+   ]
+  ],
+  "North Macedonia": [
+   [
+    "People",
+    "About 1.8 million people live in North Macedonia."
+   ],
+   [
+    "Famous face",
+    "Mother Teresa, famous for helping people in need, was born in Skopje."
+   ],
+   [
+    "Culture",
+    "Skopje's Old Bazaar is one of the biggest old markets in the Balkans."
+   ]
+  ],
+  "Malta": [
+   [
+    "People",
+    "About 560,000 people live in Malta."
+   ],
+   [
+    "Language",
+    "Maltese is related to Arabic but is written with the same letters as English."
+   ],
+   [
+    "Movie magic",
+    "Malta's Popeye Village was built as a movie set for the 1980 Popeye movie."
+   ]
+  ],
+  "Moldova": [
+   [
+    "People",
+    "About 2.4 million people live in Moldova."
+   ],
+   [
+    "Nature",
+    "Moldova has rich black soil that is some of the best farmland in Europe."
+   ],
+   [
+    "Culture",
+    "At Orheiul Vechi, a little monastery is carved right into a cliff."
+   ]
+  ],
+  "Monaco": [
+   [
+    "People",
+    "About 38,000 people live in Monaco."
+   ],
+   [
+    "Nature",
+    "Part of Monaco was built on land made by filling in the sea."
+   ],
+   [
+    "Famous face",
+    "Ocean explorer Jacques Cousteau ran Monaco's Oceanographic Museum."
+   ]
+  ],
+  "Montenegro": [
+   [
+    "People",
+    "About 620,000 people live in Montenegro."
+   ],
+   [
+    "Nature",
+    "The Tara River Canyon is the deepest canyon in Europe."
+   ],
+   [
+    "Culture",
+    "Sveti Stefan is a tiny island village joined to the beach by a thin sandy path."
+   ]
+  ],
+  "Netherlands": [
+   [
+    "People",
+    "About 18 million people live in the Netherlands."
+   ],
+   [
+    "Culture",
+    "There are more bikes than people in the Netherlands."
+   ],
+   [
+    "Invention",
+    "Dutch lens makers built some of the first microscopes and telescopes."
+   ]
+  ],
+  "Norway": [
+   [
+    "People",
+    "About 5.6 million people live in Norway."
+   ],
+   [
+    "Culture",
+    "Every year, Norway gives London a giant Christmas tree as a thank-you gift."
+   ],
+   [
+    "Nature",
+    "In summer, the sun never sets in northern Norway. It's called the midnight sun."
+   ]
+  ],
+  "Poland": [
+   [
+    "People",
+    "About 37 million people live in Poland."
+   ],
+   [
+    "Famous face",
+    "Marie Curie, the first woman to win a Nobel Prize, was born in Warsaw."
+   ],
+   [
+    "Culture",
+    "The Wieliczka Salt Mine has chapels and statues carved entirely out of salt."
+   ]
+  ],
+  "Portugal": [
+   [
+    "People",
+    "About 10.6 million people live in Portugal."
+   ],
+   [
+    "Language",
+    "Portuguese is spoken by about 250 million people around the world."
+   ],
+   [
+    "Culture",
+    "Lisbon's old yellow trams rattle up and down its steep hills."
+   ]
+  ],
+  "Romania": [
+   [
+    "People",
+    "About 19 million people live in Romania."
+   ],
+   [
+    "Nature",
+    "The Danube Delta is one of the best places in Europe to see pelicans and other birds."
+   ],
+   [
+    "Culture",
+    "Romania's Palace of the Parliament is one of the heaviest buildings in the world."
+   ]
+  ],
+  "Russia": [
+   [
+    "People",
+    "About 144 million people live in Russia."
+   ],
+   [
+    "Nature",
+    "Lake Baikal holds about a fifth of all the fresh water in the world's lakes and rivers."
+   ],
+   [
+    "Invention",
+    "Russian chemist Dmitri Mendeleev created the periodic table of the elements."
+   ]
+  ],
+  "San Marino": [
+   [
+    "People",
+    "About 34,000 people live in San Marino."
+   ],
+   [
+    "Size",
+    "San Marino is completely surrounded by Italy."
+   ],
+   [
+    "Flag",
+    "The three towers on Mount Titano appear on San Marino's flag."
+   ]
+  ],
+  "Serbia": [
+   [
+    "People",
+    "About 6.6 million people live in Serbia."
+   ],
+   [
+    "Famous face",
+    "Inventor Nikola Tesla, who helped bring electricity into homes, was born to Serbian parents."
+   ],
+   [
+    "Food",
+    "Ajvar, a sweet red pepper spread, is a Serbian favorite."
+   ]
+  ],
+  "Slovakia": [
+   [
+    "People",
+    "About 5.4 million people live in Slovakia."
+   ],
+   [
+    "Big export",
+    "Slovakia makes more cars per person than any other country."
+   ],
+   [
+    "Nature",
+    "Dobšiná Ice Cave stays frozen all year, even in summer."
+   ]
+  ],
+  "Slovenia": [
+   [
+    "People",
+    "About 2.1 million people live in Slovenia."
+   ],
+   [
+    "Wildlife",
+    "Postojna Cave is home to the olm, a pale cave salamander nicknamed the 'baby dragon.'"
+   ],
+   [
+    "Culture",
+    "Slovenia loves bees so much that it suggested World Bee Day to the United Nations."
+   ]
+  ],
+  "Spain": [
+   [
+    "People",
+    "About 49 million people live in Spain."
+   ],
+   [
+    "Culture",
+    "At La Tomatina, a festival in Buñol, thousands of people throw tomatoes at each other."
+   ],
+   [
+    "Famous face",
+    "Miguel de Cervantes wrote Don Quixote, one of the most famous novels ever."
+   ]
+  ],
+  "Sweden": [
+   [
+    "People",
+    "About 10.6 million people live in Sweden."
+   ],
+   [
+    "Culture",
+    "Sweden's Icehotel is rebuilt out of ice and snow every winter."
+   ],
+   [
+    "Invention",
+    "Swedish engineer Nils Bohlin invented the modern three-point seat belt in 1959."
+   ]
+  ],
+  "Switzerland": [
+   [
+    "People",
+    "About 9 million people live in Switzerland."
+   ],
+   [
+    "Language",
+    "Switzerland has four official languages: German, French, Italian and Romansh."
+   ],
+   [
+    "Invention",
+    "The World Wide Web was born at CERN, a science lab near Geneva."
+   ]
+  ],
+  "Ukraine": [
+   [
+    "Size",
+    "Ukraine is the biggest country entirely inside Europe."
+   ],
+   [
+    "Culture",
+    "Pysanky are eggs decorated with beautiful wax-and-dye patterns."
+   ],
+   [
+    "Food",
+    "Varenyky, dumplings filled with potato, cheese or cherries, are a favorite."
+   ]
+  ],
+  "United Kingdom": [
+   [
+    "People",
+    "About 69 million people live in the United Kingdom."
+   ],
+   [
+    "Invention",
+    "Scottish inventor John Logie Baird showed the first working television in 1926."
+   ],
+   [
+    "Famous face",
+    "J.K. Rowling wrote the Harry Potter books in the UK."
+   ]
+  ],
+  "Vatican City": [
+   [
+    "People",
+    "Only about 800 people live in Vatican City."
+   ],
+   [
+    "Culture",
+    "The Vatican has its own post office, radio station and tiny railway station."
+   ],
+   [
+    "Art",
+    "Michelangelo spent four years painting the ceiling of the Sistine Chapel."
+   ]
+  ],
+  "Antigua and Barbuda": [
+   [
+    "People",
+    "About 94,000 people live in Antigua and Barbuda."
+   ],
+   [
+    "Sports",
+    "Antigua Sailing Week is one of the biggest sailboat races in the Caribbean."
+   ],
+   [
+    "Wildlife",
+    "Barbuda has one of the biggest frigatebird colonies in the world."
+   ]
+  ],
+  "Bahamas": [
+   [
+    "People",
+    "About 410,000 people live in the Bahamas."
+   ],
+   [
+    "Nature",
+    "Dean's Blue Hole is one of the deepest underwater sinkholes in the world."
+   ],
+   [
+    "Culture",
+    "Junkanoo is a colorful street parade with drums, whistles and cowbells."
+   ]
+  ],
+  "Barbados": [
+   [
+    "People",
+    "About 280,000 people live in Barbados."
+   ],
+   [
+    "Sports",
+    "Cricket legend Sir Garfield Sobers is from Barbados."
+   ],
+   [
+    "Culture",
+    "Crop Over is a big summer festival that began as a party for the end of the sugarcane harvest."
+   ]
+  ],
+  "Belize": [
+   [
+    "People",
+    "About 410,000 people live in Belize."
+   ],
+   [
+    "Wildlife",
+    "Cockscomb Basin is the world's first wildlife reserve made for jaguars."
+   ],
+   [
+    "Language",
+    "English is Belize's official language, the only Central American country where it is."
+   ]
+  ],
+  "Canada": [
+   [
+    "People",
+    "About 41 million people live in Canada."
+   ],
+   [
+    "Invention",
+    "Insulin, a medicine that helps millions of people with diabetes, was discovered in Canada in 1921."
+   ],
+   [
+    "Nature",
+    "Canada has more lakes than the rest of the world combined."
+   ]
+  ],
+  "Costa Rica": [
+   [
+    "People",
+    "About 5.2 million people live in Costa Rica."
+   ],
+   [
+    "Culture",
+    "'Pura vida,' meaning 'pure life,' is used to say hello, goodbye and everything's great."
+   ],
+   [
+    "Culture",
+    "Costa Rica has had no army since 1948 and spends that money on schools and parks."
+   ]
+  ],
+  "Cuba": [
+   [
+    "People",
+    "About 10 million people live in Cuba."
+   ],
+   [
+    "Wildlife",
+    "The bee hummingbird, the smallest bird in the world, lives only in Cuba."
+   ],
+   [
+    "Culture",
+    "Mambo and cha-cha-chá music and dancing started in Cuba."
+   ]
+  ],
+  "Dominica": [
+   [
+    "People",
+    "About 67,000 people live in Dominica."
+   ],
+   [
+    "Flag",
+    "Dominica's flag shows the Sisserou parrot, a bird found only on the island."
+   ],
+   [
+    "Movie magic",
+    "Parts of the Pirates of the Caribbean movies were filmed in Dominica."
+   ]
+  ],
+  "Dominican Republic": [
+   [
+    "People",
+    "About 11.4 million people live in the Dominican Republic."
+   ],
+   [
+    "Culture",
+    "Santo Domingo is the oldest city founded by Europeans in the Americas."
+   ],
+   [
+    "Nature",
+    "Pico Duarte is the tallest mountain in the Caribbean."
+   ]
+  ],
+  "El Salvador": [
+   [
+    "People",
+    "About 6.3 million people live in El Salvador."
+   ],
+   [
+    "Nature",
+    "It's the only Central American country without a Caribbean coastline."
+   ],
+   [
+    "Sports",
+    "Its Pacific beaches are famous with surfers from around the world."
+   ]
+  ],
+  "Grenada": [
+   [
+    "People",
+    "About 125,000 people live in Grenada."
+   ],
+   [
+    "Culture",
+    "Grenada's Underwater Sculpture Park has dozens of statues on the sea floor."
+   ],
+   [
+    "Food",
+    "Oil down, a one-pot stew with breadfruit and coconut milk, is the national dish."
+   ]
+  ],
+  "Guatemala": [
+   [
+    "People",
+    "About 18 million people live in Guatemala."
+   ],
+   [
+    "Nature",
+    "Guatemala has more than 30 volcanoes, and some puff smoke almost every day."
+   ],
+   [
+    "Wildlife",
+    "The colorful quetzal bird is the national bird, and Guatemala's money is named after it."
+   ]
+  ],
+  "Haiti": [
+   [
+    "People",
+    "About 11.8 million people live in Haiti."
+   ],
+   [
+    "Food",
+    "Soup joumou, a hearty pumpkin soup, is eaten on New Year's Day to celebrate freedom."
+   ],
+   [
+    "Culture",
+    "Haitian painters and metal artists are famous for their bright, joyful art."
+   ]
+  ],
+  "Honduras": [
+   [
+    "People",
+    "About 10.8 million people live in Honduras."
+   ],
+   [
+    "Nature",
+    "The island of Roatán sits on the second-biggest barrier reef in the world."
+   ],
+   [
+    "Culture",
+    "The music and dance of the Garifuna people are a UNESCO world treasure."
+   ]
+  ],
+  "Jamaica": [
+   [
+    "People",
+    "About 2.8 million people live in Jamaica."
+   ],
+   [
+    "Name",
+    "Jamaica's name comes from a Taíno word meaning 'land of wood and water.'"
+   ],
+   [
+    "Movie magic",
+    "Jamaica's bobsled team inspired the movie Cool Runnings."
+   ]
+  ],
+  "Mexico": [
+   [
+    "People",
+    "About 131 million people live in Mexico."
+   ],
+   [
+    "Nature",
+    "Mexico City was built on top of an old lake, and parts of it slowly sink every year."
+   ],
+   [
+    "Culture",
+    "More people speak Spanish in Mexico than in any other country."
+   ]
+  ],
+  "Nicaragua": [
+   [
+    "People",
+    "About 7 million people live in Nicaragua."
+   ],
+   [
+    "Sports",
+    "Visitors can sandboard down Cerro Negro, one of the youngest volcanoes in Central America."
+   ],
+   [
+    "Famous face",
+    "Poet Rubén Darío is a national hero and one of the most famous poets in Spanish."
+   ]
+  ],
+  "Panama": [
+   [
+    "People",
+    "About 4.5 million people live in Panama."
+   ],
+   [
+    "Nature",
+    "On a clear day, you can see both the Atlantic and Pacific Oceans from Panama's tallest volcano."
+   ],
+   [
+    "Wildlife",
+    "Panama has more kinds of birds than the United States and Canada combined."
+   ]
+  ],
+  "Saint Kitts and Nevis": [
+   [
+    "People",
+    "About 47,000 people live in Saint Kitts and Nevis."
+   ],
+   [
+    "Nature",
+    "Mount Liamuiga is a sleeping volcano with a lake inside its crater."
+   ],
+   [
+    "Wildlife",
+    "Green vervet monkeys roam the islands in big, playful troops."
+   ]
+  ],
+  "Saint Lucia": [
+   [
+    "People",
+    "About 180,000 people live in Saint Lucia."
+   ],
+   [
+    "Famous face",
+    "Saint Lucia has two Nobel Prize winners, the most per person of any country."
+   ],
+   [
+    "Culture",
+    "The Saint Lucia Jazz Festival draws music lovers from around the world."
+   ]
+  ],
+  "Saint Vincent and the Grenadines": [
+   [
+    "People",
+    "About 100,000 people live in Saint Vincent and the Grenadines."
+   ],
+   [
+    "Movie magic",
+    "Wallilabou Bay was a filming spot for the Pirates of the Caribbean movies."
+   ],
+   [
+    "Nature",
+    "La Soufrière, a volcano at the north end of Saint Vincent, has a lake in its crater."
+   ]
+  ],
+  "Trinidad and Tobago": [
+   [
+    "People",
+    "About 1.5 million people live in Trinidad and Tobago."
+   ],
+   [
+    "Wildlife",
+    "At sunset in the Caroni Swamp, flocks of bright red scarlet ibises fly home to roost."
+   ],
+   [
+    "Nature",
+    "Pitch Lake is the biggest natural lake of asphalt in the world."
+   ]
+  ],
+  "United States": [
+   [
+    "People",
+    "About 340 million people live in the United States."
+   ],
+   [
+    "Nature",
+    "Yellowstone, created in 1872, was the first national park in the world."
+   ],
+   [
+    "Famous face",
+    "Inventor Thomas Edison got more than 1,000 patents, including one for the phonograph."
+   ]
+  ],
+  "Argentina": [
+   [
+    "People",
+    "About 46 million people live in Argentina."
+   ],
+   [
+    "Nature",
+    "Aconcagua is the tallest mountain in the world outside of Asia."
+   ],
+   [
+    "Nature",
+    "Iguazú Falls, on the border with Brazil, is made up of about 275 waterfalls."
+   ]
+  ],
+  "Bolivia": [
+   [
+    "People",
+    "About 12.5 million people live in Bolivia."
+   ],
+   [
+    "Culture",
+    "La Paz and El Alto have the highest and longest city cable car network in the world."
+   ],
+   [
+    "Culture",
+    "Bolivia has two capitals: Sucre and La Paz."
+   ]
+  ],
+  "Brazil": [
+   [
+    "People",
+    "About 213 million people live in Brazil."
+   ],
+   [
+    "Nature",
+    "Brazil has more kinds of plants and animals than any other country."
+   ],
+   [
+    "Culture",
+    "Rio de Janeiro's Carnival is one of the biggest parties on Earth."
+   ]
+  ],
+  "Chile": [
+   [
+    "People",
+    "About 20 million people live in Chile."
+   ],
+   [
+    "Nature",
+    "The Atacama Desert is so dry and clear that astronomers build giant telescopes there."
+   ],
+   [
+    "Famous face",
+    "Chilean poets Gabriela Mistral and Pablo Neruda both won the Nobel Prize in Literature."
+   ]
+  ],
+  "Colombia": [
+   [
+    "People",
+    "About 53 million people live in Colombia."
+   ],
+   [
+    "Nature",
+    "Caño Cristales is called the 'river of five colors' because of bright red plants in its water."
+   ],
+   [
+    "Famous face",
+    "Author Gabriel García Márquez, who won the Nobel Prize, was from Colombia."
+   ]
+  ],
+  "Ecuador": [
+   [
+    "People",
+    "About 18 million people live in Ecuador."
+   ],
+   [
+    "Name",
+    "Ecuador is Spanish for 'equator,' the line that runs right through the country."
+   ],
+   [
+    "Nature",
+    "The top of Chimborazo volcano is the farthest point on Earth from the planet's center."
+   ]
+  ],
+  "Guyana": [
+   [
+    "People",
+    "About 830,000 people live in Guyana."
+   ],
+   [
+    "Nature",
+    "The giant Victoria water lily, with pads big enough to hold a small child, is the national flower."
+   ],
+   [
+    "Wildlife",
+    "Giant river otters and jaguars live in Guyana's rainforests."
+   ]
+  ],
+  "Paraguay": [
+   [
+    "People",
+    "About 7 million people live in Paraguay."
+   ],
+   [
+    "Language",
+    "Most Paraguayans speak both Spanish and Guaraní, a native language."
+   ],
+   [
+    "Nature",
+    "The Itaipú Dam, shared with Brazil, is one of the biggest power plants in the world."
+   ]
+  ],
+  "Peru": [
+   [
+    "People",
+    "About 34 million people live in Peru."
+   ],
+   [
+    "Nature",
+    "Lake Titicaca, shared with Bolivia, is the highest lake in the world that big boats sail on."
+   ],
+   [
+    "Food",
+    "Ceviche, fresh fish soaked in lime juice, is Peru's national dish."
+   ]
+  ],
+  "Suriname": [
+   [
+    "People",
+    "About 640,000 people live in Suriname."
+   ],
+   [
+    "Culture",
+    "In the capital, Paramaribo, a mosque and a synagogue stand side by side as friendly neighbors."
+   ],
+   [
+    "Wildlife",
+    "Giant leatherback sea turtles nest on Suriname's beaches."
+   ]
+  ],
+  "Uruguay": [
+   [
+    "People",
+    "About 3.4 million people live in Uruguay."
+   ],
+   [
+    "Culture",
+    "Uruguay was the first country to give a laptop to every public school kid."
+   ],
+   [
+    "Nature",
+    "Uruguay makes almost all of its electricity from wind, water and sun."
+   ]
+  ],
+  "Venezuela": [
+   [
+    "People",
+    "About 28 million people live in Venezuela."
+   ],
+   [
+    "Nature",
+    "Lightning flashes over Lake Maracaibo on about 140 to 160 nights a year, more than almost anywhere."
+   ],
+   [
+    "Movie magic",
+    "Paradise Falls in the movie Up was inspired by Venezuela's flat-topped tepui mountains."
+   ]
+  ],
+  "Australia": [
+   [
+    "People",
+    "About 27 million people live in Australia."
+   ],
+   [
+    "Nature",
+    "The Great Barrier Reef is the biggest living structure on Earth."
+   ],
+   [
+    "Nature",
+    "Australia has more than 10,000 beaches."
+   ]
+  ],
+  "Fiji": [
+   [
+    "People",
+    "About 930,000 people live in Fiji."
+   ],
+   [
+    "Culture",
+    "'Bula!' is the cheerful Fijian way to say hello."
+   ],
+   [
+    "Nature",
+    "The 180-degree line, halfway around the world, runs right across Fiji's Taveuni island."
+   ]
+  ],
+  "Kiribati": [
+   [
+    "People",
+    "About 130,000 people live in Kiribati."
+   ],
+   [
+    "Language",
+    "Kiribati is pronounced 'KIR-ee-bass.'"
+   ],
+   [
+    "Nature",
+    "Kiritimati, or Christmas Island, is the biggest coral atoll on Earth by land."
+   ]
+  ],
+  "Marshall Islands": [
+   [
+    "People",
+    "About 42,000 people live in the Marshall Islands."
+   ],
+   [
+    "Nature",
+    "The capital, Majuro, is a thin ring of land around a lagoon."
+   ],
+   [
+    "Wildlife",
+    "Its waters are one of the biggest shark sanctuaries in the world."
+   ]
+  ],
+  "Micronesia": [
+   [
+    "People",
+    "About 115,000 people live in Micronesia."
+   ],
+   [
+    "Nature",
+    "Micronesia has 607 islands spread across a huge area of the Pacific Ocean."
+   ],
+   [
+    "Nature",
+    "The island of Pohnpei is one of the rainiest places on Earth."
+   ]
+  ],
+  "Nauru": [
+   [
+    "People",
+    "About 12,000 people live in Nauru."
+   ],
+   [
+    "Size",
+    "Nauru is the third-smallest country in the world."
+   ],
+   [
+    "Culture",
+    "Nauru has no official capital city."
+   ]
+  ],
+  "New Zealand": [
+   [
+    "People",
+    "About 5.3 million people live in New Zealand."
+   ],
+   [
+    "Culture",
+    "In 1893 New Zealand became the first country where women could vote in national elections."
+   ],
+   [
+    "Wildlife",
+    "New Zealand has about five sheep for every person."
+   ]
+  ],
+  "Palau": [
+   [
+    "People",
+    "About 18,000 people live in Palau."
+   ],
+   [
+    "Nature",
+    "Palau's Rock Islands are hundreds of mushroom-shaped green islands."
+   ],
+   [
+    "Rule",
+    "Visitors sign the Palau Pledge, a promise in their passport to protect nature."
+   ]
+  ],
+  "Papua New Guinea": [
+   [
+    "People",
+    "More than 10 million people live in Papua New Guinea."
+   ],
+   [
+    "Wildlife",
+    "The world's biggest butterfly, Queen Alexandra's birdwing, lives only here."
+   ],
+   [
+    "Culture",
+    "The Goroka Show brings together groups in colorful feathers and face paint."
+   ]
+  ],
+  "Samoa": [
+   [
+    "People",
+    "About 220,000 people live in Samoa."
+   ],
+   [
+    "Culture",
+    "Traditional Samoan houses, called fale, have no walls, just a roof on posts."
+   ],
+   [
+    "Food",
+    "Palusami, taro leaves baked in coconut cream, is a favorite dish."
+   ]
+  ],
+  "Solomon Islands": [
+   [
+    "People",
+    "About 750,000 people live in the Solomon Islands."
+   ],
+   [
+    "Nature",
+    "Marovo Lagoon is one of the biggest saltwater lagoons in the world."
+   ],
+   [
+    "Nature",
+    "Lake Tegano on Rennell Island is the biggest lake in the Pacific Islands."
+   ]
+  ],
+  "Tonga": [
+   [
+    "People",
+    "About 105,000 people live in Tonga."
+   ],
+   [
+    "Culture",
+    "Tonga is the only kingdom among the Pacific Islands, with a king and royal family."
+   ],
+   [
+    "Culture",
+    "Tonga is one of the first countries to start each new day."
+   ]
+  ],
+  "Tuvalu": [
+   [
+    "People",
+    "About 11,000 people live in Tuvalu."
+   ],
+   [
+    "Nature",
+    "Tuvalu's highest point is only about 15 feet above sea level."
+   ],
+   [
+    "Culture",
+    "Funafuti's airport runway doubles as a soccer field and hangout spot when no planes are coming."
+   ]
+  ],
+  "Vanuatu": [
+   [
+    "People",
+    "About 330,000 people live in Vanuatu."
+   ],
+   [
+    "Culture",
+    "Land diving on Pentecost Island, jumping from tall towers with vines tied to the ankles, inspired bungee jumping."
+   ],
+   [
+    "Language",
+    "Vanuatu has more than 100 languages, one of the most per person of any country."
+   ]
+  ]
+ }
+}

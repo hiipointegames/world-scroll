@@ -45,7 +45,7 @@ const bare = (s) => s.replace(/^the /, '');
 
 // One "Where is ___?" country card per country (scored against its border shape),
 // one capital card per country, and one card per US state capital.
-function placeQuestions(world, facts) {
+function placeQuestions(world, facts, countryNerd) {
   const col = Object.fromEntries(world.columns.map((c, i) => [c, i]));
   const out = [];
   for (const row of world.countries) {
@@ -54,6 +54,7 @@ function placeQuestions(world, facts) {
     const where = alsoIn ? alsoIn.concat(continent).join(' and ') : continent;
     out.push({
       id: 'country-' + slug(name), category: 'countries', region: 'world', continent, alsoIn,
+      nerd: (countryNerd || {})[bare(name)], // 🤓 Nerd facts: people, food, famous faces... (data/country-nerd-facts.json)
       shape: atlas || undefined, // border shape in the world-atlas map; missing → scored by distance to the capital
       prompt: 'Where is ' + name + '?', answer: cap(bare(name)) + ' · ' + where,
       lat: row[col.lat], lon: row[col.lon], toleranceMiles: atlas ? 0 : 50,
@@ -95,7 +96,7 @@ function loadData() {
   const roster = readJson('usa-teams.json');
   const world = readJson('countries.json');
   const facts = readJson('place-facts.json');
-  bank.questions = bank.questions.concat(placeQuestions(world, facts), teamQuestions(roster));
+  bank.questions = bank.questions.concat(placeQuestions(world, facts, readJson('country-nerd-facts.json').facts), teamQuestions(roster));
   addNerdFacts(bank.questions, readJson('sports-facts.json').facts);
   // Rivers are scored by distance to the river itself, so each river card carries its path.
   const rivers = readJson('rivers.json').rivers;

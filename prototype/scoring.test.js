@@ -570,6 +570,20 @@ test('facts are current as of November 18, 2026 (titles won in the 2025-26 seaso
   assert.ok(!/is the largest city in the Southern Hemisphere/.test(card('sao-paulo').fact), 'Jakarta is bigger and also south of the equator');
 });
 
+test('every country card has 3 kid-friendly nerd facts, led by how many people live there', () => {
+  const countries = questions.filter(q => q.category === 'countries');
+  assert.strictEqual(countries.length, 197);
+  assert.deepStrictEqual(countries.filter(q => !q.nerd || q.nerd.length !== 3).map(q => q.id), [], 'three nerd facts each');
+  assert.deepStrictEqual(countries.filter(q => !/live|biggest country|people/i.test(q.nerd[0][1])).map(q => q.id), [], 'the first one is about its people (Ukraine: its size)');
+  const all = countries.flatMap(q => q.nerd.map(([label, text]) => ({ id: q.id, label, text })));
+  assert.deepStrictEqual(all.filter(f => !f.label || f.text.length > 160).map(f => f.id), [], 'a label and 160 characters max');
+  const dupes = all.filter((f, i) => all.findIndex(g => g.text === f.text) !== i).map(f => f.id + ': ' + f.text);
+  assert.deepStrictEqual(dupes, [], 'no fact repeated across countries');
+  assert.ok(countries.every(q => !q.nerd.some(n => n[1] === q.fact)), 'nerd facts add something new, not the card fact again');
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  assert.ok(app.includes("var kind = q.category === 'sports' ? 'SPORTS' : 'COUNTRY';"), 'the pop-up says COUNTRY NERD FACTS on country cards');
+});
+
 test('Russia belongs to both Europe and Asia', () => {
   const inGroup = (q, g) => q.continent === g || (q.alsoIn || []).includes(g);
   const country = questions.find(q => q.id === 'country-russia');
