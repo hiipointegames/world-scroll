@@ -620,6 +620,20 @@ test('Deep Dives: every Great Lake, plus one rare card in each other category, p
   assert.ok(app.includes('FX.rareFind(') && app.includes('FX.unlocked(') && app.includes('function deepSheet(q)'), 'RARE FIND on landing, UNLOCKED after the guess, then the pop-up');
 });
 
+test('shared links show a rich preview: title, description and a 1200x630 card image', () => {
+  const fs = require('fs'), path = require('path');
+  const built = fs.readFileSync(path.join(__dirname, 'world-scroll.html'), 'utf8');
+  const og = (p) => (new RegExp('<meta property="og:' + p + '" content="([^"]+)"').exec(built) || [])[1];
+  assert.strictEqual(og('title'), 'World Scroll: learn geography by scrolling');
+  assert.ok(og('description') && !/tap the map|map tap/i.test(og('description')), 'a description (never "tap the map")');
+  assert.strictEqual(og('image'), 'https://hiipointegames.github.io/world-scroll/prototype/og-image.png', 'an absolute image link, so Messages can fetch it');
+  assert.ok(built.includes('<meta name="twitter:card" content="summary_large_image">'));
+  const png = fs.readFileSync(path.join(__dirname, 'og-image.png'));
+  assert.strictEqual(png.readUInt32BE(16), 1200, 'image is 1200 wide');
+  assert.strictEqual(png.readUInt32BE(20), 630, 'image is 630 tall');
+  assert.ok(png.length < 1024 * 1024, 'under 1 MB so previews load fast');
+});
+
 test('Russia belongs to both Europe and Asia', () => {
   const inGroup = (q, g) => q.continent === g || (q.alsoIn || []).includes(g);
   const country = questions.find(q => q.id === 'country-russia');
