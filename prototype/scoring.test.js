@@ -584,6 +584,18 @@ test('every country card has 3 kid-friendly nerd facts, led by how many people l
   assert.ok(app.includes("var kind = q.category === 'sports' ? 'SPORTS' : 'COUNTRY';"), 'the pop-up says COUNTRY NERD FACTS on country cards');
 });
 
+test('country population facts say what the number means (ranking nearby, or a comparison kids can picture)', () => {
+  const pop = (id) => questions.find(q => q.id === id).nerd[0][1];
+  const countries = questions.filter(q => q.category === 'countries' && q.id !== 'country-ukraine');
+  assert.deepStrictEqual(countries.filter(q => !/live in .*?\. (That's|They|It's) /.test(q.nerd[0][1])).map(q => q.id), [], 'every number has a "therefore"');
+  assert.match(pop('country-saint-kitts-and-nevis'), /fewest of any country in the Caribbean/);
+  assert.match(pop('country-india'), /most of any country in the world/);
+  assert.match(pop('country-china'), /2nd most in the world/);
+  assert.match(pop('country-united-states'), /3rd most of any country in the world/);
+  assert.match(pop('country-sudan'), /That's|It's/);
+  assert.match(pop('country-vatican-city'), /fewest of any country in the world/);
+});
+
 test('Russia belongs to both Europe and Asia', () => {
   const inGroup = (q, g) => q.continent === g || (q.alsoIn || []).includes(g);
   const country = questions.find(q => q.id === 'country-russia');
