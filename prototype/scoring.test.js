@@ -872,6 +872,7 @@ test('playable welcome: a real Paris card on the welcome screen, never saying "t
   assert.ok(intro.includes("x.prompt === 'Where is Paris?'") && intro.includes("createMap(box.querySelector('.map'), 'europe'"));
   assert.ok(intro.includes('>Drop a pin on Paris</button>'), 'the button says what to do');
   assert.ok(!intro.includes('Doomscrolling, but you get smarter.'), 'no subtitle line on the welcome screen');
+  assert.ok(!readSrc('app.html').includes('Doomscrolling'), 'not in the link preview text either');
   assert.ok(intro.includes('Scroll through countries, capitals, rivers, oceans, lakes, seas, famous landmarks, and where your favorite sports teams play.'), 'Bryce\'s wording, word for word');
   assert.ok(intro.includes('rivers, oceans, lakes, seas'), 'the welcome still lists what is in the game');
   for (const f of ['app.js', 'app.html', 'share.js', 'scoring.js']) assert.ok(!/tap the (map|globe)|map tap/i.test(readSrc(f)), f + ' never says "tap the map"');
