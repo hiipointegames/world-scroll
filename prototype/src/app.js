@@ -64,6 +64,7 @@
     flame: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFB547" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2c1 4 5 6 5 11a5 5 0 0 1-10 0c0-3 2-4 2-7 2 1 3 3 3 3"/></svg>',
     star: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3DDCC4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg>',
     back: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>',
+    chevron: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>',
     up: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E95BD" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>',
     shuffle: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0B1026" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>',
     bulb: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB547" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V16h8v-1.3A7 7 0 0 0 12 2z"/></svg>',
@@ -1031,11 +1032,15 @@
           '<span class="st-emoji" aria-hidden="true">' + stampEmoji(q) + '</span><span class="st-name">' + esc(stampName(q)) + '</span>' +
           '<span class="st-date">' + esc(d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase()) + '</span></span>';
       }).join('');
-      return '<section class="pp-page" style="--c:' + c.color + '"><div class="pp-head"><span class="pp-emoji" aria-hidden="true">' + (c.id === 'sports' ? '🏟️' : CAT_EMOJI[c.id] || '') + '</span>' +
-        '<span class="pp-name">' + esc(c.label) + '</span><span class="pp-n">' + got.length + ' / ' + cards.length + '</span></div>' +
-        '<span class="pc-bar pp-bar"><i style="--w:' + Math.round(got.length / cards.length * 100) + '%"></i></span>' +
+      // Each page opens and closes with a tap (a caret menu), so 50+ stamps never flood the screen.
+      var open = !!(store.ppOpen || {})[c.id];
+      return '<details class="pp-page" data-cat="' + c.id + '" style="--c:' + c.color + '"' + (open ? ' open' : '') + '>' +
+        '<summary class="pp-sum"><span class="pp-head"><span class="pp-emoji" aria-hidden="true">' + (c.id === 'sports' ? '🏟️' : CAT_EMOJI[c.id] || '') + '</span>' +
+        '<span class="pp-name">' + esc(c.label) + '</span><span class="pp-n">' + got.length + ' / ' + cards.length + '</span>' +
+        '<span class="pp-caret" aria-hidden="true">' + ICON.chevron + '</span></span>' +
+        '<span class="pc-bar pp-bar"><i style="--w:' + Math.round(got.length / cards.length * 100) + '%"></i></span></summary>' +
         (got.length ? '<div class="stamps">' + stamps + '</div>' : '<p class="pp-empty">No stamps yet. Land a pin within ' + G.HIT_MILES + ' miles to earn one!</p>') +
-        '</section>';
+        '</details>';
     }).join('');
     app.innerHTML =
       '<div class="screen passport">' +
@@ -1047,6 +1052,12 @@
       '<p>Land a pin within ' + G.HIT_MILES + ' miles (or hit a bullseye) and that place gets stamped. Can you fill every page?</p></div></div>' +
       pages + '</div></div>';
     document.getElementById('back').onclick = function () { showPicker(); };
+    app.querySelectorAll('details.pp-page').forEach(function (d) { // remember which pages were left open
+      d.addEventListener('toggle', function () {
+        store.ppOpen = Object.assign({}, store.ppOpen); store.ppOpen[d.getAttribute('data-cat')] = d.open; save();
+        Sound.play('tap');
+      });
+    });
     wireChrome();
   }
   // The stamp thunks onto the screen when you earn a new one.

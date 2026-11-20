@@ -848,6 +848,10 @@ test('passport: close guesses (within 100 mi or a bullseye) stamp a place once, 
   assert.ok(app.includes("got + '/' + n + ' stamped</span>'"), 'tiles show stamp progress once you have a stamp');
   assert.ok(!/' cards'\)/.test(app) && !app.includes("(n === 1 ? ' card' : ' cards')"), 'home tiles no longer show how many cards there are');
   assert.ok(/function showPassport\(\)[\s\S]*DATA\.categories\.map/.test(app), 'one passport page per category');
+  assert.ok(app.includes('<details class="pp-page" data-cat="') && app.includes('<summary class="pp-sum">') && app.includes('ICON.chevron'), 'each page is a caret menu you can open and close');
+  assert.ok(app.includes("store.ppOpen[d.getAttribute('data-cat')] = d.open; save();"), 'it remembers which pages were left open');
+  const html = readSrc('app.html');
+  assert.ok(html.includes('.stamps { display: grid; grid-template-columns: repeat(auto-fill, 58px);') && html.includes('.stamps .stamp { width: 58px;'), 'small stamps, five to a row');
 });
 
 test('rank badges: every rank has its own emoji and color, and a new rank gets a shareable celebration', () => {
