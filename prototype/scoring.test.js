@@ -927,3 +927,19 @@ test('globes draw a lighter coastline when small (level of detail), without flip
   assert.ok(fx.includes('d3.geoArea({ type: \'Polygon\', coordinates: s }) < 2 * Math.PI ? s : poly'), 'a flipped shape keeps its original outline');
   assert.ok(fx.includes('if (!s.length) return s;'), 'islands too small to see are left out');
 });
+
+test('every answer teaches where it is: the result starts at your zoom, then flies in to frame the answer', () => {
+  const app = readSrc('app.js');
+  const map = app.slice(app.indexOf('function createMap'), app.indexOf('// ---------- screens ----------'));
+  assert.ok(map.includes('focusTimer = setTimeout(function () { focusTimer = null; if (svgEl.isConnected) focusAnswer(reduceMotion ? 0 : 1000); }, reduceMotion ? 700 : 1250);'),
+    'a beat on your own view first, then about a one-second glide (instant under reduced motion)');
+  assert.ok(map.includes("svg.transition().duration(ms).ease(d3.easeCubicInOut).call(zoom.transform, tr)"), 'a smooth fly-to');
+  assert.ok(map.includes('if (focusTimer) { clearTimeout(focusTimer); focusTimer = null; }'), 'touching the map first cancels it: the player stays in control');
+  assert.ok(map.includes('if (opts && opts.area) return opts.area;') && map.includes("if (opts && opts.line) return { type: 'MultiLineString'"), 'rivers, deserts, lakes, seas and ranges frame their real shape');
+  assert.ok(map.includes('if (d3.geoContains(f, pt)) { best = f;'), "a country frames its mainland (not far-off islands)");
+  assert.ok(map.includes('Math.max(350, (card.toleranceMiles || 25) * 4)'), 'a point (city, landmark, stadium) shows ~700 miles around it');
+  assert.ok(map.includes('if (k < 1.15 || (onScreen && t.k >= k * 0.85)) return null;'), 'no zoom when there is nothing to gain (oceans, already zoomed in)');
+  assert.ok(map.includes('if (shown.focused) focusAnswer(0);'), 'stays framed if the card resizes');
+  assert.ok(map.includes("side = btns.offsetWidth + 12"), 'framed beside the zoom buttons, never under them');
+  assert.ok(app.includes('map.reveal(q);') && app.includes('c.map.reveal(c.q,'), 'the Paris welcome card and every game card share this reveal');
+});

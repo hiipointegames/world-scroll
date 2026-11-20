@@ -396,7 +396,7 @@
     var zoom = d3.zoom().scaleExtent([1, maxZoom]).extent([[0, 0], [W, H]]).translateExtent([[0, 0], [W, H]])
       .clickDistance(8).tapDistance(12) // finger wobble on a tap is not a drag
       .on('start', function (e) {
-        if (e.sourceEvent) { stopFling(); samples = []; } // a new touch catches the gliding map
+        if (e.sourceEvent) { stopFling(); samples = []; if (focusTimer) { clearTimeout(focusTimer); focusTimer = null; } } // a new touch catches the gliding map (and the player stays in control)
         moving(true);
       })
       .on('zoom', function (e) {
@@ -455,6 +455,7 @@
 
     var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var shown = null, riverLine = null; // the revealed answer, kept so a resize can redraw it
+    var focusTimer = null; // the "fly to the answer" that follows every reveal
 
     var api = {
       // Where the answer sits, as a fraction of the map box (for floating points).
@@ -489,6 +490,10 @@
         target = (opts && opts.target) || { lat: card.lat, lon: card.lon };
         shown = { card: card, opts: opts };
         drawAnswer(card, opts, reduceMotion ? 0 : null);
+        // Teach where it really is: the result starts at the player's own zoom (pin, line, answer), then
+        // the camera glides in to frame the correct answer. Touching the map first cancels it.
+        clearTimeout(focusTimer);
+        focusTimer = setTimeout(function () { focusTimer = null; if (svgEl.isConnected) focusAnswer(reduceMotion ? 0 : 1000); }, reduceMotion ? 700 : 1250);
         if (reduceMotion) { progress = 1; place(); return; }
         var start = performance.now();
         (function step(now) {
@@ -500,6 +505,55 @@
         })(start);
       }
     };
+
+    // What to frame when we fly in: the river, desert, sea or range itself; for a country, the part the card is
+    // about (its mainland, not far-off islands, so France doesn't zoom out to French Guiana); null for a point.
+    function answerGeo(card, opts) {
+      if (opts && opts.area) return opts.area;
+      if (opts && opts.line) return { type: 'MultiLineString', coordinates: opts.line };
+      if (opts && opts.shape) {
+        var g = opts.shape.geometry;
+        if (g.type !== 'MultiPolygon') return opts.shape;
+        var pt = [card.lon, card.lat], best = null, bestArea = -1;
+        g.coordinates.forEach(function (poly) {
+          var f = { type: 'Polygon', coordinates: poly };
+          if (bestArea === Infinity) return;
+          if (d3.geoContains(f, pt)) { best = f; bestArea = Infinity; return; }
+          var a = d3.geoArea(f); if (a > bestArea) { best = f; bestArea = a; }
+        });
+        return best || opts.shape;
+      }
+      return null;
+    }
+    // The zoom that frames the answer: shapes fill most of the map; a point shows about 700 miles around it,
+    // so you see the region it's in. Returns null when there's nothing to gain (oceans, or already zoomed in on it).
+    function focusTransform(card, opts) {
+      var path = d3.geoPath(proj), geo = answerGeo(card, opts);
+      var deg = function (miles) { return miles / G.EARTH_RADIUS_MI * 180 / Math.PI; };
+      var around = d3.geoCircle().center([card.lon, card.lat]).radius(deg(geo ? 150 : Math.max(350, (card.toleranceMiles || 25) * 4)))();
+      var b = path.bounds(geo || around), m = path.bounds(around);
+      if (![b[0][0], b[0][1], b[1][0], b[1][1]].every(isFinite)) return null;
+      var cx = (b[0][0] + b[1][0]) / 2, cy = (b[0][1] + b[1][1]) / 2;
+      var bw = Math.max(b[1][0] - b[0][0], geo ? m[1][0] - m[0][0] : 0, 1), bh = Math.max(b[1][1] - b[0][1], geo ? m[1][1] - m[0][1] : 0, 1);
+      // frame it in the space beside the zoom buttons, so they never cover the answer
+      var btns = wrap && wrap.querySelector('.zoom-btns'), side = 0;
+      if (btns && btns.offsetWidth && btns.offsetHeight > btns.offsetWidth) side = btns.offsetWidth + 12; // buttons in a column on the right
+      var VW = W - side;
+      var k = Math.max(1, Math.min(maxZoom, 0.8 / Math.max(bw / VW, bh / H)));
+      var a = screenOf(target), onScreen = a[0] >= 0 && a[1] >= 0 && a[0] <= W && a[1] <= H;
+      if (k < 1.15 || (onScreen && t.k >= k * 0.85)) return null;
+      var x = Math.max(W - W * k, Math.min(0, VW / 2 - cx * k)), y = Math.max(H - H * k, Math.min(0, H / 2 - cy * k)); // stay on the map
+      return d3.zoomIdentity.translate(x, y).scale(k);
+    }
+    function focusAnswer(ms) {
+      if (!shown) return;
+      var tr = focusTransform(shown.card, shown.opts);
+      if (!tr) return;
+      shown.focused = true;
+      svg.interrupt();
+      if (ms) svg.transition().duration(ms).ease(d3.easeCubicInOut).call(zoom.transform, tr); // a smooth "fly to" (zooms out a little, then in)
+      else svg.call(zoom.transform, tr);
+    }
 
     // The answer's highlight, and the zoom that frames it. ms: animation time (null = the normal one).
     function drawAnswer(card, opts, ms) {
@@ -556,7 +610,7 @@
           layers.forEach(function (l) { l[0].attr('d', P[l[1]] || ''); });
           zoom.extent([[0, 0], [W, H]]).translateExtent([[0, 0], [W, H]]);
           svg.interrupt();
-          if (shown) drawAnswer(shown.card, shown.opts, 0);
+          if (shown) { drawAnswer(shown.card, shown.opts, 0); if (shown.focused) focusAnswer(0); } // keep framing the answer
           else svg.call(zoom.transform, d3.zoomIdentity);
           place();
         });

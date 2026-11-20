@@ -54,6 +54,10 @@ Some answers are areas or lines (rivers, deserts, mountain ranges). For the MVP,
   - App stack for this: `react-native-gesture-handler` + `react-native-reanimated` (gestures run on the UI thread),
     with `@shopify/react-native-skia` (or `react-native-svg`) for drawing and `d3-geo` for `projection.invert`.
   - Globes use a lighter coastline when small (level of detail, see `landFor` in `prototype/src/fx.js`).
+- After every answer, teach where it is: the result starts at the player's own zoom (pin, dashed line, answer), then
+  ~1.25 s later the camera flies in (about 1 s, ease in-out) to frame the answer: a river/desert/lake/sea/range's real
+  shape, a country's mainland, or ~700 miles around a point. Skip it if there's nothing to gain (oceans) and cancel
+  it if the player touches the map first. See `focusAnswer` in `prototype/src/app.js`.
 
 ## Design system (from the prototype)
 - Background ink: #0B1026 · Card surface: #151C42 · Raised: #1A2350 · Outline: #232C60 / #2A3570
