@@ -867,7 +867,8 @@ test('playable welcome: a real Paris card on the welcome screen, never saying "t
   const app = readSrc('app.js');
   const intro = app.slice(app.indexOf('function showIntro'), app.indexOf('// --- Pick your feed ---'));
   assert.ok(intro.includes("x.prompt === 'Where is Paris?'") && intro.includes("createMap(box.querySelector('.map'), 'europe'"));
-  assert.ok(intro.includes('Drop a pin where you think Paris is, then lock in your guess.'));
+  assert.ok(intro.includes('>Drop a pin on Paris</button>'), 'the button says what to do');
+  assert.ok(intro.includes('Then scroll through countries, capitals, rivers, oceans, lakes, seas, famous landmarks, and where your favorite sports teams play.'), 'Bryce\'s wording, word for word');
   assert.ok(intro.includes('rivers, oceans, lakes, seas'), 'the welcome still lists what is in the game');
   for (const f of ['app.js', 'app.html', 'share.js', 'scoring.js']) assert.ok(!/tap the (map|globe)|map tap/i.test(readSrc(f)), f + ' never says "tap the map"');
 });

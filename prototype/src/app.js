@@ -774,9 +774,9 @@
       // A real card to play right here: the first pin is the first win.
       '<div class="intro-try" id="intro-try"><div class="try-head"><span class="try-kicker">TRY ONE!</span><span class="try-prompt">Where is Paris?</span></div>' +
       '<div class="try-map"><div class="map"></div></div>' +
-      '<div class="try-panel hint" id="try-panel" aria-live="polite">Drop a pin where you think Paris is, then lock in your guess.</div>' +
-      '<button class="btn teal try-lock" id="try-lock" disabled>Drop a pin first</button></div>' +
-      '<p class="intro-more">Then scroll through ' + fmt(Math.floor(QUESTIONS.length / 100) * 100) + '+ more: countries, capitals, rivers, oceans, lakes, seas, famous landmarks, and where your favorite sports teams play.</p>' +
+      '<div class="try-panel hint" id="try-panel" aria-live="polite"></div>' + // fills in with your result
+      '<button class="btn teal try-lock" id="try-lock" disabled>Drop a pin on Paris</button></div>' +
+      '<p class="intro-more">Then scroll through countries, capitals, rivers, oceans, lakes, seas, famous landmarks, and where your favorite sports teams play.</p>' +
       '</div>' +
       '<div class="intro-foot"><button class="btn primary big" id="intro-go">Start scrolling</button></div>' +
       '</div>';

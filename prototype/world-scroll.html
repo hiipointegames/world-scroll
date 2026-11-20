@@ -939,7 +939,8 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .try-pts { color: var(--teal); }
 .try-fact { color: var(--muted); }
 .try-lock { width: 100%; }
-.intro-more { margin: 0; font-size: 13px; line-height: 1.45; color: var(--dim); }
+.try-panel.hint { display: none; } /* empty until you lock in: the button says what to do */
+.intro-more { margin: 0; font-size: 14.5px; line-height: 1.45; font-weight: 500; color: var(--body-strong); }
 .try-lock:disabled { background: var(--outline-2); color: var(--muted); cursor: not-allowed; }
 .intro-foot .btn.big.glow { animation: heartbeat 1.3s ease-in-out infinite; box-shadow: 0 0 0 4px rgba(255, 181, 71, .3), 0 0 34px rgba(255, 181, 71, .55); }
 @media (max-height: 720px) { .try-map { height: 130px; } .try-prompt { font-size: 19px; } }
@@ -2779,9 +2780,9 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
       // A real card to play right here: the first pin is the first win.
       '<div class="intro-try" id="intro-try"><div class="try-head"><span class="try-kicker">TRY ONE!</span><span class="try-prompt">Where is Paris?</span></div>' +
       '<div class="try-map"><div class="map"></div></div>' +
-      '<div class="try-panel hint" id="try-panel" aria-live="polite">Drop a pin where you think Paris is, then lock in your guess.</div>' +
-      '<button class="btn teal try-lock" id="try-lock" disabled>Drop a pin first</button></div>' +
-      '<p class="intro-more">Then scroll through ' + fmt(Math.floor(QUESTIONS.length / 100) * 100) + '+ more: countries, capitals, rivers, oceans, lakes, seas, famous landmarks, and where your favorite sports teams play.</p>' +
+      '<div class="try-panel hint" id="try-panel" aria-live="polite"></div>' + // fills in with your result
+      '<button class="btn teal try-lock" id="try-lock" disabled>Drop a pin on Paris</button></div>' +
+      '<p class="intro-more">Then scroll through countries, capitals, rivers, oceans, lakes, seas, famous landmarks, and where your favorite sports teams play.</p>' +
       '</div>' +
       '<div class="intro-foot"><button class="btn primary big" id="intro-go">Start scrolling</button></div>' +
       '</div>';
