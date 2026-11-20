@@ -925,6 +925,12 @@ test('every share sends the message and the link together, so no app can drop th
   assert.ok(app.includes('text: text, url: challengeUrl(c.q, c.guess)') && app.includes('G.worstMissText(subjectOf(w.q), placeOfPin(w.guess), w.miles, team), url: challengeUrl(w.q, w.guess)'));
 });
 
+test('the share tip says "send your results" (the squares are more than green and red now)', () => {
+  const app = readSrc('app.js');
+  assert.ok(app.includes('Once you finish a <b>Daily 10</b> or <b>Daily Sports 10</b>, hit <b>Share my score</b> and send your results to a friend. Can they beat you?'));
+  assert.ok(!app.includes('green and red squares'));
+});
+
 test('new effects switch off under reduced motion', () => {
   const html = readSrc('app.html');
   const block = html.slice(html.indexOf('/* ===== Share & next-level fun'));
