@@ -533,7 +533,7 @@ test('the juice (fx.js): built into the game, safe for photosensitive players, c
   assert.ok(app.includes("FX.slam(app, emoji, text)"), 'picking a feed slams a pop-up');
   assert.ok(app.includes('FX.welcomeGlobe(') && app.includes('FX.wireTaps()'), 'welcome globe and tap bursts are on');
   const reduce = html.slice(html.lastIndexOf('@media (prefers-reduced-motion: reduce)'));
-  for (const sel of ['.wave-letter', '.fx-floaters', '.wm-globe', '.sports-hero', '#go-daily', '.fx-boing']) assert.ok(reduce.includes(sel), sel + ' stops under reduced motion');
+  for (const sel of ['.wave-letter', '.wm-globe', '.sports-hero', '#go-daily', '.fx-boing']) assert.ok(reduce.includes(sel), sel + ' stops under reduced motion');
   const sound = fs.readFileSync(path.join(__dirname, 'src/sound.js'), 'utf8');
   for (const n of ['boing', 'slam', 'intro']) assert.ok(sound.includes('    ' + n + ': function'), n + ' sound exists');
 });
@@ -546,7 +546,14 @@ test('gameplay juice: every result gets a reaction (bullseye party, fire for hot
   assert.ok(/scorching: \{ emoji: '🔥'[^}]*flames: \d+/.test(fx) && /hot: \{ emoji: '🔥'[^}]*flames: \d+/.test(fx), 'hot guesses burn the screen with flames');
   assert.ok(app.includes("reactFx(c, vibe, isSport && hit ? verdict.toUpperCase() : null);"), 'lock-in fires the reaction (sports hits shout their word)');
   assert.ok(app.includes("FX.pinBurst(e.clientX, e.clientY)") && app.includes(".text('✈️')"), 'pin sparkle and the plane along the line');
-  assert.ok(app.includes("FX.floaters(app.querySelector('.screen.intro'), 11)"), 'welcome screen has a third fewer floating emoji');
+  assert.ok(!app.includes('FX.floaters'), 'no floating emoji on the welcome screen (they were distracting)');
+  const fxSrc = require('fs').readFileSync(require('path').join(__dirname, 'src/fx.js'), 'utf8');
+  assert.ok(fxSrc.includes('var ORBITS = [') && fxSrc.includes('sat:') && fxSrc.includes('rd.moon') && fxSrc.includes('function glint('), 'the welcome globe has orbits, satellites, a moon, comets and lens glints');
+  const welcome = fxSrc.slice(fxSrc.indexOf('function welcomeGlobe'), fxSrc.indexOf('// ---------- home screen: the fly-in'));
+  assert.ok(!/fillText\(/.test(welcome), 'no cartoon emoji drawn around the globe');
+  assert.ok(fxSrc.includes('Math.min(3, root.devicePixelRatio || 1)'), 'drawn at full phone resolution, so it stays sharp');
+  assert.ok(fxSrc.includes("globalCompositeOperation = 'lighter'") && fxSrc.includes('Fresnel rim'), 'lit like a real, polished globe');
+  assert.ok(fxSrc.includes('if (opts.behind) opts.behind(c);'), 'the far side of each orbit passes behind the globe');
   assert.ok(/function reveal\(screen, vibe, at, word\) \{\n    var v = VIBE_FX\[vibe\];\n    if \(calm/.test(fx), 'reactions are skipped under reduced motion');
 });
 

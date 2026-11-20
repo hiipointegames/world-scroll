@@ -781,7 +781,6 @@
       '<div class="intro-foot"><button class="btn primary big" id="intro-go">Start scrolling</button></div>' +
       '</div>';
     FX.welcomeGlobe(app.querySelector('.intro-globe'));
-    FX.floaters(app.querySelector('.screen.intro'), 11); // 16 felt busy; a third fewer
     document.getElementById('intro-go').onclick = function () {
       store.seenIntro = true; save(); showPicker({ flyIn: true });
     };

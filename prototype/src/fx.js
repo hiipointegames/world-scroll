@@ -18,107 +18,216 @@
   var EMOJI = ['🌍', '🗺️', '📍', '⭐', '✈️', '🧭', '🏔️', '🌊', '🏆', '🎉'];
 
   function sizeCanvas(cv, w, h) {
-    var dpr = Math.min(2, root.devicePixelRatio || 1);
+    var dpr = Math.min(3, root.devicePixelRatio || 1); // full phone resolution, so every line is razor sharp
     cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
     cv.style.width = w + 'px'; cv.style.height = h + 'px';
     var c = cv.getContext('2d'); c.setTransform(dpr, 0, 0, dpr, 0, 0);
     return c;
   }
   var graticule = d3.geoGraticule10();
+  // Fine diagonal sheen for the land, like brushed metal (one gradient, built once per size).
+  var sheenCache = {};
+  function sheen(c, cx, cy, r) {
+    var key = Math.round(r) + '|' + Math.round(cx) + '|' + Math.round(cy);
+    if (sheenCache[key]) return sheenCache[key];
+    var g = c.createLinearGradient(cx - r, cy - r * 0.6, cx + r, cy + r * 0.6);
+    for (var i = 0; i <= 40; i++) g.addColorStop(i / 40, i % 2 ? 'rgba(255,255,255,0)' : 'rgba(255,255,255,' + (0.035 + 0.03 * Math.sin(i * 1.7)) + ')');
+    return (sheenCache[key] = g);
+  }
 
-  // Draws one frame of a globe: glow halo, ocean, grid lines, land, then the extras on top.
+  // Draws one frame of a polished, lit globe: atmosphere haze, deep ocean, brushed-metal land with hairline
+  // coastlines, a night side, a sun highlight and a glowing rim. opts.behind / opts.extras draw around and on it.
   function drawGlobe(c, proj, w, h, opts) {
-    var path = d3.geoPath(proj, c), r = proj.scale(), ctr = proj.translate();
+    var path = d3.geoPath(proj, c), r = proj.scale(), ctr = proj.translate(), cx = ctr[0], cy = ctr[1];
+    var lx = cx - r * 0.42, ly = cy - r * 0.48; // the sun is up and to the left
     c.clearRect(0, 0, w, h);
-    // the glow fades to nothing before the canvas edge, so it never ends in a hard line
-    var glowR = Math.max(r + 4, Math.min(r * 1.35, Math.min(ctr[1], h - ctr[1], ctr[0], w - ctr[0])));
-    var halo = c.createRadialGradient(ctr[0], ctr[1], r * 0.85, ctr[0], ctr[1], glowR);
-    halo.addColorStop(0, 'rgba(61,220,196,' + (0.35 + 0.2 * Math.sin(opts.t * 3)) + ')');
+    // atmosphere haze, fading out before the canvas edge so it never ends in a hard line
+    var glowR = Math.max(r + 4, Math.min(r * 1.34, Math.min(cy, h - cy, cx, w - cx)));
+    var breathe = 0.92 + 0.08 * Math.sin((opts.t || 0) * 1.4);
+    var halo = c.createRadialGradient(cx, cy, r * 0.94, cx, cy, glowR);
+    halo.addColorStop(0, 'rgba(110,200,255,' + (0.42 * breathe) + ')'); halo.addColorStop(0.4, 'rgba(61,220,196,' + (0.12 * breathe) + ')');
     halo.addColorStop(1, 'rgba(61,220,196,0)');
-    c.fillStyle = halo; c.beginPath(); c.arc(ctr[0], ctr[1], glowR, 0, 2 * Math.PI); c.fill();
-    var sea = c.createRadialGradient(ctr[0] - r * 0.35, ctr[1] - r * 0.35, r * 0.1, ctr[0], ctr[1], r);
-    sea.addColorStop(0, '#1F3A86'); sea.addColorStop(1, '#0F1A40');
+    c.fillStyle = halo; c.beginPath(); c.arc(cx, cy, glowR, 0, 2 * Math.PI); c.fill();
+    if (opts.behind) opts.behind(c); // things passing behind the globe (the far side of each orbit)
+    // deep ocean: lit blue under the sun, nearly black at the edge
+    var sea = c.createRadialGradient(lx, ly, r * 0.05, cx, cy, r * 1.05);
+    sea.addColorStop(0, '#3170C4'); sea.addColorStop(0.35, '#163C86'); sea.addColorStop(0.75, '#0A1C4E'); sea.addColorStop(1, '#040A22');
     c.fillStyle = sea; c.beginPath(); path({ type: 'Sphere' }); c.fill();
-    c.strokeStyle = 'rgba(140,200,255,.09)'; c.lineWidth = 0.6; c.beginPath(); path(graticule); c.stroke(); // faint grid
-    var landFill = c.createLinearGradient(ctr[0] - r, ctr[1] - r, ctr[0] + r, ctr[1] + r);
-    landFill.addColorStop(0, '#46A3AE'); landFill.addColorStop(1, '#2A6A86');
-    c.fillStyle = landFill; c.beginPath(); path(getLand()); c.fill();
-    c.strokeStyle = 'rgba(190,255,240,.38)'; c.lineWidth = 0.6; c.stroke(); // fine coastlines
-    // light from the top left, shadow on the far side: it reads as a real ball, not a flat disc
-    var shade = c.createRadialGradient(ctr[0] - r * 0.45, ctr[1] - r * 0.5, r * 0.05, ctr[0], ctr[1], r * 1.02);
-    shade.addColorStop(0, 'rgba(255,255,255,.20)'); shade.addColorStop(0.45, 'rgba(255,255,255,0)');
-    shade.addColorStop(0.8, 'rgba(4,8,30,.18)'); shade.addColorStop(1, 'rgba(4,8,30,.55)');
-    c.fillStyle = shade; c.beginPath(); path({ type: 'Sphere' }); c.fill();
+    c.strokeStyle = 'rgba(150,210,255,.07)'; c.lineWidth = 0.5; c.beginPath(); path(graticule); c.stroke(); // hairline grid
+    // land: cool brushed metal, bright where the light hits
+    var landFill = c.createLinearGradient(cx - r, cy - r, cx + r * 0.9, cy + r);
+    landFill.addColorStop(0, '#BDF2EC'); landFill.addColorStop(0.3, '#6CC0C6'); landFill.addColorStop(0.62, '#2F7C96'); landFill.addColorStop(1, '#123754');
+    c.beginPath(); path(getLand());
+    c.fillStyle = landFill; c.fill();
+    c.save(); c.clip(); c.fillStyle = sheen(c, cx, cy, r); c.fillRect(cx - r, cy - r, r * 2, r * 2); c.restore();
+    c.strokeStyle = 'rgba(225,255,250,.6)'; c.lineWidth = 0.45; c.stroke(); // razor-thin coastlines
+    // night side: the far side of the ball falls into shadow
+    var night = c.createRadialGradient(lx, ly, r * 0.2, cx + r * 0.1, cy + r * 0.1, r * 1.25);
+    night.addColorStop(0, 'rgba(2,5,22,0)'); night.addColorStop(0.55, 'rgba(2,5,22,0)'); night.addColorStop(0.82, 'rgba(2,5,22,.5)'); night.addColorStop(1, 'rgba(2,5,22,.82)');
+    c.fillStyle = night; c.beginPath(); path({ type: 'Sphere' }); c.fill();
     if (opts.extras) opts.extras(c, path);
-    // a glowing atmosphere rim, like Earth seen from space
-    c.save(); c.shadowColor = 'rgba(110,235,255,.85)'; c.shadowBlur = Math.min(24, r * 0.12);
-    c.strokeStyle = 'rgba(170,240,255,.55)'; c.lineWidth = 1.6; c.beginPath(); path({ type: 'Sphere' }); c.stroke(); c.restore();
+    // the sun's highlight: a soft specular glint, so it reads as polished, not painted
+    c.save(); c.globalCompositeOperation = 'lighter';
+    var spec = c.createRadialGradient(lx, ly, 0, lx, ly, r * 0.55);
+    spec.addColorStop(0, 'rgba(255,255,255,.24)'); spec.addColorStop(0.3, 'rgba(200,235,255,.09)'); spec.addColorStop(1, 'rgba(200,235,255,0)');
+    c.fillStyle = spec; c.beginPath(); path({ type: 'Sphere' }); c.fill();
+    // Fresnel rim: the edge of the atmosphere catches the light
+    var rim = c.createRadialGradient(cx, cy, r * 0.8, cx, cy, r);
+    rim.addColorStop(0, 'rgba(120,220,255,0)'); rim.addColorStop(1, 'rgba(120,220,255,.38)');
+    c.fillStyle = rim; c.beginPath(); path({ type: 'Sphere' }); c.fill();
+    c.restore();
+    c.save(); c.shadowColor = 'rgba(110,210,255,.95)'; c.shadowBlur = Math.min(18, r * 0.16);
+    c.strokeStyle = 'rgba(200,245,255,.8)'; c.lineWidth = 0.9; c.beginPath(); path({ type: 'Sphere' }); c.stroke(); c.restore();
   }
   var visible = function (proj, p) { var r = proj.rotate(); return d3.geoDistance(p, [-r[0], -r[1]]) < Math.PI / 2 - 0.05; };
 
-  // ---------- welcome screen: spinning globe with pins, flight arcs and an orbiting plane ----------
+  // ---------- welcome screen: a premium spinning globe in its own little space show ----------
+  // On the globe: city lights, and flight paths that lift off the surface like real routes.
+  // Around it: hairline orbits with light sweeping along them, satellites and comets that pass behind and in
+  // front of the globe, a small moon, a crisp starfield and a slow pulse. No cartoon emoji.
   function welcomeGlobe(host) {
     var cv = document.createElement('canvas'); cv.className = 'fx-globe'; host.appendChild(cv);
     var w = host.clientWidth || 340, h = host.clientHeight || 200, c = sizeCanvas(cv, w, h);
-    var proj = d3.geoOrthographic().clipAngle(90).translate([w / 2, h / 2]).scale(Math.min(w, h) / 2 - 14);
-    var flights = [[0, 3], [1, 7], [4, 5], [2, 6], [8, 9], [10, 11], [12, 13], [3, 4]];
-    var t0 = performance.now();
-    function extras(c, path) {
-      var t = (performance.now() - t0) / 1000;
-      // flight arcs: a glowing line that draws itself, then fades, one after another
+    var proj = d3.geoOrthographic().clipAngle(90).translate([w / 2, h / 2]).scale(Math.min(w * 0.2, h / 2 - 16)); // room around it for the orbits
+    var flights = [[0, 3], [1, 7], [4, 5], [2, 6], [8, 9], [10, 11], [12, 13], [3, 4], [5, 1], [9, 12]];
+    var R = proj.scale(), ctr = proj.translate(), t0 = performance.now();
+    function center() { var rt = proj.rotate(); return [-rt[0], -rt[1]]; }
+    // a point above the surface: altitude 0 = on the ground (orthographic, so lifting = pushing out from the center)
+    function lifted(p, alt) { var s = proj(p); return [ctr[0] + (s[0] - ctr[0]) * (1 + alt), ctr[1] + (s[1] - ctr[1]) * (1 + alt)]; }
+    function extras() {
+      var t = (performance.now() - t0) / 1000, cen = center();
+      // flight paths: a bright head with a fading tail, arcing up off the globe and back down
       flights.forEach(function (f, i) {
-        var k = ((t * 0.45 + i * 0.37) % 1.6);
-        if (k > 1.2) return;
-        var a = SPOTS[f[0]], b = SPOTS[f[1]], ip = d3.geoInterpolate(a, b), n = 24, pts = [];
-        for (var j = 0; j <= n * Math.min(1, k); j++) pts.push(ip(j / n));
-        if (pts.length < 2) return;
-        c.strokeStyle = i % 2 ? 'rgba(255,111,168,.9)' : 'rgba(255,181,71,.95)'; c.lineWidth = 2; c.setLineDash([5, 4]);
-        c.lineDashOffset = -t * 30; c.beginPath(); path({ type: 'LineString', coordinates: pts }); c.stroke(); c.setLineDash([]);
+        var k = (t * 0.32 + i * 0.29) % 1.5;
+        if (k > 1.25) return;
+        var a = SPOTS[f[0]], b = SPOTS[f[1]], ip = d3.geoInterpolate(a, b), n = 40, head = Math.min(1, k), tail = Math.max(0, k - 0.45);
+        var gold = i % 3 !== 1, prev = null;
+        for (var j = Math.floor(tail * n); j <= head * n; j++) {
+          var fr = j / n, p = ip(fr);
+          if (d3.geoDistance(p, cen) > Math.PI / 2 - 0.02) { prev = null; continue; }
+          var s = lifted(p, 0.2 * Math.sin(Math.PI * fr) * Math.min(1, d3.geoDistance(a, b) * 0.9));
+          if (prev) {
+            var al = (fr - tail) / Math.max(0.01, head - tail);
+            c.strokeStyle = (gold ? 'rgba(255,200,110,' : 'rgba(150,235,255,') + (0.1 + 0.85 * al) + ')';
+            c.lineWidth = 0.6 + 0.9 * al; c.beginPath(); c.moveTo(prev[0], prev[1]); c.lineTo(s[0], s[1]); c.stroke();
+          }
+          prev = s;
+        }
+        if (prev && k < 1) { // the moving head: a tiny bright light
+          c.save(); c.shadowColor = gold ? '#FFC870' : '#9BE9FF'; c.shadowBlur = 8; c.fillStyle = '#FFFFFF';
+          c.beginPath(); c.arc(prev[0], prev[1], 1.5, 0, 2 * Math.PI); c.fill(); c.restore();
+        }
       });
-      // pins: pop in, bounce, send out a ring
+      // cities: small glowing lights with a thin ring breathing out; they fade as they turn toward the edge
       SPOTS.forEach(function (s, i) {
-        if (!visible(proj, s)) return;
-        var p = proj(s), ph = (t * 0.8 + i * 0.29) % 1, pop = Math.min(1, ph * 6), bounce = 1 + 0.4 * Math.sin(Math.min(1, ph * 6) * Math.PI);
-        c.strokeStyle = 'rgba(255,181,71,' + (1 - ph) + ')'; c.lineWidth = 2;
-        c.beginPath(); c.arc(p[0], p[1], 4 + ph * 22, 0, 2 * Math.PI); c.stroke();
-        c.fillStyle = COLORS[i % 3]; c.beginPath(); c.arc(p[0], p[1], 4.5 * pop * bounce, 0, 2 * Math.PI); c.fill();
-        c.fillStyle = '#0B1026'; c.beginPath(); c.arc(p[0], p[1], 1.6 * pop, 0, 2 * Math.PI); c.fill();
+        var d = d3.geoDistance(s, cen);
+        if (d > Math.PI / 2 - 0.05) return;
+        var p = proj(s), fade = Math.min(1, (Math.PI / 2 - d) * 3), ph = (t * 0.5 + i * 0.29) % 1;
+        c.strokeStyle = 'rgba(255,210,140,' + (0.7 * (1 - ph) * fade) + ')'; c.lineWidth = 0.7;
+        c.beginPath(); c.arc(p[0], p[1], 2 + ph * 9, 0, 2 * Math.PI); c.stroke();
+        c.save(); c.shadowColor = 'rgba(255,190,90,1)'; c.shadowBlur = 7; c.fillStyle = 'rgba(255,236,200,' + fade + ')';
+        c.beginPath(); c.arc(p[0], p[1], 1.6, 0, 2 * Math.PI); c.fill(); c.restore();
       });
     }
-    if (calm) { proj.rotate([-20, -18, 0]); drawGlobe(c, proj, w, h, { t: 0 }); return; } // reduced motion: one still globe
+    // ---- around the globe ----
+    // Tilted orbits (sizes are multiples of the globe's radius R). The far half of each is drawn behind the globe.
+    var ORBITS = [
+      { rx: 1.95, ry: 0.4, tilt: -0.26, color: '120,230,215', speed: 0.55, sweep: 0.9, riders: [{ sat: '#9BF5E6', at: 0 }, { comet: '255,205,120', at: Math.PI }] },
+      { rx: 1.6, ry: 0.58, tilt: 0.44, color: '255,160,200', speed: -0.42, sweep: -0.7, riders: [{ sat: '#FFC2DA', at: 1.2 }] },
+      { rx: 2.5, ry: 0.3, tilt: 0.1, color: '255,205,120', speed: 0.3, sweep: 0.5, riders: [{ comet: '255,255,255', at: 0.6 }, { comet: '150,230,255', at: 3.6 }] },
+      { rx: 2.2, ry: 0.86, tilt: -0.16, color: '170,200,255', speed: 0.2, sweep: 0.35, riders: [{ moon: true, at: 2 }] }
+    ];
+    function onOrbit(o, a) { // a point on a tilted ellipse; depth > 0 means in front of the globe
+      var x = Math.cos(a) * o.rx * R, y = Math.sin(a) * o.ry * R, ct = Math.cos(o.tilt), st = Math.sin(o.tilt);
+      return { x: ctr[0] + x * ct - y * st, y: ctr[1] + x * st + y * ct, depth: Math.sin(a) };
+    }
+    // A crisp starfield (fixed spots; a few twinkle) and three lens glints.
+    var STARS = [], seed = 7;
+    function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+    for (var s = 0; s < 70; s++) {
+      var sx = rnd() * w, sy = rnd() * h;
+      if (Math.hypot(sx - ctr[0], sy - ctr[1]) < R * 1.15) continue;
+      STARS.push({ x: sx, y: sy, r: 0.35 + rnd() * 0.75, tw: rnd() < 0.35, ph: rnd() * 6.3, warm: rnd() < 0.2 });
+    }
+    var GLINTS = [[-1.75, -0.95, 0], [1.9, 0.75, 2.1], [2.35, -0.7, 4.2]].map(function (g) { return { x: ctr[0] + g[0] * R, y: ctr[1] + g[1] * R, ph: g[2] }; });
+    function glint(x, y, size, alpha) { // a thin lens-flare cross, like light catching a camera lens
+      c.save(); c.globalCompositeOperation = 'lighter';
+      var gx = c.createLinearGradient(x - size, y, x + size, y);
+      gx.addColorStop(0, 'rgba(200,235,255,0)'); gx.addColorStop(0.5, 'rgba(235,250,255,' + alpha + ')'); gx.addColorStop(1, 'rgba(200,235,255,0)');
+      c.fillStyle = gx; c.fillRect(x - size, y - 0.4, size * 2, 0.8);
+      var gy = c.createLinearGradient(x, y - size, x, y + size);
+      gy.addColorStop(0, 'rgba(200,235,255,0)'); gy.addColorStop(0.5, 'rgba(235,250,255,' + alpha + ')'); gy.addColorStop(1, 'rgba(200,235,255,0)');
+      c.fillStyle = gy; c.fillRect(x - 0.4, y - size * 0.6, 0.8, size * 1.2);
+      c.shadowColor = 'rgba(200,240,255,1)'; c.shadowBlur = 6; c.fillStyle = 'rgba(255,255,255,' + alpha + ')';
+      c.beginPath(); c.arc(x, y, 0.9, 0, 2 * Math.PI); c.fill(); c.restore();
+    }
+    // Orbit rings: hairlines, with a soft light sweeping around each one.
+    function ring(o, front, t) {
+      var n = 90, base = front ? 0.22 : 0.08, sw = t * o.sweep;
+      c.lineWidth = front ? 0.8 : 0.6;
+      for (var i = 0; i < n; i++) {
+        var a0 = (front ? 0 : Math.PI) + Math.PI * i / n, a1 = a0 + Math.PI / n;
+        var lit = Math.pow(Math.max(0, Math.cos(a0 - sw)), 10) * (front ? 0.7 : 0.25);
+        var p0 = onOrbit(o, a0), p1 = onOrbit(o, a1);
+        c.strokeStyle = 'rgba(' + o.color + ',' + (base + lit) + ')';
+        c.beginPath(); c.moveTo(p0.x, p0.y); c.lineTo(p1.x, p1.y); c.stroke();
+      }
+    }
+    function rider(o, rd, t, front) {
+      var a = rd.at + t * o.speed, p = onOrbit(o, a);
+      if ((p.depth > 0) !== front) return;
+      var dim = front ? 1 : 0.4, dir = Math.sign(o.speed);
+      if (rd.comet) { // a bright point with a long, thin, fading tail along the orbit
+        var prev = p;
+        for (var i = 1; i <= 26; i++) {
+          var q = onOrbit(o, a - i * 0.022 * dir);
+          c.strokeStyle = 'rgba(' + rd.comet + ',' + (dim * 0.7 * (1 - i / 27)) + ')'; c.lineWidth = 1.3 * (1 - i / 30);
+          c.beginPath(); c.moveTo(prev.x, prev.y); c.lineTo(q.x, q.y); c.stroke(); prev = q;
+        }
+        c.save(); c.shadowColor = 'rgba(' + rd.comet + ',1)'; c.shadowBlur = 9; c.fillStyle = 'rgba(255,255,255,' + dim + ')';
+        c.beginPath(); c.arc(p.x, p.y, 1.4, 0, 2 * Math.PI); c.fill(); c.restore();
+      } else if (rd.moon) { // a small, softly lit moon with a couple of faint craters
+        var mr = Math.max(3.5, R * 0.11);
+        c.save(); c.globalAlpha = dim;
+        var mg = c.createRadialGradient(p.x - mr * 0.45, p.y - mr * 0.45, mr * 0.05, p.x, p.y, mr);
+        mg.addColorStop(0, '#FBFAF4'); mg.addColorStop(0.55, '#C9CCD8'); mg.addColorStop(1, '#5D6382');
+        c.fillStyle = mg; c.beginPath(); c.arc(p.x, p.y, mr, 0, 2 * Math.PI); c.fill();
+        c.fillStyle = 'rgba(90,96,125,.35)';
+        c.beginPath(); c.arc(p.x + mr * 0.25, p.y + mr * 0.1, mr * 0.22, 0, 2 * Math.PI); c.fill();
+        c.beginPath(); c.arc(p.x - mr * 0.2, p.y + mr * 0.42, mr * 0.13, 0, 2 * Math.PI); c.fill();
+        c.restore();
+      } else { // a satellite: a steady white light with a colored glow and a tiny flare
+        c.save(); c.globalAlpha = dim; c.shadowColor = rd.sat; c.shadowBlur = 10; c.fillStyle = '#FFFFFF';
+        c.beginPath(); c.arc(p.x, p.y, front ? 1.8 : 1.3, 0, 2 * Math.PI); c.fill(); c.restore();
+        if (front) glint(p.x, p.y, 6, 0.55);
+      }
+    }
+    function behind(t) {
+      return function () {
+        STARS.forEach(function (st) {
+          var a = st.tw ? 0.35 + 0.6 * Math.abs(Math.sin(t * 0.9 + st.ph)) : 0.55;
+          c.fillStyle = (st.warm ? 'rgba(255,225,190,' : 'rgba(230,240,255,') + a + ')';
+          c.beginPath(); c.arc(st.x, st.y, st.r, 0, 2 * Math.PI); c.fill();
+        });
+        GLINTS.forEach(function (g) { glint(g.x, g.y, 7, 0.25 + 0.5 * Math.abs(Math.sin(t * 0.7 + g.ph))); });
+        var pulse = (t % 3.2) / 3.2; // a slow, thin ripple from the globe
+        c.strokeStyle = 'rgba(140,220,255,' + (0.35 * (1 - pulse)) + ')'; c.lineWidth = 0.8;
+        c.beginPath(); c.arc(ctr[0], ctr[1], R * (1.03 + pulse * 0.8), 0, 2 * Math.PI); c.stroke();
+        ORBITS.forEach(function (o) { ring(o, false, t); o.riders.forEach(function (rd) { rider(o, rd, t, false); }); });
+      };
+    }
+    function inFront(t) {
+      ORBITS.forEach(function (o) { ring(o, true, t); o.riders.forEach(function (rd) { rider(o, rd, t, true); }); });
+    }
+    if (calm) { proj.rotate([-20, -18, 0]); drawGlobe(c, proj, w, h, { t: 0, behind: behind(0) }); inFront(0); return; } // reduced motion: one still picture
     (function frame() {
       if (!cv.isConnected) return; // the welcome screen closed: stop
       var t = (performance.now() - t0) / 1000;
-      proj.rotate([t * 28 - 20, -18 + 8 * Math.sin(t * 0.6), 0]);
-      drawGlobe(c, proj, w, h, { t: t, extras: extras });
-      // a plane circling the globe, with a sparkly trail
-      var a = t * 1.3, r = proj.scale() + 16, ctr = proj.translate();
-      var px = ctr[0] + Math.cos(a) * r * 1.05, py = ctr[1] + Math.sin(a) * r * 0.55;
-      for (var i = 1; i < 10; i++) {
-        var ta = a - i * 0.07;
-        c.fillStyle = 'rgba(255,255,255,' + (0.5 - i * 0.05) + ')';
-        c.beginPath(); c.arc(ctr[0] + Math.cos(ta) * r * 1.05, ctr[1] + Math.sin(ta) * r * 0.55, 2.2 - i * 0.18, 0, 2 * Math.PI); c.fill();
-      }
-      c.save(); c.translate(px, py); c.rotate(Math.atan2(Math.cos(a) * r * 0.55, -Math.sin(a) * r * 1.05) + Math.PI / 4);
-      c.font = '18px serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('✈️', 0, 0); c.restore();
+      proj.rotate([t * 16 - 20, -18 + 5 * Math.sin(t * 0.35), 0]); // a slower, more stately spin
+      drawGlobe(c, proj, w, h, { t: t, extras: extras, behind: behind(t) });
+      inFront(t);
       requestAnimationFrame(frame);
     })();
-  }
-
-  // Emoji that float up the welcome screen behind the text.
-  function floaters(host, n) {
-    if (calm) return;
-    var layer = document.createElement('div'); layer.className = 'fx-floaters'; layer.setAttribute('aria-hidden', 'true');
-    for (var i = 0; i < n; i++) {
-      var s = document.createElement('span');
-      s.textContent = EMOJI[i % EMOJI.length];
-      s.style.left = (5 + Math.random() * 90) + '%';
-      s.style.fontSize = (16 + Math.random() * 18) + 'px';
-      s.style.animationDuration = (6 + Math.random() * 6) + 's';
-      s.style.animationDelay = (-Math.random() * 10) + 's';
-      layer.appendChild(s);
-    }
-    host.insertBefore(layer, host.firstChild);
   }
 
   // ---------- home screen: the fly-in (about 2.9 seconds) ----------
@@ -302,6 +411,6 @@
     }, true);
   }
 
-  root.FX = { welcomeGlobe: welcomeGlobe, floaters: floaters, flyIn: flyIn, burst: burst, slam: slam, wireTaps: wireTaps, calm: calm,
+  root.FX = { welcomeGlobe: welcomeGlobe, flyIn: flyIn, burst: burst, slam: slam, wireTaps: wireTaps, calm: calm,
     reveal: reveal, pinBurst: pinBurst, rareFind: rareFind, unlocked: unlocked };
 })(this);

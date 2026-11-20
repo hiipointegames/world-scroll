@@ -590,10 +590,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .intro-globe { height: 220px; margin-top: 12px; flex-shrink: 0; display: grid; place-items: center; }
 .fx-globe { display: block; }
 @media (max-height: 720px) { .intro-globe { height: 150px; margin-top: 6px; } } /* small phones: a smaller globe leaves room for the steps */
-.screen.intro > :not(.fx-floaters) { position: relative; z-index: 1; }
-.fx-floaters { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
-.fx-floaters span { position: absolute; bottom: -50px; opacity: .5; animation: float-emoji 9s linear infinite; }
-@keyframes float-emoji { to { transform: translateY(-1000px) rotate(540deg); } }
+.screen.intro > * { position: relative; z-index: 1; }
 .wave-letter { display: inline-block; font-style: normal; animation: wave 1.8s ease-in-out infinite; animation-delay: calc(var(--i) * 90ms); }
 @keyframes wave { 0%, 55%, 100% { transform: none; } 18% { transform: translateY(-11px) rotate(-8deg) scale(1.2); } 34% { transform: translateY(3px) scale(.95); } }
 .intro-title { background-image: linear-gradient(100deg, var(--text) 28%, var(--gold) 38%, var(--pink) 48%, var(--teal) 58%, var(--text) 68%);
@@ -947,7 +944,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .intro-foot .btn.big.glow { animation: heartbeat 1.3s ease-in-out infinite; box-shadow: 0 0 0 4px rgba(255, 181, 71, .3), 0 0 34px rgba(255, 181, 71, .55); }
 @media (max-height: 720px) { .try-map { height: 130px; } .try-prompt { font-size: 19px; } }
 /* The welcome screen makes room for the practice card: a smaller globe, a tighter title */
-.screen.intro .intro-globe { height: 128px; margin-top: 8px; }
+.screen.intro .intro-globe { height: 150px; margin-top: 8px; }
 .screen.intro .intro-body { gap: 12px; padding-top: 4px; }
 .screen.intro .intro-title { font-size: 34px; }
 @media (max-height: 720px) { .screen.intro .intro-globe { height: 92px; margin-top: 4px; } .screen.intro .intro-title { font-size: 28px; } }
@@ -963,7 +960,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   .card, .m-tol { transition: none; }
   .m-pin.drop, .m-answer.drop, .panel.revealed, .stat.bump, .sheet, .sheet-overlay, .award-glow, .award-glow svg { animation: none; }
   .sports-hero::after { display: none; }
-  .wave-letter, .fx-floaters, .tile-emoji, .wm-globe, .sports-hero, #go-daily, .pc-badge, .step-n, .picker-head h1 { animation: none; }
+  .wave-letter, .tile-emoji, .wm-globe, .sports-hero, #go-daily, .pc-badge, .step-n, .picker-head h1 { animation: none; }
   .fx-boing { animation: none !important; }
   .card-head .chip, .card-head .prompt, .screen.fx-quake, .screen.fx-shiver { animation: none; }
   .m-plane, .fx-reveal { display: none !important; }
