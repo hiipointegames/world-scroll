@@ -102,6 +102,12 @@
   var VIBE_SOUND = { bullseye: 'bullseye', scorching: 'scorching', hot: 'hit', warm: 'warm', chilly: 'chilly', cold: 'cold' };
   var CAT_EMOJI = { countries: '🌍', capitals: '🏛️', cities: '🏙️', rivers: '🌊', mountains: '⛰️', deserts: '🏜️', lakes: '⛵', landmarks: '🗽' };
   function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
+  // The public link that shares and challenges point to (the same one in the link-preview tags).
+  var SITE_URL = 'https://hiipointegames.github.io/world-scroll/prototype/world-scroll.html';
+  var SITE_SHORT = 'hiipointegames.github.io/world-scroll';
+  function challengeUrl(q, guess) { return SITE_URL + '?beat=' + encodeURIComponent(G.challengeCode(q.id, guess)); }
+  var BYID = {};
+  QUESTIONS.forEach(function (q) { BYID[q.id] = q; });
   var REDUCE_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var combo = 0; // good guesses in a row this sitting
 
@@ -322,6 +328,12 @@
     var tolPath = zg.append('path').attr('class', 'm-tol');
 
     var pins = svg.append('g');
+    // A friend's pin from a "Beat my pin" link: pink, with its own dashed line to the answer.
+    var friendLine = pins.append('line').attr('class', 'm-line m-friend-line').style('display', 'none');
+    var friendPin = pins.append('g').style('display', 'none');
+    var friendBody = friendPin.append('g').attr('class', 'm-pin m-friend');
+    friendBody.append('circle').attr('r', 8).attr('fill', COLOR.pink).attr('stroke', COLOR.ink).attr('stroke-width', 2);
+    friendBody.append('circle').attr('r', 3).attr('fill', COLOR.ink);
     var line = pins.append('line').attr('class', 'm-line').style('display', 'none');
     var answer = pins.append('g').style('display', 'none');
     var answerBody = answer.append('g').attr('class', 'm-answer');
@@ -334,11 +346,16 @@
     guessBody.append('circle').attr('r', 8).attr('fill', COLOR.gold).attr('stroke', COLOR.ink).attr('stroke-width', 2);
     guessBody.append('circle').attr('r', 3).attr('fill', COLOR.ink);
 
-    var t = d3.zoomIdentity, guess = null, target = null, progress = 0, locked = false;
+    var t = d3.zoomIdentity, guess = null, target = null, progress = 0, locked = false, friend = null;
 
     function screenOf(ll) { return t.apply(proj([ll.lon, ll.lat])); }
     function place() {
       zg.attr('transform', t.toString());
+      if (friend && target) {
+        var fp = screenOf(friend), fa = screenOf(target);
+        friendPin.style('display', null).attr('transform', 'translate(' + fp[0] + ',' + fp[1] + ')');
+        friendLine.style('display', null).attr('x1', fp[0]).attr('y1', fp[1]).attr('x2', fa[0]).attr('y2', fa[1]);
+      }
       if (guess) {
         var g = screenOf(guess);
         guessPin.style('display', null).attr('transform', 'translate(' + g[0] + ',' + g[1] + ')');
@@ -406,6 +423,14 @@
       },
       // Back out to the whole map in one tap.
       resetZoom: function () { svg.transition().duration(320).call(zoom.transform, d3.zoomIdentity); },
+      // Show a friend's pin (after the reveal), zooming out if it's off screen.
+      showFriend: function (ll) {
+        friend = ll;
+        var p = screenOf(ll);
+        if (p[0] < 0 || p[1] < 0 || p[0] > W || p[1] > H) svg.transition().duration(350).call(zoom.transform, d3.zoomIdentity);
+        place();
+        friendBody.classed('drop', true);
+      },
       // opts.shape: a country to light up; opts.target: where the dashed line should end.
       reveal: function (card, opts) {
         locked = true;
@@ -571,7 +596,12 @@
     var kind = nerdKind(q).toUpperCase(); // e.g. SPORTS, CITY, RIVER, OCEAN or LANDMARK nerd facts
     openSheet(sheetHead('<span class="nerd-emoji" aria-hidden="true">🤓</span>', kind + ' NERD FACTS', esc(fullName(q))) +
       (q.venue ? '<div class="sheet-text small">' + esc(q.venue) + ' · ' + esc(q.answer.replace(/\s*\(.*?\)/g, '')) + '</div>' : '') +
-      '<div class="nerd-list">' + rows + '</div>', { button: 'Back to the game', cls: 'nerd-sheet' });
+      '<div class="nerd-list">' + rows + '</div>' +
+      '<button class="btn ghost big share-facts" id="share-facts">' + ICON.share + 'Share these facts</button>', { button: 'Back to the game', cls: 'nerd-sheet' });
+    // One share button for all the facts, at the bottom (not one per fact).
+    document.getElementById('share-facts').onclick = function () {
+      WSShare.send({ text: G.nerdShareText(fullName(q), q.nerd), url: SITE_URL }).then(function (how) { shareToast(how, 'Shared!', 'Facts copied! Paste them anywhere.'); });
+    };
   }
 
   function nerdKind(q) {
@@ -740,18 +770,56 @@
       '<div class="intro-body">' +
       '<div class="intro-brand"><div class="wordmark big" aria-label="World Scroll">' + GLOBE + letters('World', 0) + '<span>' + letters('Scroll', 5) + '</span></div>' +
       '<h1 class="intro-title">Learn geography by scrolling.</h1>' +
-      '<p class="intro-sub">Doomscrolling, but you get smarter. Every card is a place on the map, and every swipe teaches you something new.</p></div>' +
-      '<ol class="intro-steps">' +
-      '<li><span class="step-n">1</span><span><b>See a place.</b> Countries, capitals, rivers, oceans, lakes, seas, famous landmarks, and where your favorite sports teams play.</span></li>' +
-      '<li><span class="step-n">2</span><span><b>Drop a pin.</b> Put it where you think the place is, then lock in your guess.</span></li>' +
-      '<li><span class="step-n">3</span><span><b>Learn and swipe.</b> See how close you got, pick up a fact, and swipe up for the next one.</span></li>' +
-      '</ol></div>' +
+      '<p class="intro-sub">Doomscrolling, but you get smarter.</p></div>' +
+      // A real card to play right here: the first pin is the first win.
+      '<div class="intro-try" id="intro-try"><div class="try-head"><span class="try-kicker">TRY ONE!</span><span class="try-prompt">Where is Paris?</span></div>' +
+      '<div class="try-map"><div class="map"></div></div>' +
+      '<div class="try-panel hint" id="try-panel" aria-live="polite">Drop a pin where you think Paris is, then lock in your guess.</div>' +
+      '<button class="btn teal try-lock" id="try-lock" disabled>Drop a pin first</button></div>' +
+      '<p class="intro-more">Then scroll through ' + fmt(Math.floor(QUESTIONS.length / 100) * 100) + '+ more: countries, capitals, rivers, oceans, lakes, seas, famous landmarks, and where your favorite sports teams play.</p>' +
+      '</div>' +
       '<div class="intro-foot"><button class="btn primary big" id="intro-go">Start scrolling</button></div>' +
       '</div>';
     FX.welcomeGlobe(app.querySelector('.intro-globe'));
     FX.floaters(app.querySelector('.screen.intro'), 11); // 16 felt busy; a third fewer
     document.getElementById('intro-go').onclick = function () {
       store.seenIntro = true; save(); showPicker({ flyIn: true });
+    };
+    tryCard();
+  }
+  // The welcome screen's practice card: Paris on the Europe map. It scores for real.
+  function tryCard() {
+    var q = QUESTIONS.filter(function (x) { return x.category === 'capitals' && x.prompt === 'Where is Paris?'; })[0];
+    var box = document.getElementById('intro-try'), lock = document.getElementById('try-lock'), panel = document.getElementById('try-panel');
+    if (!q || !box) return;
+    var guess = null;
+    var map = createMap(box.querySelector('.map'), 'europe', function (ll) {
+      guess = ll; Sound.play('pin');
+      lock.disabled = false; lock.textContent = 'Lock in my guess';
+      var lr = lock.getBoundingClientRect(), fr = document.querySelector('.intro-foot').getBoundingClientRect();
+      if (lr.bottom > fr.top) lock.scrollIntoView({ block: 'center', behavior: REDUCE_MOTION ? 'auto' : 'smooth' }); // small phones: bring the lock button into view
+    });
+    lock.onclick = function () {
+      if (!guess || box.classList.contains('done')) return;
+      box.classList.add('done');
+      var r = G.scoreGuess(guess, q);
+      map.reveal(q);
+      recordPoints(r.points);
+      var vibe = G.vibeFor(r.miles, r.bullseye);
+      Sound.play('lock');
+      setTimeout(function () {
+        Sound.play(VIBE_SOUND[vibe]);
+        if (r.bullseye || r.miles <= G.DAILY_HIT_MILES) confetti(box, [COLOR.gold, COLOR.teal, COLOR.pink, '#FFFFFF'], 50, 0.3);
+      }, 560);
+      panel.classList.remove('hint');
+      panel.innerHTML = '<b class="v-' + vibe + '">' + pick(VIBE_WORDS[vibe]) + '</b> ' + (r.bullseye ? 'Right on Paris!' : fmt(r.miles) + ' miles off.') +
+        ' <b class="try-pts">+' + fmt(r.points) + ' pts</b><br><span class="try-fact">' + esc(q.fact) + '</span>';
+      lock.style.display = 'none';
+      document.getElementById('intro-go').classList.add('glow');
+      if (G.earnsStamp(r.miles, r.bullseye) && !(store.stamps || {})[q.id]) { // a close guess earns the very first passport stamp
+        store.stamps = Object.assign({}, store.stamps); store.stamps[q.id] = todayKey(); save();
+        setTimeout(function () { if (box.isConnected) stampFx(q); }, 1100);
+      }
     };
   }
 
@@ -781,14 +849,19 @@
     setTimeout(function () { if (!feed && !app.querySelector('.sheet-overlay')) openSheet(TIPS[tip](), { button: TIP_BUTTONS[tip], cls: 'tip-sheet' }); }, 450);
   }
 
-  // Explorer rank, at the top of the home screen.
+  // Rank badges: every rank has its own emoji and color. Locked ones show greyed out, so you can see what's coming.
+  function rankBadge(r, cls, locked) {
+    return '<span class="rank-badge' + (cls ? ' ' + cls : '') + (locked ? ' locked' : '') + '" style="--rc:' + r.color + '" aria-hidden="true">' +
+      '<span class="rb-emoji">' + r.emoji + '</span>' + (locked ? '<span class="rb-lock">🔒</span>' : '') + '</span>';
+  }
+  // Explorer rank, at the top of the home screen (half width, beside the passport).
   function progressCardHtml() {
     var rk = G.rankFor(store.points);
-    return '<button class="progress-card" id="rank-card" aria-label="Explorer rank: ' + esc(rk.name) + '. See all ranks">' +
-      '<span class="pc-row"><span class="pc-badge" aria-hidden="true">⭐</span>' +
-      '<span class="pc-main"><span class="pc-label">EXPLORER RANK · ' + (rk.index + 1) + ' OF ' + G.RANKS.length + '</span><span class="pc-name">' + esc(rk.name) + '</span></span>' +
-      '<span class="pc-next">' + (rk.next ? fmt(rk.next.min - store.points) + ' pts to<br>' + esc(rk.next.name) : 'Top rank!') + '</span></span>' +
+    return '<button class="progress-card" id="rank-card" style="--rc:' + rk.color + '" aria-label="Explorer rank: ' + esc(rk.name) + '. See all ranks">' +
+      '<span class="pc-row">' + rankBadge(rk, 'pc-rank') +
+      '<span class="pc-main"><span class="pc-label">RANK ' + (rk.index + 1) + ' OF ' + G.RANKS.length + '</span><span class="pc-name">' + esc(rk.name) + '</span></span></span>' +
       '<span class="pc-bar"><i style="--w:' + Math.round(rk.progress * 100) + '%"></i></span>' +
+      '<span class="pc-next">' + (rk.next ? fmt(rk.next.min - store.points) + ' pts to ' + esc(rk.next.name) : 'Top rank!') + '</span>' +
       '</button>';
   }
   // Tap the rank card: what ranks are, where you are, and every rank still to climb.
@@ -796,16 +869,103 @@
     var rk = G.rankFor(store.points);
     var rows = G.RANKS.map(function (r, i) {
       var state = i < rk.index ? 'done' : i === rk.index ? 'now' : i === rk.index + 1 ? 'next' : 'locked';
-      var mark = state === 'done' ? '✓' : state === 'now' ? '★' : state === 'next' ? '→' : '🔒';
-      var right = state === 'done' ? 'Unlocked' : state === 'now' ? 'You are here' : fmt(r.min) + ' pts';
-      return '<li class="rank-row ' + state + '"><span class="rank-mark" aria-hidden="true">' + mark + '</span>' +
+      var right = state === 'done' ? 'Unlocked ✓' : state === 'now' ? 'You are here' : fmt(r.min) + ' pts';
+      return '<li class="rank-row ' + state + '" style="--rc:' + r.color + '">' + rankBadge(r, 'rank-icon', i > rk.index) +
         '<span class="rank-name">' + (i + 1) + '. ' + esc(r.name) + '</span><span class="rank-pts">' + right + '</span></li>';
     }).join('');
-    openSheet(sheetHead('<span class="pc-badge big" aria-hidden="true">⭐</span>', 'EXPLORER RANK', esc(rk.name)) +
-      '<p class="sheet-text">Every point you earn moves you up. Climb all ' + G.RANKS.length + ' ranks, from Rookie Explorer to World Legend.</p>' +
+    openSheet(sheetHead(rankBadge(rk, 'big'), 'EXPLORER RANK', esc(rk.name)) +
+      '<p class="sheet-text">Every point you earn moves you up. Collect all ' + G.RANKS.length + ' badges, from Rookie Explorer to World Legend.</p>' +
       '<ol class="rank-list">' + rows + '</ol>' +
-      '<div class="sheet-status">' + (rk.next ? 'Next up: ' + esc(rk.next.name) + '. Just ' + fmt(rk.next.min - store.points) + ' more points to go!' : 'You reached the top. You are a World Legend!') + '</div>',
+      '<div class="sheet-status">' + (rk.next ? 'Next up: ' + rk.next.emoji + ' ' + esc(rk.next.name) + '. Just ' + fmt(rk.next.min - store.points) + ' more points to go!' : 'You reached the top. You are a World Legend!') + '</div>',
       { button: 'Let’s climb', cls: 'rank-sheet' });
+  }
+  // A new rank: a big badge celebration you can share.
+  function rankUpSheet(rk) {
+    Sound.play('trophy', 'gold');
+    openSheet(sheetHead(rankBadge(rk, 'big rank-up'), 'NEW RANK UNLOCKED!', esc(rk.name)) +
+      '<p class="sheet-text">You’re now rank ' + (rk.index + 1) + ' of ' + G.RANKS.length + '.' +
+      (rk.next ? ' Next up: ' + rk.next.emoji + ' ' + esc(rk.next.name) + ' at ' + fmt(rk.next.min) + ' points.' : ' That’s the very top!') + '</p>' +
+      '<button class="btn ghost big" id="share-rank">' + ICON.share + 'Share my new rank</button>',
+      { button: 'Keep playing', cls: 'rankup-sheet', confetti: [rk.color, COLOR.gold, COLOR.teal, '#FFFFFF'] });
+    document.getElementById('share-rank').onclick = function () {
+      WSShare.send({ text: rk.emoji + ' I just became a ' + rk.name + ' on World Scroll! Can you catch me?', url: SITE_URL })
+        .then(function (how) { shareToast(how, 'Shared!', 'Copied! Paste it anywhere.'); });
+    };
+  }
+
+  // ---------- passport: every close guess stamps that place ----------
+  function stampName(q) { return q.category === 'sports' ? fullName(q) : subjectOf(q).replace(/^The /, ''); }
+  function stampTilt(id) { var h = 0; for (var i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) | 0; return (Math.abs(h) % 15) - 7; }
+  function stampEmoji(q) { return q.category === 'sports' ? '🏟️' : (CAT_EMOJI[q.category] || '📍'); }
+  function stampCount(cat) {
+    var s = store.stamps || {};
+    return Object.keys(s).filter(function (id) { return BYID[id] && (!cat || BYID[id].category === cat); }).length;
+  }
+  function passportCardHtml() {
+    var n = stampCount();
+    return '<button class="passport-card" id="passport-card" aria-label="My passport: ' + n + ' stamps. Open it">' +
+      '<span class="pp-book" aria-hidden="true">' + GLOBE + '</span>' +
+      '<span class="pp-main"><span class="pc-label">MY PASSPORT</span><span class="pp-count">' + n + ' stamp' + (n === 1 ? '' : 's') + '</span></span>' +
+      '<span class="pp-sub">' + (n ? 'of ' + fmt(QUESTIONS.length) + ' places' : 'Earn your first!') + '</span></button>';
+  }
+  // The passport: one page per category, with a stamp for every place you've landed close to.
+  function showPassport() {
+    feed = null; card = null;
+    var s = store.stamps || {}, total = stampCount();
+    var pages = DATA.categories.map(function (c) {
+      var cards = QUESTIONS.filter(function (q) { return q.category === c.id; });
+      var got = cards.filter(function (q) { return s[q.id]; }).sort(function (a, b) { return s[a.id] < s[b.id] ? 1 : -1; }); // newest first
+      var stamps = got.map(function (q) {
+        var d = new Date(s[q.id] + 'T12:00:00');
+        return '<span class="stamp" style="--c:' + c.color + ';--tilt:' + stampTilt(q.id) + 'deg">' +
+          '<span class="st-emoji" aria-hidden="true">' + stampEmoji(q) + '</span><span class="st-name">' + esc(stampName(q)) + '</span>' +
+          '<span class="st-date">' + esc(d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase()) + '</span></span>';
+      }).join('');
+      return '<section class="pp-page" style="--c:' + c.color + '"><div class="pp-head"><span class="pp-emoji" aria-hidden="true">' + (c.id === 'sports' ? '🏟️' : CAT_EMOJI[c.id] || '') + '</span>' +
+        '<span class="pp-name">' + esc(c.label) + '</span><span class="pp-n">' + got.length + ' / ' + cards.length + '</span></div>' +
+        '<span class="pc-bar pp-bar"><i style="--w:' + Math.round(got.length / cards.length * 100) + '%"></i></span>' +
+        (got.length ? '<div class="stamps">' + stamps + '</div>' : '<p class="pp-empty">No stamps yet. Land a pin within ' + G.HIT_MILES + ' miles to earn one!</p>') +
+        '</section>';
+    }).join('');
+    app.innerHTML =
+      '<div class="screen passport">' +
+      '<div class="topbar"><div class="topbar-left"><button class="icon-btn back-btn" id="back" aria-label="Back">' + ICON.back + '</button>' +
+      WORDMARK + '</div>' + statChips() + '</div>' +
+      '<div class="passport-body">' +
+      '<div class="pp-cover"><span class="pp-book big" aria-hidden="true">' + GLOBE + '</span>' +
+      '<div><div class="pc-label">MY PASSPORT</div><h1>' + total + ' stamp' + (total === 1 ? '' : 's') + '</h1>' +
+      '<p>Land a pin within ' + G.HIT_MILES + ' miles (or hit a bullseye) and that place gets stamped. Can you fill every page?</p></div></div>' +
+      pages + '</div></div>';
+    document.getElementById('back').onclick = function () { showPicker(); };
+    wireChrome();
+  }
+  // The stamp thunks onto the screen when you earn a new one.
+  function stampFx(q) {
+    var host = app.querySelector('.screen'); if (!host) return;
+    var el = document.createElement('div');
+    el.className = 'stamp-pop';
+    el.setAttribute('role', 'status');
+    el.innerHTML = '<span class="stamp big" style="--c:' + CATS[q.category].color + ';--tilt:-8deg">' +
+      '<span class="st-kicker">NEW STAMP!</span><span class="st-emoji" aria-hidden="true">' + stampEmoji(q) + '</span>' +
+      '<span class="st-name">' + esc(stampName(q)) + '</span><span class="st-date">PASSPORT · ' + stampCount() + (stampCount() === 1 ? ' STAMP' : ' STAMPS') + '</span></span>';
+    host.appendChild(el);
+    Sound.play('square', true); setTimeout(function () { Sound.play('hit'); }, 120);
+    if (navigator.vibrate) { try { navigator.vibrate([10, 40, 25]); } catch (e) { } }
+    setTimeout(function () { el.classList.add('out'); }, 1700);
+    setTimeout(function () { el.remove(); }, 2200);
+  }
+  // The Daily 10 is the star of the home screen: a big glowing card with a countdown, and your score once you've played.
+  function dailyHeroHtml() {
+    var done = dailyDone();
+    var res = done ? loadPicks(done.picks) : [], hits = res.filter(function (r) { return r.hit; }).length;
+    var day = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+    return '<button class="daily-hero' + (done ? ' done' : '') + '" id="go-daily" aria-label="' + (done ? 'Daily 10: you scored ' + hits + ' out of 10. See and share' : 'Play the Daily 10') + '">' +
+      '<span class="dh-top"><span class="dh-kicker">📅 DAILY 10 · ' + esc(day.toUpperCase()) + '</span><span class="dh-clock" id="dh-clock">' + countdownText() + '</span></span>' +
+      '<span class="dh-title">' + (done ? 'You scored ' + hits + '/10 today!' : 'Same 10 places for everyone today') + '</span>' +
+      '<span class="dh-row">' + (done
+        ? '<span class="dh-squares">' + res.map(function (r) { return '<i class="g-' + G.gradeFor(r) + '"></i>'; }).join('') + '</span>'
+        : '<span class="dh-sub">Can you get all 10? Then dare your friends.</span>') +
+      '<span class="dh-go">' + (done ? 'Share' : 'Play') + '</span></span></button>';
   }
   // opts.flyIn: play the 2-second opening (after the welcome screen, and each time the app opens).
   function showPicker(opts) {
@@ -814,10 +974,10 @@
     Sound.setMusic(false);
     var count = function (cat) { return QUESTIONS.filter(function (q) { return q.category === cat; }).length; };
     var tiles = DATA.categories.filter(function (c) { return c.id !== 'sports'; }).map(function (c, i) {
-      var n = count(c.id);
+      var n = count(c.id), got = stampCount(c.id);
       return '<button class="tile" data-cat="' + c.id + '" style="--c:' + c.color + ';--i:' + i + '">' +
         '<span class="tile-top"><span class="tile-emoji" aria-hidden="true">' + (CAT_EMOJI[c.id] || '') + '</span>' +
-        '<span class="tile-count">' + n + (n === 1 ? ' card' : ' cards') + '</span></span>' +
+        '<span class="tile-count' + (got ? ' stamped' : '') + '">' + (got ? got + '/' + n + ' stamped' : n + (n === 1 ? ' card' : ' cards')) + '</span></span>' +
         '<span class="tile-text"><span class="tile-name">' + esc(c.label) + '</span>' +
         '<span class="tile-sub">' + esc(CATEGORY_SUBS[c.id] || '') + '</span></span></button>';
     }).join('');
@@ -828,25 +988,26 @@
       '<div class="topbar">' + WORDMARK + statChips(soundButton()) + '</div>' +
       '<div class="picker-body">' +
       '<div class="picker-head"><h1>Where do you wanna scroll today?</h1><p>Every scroll teaches you a new spot on the map.</p></div>' +
-      progressCardHtml() +
+      dailyHeroHtml() +
+      '<div class="pc-pair">' + progressCardHtml() + passportCardHtml() + '</div>' +
       '<button class="sports-hero" id="go-sports">' +
       '<span class="hero-text"><span class="hero-kicker">WHERE DO THEY PLAY?</span>' +
       '<span class="hero-name">Sports</span>' +
       '<span class="hero-sub">' + sportsCount + ' sports teams · USA, Europe and Australia</span></span>' +
       '<span class="hero-side"><span class="hero-trophies">' + trophyCaseHtml(false) + '</span>' +
       '<span class="hero-go">Play</span></span></button>' +
-      '<div class="daily"><div><div class="daily-label">DAILY 10 CHALLENGE</div>' +
-      '<div class="daily-title">Same 10 for everyone, today</div></div>' +
-      '<button class="btn teal" id="go-daily">Play</button></div>' +
       '<div class="tiles">' + tiles + '</div>' +
       '<button class="btn primary big" id="go-shuffle">' + ICON.shuffle + 'Shuffle the whole world</button>' +
-      '<button class="reset" id="reset">Reset my points and streak</button>' +
+      '<button class="reset" id="reset">Reset all my progress</button>' +
       '</div></div>';
     // Leaving the home screen: start the feed, then slam a big pop-up onto it.
     var launch = function (spec, emoji, text) { startFeed(spec); FX.slam(app, emoji, text); };
     document.getElementById('go-sports').onclick = function () { launch({ kind: 'sports', region: 'usa', sport: 0 }, '🏟️', 'GAME ON!'); };
     document.getElementById('go-shuffle').onclick = function () { launch({ kind: 'shuffle' }, '🔀', 'SHUFFLE!'); };
-    document.getElementById('go-daily').onclick = function () { launch({ kind: 'daily' }, '📅', 'DAILY 10!'); };
+    document.getElementById('go-daily').onclick = function () { if (dailyDone()) showDailyResults(false); else launch({ kind: 'daily' }, '📅', 'DAILY 10!'); };
+    document.getElementById('passport-card').onclick = function () { Sound.play('tap'); showPassport(); };
+    var clock = document.getElementById('dh-clock'); // the countdown ticks while you're on the home screen
+    var tick = setInterval(function () { if (!clock.isConnected) clearInterval(tick); else clock.textContent = countdownText(); }, 30000);
     document.getElementById('reset').onclick = function () {
       var keepSound = store.sound;
       var keep = { visitDays: store.visitDays, lastVisit: store.lastVisit, tipsSeen: store.tipsSeen, tipDay: store.tipDay, seenIntro: store.seenIntro };
@@ -869,6 +1030,7 @@
     if (spec.kind === 'shuffle') items = G.mixByCategory(QUESTIONS, Math.random);
     else if (spec.kind === 'daily') items = G.dailyPick(QUESTIONS, todayKey(), 10);
     else if (spec.kind === 'sportsdaily') items = G.dailySportsPick(QUESTIONS, todayKey(), 10);
+    else if (spec.kind === 'challenge') items = [BYID[spec.id]];
     else if (spec.kind === 'category') {
       var group = spec.group || 'all';
       var gtab = DATA.geoTabs.filter(function (t) { return t.id === group; })[0];
@@ -923,6 +1085,11 @@
           return '<button class="pill" data-sport="' + n + '" aria-pressed="' + (n === s.sport) + '">' + esc(sp.label) + '</button>';
         }).join('') + '</div>';
     }
+    if (s.kind === 'challenge') { // the target to beat, before the friend's pin is shown
+      var fmiles = measure(feed.items[0], s.friend).r.miles;
+      tabs = '<div class="vs-banner"><span class="vs-emoji" aria-hidden="true">🎯</span><span><b>A friend challenged you!</b> Their pin landed ' +
+        (fmiles < 1 ? 'right on target' : fmt(fmiles) + ' miles off') + '. Can you beat it?</span></div>';
+    }
     var sports = s.kind === 'sports', sportsDaily = s.kind === 'sportsdaily', daily = s.kind === 'daily';
     app.innerHTML =
       '<div class="screen feed' + (sports || sportsDaily ? ' sports' : '') + '">' +
@@ -957,6 +1124,7 @@
   function metaLine(q) {
     var s = feed.spec, pos = (feed.idx % feed.base) + 1, sp = sportDef(q);
     if (s.kind === 'daily') return 'DAILY 10 · CARD ' + (feed.idx + 1) + ' OF ' + feed.base;
+    if (s.kind === 'challenge') return 'FRIEND CHALLENGE · ' + CATS[q.category].label;
     if (s.kind === 'sports') return s.sportDef.full + ' · CARD ' + pos + ' OF ' + feed.base;
     if (s.kind === 'category') return CATS[s.category].label + (s.groupDef && s.groupDef.id !== 'all' ? ' · ' + s.groupDef.label : '') +
       ' · card ' + pos + ' of ' + feed.base;
@@ -972,7 +1140,8 @@
     var el = document.createElement('section');
     el.className = 'card' + (q.deepDive ? ' deep' : '');
     el.setAttribute('aria-label', q.deepDive ? 'Question card with a Deep Dive' : 'Question card');
-    var next = isLastDaily() ? null : itemAt(feed.idx + 1);
+    var next = isLastDaily() || feed.spec.kind === 'challenge' ? null : itemAt(feed.idx + 1);
+    var nextLabel = feed.spec.kind === 'challenge' ? 'Explore the whole game' : 'Your Daily 10 results';
     el.innerHTML =
       '<div class="card-head">' + (showMeta ? soundButton() : '') +
       '<span class="chip-row"><span class="chip" style="background:' + cat.color + '">' + esc(chipText.toUpperCase()) + '</span>' +
@@ -988,7 +1157,7 @@
       '<button class="btn primary lock" disabled>Drop a pin first</button></div>' +
       '<button class="peek" aria-label="Next card">' + ICON.up +
       '<span class="peek-label">SWIPE UP · NEXT</span>' +
-      '<span class="peek-next">' + (next ? esc(next.league || CATS[next.category].label) + ' — ' + esc(subjectOf(next)) : 'Your Daily 10 results') + '</span></button>';
+      '<span class="peek-next">' + (next ? esc(next.league || CATS[next.category].label) + ' — ' + esc(subjectOf(next)) : nextLabel) + '</span></button>';
     return el;
   }
 
@@ -1035,14 +1204,21 @@
     }
   }
 
+  // How far a pin is from a card's answer, the same way for every kind of card (used for your pin and a friend's).
+  function measure(q, guess) {
+    var shape = q.shape && COUNTRY_SHAPE[q.shape];
+    var sd = shape ? shapeDistance(shape, guess) : null;
+    var river = q.line ? G.lineDistance(q.line, guess) : null; // rivers: distance to the nearest bit of the river
+    var area = q.area ? G.areaDistance(q.area, guess) : null; // deserts and ranges: 0 inside, else to the nearest edge
+    var r = G.scoreGuess(guess, q, sd ? sd.miles : river ? river.miles : area ? area.miles : null);
+    return { r: r, shape: shape, sd: sd, river: river, area: area };
+  }
+
   function lockIn(c) {
     if (!c.guess || c.revealed) return;
     c.revealed = true;
-    var shape = c.q.shape && COUNTRY_SHAPE[c.q.shape];
-    var sd = shape ? shapeDistance(shape, c.guess) : null;
-    var river = c.q.line ? G.lineDistance(c.q.line, c.guess) : null; // rivers: distance to the nearest bit of the river
-    var area = c.q.area ? G.areaDistance(c.q.area, c.guess) : null; // deserts and ranges: 0 inside, else to the nearest edge
-    var r = G.scoreGuess(c.guess, c.q, sd ? sd.miles : river ? river.miles : area ? area.miles : null);
+    var m = measure(c.q, c.guess);
+    var shape = m.shape, sd = m.sd, river = m.river, area = m.area, r = m.r;
     var secs = (performance.now() - c.t0) / 1000;
     c.map.reveal(c.q, sd ? { shape: shape, target: sd.point } : river ? { line: c.q.line, target: river.point }
       : area ? { area: c.q.area, target: area.point } : null);
@@ -1050,7 +1226,7 @@
     bumpStats();
     var isSport = c.q.category === 'sports', inSportsFeed = feed.spec.kind === 'sports';
     var hit = r.miles <= (isDailyKind() ? G.DAILY_HIT_MILES : G.HIT_MILES); // dailies are a bit more forgiving
-    if (isDailyKind()) feed.results.push({ q: c.q, miles: r.miles, points: r.points, bullseye: r.bullseye, hit: hit });
+    if (isDailyKind()) feed.results.push({ q: c.q, miles: r.miles, points: r.points, bullseye: r.bullseye, hit: hit, guess: c.guess });
     if (isDailyKind()) renderDailyRow();
     var vibe = G.vibeFor(r.miles, r.bullseye);
     var verdict = isSport && hit ? (SPORT_WORDS[c.q.sport] || pick(VIBE_WORDS[vibe])) : pick(VIBE_WORDS[vibe]);
@@ -1069,8 +1245,26 @@
     if (r.bullseye || (isSport && hit)) { // a little party for a great guess
       setTimeout(function () { if (c.el.isConnected) confetti(c.el, [COLOR.gold, COLOR.teal, COLOR.pink, '#FFFFFF'], 60, 0.55); }, 600);
     }
+    // Passport: a close guess stamps this place (once) into the player's passport.
+    var newStamp = G.earnsStamp(r.miles, r.bullseye) && !(store.stamps || {})[c.q.id];
+    if (newStamp) {
+      store.stamps = Object.assign({}, store.stamps); store.stamps[c.q.id] = todayKey(); save();
+      setTimeout(function () { if (c.el.isConnected) stampFx(c.q); }, 1300);
+    }
     var rankNow = G.rankFor(store.points);
-    if (rankNow.index > rankBefore) setTimeout(function () { toast('⭐', 'New rank: ' + rankNow.name + '!', 'Your explorer rank just leveled up.', 'rank'); }, 1500);
+    if (rankNow.index > rankBefore) setTimeout(function () { if (c.el.isConnected) rankUpSheet(rankNow); }, newStamp ? 2900 : 1500);
+
+    // "Beat my pin": a friend's challenge shows their pin too, and who won.
+    var vsLine = '';
+    if (feed.spec.kind === 'challenge') {
+      var friend = feed.spec.friend, fm = measure(c.q, friend).r.miles;
+      c.map.showFriend(friend);
+      var won = r.miles < fm, tie = Math.round(r.miles) === Math.round(fm);
+      verdict = tie ? 'It’s a tie!' : won ? 'You win!' : 'They win!';
+      vsLine = '<div class="res-vs ' + (tie ? 'tie' : won ? 'won' : 'lost') + '"><span class="friend-dot"></span><span><b>Your friend’s pin:</b> ' +
+        esc(placeOfPin(friend)) + ' · ' + fmt(fm) + ' mi off</span></div>';
+      if (won && !tie) setTimeout(function () { if (c.el.isConnected) confetti(c.el, [COLOR.gold, COLOR.teal, COLOR.pink, '#FFFFFF'], 80, 0.4); }, 700);
+    }
 
     var streakNote = '';
     if (inSportsFeed) {
@@ -1096,7 +1290,7 @@
       '<span class="res-pts" data-pts="' + r.points + '">+0 pts</span></span></div>' +
       '<div class="res-miles">' + milesLine + streakNote + ' · ' + secs.toFixed(1) + 's</div>' +
       '<div class="res-answer"><span class="answer-dot"></span><span>' + esc(c.q.answer) + (c.q.venue ? '<span class="venue"> · ' + esc(c.q.venue) + '</span>' : '') + '</span></div>' +
-      '<div class="res-pin"><span class="pin-dot"></span><span><b>Your pin:</b> ' + esc(placeOfPin(c.guess)) + '</span></div>' +
+      '<div class="res-pin"><span class="pin-dot"></span><span><b>Your pin:</b> ' + esc(placeOfPin(c.guess)) + '</span></div>' + vsLine +
       '<div class="res-fact' + (c.q.nerd ? ' has-nerd' : '') + '">' + ICON.bulb + '<span><b>Now you know:</b> ' + esc(c.q.fact) + '</span></div>';
     var nb = c.el.querySelector('.nerd-btn');
     if (nb) nb.onclick = function (e) { e.stopPropagation(); Sound.play('tap'); nb.classList.add('seen'); nerdSheet(c.q); };
@@ -1108,8 +1302,17 @@
     c.el.querySelector('.panel').classList.add('revealed');
     c.el.classList.add('revealed');
     countUpPoints(c.el.querySelector('.res-pts'), r.points);
-    c.el.querySelector('.skip').style.display = 'none';
-    c.el.querySelector('.lock').textContent = isLastDaily() ? 'See my results' : 'Next card';
+    // After the guess, the Skip button turns into "Challenge": send a friend this card with your pin on it.
+    var sk = c.el.querySelector('.skip');
+    sk.innerHTML = '🎯 Challenge';
+    sk.classList.add('challenge-btn');
+    sk.setAttribute('aria-label', 'Challenge a friend to beat your pin on this card');
+    sk.onclick = function (e) {
+      e.stopPropagation();
+      var text = '🎯 ' + c.q.prompt + ' I was ' + (r.bullseye ? 'right on target' : fmt(r.miles) + ' miles off') + ' on World Scroll. Can you beat my pin?';
+      WSShare.send({ text: text, url: challengeUrl(c.q, c.guess) }).then(function (how) { shareToast(how, 'Challenge sent!', 'Challenge link copied!'); });
+    };
+    c.el.querySelector('.lock').textContent = feed.spec.kind === 'challenge' ? 'Keep playing' : isLastDaily() ? 'See my results' : 'Next card';
     if (navigator.vibrate) { try { navigator.vibrate(r.bullseye ? [18, 60, 40] : 18); } catch (e) { } }
   }
 
@@ -1180,11 +1383,12 @@
 
   function advance() {
     if (!feed || !card || busy || app.querySelector('.sheet-overlay')) return;
+    if (feed.spec.kind === 'challenge') { Sound.play('swoosh'); showPicker({ flyIn: true }); return; } // after a friend's challenge, show them the whole game
     if (!card.revealed) combo = 0; // skipping ends a combo
     if (isDailyKind() && !card.revealed) { feed.results.push({ q: card.q, skipped: true, points: 0, hit: false }); renderDailyRow(); }
     if (feed.spec.kind === 'sports' && !card.revealed && store.sportsRun) { store.sportsRun = 0; save(); renderMeter(); }
     if (isLastDaily()) {
-      if (feed.spec.kind === 'sportsdaily') finishSportsDaily(); else showDailyResults();
+      if (feed.spec.kind === 'sportsdaily') finishSportsDaily(); else finishDaily();
       return;
     }
     Sound.play('swoosh');
@@ -1249,17 +1453,105 @@
     if (!box || !feed) return;
     var res = feed.results, hits = res.filter(function (r) { return r.hit; }).length;
     box.querySelectorAll('.dsq').forEach(function (el, i) {
-      el.className = 'dsq' + (i < res.length ? (res[i].hit ? ' hit' : ' miss') : i === feed.idx ? ' now' : '');
+      el.className = 'dsq' + (i < res.length ? ' g-' + G.gradeFor(res[i]) : i === feed.idx ? ' now' : '');
     });
     label.innerHTML = (feed.spec.kind === 'daily' ? 'DAILY 10' : 'DAILY SPORTS 10') + ' · CARD ' + Math.min(feed.idx + 1, 10) + ' OF 10 · <span class="sd-hits">' + hits + ' RIGHT</span>';
   }
   function finishSportsDaily() {
     store.sportsDaily = {
       date: todayKey(),
-      picks: feed.results.map(function (r) { return { id: r.q.id, miles: r.skipped ? null : r.miles, hit: !!r.hit }; })
+      picks: feed.results.map(savedPick)
     };
     save();
     showSportsDailyResults(true);
+  }
+  // A daily result as saved: the card, how far off, and where the pin went (for the picture and worst-miss shares).
+  function savedPick(r) {
+    return { id: r.q.id, miles: r.skipped ? null : r.miles, hit: !!r.hit, bullseye: !!r.bullseye, points: r.points || 0,
+      g: r.guess ? [+r.guess.lat.toFixed(3), +r.guess.lon.toFixed(3)] : null };
+  }
+  function loadPicks(picks) {
+    return picks.filter(function (p) { return BYID[p.id]; }).map(function (p) {
+      return { q: BYID[p.id], miles: p.miles, skipped: p.miles == null, hit: p.hit, bullseye: p.bullseye, points: p.points || 0,
+        guess: p.g ? { lat: p.g[0], lon: p.g[1] } : null };
+    });
+  }
+  // Daily 10: one try a day (like the Daily Sports 10), so everyone shares a fair score.
+  function dailyDone() { return store.daily && store.daily.date === todayKey() ? store.daily : null; }
+  function finishDaily() {
+    store.daily = { date: todayKey(), picks: feed.results.map(savedPick) };
+    save();
+    showDailyResults(true);
+  }
+  // A small message at the bottom of the screen after sharing ("Copied!").
+  function shareToast(how, sharedMsg, copiedMsg) {
+    var msg = how === 'shared' ? sharedMsg : how === 'copied' ? copiedMsg : how === 'saved' ? 'Picture saved! Post it anywhere.'
+      : how === 'cancelled' ? null : 'Sharing isn’t available here. Try it on your phone!';
+    if (!msg) return;
+    var host = app.querySelector('.screen'); if (!host) return;
+    var old = host.querySelector('.mini-toast'); if (old) old.remove();
+    var t = document.createElement('div');
+    t.className = 'mini-toast'; t.setAttribute('role', 'status'); t.textContent = msg;
+    host.appendChild(t);
+    if (how !== 'failed') Sound.play('hit');
+    setTimeout(function () { t.classList.add('out'); }, 2200);
+    setTimeout(function () { t.remove(); }, 2700);
+  }
+  // The share box on both daily results screens: score text, a picture, and your worst miss.
+  function shareBoxHtml(shareText, worst) {
+    return '<div class="share-card"><div class="share-label">SHARE YOUR SCORE</div>' +
+      '<pre class="share-text" id="share-text">' + esc(shareText) + '</pre>' +
+      '<div class="grade-key" aria-label="What the colors mean"><span><i class="g-hit"></i>≤ ' + G.DAILY_HIT_MILES + ' mi</span>' +
+      '<span><i class="g-warm"></i>≤ 600</span><span><i class="g-chilly"></i>≤ 1,500</span><span><i class="g-cold"></i>farther</span></div>' +
+      '<button class="btn primary big" id="share-btn">' + ICON.share + 'Share my score</button>' +
+      '<button class="btn ghost big" id="share-pic">🖼️ Share a picture</button>' +
+      (worst ? '<button class="btn ghost big" id="share-worst">😅 Share my worst miss</button>' : '') +
+      '<div class="share-note" id="share-note" aria-live="polite"></div></div>';
+  }
+  // The biggest miss (with a saved pin) that's farther than the daily limit, or null.
+  function worstMiss(res) {
+    var w = null;
+    res.forEach(function (r) { if (r.guess && !r.skipped && !r.hit && (!w || r.miles > w.miles)) w = r; });
+    return w;
+  }
+  function wireShareBox(game, dateShort, verdict, res, shareText) {
+    var hits = res.filter(function (r) { return r.hit; }).length;
+    document.getElementById('share-btn').onclick = function () {
+      WSShare.send({ text: shareText, url: SITE_URL }).then(function (how) {
+        if (how === 'failed') { // no clipboard here: select the text so it can be copied by hand
+          var rg = document.createRange(); rg.selectNodeContents(document.getElementById('share-text'));
+          var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(rg);
+          document.getElementById('share-note').textContent = 'Your score is selected. Copy it and paste it anywhere.';
+        } else shareToast(how, 'Shared!', 'Copied! Paste it into a text or chat.');
+      });
+    };
+    var picBtn = document.getElementById('share-pic'), pic = null;
+    picBtn.onclick = function () { picSheet(); };
+    function picSheet() { // make the picture, show it, then share it with one more tap (phones need a tap to share)
+      var made = pic ? Promise.resolve(pic) : WSShare.dailyCard({
+        game: game, date: dateShort, hits: hits, verdict: verdict, url: SITE_SHORT,
+        grades: res.map(function (r) { return G.gradeFor(r); }), land: { type: 'FeatureCollection', features: worldCountries },
+        pins: res.map(function (r) { return { guess: r.guess, answer: { lat: r.q.lat, lon: r.q.lon }, grade: G.gradeFor(r) }; })
+      });
+      made.then(function (blob) {
+        pic = blob;
+        var src = URL.createObjectURL(blob);
+        openSheet(sheetHead('<span class="pic-emoji" aria-hidden="true">🖼️</span>', 'YOUR SCORE CARD', 'Show off your map!') +
+          '<img class="share-pic" src="' + src + '" alt="Your ' + esc(game) + ' score card: ' + hits + ' out of 10, with every pin on a world map">' +
+          '<button class="btn primary big" id="pic-send">' + ICON.share + 'Share this picture</button>',
+          { button: 'Done', cls: 'pic-sheet', onClose: function () { URL.revokeObjectURL(src); } });
+        document.getElementById('pic-send').onclick = function () {
+          var file = new File([blob], 'world-scroll-' + game.toLowerCase().replace(/\s+/g, '-') + '.png', { type: 'image/png' });
+          WSShare.send({ text: shareText, url: SITE_URL, files: [file] }).then(function (how) { shareToast(how, 'Shared!', 'Copied!'); });
+        };
+      });
+    }
+    var wb = document.getElementById('share-worst'), w = worstMiss(res);
+    if (wb && w) wb.onclick = function () {
+      var team = w.q.category === 'sports' && /^Where do/.test(w.q.prompt);
+      WSShare.send({ text: G.worstMissText(subjectOf(w.q), placeOfPin(w.guess), w.miles, team), url: challengeUrl(w.q, w.guess) })
+        .then(function (how) { shareToast(how, 'Shared! Let’s see if they can beat it.', 'Copied! Paste it into a chat.'); });
+    };
   }
   function countdownText() {
     var now = new Date(), next = new Date(now); next.setHours(24, 0, 0, 0);
@@ -1269,16 +1561,14 @@
   function showSportsDailyResults(justFinished) {
     var done = sportsDailyDone();
     feed = null; card = null;
-    var byId = {};
-    QUESTIONS.forEach(function (q) { byId[q.id] = q; });
-    var picks = done.picks, hits = picks.filter(function (p) { return p.hit; }).length;
+    var picks = done.picks, res = loadPicks(picks), hits = picks.filter(function (p) { return p.hit; }).length;
     var dateLabel = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     var shareText = G.sportsShareText(dateLabel, picks);
-    var rows = picks.map(function (p, i) {
-      var q = byId[p.id] || {};
-      return '<li><span class="row-mark ' + (p.hit ? 'hit' : 'miss') + '">' + (p.hit ? '✓' : '✕') + '</span>' +
-        '<span class="row-name">' + esc(q.prompt ? fullName(q) : p.id) + '<small>' + esc(q.league || (sportDef(q) || {}).label || '') + '</small></span>' +
-        '<span class="row-miles">' + (p.miles == null ? 'skipped' : fmt(p.miles) + ' mi') + '</span></li>';
+    var rows = res.map(function (r) {
+      var q = r.q;
+      return '<li><span class="row-mark g-' + G.gradeFor(r) + '">' + (r.hit ? '✓' : r.skipped ? '–' : '✕') + '</span>' +
+        '<span class="row-name">' + esc(fullName(q)) + '<small>' + esc(q.league || (sportDef(q) || {}).label || '') + '</small></span>' +
+        '<span class="row-miles">' + (r.skipped ? 'skipped' : fmt(r.miles) + ' mi') + '</span></li>';
     }).join('');
     app.innerHTML =
       '<div class="screen results sports">' +
@@ -1288,18 +1578,15 @@
       '<div class="results-head"><div class="daily-label">DAILY SPORTS 10 · ' + esc(dateLabel.toUpperCase()) + '</div>' +
       '<div class="sd-score"><b>' + hits + '</b><span>/10</span></div>' +
       '<div class="sd-verdict">' + esc(G.sportsTitle(hits)) + '</div></div>' +
-      '<div class="sd-grid" aria-label="' + hits + ' right out of 10">' + picks.map(function (p, i) {
-        return '<span class="dsq big ' + (p.hit ? 'hit' : 'miss') + '" style="animation-delay:' + (i * 0.07) + 's"></span>';
+      '<div class="sd-grid" aria-label="' + hits + ' right out of 10">' + res.map(function (r, i) {
+        return '<span class="dsq big g-' + G.gradeFor(r) + '" style="animation-delay:' + (i * 0.07) + 's"></span>';
       }).join('') + '</div>' +
-      '<div class="share-card"><div class="share-label">SHARE YOUR SCORE</div>' +
-      '<pre class="share-text" id="share-text">' + esc(shareText) + '</pre>' +
-      '<button class="btn primary big" id="share-btn">' + ICON.share + 'Share my score</button>' +
-      '<div class="share-note" id="share-note" aria-live="polite"></div></div>' +
+      shareBoxHtml(shareText, worstMiss(res)) +
       '<ol class="result-list sd-list">' + rows + '</ol>' +
       '<p class="results-note">Correct = your pin landed within ' + G.DAILY_HIT_MILES + ' miles. ' + countdownText() + '.</p>' +
       '</div><div class="intro-foot"><button class="btn ghost big" id="done">Back to Sports</button></div></div>';
     document.getElementById('back').onclick = document.getElementById('done').onclick = function () { startFeed({ kind: 'sports', region: 'usa', sport: 0 }); };
-    document.getElementById('share-btn').onclick = function () { shareScore(shareText); };
+    wireShareBox('Daily Sports 10', dateLabel, G.sportsTitle(hits), res, shareText);
     wireChrome();
     Sound.setMusic(false);
     if (justFinished) {
@@ -1308,28 +1595,9 @@
       if (hits >= 5) confetti(app.querySelector('.screen'), [COLOR.gold, COLOR.teal, COLOR.pink, '#FFFFFF'], 110, 0.25);
     }
   }
-  // Share: use the phone's share sheet when there is one, otherwise copy to the clipboard.
-  function shareScore(text) {
-    var note = document.getElementById('share-note'), btn = document.getElementById('share-btn');
-    function copied() { note.textContent = 'Copied! Paste it into a text or chat to challenge a friend.'; btn.classList.add('done'); Sound.play('hit'); }
-    function manual() {
-      var r = document.createRange(); r.selectNodeContents(document.getElementById('share-text'));
-      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
-      note.textContent = 'Your score is selected. Copy it and paste it anywhere.';
-    }
-    var isPhone = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
-    if (isPhone && navigator.share) { // phones: open the share sheet (Messages, WhatsApp...)
-      navigator.share({ text: text }).then(function () { note.textContent = 'Shared!'; Sound.play('hit'); }).catch(function () { tryCopy(); });
-    } else tryCopy(); // computers: copy to the clipboard
-    function tryCopy() {
-      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(copied, manual);
-      else manual();
-    }
-  }
-
   // --- Daily 10 results: X/10 correct, green/red squares, and a score to share ---
-  function showDailyResults() {
-    var res = feed.results;
+  function showDailyResults(justFinished) {
+    var res = loadPicks(dailyDone().picks);
     var total = res.reduce(function (s, r) { return s + r.points; }, 0);
     var answered = res.filter(function (r) { return !r.skipped; });
     var hits = res.filter(function (r) { return r.hit; }).length;
@@ -1339,7 +1607,7 @@
     var dateLabel = d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
     var shareText = G.dailyShareText('Daily 10', d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }), res);
     var rows = res.map(function (r) {
-      return '<li><span class="row-mark ' + (r.hit ? 'hit' : 'miss') + '">' + (r.hit ? '✓' : '✕') + '</span>' +
+      return '<li><span class="row-mark g-' + G.gradeFor(r) + '">' + (r.hit ? '✓' : r.skipped ? '–' : '✕') + '</span>' +
         '<span class="dot" style="background:' + CATS[r.q.category].color + '"></span>' +
         '<span class="row-name">' + esc(fullName(r.q)) + '</span>' +
         '<span class="row-miles">' + (r.skipped ? 'skipped' : fmt(r.miles) + ' mi') + '</span>' +
@@ -1347,7 +1615,7 @@
     }).join('');
     feed = null; card = null;
     Sound.setMusic(false);
-    Sound.play('trophy', hits >= 8 ? 'gold' : hits >= 5 ? 'silver' : 'bronze');
+    if (justFinished) Sound.play('trophy', hits >= 8 ? 'gold' : hits >= 5 ? 'silver' : 'bronze');
     app.innerHTML =
       '<div class="screen results">' +
       '<div class="topbar">' + WORDMARK + statChips() + '</div>' +
@@ -1356,12 +1624,9 @@
       '<div class="sd-score"><b>' + hits + '</b><span>/10</span></div>' +
       '<div class="sd-verdict">' + esc(G.dailyTitle(hits)) + '</div></div>' +
       '<div class="sd-grid" aria-label="' + hits + ' correct out of 10">' + res.map(function (r, i) {
-        return '<span class="dsq big ' + (r.hit ? 'hit' : 'miss') + '" style="animation-delay:' + (i * 0.07) + 's"></span>';
+        return '<span class="dsq big g-' + G.gradeFor(r) + '" style="animation-delay:' + (i * 0.07) + 's"></span>';
       }).join('') + '</div>' +
-      '<div class="share-card"><div class="share-label">SHARE YOUR SCORE</div>' +
-      '<pre class="share-text" id="share-text">' + esc(shareText) + '</pre>' +
-      '<button class="btn primary big" id="share-btn">' + ICON.share + 'Share my score</button>' +
-      '<div class="share-note" id="share-note" aria-live="polite"></div></div>' +
+      shareBoxHtml(shareText, worstMiss(res)) +
       '<div class="stat-grid">' +
       '<div><b>' + fmt(total) + '</b><span>points</span></div>' +
       '<div><b>' + bulls + '</b><span>bullseyes</span></div>' +
@@ -1369,11 +1634,13 @@
       '<ol class="result-list sd-list">' + rows + '</ol>' +
       '<p class="results-note">Correct = your pin landed within ' + G.DAILY_HIT_MILES + ' miles. Same 10 for everyone today. ' + countdownText() + '.</p>' +
       '</div><div class="intro-foot"><button class="btn primary big" id="done">Back to feeds</button></div></div>';
-    document.getElementById('done').onclick = showPicker;
-    document.getElementById('share-btn').onclick = function () { shareScore(shareText); };
+    document.getElementById('done').onclick = function () { showPicker(); };
+    wireShareBox('Daily 10', d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }), G.dailyTitle(hits), res, shareText);
     wireChrome();
-    if (hits >= 5) confetti(app.querySelector('.screen'), [COLOR.gold, COLOR.teal, COLOR.pink, '#FFFFFF'], 110, 0.25);
-    dingSquares(res);
+    if (justFinished) {
+      if (hits >= 5) confetti(app.querySelector('.screen'), [COLOR.gold, COLOR.teal, COLOR.pink, '#FFFFFF'], 110, 0.25);
+      dingSquares(res);
+    }
   }
   // Results squares "ding" in one at a time, high for a hit, low for a miss.
   function dingSquares(list) {
@@ -1381,5 +1648,12 @@
   }
 
   FX.wireTaps(); // every button boings and bursts when tapped (fx.js)
-  if (store.seenIntro) showPicker({ flyIn: true }); else showIntro();
+  // Opened from a "Beat my pin" link (?beat=card~lat~lon): go straight to that card.
+  var beat = G.parseChallenge(decodeURIComponent((location.search.match(/[?&]beat=([^&]+)/) || [])[1] || ''), Object.keys(BYID));
+  if (beat) {
+    try { history.replaceState(null, '', location.pathname); } catch (e) { } // a reload goes to the home screen, not the same challenge
+    store.seenIntro = true; save(); // playing the challenge teaches the game
+    startFeed({ kind: 'challenge', id: beat.id, friend: beat.guess });
+    FX.slam(app, '🎯', 'BEAT MY PIN!');
+  } else if (store.seenIntro) showPicker({ flyIn: true }); else showIntro();
 })();

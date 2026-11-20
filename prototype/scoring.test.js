@@ -735,7 +735,7 @@ test('home screen: no daily goal line, Daily 10 sits above the tiles and Shuffle
   const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
   assert.ok(!app.includes('TODAY’S GOAL') && !app.includes('Daily goal smashed'), 'the daily goal is gone');
   const home = app.slice(app.indexOf('function showPicker'), app.indexOf("document.getElementById('go-sports').onclick"));
-  const daily = home.indexOf('id="go-daily"'), tiles = home.indexOf('class="tiles"'), shuffle = home.indexOf('id="go-shuffle"');
+  const daily = home.indexOf('dailyHeroHtml()'), tiles = home.indexOf('class="tiles"'), shuffle = home.indexOf('id="go-shuffle"');
   assert.ok(daily > 0 && daily < tiles && tiles < shuffle, 'order: Daily 10, tiles, Shuffle');
 });
 
@@ -772,4 +772,98 @@ test('"Your pin" names only the spot (country or US state), never a distance to 
   const fn = app.slice(app.indexOf('function placeOfPin'), app.indexOf('function shapeDistance'));
   assert.ok(!/mi from|right by|PLACES/.test(fn), 'no "about 73 mi from Zagreb" part');
   assert.ok(fn.includes("return where || 'In the water'"));
+});
+
+// ---------- Next-level sharing and fun (Nov 20, 2026) ----------
+const readSrc = (f) => require('fs').readFileSync(require('path').join(__dirname, 'src', f), 'utf8');
+
+test('colors that tell a story: every daily square shows how close the pin was', () => {
+  assert.deepStrictEqual([{ hit: true, miles: 200 }, { miles: 400 }, { miles: 1200 }, { miles: 3000 }, { skipped: true, miles: null }].map(G.gradeFor),
+    ['hit', 'warm', 'chilly', 'cold', 'skip']);
+  assert.strictEqual(G.gradeFor({ miles: 600 }), 'warm');
+  assert.strictEqual(G.gradeFor({ miles: 1500 }), 'chilly');
+  assert.strictEqual(G.dailyShareText('Daily 10', 'Nov 20', [{ hit: true, miles: 10 }, { miles: 400 }, { miles: 900 }, { miles: 5000 }, { miles: null }]),
+    'World Scroll · Daily 10 · Nov 20\n1/5 📍\n🟩🟨🟧🟥⬛');
+  const app = readSrc('app.js');
+  assert.ok(app.includes("' g-' + G.gradeFor(res[i])"), 'the running row while playing uses the same colors');
+  assert.ok(app.includes('class="grade-key"'), 'results explain what the colors mean');
+});
+
+test('"Beat my pin" links: the card and the pin travel in the link, and bad links are ignored', () => {
+  const code = G.challengeCode('eiffel-tower', { lat: 7.9461, lon: -1.0232 });
+  assert.strictEqual(code, 'eiffel-tower~7.95~-1.02');
+  assert.deepStrictEqual(G.parseChallenge(code, ['eiffel-tower']), { id: 'eiffel-tower', guess: { lat: 7.95, lon: -1.02 } });
+  assert.strictEqual(G.parseChallenge(code, ['statue-of-liberty']), null, 'unknown card');
+  for (const bad of ['', 'eiffel-tower', 'eiffel-tower~95~10', 'eiffel-tower~10~200', '<script>~1~1']) assert.strictEqual(G.parseChallenge(bad), null, bad);
+  const card = questions.find(q => q.id === 'eiffel-tower');
+  assert.ok(Math.abs(card.lat - 48.858) < 0.01 && Math.abs(card.lon - 2.294) < 0.01, 'the Eiffel Tower card points to Paris');
+  const app = readSrc('app.js');
+  assert.ok(app.includes("var SITE_URL = 'https://hiipointegames.github.io/world-scroll/prototype/world-scroll.html'"));
+  assert.ok(app.includes("startFeed({ kind: 'challenge', id: beat.id, friend: beat.guess })"), 'opening a link starts that card');
+  assert.ok(app.includes("history.replaceState(null, '', location.pathname)"), 'a reload does not replay the challenge');
+  assert.ok(app.includes('c.map.showFriend(friend)') && app.includes('Your friend’s pin:'), 'after guessing, the friend\'s pin and miles show');
+  assert.ok(app.includes("sk.innerHTML = '🎯 Challenge'"), 'every result can be sent as a challenge');
+});
+
+test('worst miss and nerd fact shares read like a sentence', () => {
+  assert.strictEqual(G.worstMissText('The Eiffel Tower', 'Ghana', 3021.4, false), 'I put the Eiffel Tower in Ghana 🤦 3,021 miles off! Can you beat my pin?');
+  assert.strictEqual(G.worstMissText('The Grizzlies', 'Atlantic Ocean', 900, true), 'I thought the Grizzlies played in the Atlantic Ocean 🤦 900 miles off! Can you beat my pin?');
+  assert.strictEqual(G.worstMissText('Liverpool', 'In the water', 50, true), 'I thought Liverpool played in the middle of the ocean 🤦 50 miles off! Can you beat my pin?');
+  assert.strictEqual(G.nerdShareText('The Gobi Desert', [['a', 'One.'], ['b', 'Two.']]), '🤓 2 nerd facts about the Gobi Desert:\n\n• One.\n• Two.\n\nLearn more on World Scroll!');
+  const app = readSrc('app.js');
+  const nerd = app.slice(app.indexOf('function nerdSheet'), app.indexOf('function nerdKind'));
+  assert.strictEqual((nerd.match(/id="share-facts"/g) || []).length, 1, 'one share button for all the facts');
+  const rowsPart = nerd.slice(nerd.indexOf('q.nerd.map'), nerd.indexOf(".join('')"));
+  assert.ok(!/share/i.test(rowsPart), 'no share button on each fact');
+  assert.ok(nerd.indexOf('id="share-facts"') > nerd.indexOf('nerd-list'), 'the button sits below the facts');
+});
+
+test('share pictures: a 1080x1350 score card with the map, built into the page', () => {
+  const share = readSrc('share.js');
+  assert.ok(share.includes('var W = 1080, H = 1350'));
+  assert.ok(share.includes("'Can you beat me?'") && share.includes('d3.geoNaturalEarth1()'), 'invite and world map');
+  assert.ok(require('fs').readFileSync(require('path').join(__dirname, 'build.js'), 'utf8').includes("read('src/share.js')"), 'the build inlines share.js');
+  assert.ok(readSrc('app.html').includes('<script>/*__SHARE__*/</script>'));
+});
+
+test('passport: close guesses (within 100 mi or a bullseye) stamp a place once, and the passport lives on the home screen', () => {
+  assert.strictEqual(G.earnsStamp(100, false), true);
+  assert.strictEqual(G.earnsStamp(101, false), false);
+  assert.strictEqual(G.earnsStamp(400, true), true, 'a bullseye on a big area counts');
+  const app = readSrc('app.js');
+  assert.ok(app.includes("var newStamp = G.earnsStamp(r.miles, r.bullseye) && !(store.stamps || {})[c.q.id];"), 'each place is stamped once');
+  assert.ok(app.includes("'<div class=\"pc-pair\">' + progressCardHtml() + passportCardHtml() + '</div>'"), 'passport card sits beside the rank');
+  assert.ok(app.includes("got + '/' + n + ' stamped'"), 'tiles show stamp progress');
+  assert.ok(/function showPassport\(\)[\s\S]*DATA\.categories\.map/.test(app), 'one passport page per category');
+});
+
+test('rank badges: every rank has its own emoji and color, and a new rank gets a shareable celebration', () => {
+  assert.strictEqual(new Set(G.RANKS.map(r => r.emoji)).size, G.RANKS.length);
+  assert.ok(G.RANKS.every(r => /^#[0-9A-F]{6}$/i.test(r.color)));
+  assert.strictEqual(G.rankFor(6000).emoji, '🥾');
+  const app = readSrc('app.js');
+  assert.ok(app.includes('rankUpSheet(rankNow)') && app.includes("'NEW RANK UNLOCKED!'") && app.includes('id="share-rank"'));
+});
+
+test('Daily 10 hero: top of the home screen, one try a day, with a countdown and your squares', () => {
+  const app = readSrc('app.js');
+  const home = app.slice(app.indexOf('function showPicker'), app.indexOf("document.getElementById('go-sports').onclick"));
+  assert.ok(home.indexOf('dailyHeroHtml()') < home.indexOf('class="sports-hero"'), 'Daily 10 comes before Sports');
+  assert.ok(app.includes("if (dailyDone()) showDailyResults(false); else launch({ kind: 'daily' }"), 'played today: the hero opens your results');
+  assert.ok(app.includes('id="dh-clock"') && app.includes('clock.textContent = countdownText()'), 'a live countdown');
+});
+
+test('playable welcome: a real Paris card on the welcome screen, never saying "tap the map"', () => {
+  const app = readSrc('app.js');
+  const intro = app.slice(app.indexOf('function showIntro'), app.indexOf('// --- Pick your feed ---'));
+  assert.ok(intro.includes("x.prompt === 'Where is Paris?'") && intro.includes("createMap(box.querySelector('.map'), 'europe'"));
+  assert.ok(intro.includes('Drop a pin where you think Paris is, then lock in your guess.'));
+  assert.ok(intro.includes('rivers, oceans, lakes, seas'), 'the welcome still lists what is in the game');
+  for (const f of ['app.js', 'app.html', 'share.js', 'scoring.js']) assert.ok(!/tap the (map|globe)|map tap/i.test(readSrc(f)), f + ' never says "tap the map"');
+});
+
+test('new effects switch off under reduced motion', () => {
+  const html = readSrc('app.html');
+  const block = html.slice(html.indexOf('/* ===== Share & next-level fun'));
+  assert.match(block, /prefers-reduced-motion: reduce\) \{\s*\.vs-emoji, \.mini-toast, \.rank-badge\.rank-up[^}]*\.stamp-pop \.stamp\.big[^}]*animation: none !important/);
 });

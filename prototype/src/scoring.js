@@ -90,14 +90,51 @@
     return mixBy(sports, function (q) { return q.region + '/' + q.sport; },
       seededRandom('world-scroll-sports-daily-' + dateKey), count || 10);
   }
-  // The text players share: the game and date, the score, and a green/red square per card.
+  // Colors that tell a story: every daily square shows how close the pin was, not just right or wrong.
+  // hit = correct (within DAILY_HIT_MILES), then warm, chilly and cold misses, and skip for a skipped card.
+  var GRADE_SQUARE = { hit: '🟩', warm: '🟨', chilly: '🟧', cold: '🟥', skip: '⬛' };
+  function gradeFor(r) {
+    if (r.hit) return 'hit';
+    if (r.skipped || (r.miles == null && 'miles' in r)) return 'skip';
+    if (r.miles == null) return 'cold';
+    return r.miles <= 600 ? 'warm' : r.miles <= 1500 ? 'chilly' : 'cold';
+  }
+  // The text players share: the game and date, the score, and a colored square per card.
   // Used by both daily games; only the game name in the first line changes.
   function dailyShareText(gameName, dateLabel, results) {
     var hits = results.filter(function (r) { return r.hit; }).length;
     return 'World Scroll · ' + gameName + ' · ' + dateLabel + '\n' +
       hits + '/' + results.length + ' ' + (hits >= 8 ? '🏆' : hits >= 5 ? '🎯' : '📍') + '\n' +
-      results.map(function (r) { return r.hit ? '🟩' : '🟥'; }).join('');
+      results.map(function (r) { return GRADE_SQUARE[gradeFor(r)]; }).join('');
   }
+  // "Beat my pin" links: the card and where the friend's pin landed, packed into one short link part.
+  function challengeCode(id, guess) {
+    return id + '~' + guess.lat.toFixed(2) + '~' + guess.lon.toFixed(2);
+  }
+  function parseChallenge(code, knownIds) {
+    var m = /^([a-z0-9-]+)~(-?\d{1,2}(?:\.\d+)?)~(-?\d{1,3}(?:\.\d+)?)$/.exec(String(code || ''));
+    if (!m) return null;
+    var lat = +m[2], lon = +m[3];
+    if (Math.abs(lat) > 90 || Math.abs(lon) > 180) return null;
+    if (knownIds && knownIds.indexOf(m[1]) < 0) return null;
+    return { id: m[1], guess: { lat: lat, lon: lon } };
+  }
+  // The funniest share: your worst miss. Teams "play" somewhere; places get "put" somewhere.
+  function worstMissText(subject, place, miles, isTeam) {
+    var where = /^(Pacific|Atlantic|Indian|Arctic|Southern) Ocean$|Sea$|Gulf$|Bay$/.test(place) ? 'the ' + place : place;
+    if (place === 'In the water') where = 'the middle of the ocean';
+    var dist = Math.round(miles).toLocaleString('en-US');
+    var who = String(subject).replace(/^The /, 'the '); // "The Eiffel Tower" reads "the Eiffel Tower" mid-sentence
+    return (isTeam ? 'I thought ' + who + ' played in ' + where : 'I put ' + who + ' in ' + where) +
+      ' 🤦 ' + dist + ' miles off! Can you beat my pin?';
+  }
+  // Sharing a card's nerd facts: a title, then each fact on its own line.
+  function nerdShareText(name, facts) {
+    return '🤓 ' + facts.length + ' nerd facts about ' + String(name).replace(/^The /, 'the ') + ':\n\n' +
+      facts.map(function (f) { return '• ' + f[1]; }).join('\n') + '\n\nLearn more on World Scroll!';
+  }
+  // Passport stamps: land within HIT_MILES (or hit the bullseye) to stamp that place into your passport.
+  function earnsStamp(miles, bullseye) { return !!bullseye || miles <= HIT_MILES; }
   function sportsShareText(dateLabel, results) { return dailyShareText('Daily Sports 10', dateLabel, results); }
   // A fun, kid-friendly title for a Daily 10 score.
   function dailyTitle(hits) {
@@ -204,22 +241,29 @@
   var DAILY_GOAL = 15;
   function cardsToday(state, today) { return state && state.date === today ? state.n : 0; }
   // Explorer ranks: grow with lifetime points.
+  // Each rank has its own badge (emoji) and color.
   var RANKS = [
-    { name: 'Rookie Explorer', min: 0 }, { name: 'Trail Finder', min: 5000 }, { name: 'Map Reader', min: 15000 },
-    { name: 'Navigator', min: 35000 }, { name: 'Globetrotter', min: 70000 }, { name: 'World Wanderer', min: 125000 },
-    { name: 'Atlas Ace', min: 200000 }, { name: 'World Legend', min: 350000 }
+    { name: 'Rookie Explorer', min: 0, emoji: '🎒', color: '#3DDCC4' },
+    { name: 'Trail Finder', min: 5000, emoji: '🥾', color: '#9BE7A8' },
+    { name: 'Map Reader', min: 15000, emoji: '🗺️', color: '#7CC4FF' },
+    { name: 'Navigator', min: 35000, emoji: '🧭', color: '#A9C6FF' },
+    { name: 'Globetrotter', min: 70000, emoji: '✈️', color: '#FF8F6B' },
+    { name: 'World Wanderer', min: 125000, emoji: '🌍', color: '#D7A8FF' },
+    { name: 'Atlas Ace', min: 200000, emoji: '🚀', color: '#FF6FA8' },
+    { name: 'World Legend', min: 350000, emoji: '👑', color: '#FFB547' }
   ];
   function rankFor(points) {
     var i = 0;
     while (i + 1 < RANKS.length && points >= RANKS[i + 1].min) i++;
     var next = RANKS[i + 1] || null;
-    return { index: i, name: RANKS[i].name, min: RANKS[i].min, next: next,
+    return { index: i, name: RANKS[i].name, min: RANKS[i].min, emoji: RANKS[i].emoji, color: RANKS[i].color, next: next,
       progress: next ? (points - RANKS[i].min) / (next.min - RANKS[i].min) : 1 };
   }
 
   var api = {
     EARTH_RADIUS_MI: EARTH_RADIUS_MI, haversineMiles: haversineMiles, pointsFor: pointsFor,
     scoreGuess: scoreGuess, seededRandom: seededRandom, shuffle: shuffle, dailyPick: dailyPick,
+    gradeFor: gradeFor, GRADE_SQUARE: GRADE_SQUARE, nerdShareText: nerdShareText, challengeCode: challengeCode, parseChallenge: parseChallenge, worstMissText: worstMissText, earnsStamp: earnsStamp,
     mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, trophyStep: trophyStep, dailyShareText: dailyShareText, dailyTitle: dailyTitle, countVisit: countVisit, tipForDay: tipForDay, lineDistance: lineDistance, areaDistance: areaDistance, inArea: inArea, vibeFor: vibeFor, comboStep: comboStep, DAILY_GOAL: DAILY_GOAL, cardsToday: cardsToday, RANKS: RANKS, rankFor: rankFor,
     dailySportsPick: dailySportsPick, sportsShareText: sportsShareText, sportsTitle: sportsTitle
   };
