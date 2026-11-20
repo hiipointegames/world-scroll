@@ -981,8 +981,6 @@
         '<span class="tile-text"><span class="tile-name">' + esc(c.label) + '</span>' +
         '<span class="tile-sub">' + esc(CATEGORY_SUBS[c.id] || '') + '</span></span></button>';
     }).join('');
-    // Teams only (tennis cards are famous venues, not teams)
-    var sportsCount = QUESTIONS.filter(function (q) { return q.category === 'sports' && q.sport !== 'tennis'; }).length;
     app.innerHTML =
       '<div class="screen picker">' +
       '<div class="topbar">' + WORDMARK + statChips(soundButton()) + '</div>' +
@@ -993,7 +991,7 @@
       '<button class="sports-hero" id="go-sports">' +
       '<span class="hero-text"><span class="hero-kicker">WHERE DO THEY PLAY?</span>' +
       '<span class="hero-name">Sports</span>' +
-      '<span class="hero-sub">' + sportsCount + ' sports teams · USA, Europe and Australia</span></span>' +
+      '<span class="hero-sub">USA, Europe and Australia</span></span>' +
       '<span class="hero-side"><span class="hero-trophies">' + trophyCaseHtml(false) + '</span>' +
       '<span class="hero-go">Play</span></span></button>' +
       '<div class="tiles">' + tiles + '</div>' +

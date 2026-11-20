@@ -745,6 +745,7 @@ test('home screen: no daily goal line, Daily 10 sits above the tiles and Shuffle
   const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
   assert.ok(!app.includes('TODAY’S GOAL') && !app.includes('Daily goal smashed'), 'the daily goal is gone');
   assert.ok(!app.includes('Every scroll teaches you a new spot on the map.'), 'no subtitle under the home heading');
+  assert.ok(app.includes('<span class="hero-sub">USA, Europe and Australia</span>') && !app.includes('sportsCount'), 'Sports button: just the regions, on one line (no team count)');
   const home = app.slice(app.indexOf('function showPicker'), app.indexOf("document.getElementById('go-sports').onclick"));
   const daily = home.indexOf('dailyHeroHtml()'), tiles = home.indexOf('class="tiles"'), shuffle = home.indexOf('id="go-shuffle"');
   assert.ok(daily > 0 && daily < tiles && tiles < shuffle, 'order: Daily 10, tiles, Shuffle');

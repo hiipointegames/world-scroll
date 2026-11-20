@@ -143,7 +143,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 /* Pick your feed */
 .picker-body { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 16px 20px 20px; }
 .picker-head h1 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 29px; line-height: 1.06; text-wrap: balance; }
-.sports-hero { position: relative; flex-shrink: 0; border: none; border-radius: 22px; padding: 16px 16px 16px 18px; cursor: pointer; overflow: hidden;
+.sports-hero { position: relative; flex-shrink: 0; border: none; border-radius: 22px; padding: 13px 14px 13px 18px; cursor: pointer; overflow: hidden;
   display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: left; color: var(--ink);
   background: radial-gradient(circle at 85% -20%, rgba(255, 255, 255, .45), transparent 45%), linear-gradient(120deg, #FF6FA8 0%, #FF8F6B 60%, #FFB547 100%);
   box-shadow: 0 10px 30px rgba(255, 111, 168, .28); transition: transform .12s; }
@@ -154,7 +154,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .hero-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
 .hero-kicker { font-size: 11px; font-weight: 600; letter-spacing: 1.4px; opacity: .75; }
 .hero-name { font-family: var(--font-display); font-weight: 700; font-size: 30px; line-height: 1.05; }
-.hero-sub { font-size: 12px; font-weight: 500; opacity: .8; }
+.hero-sub { font-size: 12.5px; font-weight: 600; opacity: .8; white-space: nowrap; } /* the three regions on one line */
 .hero-side { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0; }
 .hero-trophies { display: flex; gap: 6px; background: rgba(11, 16, 38, .82); border-radius: 999px; padding: 5px 9px; color: var(--text); }
 .hero-go { background: var(--ink); color: var(--text); font-family: var(--font-display); font-weight: 700; font-size: 15px; border-radius: 12px; padding: 8px 16px; }
@@ -2984,8 +2984,6 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
         '<span class="tile-text"><span class="tile-name">' + esc(c.label) + '</span>' +
         '<span class="tile-sub">' + esc(CATEGORY_SUBS[c.id] || '') + '</span></span></button>';
     }).join('');
-    // Teams only (tennis cards are famous venues, not teams)
-    var sportsCount = QUESTIONS.filter(function (q) { return q.category === 'sports' && q.sport !== 'tennis'; }).length;
     app.innerHTML =
       '<div class="screen picker">' +
       '<div class="topbar">' + WORDMARK + statChips(soundButton()) + '</div>' +
@@ -2996,7 +2994,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
       '<button class="sports-hero" id="go-sports">' +
       '<span class="hero-text"><span class="hero-kicker">WHERE DO THEY PLAY?</span>' +
       '<span class="hero-name">Sports</span>' +
-      '<span class="hero-sub">' + sportsCount + ' sports teams · USA, Europe and Australia</span></span>' +
+      '<span class="hero-sub">USA, Europe and Australia</span></span>' +
       '<span class="hero-side"><span class="hero-trophies">' + trophyCaseHtml(false) + '</span>' +
       '<span class="hero-go">Play</span></span></button>' +
       '<div class="tiles">' + tiles + '</div>' +
