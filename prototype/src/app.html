@@ -659,9 +659,9 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   animation-delay: calc(var(--i) * 34ms), calc(1.05s + var(--i) * 24ms); }
 @keyframes letter-in { to { opacity: 1; transform: none; filter: blur(0); } }
 @keyframes glint { to { background-position: -60% 0, 0 0; } }
-.fx-tag { display: flex; align-items: center; gap: 10px; font: 600 11px/1 var(--font-body); letter-spacing: 5px; color: rgba(214, 220, 245, .88); opacity: 0;
-  white-space: nowrap; }
-.fx-tag::before, .fx-tag::after { content: ''; width: 18px; height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 211, 107, .9)); }
+.fx-tag { display: flex; align-items: center; gap: 10px; font: 600 min(3.6cqw, 14px)/1 var(--font-body); letter-spacing: min(.7cqw, 2.8px); color: #F4F1E8; opacity: 0;
+  white-space: nowrap; text-shadow: 0 1px 10px rgba(6, 9, 23, .9), 0 0 2px rgba(6, 9, 23, .8); } /* bigger, brighter, tighter: easy to read */
+.fx-tag::before, .fx-tag::after { content: ''; width: 22px; height: 1.5px; background: linear-gradient(90deg, transparent, rgba(255, 211, 107, .9)); }
 .fx-tag::after { background: linear-gradient(90deg, rgba(255, 211, 107, .9), transparent); }
 .fx-flyin.slam .fx-tag { animation: tag-in .8s ease-out .5s forwards; }
 @keyframes tag-in { from { opacity: 0; letter-spacing: 4.5px; } to { opacity: 1; letter-spacing: 2.4px; } }

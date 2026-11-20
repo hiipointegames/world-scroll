@@ -895,6 +895,15 @@ test('welcome screen: the globe grows into spare space (no gap above Start scrol
   assert.ok(fx.includes('cv.remove(); welcomeGlobe(host);'), 'a resize redraws it at the new size');
 });
 
+test('the opening fly-in uses the same globe and space show as the welcome screen, with an easy-to-read tagline', () => {
+  const fx = readSrc('fx.js'), html = readSrc('app.html');
+  assert.ok(fx.includes('function spaceShow(c, proj, w, h, opts) {'), 'one shared space show');
+  const fly = fx.slice(fx.indexOf('function flyIn('), fx.indexOf('// ---------- tap bursts'));
+  assert.ok(fly.includes('var show = spaceShow(c, proj, w, h, { R: R, t0: t0 });') && fly.includes('show.inFront(t);'), 'the fly-in draws the orbits, satellites, comets and flight paths');
+  assert.ok(fx.includes('t0 = performance.now(), show = spaceShow(c, proj, w, h, { R: proj.scale(), t0: t0 });'), 'the welcome globe uses the same show');
+  assert.ok(html.includes('.fx-tag { display: flex; align-items: center; gap: 10px; font: 600 min(3.6cqw, 14px)/1 var(--font-body);') && html.includes('color: #F4F1E8;'), 'tagline is bigger and brighter');
+});
+
 test('new effects switch off under reduced motion', () => {
   const html = readSrc('app.html');
   const block = html.slice(html.indexOf('/* ===== Share & next-level fun'));

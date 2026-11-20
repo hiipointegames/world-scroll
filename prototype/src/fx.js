@@ -109,29 +109,20 @@
   }
   var visible = function (proj, p) { var r = proj.rotate(); return d3.geoDistance(p, [-r[0], -r[1]]) < Math.PI / 2 - 0.05; };
 
-  // ---------- welcome screen: a premium spinning globe in its own little space show ----------
+  // ---------- the space show around a globe (shared by the welcome screen and the opening fly-in) ----------
   // On the globe: city lights, and flight paths that lift off the surface like real routes.
-  // Around it: hairline orbits with light sweeping along them, satellites and comets that skim close around
-  // the globe, passing behind and in front of it, a crisp starfield and a slow pulse. No cartoon emoji.
-  function welcomeGlobe(host) {
-    var cv = document.createElement('canvas'); cv.className = 'fx-globe'; host.appendChild(cv);
-    var w = host.clientWidth || 340, h = host.clientHeight || 200, c = sizeCanvas(cv, w, h);
-    var proj = d3.geoOrthographic().clipAngle(90).translate([w / 2, h / 2]).scale(Math.min(w * 0.26, h / 2 - 20)); // as big as the space allows, with room around it for the orbits
-    // If its space changes size (a window resize, turning the phone), start over at the new size so it never overlaps the text.
-    if (root.ResizeObserver) {
-      var ro = new ResizeObserver(function () {
-        var nw = host.clientWidth, nh = host.clientHeight;
-        if (!cv.isConnected) { ro.disconnect(); return; }
-        if (nw && nh && (Math.abs(nw - w) > 4 || Math.abs(nh - h) > 4)) { ro.disconnect(); cv.remove(); welcomeGlobe(host); }
-      });
-      ro.observe(host);
-    }
+  // Around it: hairline orbits with light sweeping along them, satellites and comets that skim close around the
+  // globe (passing behind and in front of it), a crisp starfield and a slow pulse. Everything follows proj, so the
+  // fly-in can zoom it. opts.R: the globe's resting radius (where the stars are laid out); opts.t0: start time.
+  function spaceShow(c, proj, w, h, opts) {
     var flights = [[0, 3], [1, 7], [4, 5], [2, 6], [8, 9], [10, 11], [12, 13], [3, 4], [5, 1], [9, 12]];
-    var R = proj.scale(), ctr = proj.translate(), t0 = performance.now();
+    var R = opts.R, ctr = proj.translate(), t0 = opts.t0;
+    function sync() { R = proj.scale(); ctr = proj.translate(); } // orbits follow the globe as it zooms
     function center() { var rt = proj.rotate(); return [-rt[0], -rt[1]]; }
     // a point above the surface: altitude 0 = on the ground (orthographic, so lifting = pushing out from the center)
     function lifted(p, alt) { var s = proj(p); return [ctr[0] + (s[0] - ctr[0]) * (1 + alt), ctr[1] + (s[1] - ctr[1]) * (1 + alt)]; }
     function extras() {
+      sync();
       var t = (performance.now() - t0) / 1000, cen = center();
       // flight paths: a bright head with a fading tail, arcing up off the globe and back down
       flights.forEach(function (f, i) {
@@ -231,6 +222,7 @@
     }
     function behind(t) {
       return function () {
+        sync();
         STARS.forEach(function (st) {
           var a = st.tw ? 0.35 + 0.6 * Math.abs(Math.sin(t * 0.9 + st.ph)) : 0.55;
           c.fillStyle = (st.warm ? 'rgba(255,225,190,' : 'rgba(230,240,255,') + a + ')';
@@ -244,8 +236,31 @@
       };
     }
     function inFront(t) {
+      sync();
       ORBITS.forEach(function (o) { ring(o, true, t); o.riders.forEach(function (rd) { rider(o, rd, t, true); }); });
     }
+    return { extras: extras, behind: behind, inFront: inFront };
+  }
+
+  // ---------- welcome screen: a premium spinning globe in its own little space show ----------
+  // On the globe: city lights, and flight paths that lift off the surface like real routes.
+  // Around it: hairline orbits with light sweeping along them, satellites and comets that skim close around
+  // the globe, passing behind and in front of it, a crisp starfield and a slow pulse. No cartoon emoji.
+  function welcomeGlobe(host) {
+    var cv = document.createElement('canvas'); cv.className = 'fx-globe'; host.appendChild(cv);
+    var w = host.clientWidth || 340, h = host.clientHeight || 200, c = sizeCanvas(cv, w, h);
+    var proj = d3.geoOrthographic().clipAngle(90).translate([w / 2, h / 2]).scale(Math.min(w * 0.26, h / 2 - 20)); // as big as the space allows, with room around it for the orbits
+    // If its space changes size (a window resize, turning the phone), start over at the new size so it never overlaps the text.
+    if (root.ResizeObserver) {
+      var ro = new ResizeObserver(function () {
+        var nw = host.clientWidth, nh = host.clientHeight;
+        if (!cv.isConnected) { ro.disconnect(); return; }
+        if (nw && nh && (Math.abs(nw - w) > 4 || Math.abs(nh - h) > 4)) { ro.disconnect(); cv.remove(); welcomeGlobe(host); }
+      });
+      ro.observe(host);
+    }
+    var t0 = performance.now(), show = spaceShow(c, proj, w, h, { R: proj.scale(), t0: t0 });
+    var behind = show.behind, inFront = show.inFront, extras = show.extras;
     if (calm) { proj.rotate([-20, -18, 0]); drawGlobe(c, proj, w, h, { t: 0, behind: behind(0) }); inFront(0); return; } // reduced motion: one still picture
     (function frame() {
       if (!cv.isConnected) return; // the welcome screen closed: stop
@@ -273,11 +288,12 @@
       '<div class="fx-tag">LEARN GEOGRAPHY BY SCROLLING</div></div>';
     host.appendChild(ov);
     var cv = ov.querySelector('canvas'), w = host.clientWidth, h = host.clientHeight, c = sizeCanvas(cv, w, h);
-    var R = Math.min(w, h) * 0.36, start = SPOTS[Math.floor(Math.random() * SPOTS.length)];
+    var R = Math.min(w * 0.3, h * 0.24), start = SPOTS[Math.floor(Math.random() * SPOTS.length)]; // room for the orbits
     // The wordmark sits just under the globe on every phone (on short screens a fixed spot would overlap it).
     ov.querySelector('.fx-logo').style.top = Math.min(h - 118, h * 0.42 + R + 26) + 'px';
-    var proj = d3.geoOrthographic().clipAngle(90).translate([w / 2, h * 0.42]);
+    var proj = d3.geoOrthographic().clipAngle(90).translate([w / 2, h * 0.42]).scale(R);
     var t0 = performance.now(), finished = false, slammed = false;
+    var show = spaceShow(c, proj, w, h, { R: R, t0: t0 }); // the same orbits, satellites, comets and flight paths as the welcome screen
     var easeOut = function (x) { return 1 - Math.pow(1 - x, 3); };
     try { Sound.play('intro'); } catch (e) { }
     function finish() {
@@ -292,15 +308,8 @@
       var t = (now - t0) / 1000, z = easeOut(Math.min(1, t / 1.0));
       proj.scale(R * Math.pow(40, 1 - z)); // 40x zoomed in → whole globe
       proj.rotate([-start[0] + z * 540 + Math.max(0, t - 1) * 90, -start[1] * (1 - z) - 15 * z, 0]);
-      drawGlobe(c, proj, w, h, { t: t, extras: t > 1 ? function (c) {
-        SPOTS.forEach(function (s, i) {
-          if (!visible(proj, s)) return;
-          var p = proj(s), k = Math.min(1, Math.max(0, (t - 1 - i * 0.03) * 6));
-          var rr = 5 * k * (1 + 0.5 * Math.sin(k * Math.PI));
-          c.fillStyle = COLORS[i % 3]; c.beginPath(); c.arc(p[0], p[1], rr, 0, 2 * Math.PI); c.fill();
-          c.fillStyle = '#FFFFFF'; c.beginPath(); c.arc(p[0], p[1], rr * 0.38, 0, 2 * Math.PI); c.fill(); // crisp white center
-        });
-      } : null });
+      drawGlobe(c, proj, w, h, { t: t, extras: show.extras, behind: show.behind(t) });
+      show.inFront(t);
       if (t > 0.85 && !slammed) { slammed = true; ov.classList.add('slam'); }
       if (t >= 2.9) return finish(); // long enough to land the letters, catch the shine and read the tagline
       requestAnimationFrame(frame);
