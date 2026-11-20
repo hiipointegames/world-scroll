@@ -378,11 +378,63 @@
     // The world map needs the most room (from the whole planet down to a small country or city).
     var maxZoom = isGlobe(regionId) ? 80 : 40;
     var wrap = host.parentNode;
+    // ---- zoom and drag, tuned to feel like a top map app ----
+    // * one redraw per screen refresh, however many touch events arrive (no wasted work, no stutter)
+    // * paths draw a little faster while the map is moving, then crisp again when it stops
+    // * a flick keeps the map gliding and slowing down (momentum), like Google or Apple Maps
+    // * double-tap (or double-click) zooms in right where you tapped
+    // * a tap that wobbles a few pixels still drops the pin (it isn't mistaken for a drag)
+    var frameQueued = false, samples = [], fling = null, settleTimer = null;
+    function draw() { frameQueued = false; place(); }
+    function queueDraw() { if (!frameQueued) { frameQueued = true; requestAnimationFrame(draw); } }
+    function moving(on) {
+      clearTimeout(settleTimer);
+      if (on) svg.classed('moving', true);
+      else settleTimer = setTimeout(function () { svg.classed('moving', false); }, 90);
+    }
+    function stopFling() { if (fling) { cancelAnimationFrame(fling.raf); fling = null; } }
     var zoom = d3.zoom().scaleExtent([1, maxZoom]).extent([[0, 0], [W, H]]).translateExtent([[0, 0], [W, H]])
-      .on('zoom', function (e) { t = e.transform; place(); if (wrap) wrap.classList.toggle('zoomed', t.k > 1.05); });
+      .clickDistance(8).tapDistance(12) // finger wobble on a tap is not a drag
+      .on('start', function (e) {
+        if (e.sourceEvent) { stopFling(); samples = []; } // a new touch catches the gliding map
+        moving(true);
+      })
+      .on('zoom', function (e) {
+        t = e.transform;
+        if (e.sourceEvent && !fling) { // remember the last moments of a drag, to measure the flick
+          var now = e.sourceEvent.timeStamp; // when the finger actually moved (not when we got to it), so busy phones still glide
+          samples.push({ t: now, x: t.x, y: t.y, k: t.k });
+          while (samples.length && now - samples[0].t > 160) samples.shift();
+        }
+        queueDraw();
+        if (wrap) wrap.classList.toggle('zoomed', t.k > 1.05);
+      })
+      .on('end', function (e) {
+        var pinch = samples.length > 1 && samples[0].k !== samples[samples.length - 1].k;
+        var v = e.sourceEvent && t.k > 1.01 && !pinch && !reduceMotion ? G.flingVelocity(samples, e.sourceEvent.timeStamp) : { vx: 0, vy: 0 };
+        samples = [];
+        if (!v.vx && !v.vy) { moving(false); return; }
+        var last = performance.now();
+        fling = { v: v };
+        (function glide(now) {
+          if (!fling) return;
+          var dt = Math.min(48, now - last); last = now;
+          svg.call(zoom.translateBy, fling.v.vx * dt / t.k, fling.v.vy * dt / t.k);
+          fling.v = G.flingStep(fling.v, dt);
+          if (fling.v) fling.raf = requestAnimationFrame(glide); else { fling = null; moving(false); }
+        })(last);
+      });
     svg.call(zoom).on('dblclick.zoom', null);
 
+    var lastTap = null;
     svg.on('click', function (e) {
+      var tap = { t: e.timeStamp, x: e.clientX, y: e.clientY }; // when the tap happened, even if the phone was busy
+      if (G.isDoubleTap(lastTap, tap)) { // double-tap: zoom in toward that spot (the pin is already there)
+        lastTap = null;
+        svg.transition().duration(300).ease(d3.easeCubicOut).call(zoom.scaleBy, 2.2, d3.pointer(e, svgEl));
+        return;
+      }
+      lastTap = tap;
       if (locked) return;
       var p = t.invert(d3.pointer(e, svgEl));
       var ll = proj.invert(p);
@@ -773,7 +825,9 @@
       '</div>' +
       // A real card to play right here: the first pin is the first win.
       '<div class="intro-try" id="intro-try"><div class="try-head"><span class="try-kicker">TRY ONE!</span><span class="try-prompt">Where is Paris?</span></div>' +
-      '<div class="try-map"><div class="map"></div></div>' +
+      '<div class="try-map map-wrap"><div class="map"></div>' + // the same zoom buttons as a real card
+      '<div class="zoom-btns"><button class="zoom-in" aria-label="Zoom in">+</button><button class="zoom-out" aria-label="Zoom out">−</button>' +
+      '<button class="zoom-reset" aria-label="Show the whole map">' + ICON.fit + '</button></div></div>' +
       '<div class="try-panel hint" id="try-panel" aria-live="polite"></div>' + // fills in with your result
       '<button class="btn teal try-lock" id="try-lock" disabled>Drop a pin on Paris</button></div>' +
       '<p class="intro-more">Scroll through countries, capitals, rivers, oceans, lakes, seas, famous landmarks, and where your favorite sports teams play.</p>' +
@@ -798,6 +852,9 @@
       var lr = lock.getBoundingClientRect(), fr = document.querySelector('.intro-foot').getBoundingClientRect();
       if (lr.bottom > fr.top) lock.scrollIntoView({ block: 'center', behavior: REDUCE_MOTION ? 'auto' : 'smooth' }); // small phones: bring the lock button into view
     });
+    box.querySelector('.zoom-in').onclick = function () { map.zoomBy(2); };
+    box.querySelector('.zoom-out').onclick = function () { map.zoomBy(0.5); };
+    box.querySelector('.zoom-reset').onclick = function () { map.resetZoom(); };
     lock.onclick = function () {
       if (!guess || box.classList.contains('done')) return;
       box.classList.add('done');
@@ -1418,6 +1475,8 @@
   }
   document.addEventListener('keydown', function (e) {
     if (!card || !document.getElementById('stage')) return;
+    if (e.key === '+' || e.key === '=') { e.preventDefault(); card.map.zoomBy(2); return; } // computers: + and − zoom the map
+    if (e.key === '-' || e.key === '_') { e.preventDefault(); card.map.zoomBy(0.5); return; }
     if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); advance(); }
     else if (e.key === 'Enter' && document.activeElement === document.body) {
       card.revealed ? advance() : lockIn(card);

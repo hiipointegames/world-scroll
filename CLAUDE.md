@@ -45,7 +45,15 @@ Some answers are areas or lines (rivers, deserts, mountain ranges). For the MVP,
   - World/globe: a full world view for the main feed
 - The prototype used an equirectangular projection scaled by cos(center latitude), so taps are easy to convert back to lat/lon. In the app, use `d3-geo` with any projection that has `.invert()` (geoMercator or geoNaturalEarth1 are fine). Convert the tap to lat/lon with `projection.invert`.
 - Color the focus region teal (#2E6F8E), neighboring land dark blue (#1D2B5E), water #0F1A40, and borders white at 18–28% opacity. **Never draw city names.**
-- Later: pinch-to-zoom and pan on the map.
+- Zoom and pan (done in the web prototype, rebuild the same feel in the app):
+  - Pinch, drag, + / − / fit buttons, double-tap zooms in 2.2× at the tap, and + / − keys on a computer.
+  - A flick glides and slows down (momentum). The math is framework-free in `prototype/src/scoring.js`
+    (`flingVelocity`, `flingStep`, `isDoubleTap`), so the app can reuse it as-is.
+  - A tap that wobbles up to ~8 px still drops the pin. Time gestures by the touch's own timestamp, not by when the code runs.
+  - Redraw once per screen refresh. Pins stay the same size at every zoom; borders stay hairline.
+  - App stack for this: `react-native-gesture-handler` + `react-native-reanimated` (gestures run on the UI thread),
+    with `@shopify/react-native-skia` (or `react-native-svg`) for drawing and `d3-geo` for `projection.invert`.
+  - Globes use a lighter coastline when small (level of detail, see `landFor` in `prototype/src/fx.js`).
 
 ## Design system (from the prototype)
 - Background ink: #0B1026 · Card surface: #151C42 · Raised: #1A2350 · Outline: #232C60 / #2A3570

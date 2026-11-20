@@ -128,6 +128,28 @@
     return (isTeam ? 'I thought ' + who + ' played in ' + where : 'I put ' + who + ' in ' + where) +
       ' 🤦 ' + dist + ' miles off! Can you beat my pin?';
   }
+  // ---------- map feel: momentum after a drag (framework-free, so the phone app can reuse it) ----------
+  // samples: recent { t (ms), x, y } positions of the map while a finger drags it.
+  // Returns the release speed { vx, vy } in px per ms, measured over the last ~100 ms (0 if the finger paused first).
+  var FLING_WINDOW_MS = 100, FLING_MIN_SPEED = 0.25, FLING_FRICTION = 0.94; // friction per 16 ms frame
+  function flingVelocity(samples, now) {
+    var recent = samples.filter(function (s) { return now - s.t <= FLING_WINDOW_MS; });
+    if (recent.length < 2) return { vx: 0, vy: 0 };
+    var a = recent[0], b = recent[recent.length - 1], dt = b.t - a.t;
+    if (dt <= 0 || now - b.t > 50) return { vx: 0, vy: 0 }; // the finger stopped before lifting: no glide
+    var v = { vx: (b.x - a.x) / dt, vy: (b.y - a.y) / dt };
+    return Math.hypot(v.vx, v.vy) < FLING_MIN_SPEED ? { vx: 0, vy: 0 } : v;
+  }
+  // One frame of the glide: slow down smoothly, the same on 60 Hz and 120 Hz screens. Returns null when it stops.
+  function flingStep(v, dtMs) {
+    var f = Math.pow(FLING_FRICTION, dtMs / 16.67);
+    var nv = { vx: v.vx * f, vy: v.vy * f };
+    return Math.hypot(nv.vx, nv.vy) < 0.02 ? null : nv;
+  }
+  // Two taps close together in time and space count as a double-tap (zoom in there).
+  function isDoubleTap(prev, cur) {
+    return !!prev && cur.t - prev.t < 320 && Math.hypot(cur.x - prev.x, cur.y - prev.y) < 30;
+  }
   // Sharing a card's nerd facts: a title, then each fact on its own line.
   function nerdShareText(name, facts) {
     return '🤓 ' + facts.length + ' nerd facts about ' + String(name).replace(/^The /, 'the ') + ':\n\n' +
@@ -263,7 +285,7 @@
   var api = {
     EARTH_RADIUS_MI: EARTH_RADIUS_MI, haversineMiles: haversineMiles, pointsFor: pointsFor,
     scoreGuess: scoreGuess, seededRandom: seededRandom, shuffle: shuffle, dailyPick: dailyPick,
-    gradeFor: gradeFor, GRADE_SQUARE: GRADE_SQUARE, nerdShareText: nerdShareText, challengeCode: challengeCode, parseChallenge: parseChallenge, worstMissText: worstMissText, earnsStamp: earnsStamp,
+    gradeFor: gradeFor, GRADE_SQUARE: GRADE_SQUARE, nerdShareText: nerdShareText, flingVelocity: flingVelocity, flingStep: flingStep, isDoubleTap: isDoubleTap, challengeCode: challengeCode, parseChallenge: parseChallenge, worstMissText: worstMissText, earnsStamp: earnsStamp,
     mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, trophyStep: trophyStep, dailyShareText: dailyShareText, dailyTitle: dailyTitle, countVisit: countVisit, tipForDay: tipForDay, lineDistance: lineDistance, areaDistance: areaDistance, inArea: inArea, vibeFor: vibeFor, comboStep: comboStep, DAILY_GOAL: DAILY_GOAL, cardsToday: cardsToday, RANKS: RANKS, rankFor: rankFor,
     dailySportsPick: dailySportsPick, sportsShareText: sportsShareText, sportsTitle: sportsTitle
   };

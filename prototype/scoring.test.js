@@ -883,3 +883,47 @@ test('new effects switch off under reduced motion', () => {
   const block = html.slice(html.indexOf('/* ===== Share & next-level fun'));
   assert.match(block, /prefers-reduced-motion: reduce\) \{\s*\.vs-emoji, \.mini-toast, \.rank-badge\.rank-up[^}]*\.stamp-pop \.stamp\.big[^}]*animation: none !important/);
 });
+
+// ---------- Map feel: zoom, drag, glide (Nov 21, 2026) ----------
+test('momentum: a flick keeps the map gliding and slowing down; a pause before lifting means no glide', () => {
+  const s = [{ t: 0, x: 0, y: 0 }, { t: 50, x: 50, y: 20 }, { t: 100, x: 100, y: 40 }];
+  assert.deepStrictEqual(G.flingVelocity(s, 110), { vx: 1, vy: 0.4 }, 'px per ms over the last moments');
+  assert.deepStrictEqual(G.flingVelocity(s, 200), { vx: 0, vy: 0 }, 'finger paused: no glide');
+  assert.deepStrictEqual(G.flingVelocity([{ t: 0, x: 0, y: 0 }, { t: 100, x: 5, y: 0 }], 100), { vx: 0, vy: 0 }, 'a slow drag does not glide');
+  const v1 = G.flingStep({ vx: 1, vy: 0 }, 16.67);
+  assert.ok(v1.vx < 1 && v1.vx > 0.9, 'slows a little each frame');
+  const two60 = G.flingStep(G.flingStep({ vx: 1, vy: 0 }, 16.67), 16.67), one120 = G.flingStep({ vx: 1, vy: 0 }, 33.34);
+  assert.ok(Math.abs(two60.vx - one120.vx) < 1e-9, 'same feel on 60 Hz and 120 Hz screens');
+  let v = { vx: 2, vy: 0 }, frames = 0; while (v && frames < 1000) { v = G.flingStep(v, 16.67); frames++; }
+  assert.ok(frames > 20 && frames < 200, 'the glide stops on its own in about a second');
+  assert.ok(G.isDoubleTap({ t: 0, x: 0, y: 0 }, { t: 250, x: 10, y: 8 }));
+  assert.ok(!G.isDoubleTap({ t: 0, x: 0, y: 0 }, { t: 500, x: 0, y: 0 }), 'too slow');
+  assert.ok(!G.isDoubleTap({ t: 0, x: 0, y: 0 }, { t: 100, x: 80, y: 0 }), 'too far apart');
+});
+
+test('map gestures: wobble-tolerant taps, glide, double-tap zoom, one redraw per frame, touch timestamps, + / − keys', () => {
+  const app = readSrc('app.js'), html = readSrc('app.html');
+  assert.ok(app.includes('.clickDistance(8).tapDistance(12)'), 'a tap that wobbles a few pixels still drops the pin');
+  assert.ok(app.includes('requestAnimationFrame(draw)') && app.includes('function queueDraw()'), 'one redraw per screen refresh');
+  assert.ok(app.includes('G.flingVelocity(samples, e.sourceEvent.timeStamp)') && app.includes('G.flingStep(fling.v, dt)'), 'momentum, timed by the touch itself');
+  assert.ok(app.includes('var tap = { t: e.timeStamp,') && app.includes('call(zoom.scaleBy, 2.2, d3.pointer(e, svgEl))'), 'double-tap zooms in where you tapped');
+  assert.ok(app.includes("if (e.key === '+' || e.key === '=')") && app.includes("if (e.key === '-' || e.key === '_')"), '+ and − keys zoom on a computer');
+  assert.match(html, /\.map svg \{[^}]*touch-action: none/, 'the browser never grabs the map gesture');
+  assert.ok(html.includes('.map svg.moving path { shape-rendering: optimizeSpeed; }'), 'faster drawing mid-gesture');
+});
+
+test('the Paris welcome card has the same +, − and fit buttons as real gameplay', () => {
+  const app = readSrc('app.js');
+  const intro = app.slice(app.indexOf('function showIntro'), app.indexOf('// --- Pick your feed ---'));
+  assert.ok(intro.includes('<div class="try-map map-wrap"><div class="map"></div>') && intro.includes('<div class="zoom-btns"><button class="zoom-in"'));
+  for (const s of ["box.querySelector('.zoom-in').onclick = function () { map.zoomBy(2); }", "box.querySelector('.zoom-out').onclick = function () { map.zoomBy(0.5); }",
+    "box.querySelector('.zoom-reset').onclick = function () { map.resetZoom(); }"]) assert.ok(intro.includes(s), s);
+});
+
+test('globes draw a lighter coastline when small (level of detail), without flipping shapes inside out', () => {
+  const fx = readSrc('fx.js');
+  assert.ok(fx.includes("var tol = radius < 160 ? 0.45 : radius < 420 ? 0.15 : 0;"), 'small globe: light; zoomed in: full detail');
+  assert.ok(fx.includes('path(landFor(r))'), 'drawGlobe uses the right detail for its size');
+  assert.ok(fx.includes('d3.geoArea({ type: \'Polygon\', coordinates: s }) < 2 * Math.PI ? s : poly'), 'a flipped shape keeps its original outline');
+  assert.ok(fx.includes('if (!s.length) return s;'), 'islands too small to see are left out');
+});

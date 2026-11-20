@@ -10,6 +10,34 @@
   var calm = root.matchMedia && root.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var land = null;
   function getLand() { return land || (land = topojson.feature(root.WS_WORLD, root.WS_WORLD.objects.land)); }
+  // Level of detail: a small globe doesn't need all 60,000 coastline points (drawing them every frame made the
+  // welcome screen slow on older phones). Keep a point only once the coast has moved tol degrees from the last one.
+  var landLod = {};
+  function simplifyRing(ring, tol) {
+    var out = [ring[0]], last = ring[0];
+    for (var i = 1; i < ring.length - 1; i++) {
+      var p = ring[i];
+      if (Math.abs(p[0] - last[0]) + Math.abs(p[1] - last[1]) >= tol) { out.push(p); last = p; }
+    }
+    out.push(ring[ring.length - 1]);
+    return out;
+  }
+  function landFor(radius) {
+    var tol = radius < 160 ? 0.45 : radius < 420 ? 0.15 : 0; // little globe: light; zoomed in close: full detail
+    if (!tol) return getLand();
+    if (landLod[tol]) return landLod[tol];
+    var feats = getLand().features.map(function (f) {
+      var g = f.geometry, polys = g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
+      var kept = polys.map(function (poly) {
+        var s = poly.map(function (r) { return simplifyRing(r, tol); }).filter(function (r) { return r.length >= 4; });
+        if (!s.length) return s; // islands too small to see at this size are left out
+        // a shape squashed by simplifying can flip inside-out and paint the whole planet: keep the original then
+        return d3.geoArea({ type: 'Polygon', coordinates: s }) < 2 * Math.PI ? s : poly;
+      }).filter(function (poly) { return poly.length; });
+      return { type: 'Feature', properties: {}, geometry: { type: 'MultiPolygon', coordinates: kept } };
+    });
+    return (landLod[tol] = { type: 'FeatureCollection', features: feats });
+  }
 
   // Places the welcome globe shows off (lon, lat): gold pins pop here and planes fly between them.
   var SPOTS = [[-74, 40.7], [-0.1, 51.5], [2.35, 48.86], [139.7, 35.7], [151.2, -33.9], [-43.2, -22.9], [31.2, 30.0],
@@ -57,7 +85,7 @@
     // land: cool brushed metal, bright where the light hits
     var landFill = c.createLinearGradient(cx - r, cy - r, cx + r * 0.9, cy + r);
     landFill.addColorStop(0, '#BDF2EC'); landFill.addColorStop(0.3, '#6CC0C6'); landFill.addColorStop(0.62, '#2F7C96'); landFill.addColorStop(1, '#123754');
-    c.beginPath(); path(getLand());
+    c.beginPath(); path(landFor(r)); // lighter coastline when the globe is small (level of detail)
     c.fillStyle = landFill; c.fill();
     c.save(); c.clip(); c.fillStyle = sheen(c, cx, cy, r); c.fillRect(cx - r, cy - r, r * 2, r * 2); c.restore();
     c.strokeStyle = 'rgba(225,255,250,.6)'; c.lineWidth = 0.45; c.stroke(); // razor-thin coastlines

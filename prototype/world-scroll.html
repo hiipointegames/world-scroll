@@ -316,7 +316,9 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .meta { font-size: 12px; color: var(--dim); letter-spacing: 1px; }
 .map-wrap { position: relative; flex: 1; min-height: 150px; border-radius: 22px; background: var(--ink); border: 2px solid var(--map-edge); overflow: hidden; }
 .map { position: absolute; inset: 0; }
-.map svg { display: block; width: 100%; height: 100%; cursor: crosshair; }
+.map svg { display: block; width: 100%; height: 100%; cursor: crosshair; touch-action: none; -webkit-user-select: none; user-select: none; }
+.map svg:active { cursor: grabbing; }
+.map svg.moving path { shape-rendering: optimizeSpeed; } /* faster drawing mid-gesture, crisp again when it stops */
 .map svg.revealed { cursor: default; }
 .m-grid { fill: none; stroke: var(--text); stroke-opacity: .05; stroke-width: .6; vector-effect: non-scaling-stroke; }
 .m-inner { fill: none; stroke: var(--text); stroke-opacity: .18; stroke-width: .6; vector-effect: non-scaling-stroke; }
@@ -926,6 +928,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .try-kicker { font-size: 11px; font-weight: 700; letter-spacing: 1.4px; color: var(--ink); background: var(--gold); border-radius: 999px; padding: 3px 9px; }
 .try-prompt { font-family: var(--font-display); font-weight: 700; font-size: 22px; }
 .try-map { position: relative; height: 165px; border-radius: 14px; overflow: hidden; border: 2px solid var(--map-edge); }
+.try-map.map-wrap { flex: none; min-height: 0; } /* a real map box, at the try card's fixed height */
 .try-map .map { position: absolute; inset: 0; }
 .try-map .map svg { display: block; width: 100%; height: 100%; }
 .try-panel { font-size: 13.5px; line-height: 1.45; color: var(--body-strong); }
@@ -1102,6 +1105,28 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
     return (isTeam ? 'I thought ' + who + ' played in ' + where : 'I put ' + who + ' in ' + where) +
       ' 🤦 ' + dist + ' miles off! Can you beat my pin?';
   }
+  // ---------- map feel: momentum after a drag (framework-free, so the phone app can reuse it) ----------
+  // samples: recent { t (ms), x, y } positions of the map while a finger drags it.
+  // Returns the release speed { vx, vy } in px per ms, measured over the last ~100 ms (0 if the finger paused first).
+  var FLING_WINDOW_MS = 100, FLING_MIN_SPEED = 0.25, FLING_FRICTION = 0.94; // friction per 16 ms frame
+  function flingVelocity(samples, now) {
+    var recent = samples.filter(function (s) { return now - s.t <= FLING_WINDOW_MS; });
+    if (recent.length < 2) return { vx: 0, vy: 0 };
+    var a = recent[0], b = recent[recent.length - 1], dt = b.t - a.t;
+    if (dt <= 0 || now - b.t > 50) return { vx: 0, vy: 0 }; // the finger stopped before lifting: no glide
+    var v = { vx: (b.x - a.x) / dt, vy: (b.y - a.y) / dt };
+    return Math.hypot(v.vx, v.vy) < FLING_MIN_SPEED ? { vx: 0, vy: 0 } : v;
+  }
+  // One frame of the glide: slow down smoothly, the same on 60 Hz and 120 Hz screens. Returns null when it stops.
+  function flingStep(v, dtMs) {
+    var f = Math.pow(FLING_FRICTION, dtMs / 16.67);
+    var nv = { vx: v.vx * f, vy: v.vy * f };
+    return Math.hypot(nv.vx, nv.vy) < 0.02 ? null : nv;
+  }
+  // Two taps close together in time and space count as a double-tap (zoom in there).
+  function isDoubleTap(prev, cur) {
+    return !!prev && cur.t - prev.t < 320 && Math.hypot(cur.x - prev.x, cur.y - prev.y) < 30;
+  }
   // Sharing a card's nerd facts: a title, then each fact on its own line.
   function nerdShareText(name, facts) {
     return '🤓 ' + facts.length + ' nerd facts about ' + String(name).replace(/^The /, 'the ') + ':\n\n' +
@@ -1237,7 +1262,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   var api = {
     EARTH_RADIUS_MI: EARTH_RADIUS_MI, haversineMiles: haversineMiles, pointsFor: pointsFor,
     scoreGuess: scoreGuess, seededRandom: seededRandom, shuffle: shuffle, dailyPick: dailyPick,
-    gradeFor: gradeFor, GRADE_SQUARE: GRADE_SQUARE, nerdShareText: nerdShareText, challengeCode: challengeCode, parseChallenge: parseChallenge, worstMissText: worstMissText, earnsStamp: earnsStamp,
+    gradeFor: gradeFor, GRADE_SQUARE: GRADE_SQUARE, nerdShareText: nerdShareText, flingVelocity: flingVelocity, flingStep: flingStep, isDoubleTap: isDoubleTap, challengeCode: challengeCode, parseChallenge: parseChallenge, worstMissText: worstMissText, earnsStamp: earnsStamp,
     mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, trophyStep: trophyStep, dailyShareText: dailyShareText, dailyTitle: dailyTitle, countVisit: countVisit, tipForDay: tipForDay, lineDistance: lineDistance, areaDistance: areaDistance, inArea: inArea, vibeFor: vibeFor, comboStep: comboStep, DAILY_GOAL: DAILY_GOAL, cardsToday: cardsToday, RANKS: RANKS, rankFor: rankFor,
     dailySportsPick: dailySportsPick, sportsShareText: sportsShareText, sportsTitle: sportsTitle
   };
@@ -1456,6 +1481,34 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   var calm = root.matchMedia && root.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var land = null;
   function getLand() { return land || (land = topojson.feature(root.WS_WORLD, root.WS_WORLD.objects.land)); }
+  // Level of detail: a small globe doesn't need all 60,000 coastline points (drawing them every frame made the
+  // welcome screen slow on older phones). Keep a point only once the coast has moved tol degrees from the last one.
+  var landLod = {};
+  function simplifyRing(ring, tol) {
+    var out = [ring[0]], last = ring[0];
+    for (var i = 1; i < ring.length - 1; i++) {
+      var p = ring[i];
+      if (Math.abs(p[0] - last[0]) + Math.abs(p[1] - last[1]) >= tol) { out.push(p); last = p; }
+    }
+    out.push(ring[ring.length - 1]);
+    return out;
+  }
+  function landFor(radius) {
+    var tol = radius < 160 ? 0.45 : radius < 420 ? 0.15 : 0; // little globe: light; zoomed in close: full detail
+    if (!tol) return getLand();
+    if (landLod[tol]) return landLod[tol];
+    var feats = getLand().features.map(function (f) {
+      var g = f.geometry, polys = g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
+      var kept = polys.map(function (poly) {
+        var s = poly.map(function (r) { return simplifyRing(r, tol); }).filter(function (r) { return r.length >= 4; });
+        if (!s.length) return s; // islands too small to see at this size are left out
+        // a shape squashed by simplifying can flip inside-out and paint the whole planet: keep the original then
+        return d3.geoArea({ type: 'Polygon', coordinates: s }) < 2 * Math.PI ? s : poly;
+      }).filter(function (poly) { return poly.length; });
+      return { type: 'Feature', properties: {}, geometry: { type: 'MultiPolygon', coordinates: kept } };
+    });
+    return (landLod[tol] = { type: 'FeatureCollection', features: feats });
+  }
 
   // Places the welcome globe shows off (lon, lat): gold pins pop here and planes fly between them.
   var SPOTS = [[-74, 40.7], [-0.1, 51.5], [2.35, 48.86], [139.7, 35.7], [151.2, -33.9], [-43.2, -22.9], [31.2, 30.0],
@@ -1503,7 +1556,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
     // land: cool brushed metal, bright where the light hits
     var landFill = c.createLinearGradient(cx - r, cy - r, cx + r * 0.9, cy + r);
     landFill.addColorStop(0, '#BDF2EC'); landFill.addColorStop(0.3, '#6CC0C6'); landFill.addColorStop(0.62, '#2F7C96'); landFill.addColorStop(1, '#123754');
-    c.beginPath(); path(getLand());
+    c.beginPath(); path(landFor(r)); // lighter coastline when the globe is small (level of detail)
     c.fillStyle = landFill; c.fill();
     c.save(); c.clip(); c.fillStyle = sheen(c, cx, cy, r); c.fillRect(cx - r, cy - r, r * 2, r * 2); c.restore();
     c.strokeStyle = 'rgba(225,255,250,.6)'; c.lineWidth = 0.45; c.stroke(); // razor-thin coastlines
@@ -2379,11 +2432,63 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
     // The world map needs the most room (from the whole planet down to a small country or city).
     var maxZoom = isGlobe(regionId) ? 80 : 40;
     var wrap = host.parentNode;
+    // ---- zoom and drag, tuned to feel like a top map app ----
+    // * one redraw per screen refresh, however many touch events arrive (no wasted work, no stutter)
+    // * paths draw a little faster while the map is moving, then crisp again when it stops
+    // * a flick keeps the map gliding and slowing down (momentum), like Google or Apple Maps
+    // * double-tap (or double-click) zooms in right where you tapped
+    // * a tap that wobbles a few pixels still drops the pin (it isn't mistaken for a drag)
+    var frameQueued = false, samples = [], fling = null, settleTimer = null;
+    function draw() { frameQueued = false; place(); }
+    function queueDraw() { if (!frameQueued) { frameQueued = true; requestAnimationFrame(draw); } }
+    function moving(on) {
+      clearTimeout(settleTimer);
+      if (on) svg.classed('moving', true);
+      else settleTimer = setTimeout(function () { svg.classed('moving', false); }, 90);
+    }
+    function stopFling() { if (fling) { cancelAnimationFrame(fling.raf); fling = null; } }
     var zoom = d3.zoom().scaleExtent([1, maxZoom]).extent([[0, 0], [W, H]]).translateExtent([[0, 0], [W, H]])
-      .on('zoom', function (e) { t = e.transform; place(); if (wrap) wrap.classList.toggle('zoomed', t.k > 1.05); });
+      .clickDistance(8).tapDistance(12) // finger wobble on a tap is not a drag
+      .on('start', function (e) {
+        if (e.sourceEvent) { stopFling(); samples = []; } // a new touch catches the gliding map
+        moving(true);
+      })
+      .on('zoom', function (e) {
+        t = e.transform;
+        if (e.sourceEvent && !fling) { // remember the last moments of a drag, to measure the flick
+          var now = e.sourceEvent.timeStamp; // when the finger actually moved (not when we got to it), so busy phones still glide
+          samples.push({ t: now, x: t.x, y: t.y, k: t.k });
+          while (samples.length && now - samples[0].t > 160) samples.shift();
+        }
+        queueDraw();
+        if (wrap) wrap.classList.toggle('zoomed', t.k > 1.05);
+      })
+      .on('end', function (e) {
+        var pinch = samples.length > 1 && samples[0].k !== samples[samples.length - 1].k;
+        var v = e.sourceEvent && t.k > 1.01 && !pinch && !reduceMotion ? G.flingVelocity(samples, e.sourceEvent.timeStamp) : { vx: 0, vy: 0 };
+        samples = [];
+        if (!v.vx && !v.vy) { moving(false); return; }
+        var last = performance.now();
+        fling = { v: v };
+        (function glide(now) {
+          if (!fling) return;
+          var dt = Math.min(48, now - last); last = now;
+          svg.call(zoom.translateBy, fling.v.vx * dt / t.k, fling.v.vy * dt / t.k);
+          fling.v = G.flingStep(fling.v, dt);
+          if (fling.v) fling.raf = requestAnimationFrame(glide); else { fling = null; moving(false); }
+        })(last);
+      });
     svg.call(zoom).on('dblclick.zoom', null);
 
+    var lastTap = null;
     svg.on('click', function (e) {
+      var tap = { t: e.timeStamp, x: e.clientX, y: e.clientY }; // when the tap happened, even if the phone was busy
+      if (G.isDoubleTap(lastTap, tap)) { // double-tap: zoom in toward that spot (the pin is already there)
+        lastTap = null;
+        svg.transition().duration(300).ease(d3.easeCubicOut).call(zoom.scaleBy, 2.2, d3.pointer(e, svgEl));
+        return;
+      }
+      lastTap = tap;
       if (locked) return;
       var p = t.invert(d3.pointer(e, svgEl));
       var ll = proj.invert(p);
@@ -2774,7 +2879,9 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
       '</div>' +
       // A real card to play right here: the first pin is the first win.
       '<div class="intro-try" id="intro-try"><div class="try-head"><span class="try-kicker">TRY ONE!</span><span class="try-prompt">Where is Paris?</span></div>' +
-      '<div class="try-map"><div class="map"></div></div>' +
+      '<div class="try-map map-wrap"><div class="map"></div>' + // the same zoom buttons as a real card
+      '<div class="zoom-btns"><button class="zoom-in" aria-label="Zoom in">+</button><button class="zoom-out" aria-label="Zoom out">−</button>' +
+      '<button class="zoom-reset" aria-label="Show the whole map">' + ICON.fit + '</button></div></div>' +
       '<div class="try-panel hint" id="try-panel" aria-live="polite"></div>' + // fills in with your result
       '<button class="btn teal try-lock" id="try-lock" disabled>Drop a pin on Paris</button></div>' +
       '<p class="intro-more">Scroll through countries, capitals, rivers, oceans, lakes, seas, famous landmarks, and where your favorite sports teams play.</p>' +
@@ -2799,6 +2906,9 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
       var lr = lock.getBoundingClientRect(), fr = document.querySelector('.intro-foot').getBoundingClientRect();
       if (lr.bottom > fr.top) lock.scrollIntoView({ block: 'center', behavior: REDUCE_MOTION ? 'auto' : 'smooth' }); // small phones: bring the lock button into view
     });
+    box.querySelector('.zoom-in').onclick = function () { map.zoomBy(2); };
+    box.querySelector('.zoom-out').onclick = function () { map.zoomBy(0.5); };
+    box.querySelector('.zoom-reset').onclick = function () { map.resetZoom(); };
     lock.onclick = function () {
       if (!guess || box.classList.contains('done')) return;
       box.classList.add('done');
@@ -3419,6 +3529,8 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
   }
   document.addEventListener('keydown', function (e) {
     if (!card || !document.getElementById('stage')) return;
+    if (e.key === '+' || e.key === '=') { e.preventDefault(); card.map.zoomBy(2); return; } // computers: + and − zoom the map
+    if (e.key === '-' || e.key === '_') { e.preventDefault(); card.map.zoomBy(0.5); return; }
     if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); advance(); }
     else if (e.key === 'Enter' && document.activeElement === document.body) {
       card.revealed ? advance() : lockIn(card);
