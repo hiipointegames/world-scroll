@@ -845,7 +845,8 @@ test('passport: close guesses (within 100 mi or a bullseye) stamp a place once, 
   const app = readSrc('app.js');
   assert.ok(app.includes("var newStamp = G.earnsStamp(r.miles, r.bullseye) && !(store.stamps || {})[c.q.id];"), 'each place is stamped once');
   assert.ok(app.includes("'<div class=\"pc-pair\">' + progressCardHtml() + passportCardHtml() + '</div>'"), 'passport card sits beside the rank');
-  assert.ok(app.includes("got + '/' + n + ' stamped'"), 'tiles show stamp progress');
+  assert.ok(app.includes("got + '/' + n + ' stamped</span>'"), 'tiles show stamp progress once you have a stamp');
+  assert.ok(!/' cards'\)/.test(app) && !app.includes("(n === 1 ? ' card' : ' cards')"), 'home tiles no longer show how many cards there are');
   assert.ok(/function showPassport\(\)[\s\S]*DATA\.categories\.map/.test(app), 'one passport page per category');
 });
 

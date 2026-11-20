@@ -1088,7 +1088,7 @@
       var n = count(c.id), got = stampCount(c.id);
       return '<button class="tile" data-cat="' + c.id + '" style="--c:' + c.color + ';--i:' + i + '">' +
         '<span class="tile-top"><span class="tile-emoji" aria-hidden="true">' + (CAT_EMOJI[c.id] || '') + '</span>' +
-        '<span class="tile-count' + (got ? ' stamped' : '') + '">' + (got ? got + '/' + n + ' stamped' : n + (n === 1 ? ' card' : ' cards')) + '</span></span>' +
+        (got ? '<span class="tile-count stamped">' + got + '/' + n + ' stamped</span>' : '') + '</span>' + // no card count; stamp progress once you've earned one
         '<span class="tile-text"><span class="tile-name">' + esc(c.label) + '</span>' +
         '<span class="tile-sub">' + esc(CATEGORY_SUBS[c.id] || '') + '</span></span></button>';
     }).join('');
