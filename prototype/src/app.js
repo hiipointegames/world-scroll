@@ -776,7 +776,7 @@
       '<div class="try-map"><div class="map"></div></div>' +
       '<div class="try-panel hint" id="try-panel" aria-live="polite"></div>' + // fills in with your result
       '<button class="btn teal try-lock" id="try-lock" disabled>Drop a pin on Paris</button></div>' +
-      '<p class="intro-more">Then scroll through countries, capitals, rivers, oceans, lakes, seas, famous landmarks, and where your favorite sports teams play.</p>' +
+      '<p class="intro-more">Scroll through countries, capitals, rivers, oceans, lakes, seas, famous landmarks, and where your favorite sports teams play.</p>' +
       '</div>' +
       '<div class="intro-foot"><button class="btn primary big" id="intro-go">Start scrolling</button></div>' +
       '</div>';
