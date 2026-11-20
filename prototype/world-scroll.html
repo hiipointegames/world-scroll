@@ -881,7 +881,6 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .dh-clock { font-size: 11px; font-weight: 600; background: rgba(11, 16, 38, .14); border-radius: 999px; padding: 3px 9px; white-space: nowrap; }
 .dh-title { font-family: var(--font-display); font-weight: 700; font-size: 25px; line-height: 1.08; }
 .dh-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.dh-sub { font-size: 13px; font-weight: 500; opacity: .8; }
 .dh-go { flex-shrink: 0; background: var(--ink); color: var(--text); font-family: var(--font-display); font-weight: 700; font-size: 16px; border-radius: 12px; padding: 9px 20px; }
 .dh-squares { display: flex; gap: 4px; }
 .dh-squares i { width: 17px; height: 17px; border-radius: 5px; background: var(--g); box-shadow: 0 0 0 1.5px rgba(11, 16, 38, .55); }
@@ -2964,11 +2963,12 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
     var day = new Date().toLocaleDateString('en-US', { weekday: 'long' });
     return '<button class="daily-hero' + (done ? ' done' : '') + '" id="go-daily" aria-label="' + (done ? 'Daily 10: you scored ' + hits + ' out of 10. See and share' : 'Play the Daily 10') + '">' +
       '<span class="dh-top"><span class="dh-kicker">📅 DAILY 10 · ' + esc(day.toUpperCase()) + '</span><span class="dh-clock" id="dh-clock">' + countdownText() + '</span></span>' +
-      '<span class="dh-title">' + (done ? 'You scored ' + hits + '/10 today!' : 'Same 10 places for everyone today') + '</span>' +
-      '<span class="dh-row">' + (done
-        ? '<span class="dh-squares">' + res.map(function (r) { return '<i class="g-' + G.gradeFor(r) + '"></i>'; }).join('') + '</span>'
-        : '<span class="dh-sub">Can you get all 10? Then dare your friends.</span>') +
-      '<span class="dh-go">' + (done ? 'Share' : 'Play') + '</span></span></button>';
+      (done
+        ? '<span class="dh-title">You scored ' + hits + '/10 today!</span>' +
+          '<span class="dh-row"><span class="dh-squares">' + res.map(function (r) { return '<i class="g-' + G.gradeFor(r) + '"></i>'; }).join('') + '</span>' +
+          '<span class="dh-go">Share</span></span>'
+        : '<span class="dh-row"><span class="dh-title">Same 10 places for everyone today</span><span class="dh-go">Play</span></span>') + // Play sits beside the title
+      '</button>';
   }
   // opts.flyIn: play the 2-second opening (after the welcome screen, and each time the app opens).
   function showPicker(opts) {

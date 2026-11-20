@@ -960,11 +960,12 @@
     var day = new Date().toLocaleDateString('en-US', { weekday: 'long' });
     return '<button class="daily-hero' + (done ? ' done' : '') + '" id="go-daily" aria-label="' + (done ? 'Daily 10: you scored ' + hits + ' out of 10. See and share' : 'Play the Daily 10') + '">' +
       '<span class="dh-top"><span class="dh-kicker">📅 DAILY 10 · ' + esc(day.toUpperCase()) + '</span><span class="dh-clock" id="dh-clock">' + countdownText() + '</span></span>' +
-      '<span class="dh-title">' + (done ? 'You scored ' + hits + '/10 today!' : 'Same 10 places for everyone today') + '</span>' +
-      '<span class="dh-row">' + (done
-        ? '<span class="dh-squares">' + res.map(function (r) { return '<i class="g-' + G.gradeFor(r) + '"></i>'; }).join('') + '</span>'
-        : '<span class="dh-sub">Can you get all 10? Then dare your friends.</span>') +
-      '<span class="dh-go">' + (done ? 'Share' : 'Play') + '</span></span></button>';
+      (done
+        ? '<span class="dh-title">You scored ' + hits + '/10 today!</span>' +
+          '<span class="dh-row"><span class="dh-squares">' + res.map(function (r) { return '<i class="g-' + G.gradeFor(r) + '"></i>'; }).join('') + '</span>' +
+          '<span class="dh-go">Share</span></span>'
+        : '<span class="dh-row"><span class="dh-title">Same 10 places for everyone today</span><span class="dh-go">Play</span></span>') + // Play sits beside the title
+      '</button>';
   }
   // opts.flyIn: play the 2-second opening (after the welcome screen, and each time the app opens).
   function showPicker(opts) {

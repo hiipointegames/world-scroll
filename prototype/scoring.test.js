@@ -862,6 +862,7 @@ test('Daily 10 hero: top of the home screen, one try a day, with a countdown and
   assert.ok(home.indexOf('dailyHeroHtml()') < home.indexOf('class="sports-hero"'), 'Daily 10 comes before Sports');
   assert.ok(app.includes("if (dailyDone()) showDailyResults(false); else launch({ kind: 'daily' }"), 'played today: the hero opens your results');
   assert.ok(app.includes('id="dh-clock"') && app.includes('clock.textContent = countdownText()'), 'a live countdown');
+  assert.ok(!app.includes('Then dare your friends'), 'no extra line under the Daily 10 title');
 });
 
 test('playable welcome: a real Paris card on the welcome screen, never saying "tap the map"', () => {
