@@ -904,6 +904,16 @@ test('the opening fly-in uses the same globe and space show as the welcome scree
   assert.ok(html.includes('.fx-tag { display: flex; align-items: center; gap: 10px; font: 600 min(3.6cqw, 14px)/1 var(--font-body);') && html.includes('color: #F4F1E8;'), 'tagline is bigger and brighter');
 });
 
+test('home buttons never shake or bob while you scroll; they glow and shine in their own color instead', () => {
+  const html = readSrc('app.html');
+  for (const k of ['tile-wiggle', 'emoji-bob', 'badge-bob']) assert.ok(!html.includes(k), k + ' is gone');
+  assert.match(html, /\.tile \{ position: relative; overflow: hidden;[\s\S]*?tile-glow 2\.6s ease-in-out infinite alternate/, 'a soft glow in the category color');
+  assert.ok(html.includes('.tile::after {') && /\.tile::after \{[^}]*animation: shine 5\.5s/.test(html), 'a shine sweeps across now and then');
+  assert.ok(/@keyframes tile-glow \{ to \{ border-color:[^}]*box-shadow:[^}]*\} \}/.test(html) && !/@keyframes tile-glow[^\n]*transform/.test(html), 'the glow never moves the button');
+  assert.ok(html.includes('@media (hover: hover) { .tile:hover {'), 'no hover lift on phones (it sticks after a scroll)');
+  assert.ok(html.includes('.sports-hero { animation: hero-glow') && html.includes('daily-glow 1.8s'), 'Daily 10 and Sports keep their glow');
+});
+
 test('new effects switch off under reduced motion', () => {
   const html = readSrc('app.html');
   const block = html.slice(html.indexOf('/* ===== Share & next-level fun'));
