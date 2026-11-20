@@ -645,6 +645,30 @@ test('every city and capital card (world and US state) has 3 kid-friendly nerd f
   for (const id of ['new-york', 'capital-japan', 'state-capital-texas', 'capital-united-kingdom']) assert.ok(cards.find(q => q.id === id).nerd, id);
 });
 
+test('every single card has nerd facts: rivers, oceans, lakes, seas, mountains, deserts and landmarks get 3 each', () => {
+  assert.deepStrictEqual(questions.filter(q => !q.nerd || !q.nerd.length).map(q => q.id), [], 'no card is left without nerd facts');
+  const cards = questions.filter(q => ['rivers', 'lakes', 'mountains', 'deserts', 'landmarks'].includes(q.category));
+  assert.strictEqual(cards.length, 177, '36 rivers & oceans + 48 lakes & seas + 24 mountains + 19 deserts + 50 landmarks');
+  assert.deepStrictEqual(cards.filter(q => q.nerd.length !== 3).map(q => q.id), [], 'three each');
+  assert.deepStrictEqual(cards.filter(q => q.nerd.some(n => n[1] === q.fact)).map(q => q.id), [], 'nerd facts add something new');
+  const dived = cards.filter(q => q.deepDive);
+  assert.deepStrictEqual(dived.filter(q => q.nerd.some(n => q.deepDive.facts.some(d => d[1] === n[1]))).map(q => q.id), [], 'and nothing a Deep Dive already says');
+  // Sports cards share short stat lines on purpose ("Founded in 1919."), so the no-repeats rule covers every place card.
+  const all = questions.filter(q => q.category !== 'sports').flatMap(q => q.nerd.map(n => n[1]));
+  assert.strictEqual(new Set(all).size, all.length, 'no place nerd fact used twice anywhere in the game');
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  for (const k of ["'Ocean'", "'Sea'", "rivers: 'River'", "lakes: 'Lake'", "mountains: 'Mountain'", "deserts: 'Desert'", "landmarks: 'Landmark'"]) assert.ok(app.includes(k), 'pop-up title: ' + k);
+});
+
+test('the 🤓 Nerd facts button is eye-catching: a bright pill with a fact count that pops, shines and glows (calm under reduced motion)', () => {
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  const html = require('fs').readFileSync(require('path').join(__dirname, 'src/app.html'), 'utf8');
+  assert.ok(app.includes('<span class="nerd-count" aria-hidden="true">\' + c.q.nerd.length + \'</span>'), 'shows how many facts are waiting');
+  assert.ok(app.includes("nb.classList.add('seen')"), 'settles down once opened');
+  assert.match(html, /\.panel\.revealed \.nerd-btn \{ animation: nerd-pop [^}]*nerd-sheen[^}]*nerd-glow/);
+  assert.match(html, /prefers-reduced-motion[\s\S]*\.nerd-btn, \.nerd-btn \.nerd-face \{ animation: none !important; \}/);
+});
+
 test('Russia belongs to both Europe and Asia', () => {
   const inGroup = (q, g) => q.continent === g || (q.alsoIn || []).includes(g);
   const country = questions.find(q => q.id === 'country-russia');

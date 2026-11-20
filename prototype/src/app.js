@@ -568,13 +568,18 @@
     var rows = q.nerd.map(function (f) {
       return '<div class="nerd-row"><div class="nerd-label">' + esc(f[0]) + '</div><div class="nerd-text">' + esc(f[1]) + '</div></div>';
     }).join('');
-    var kind = nerdKind(q).toUpperCase(); // SPORTS, COUNTRY, CITY or CAPITAL nerd facts
+    var kind = nerdKind(q).toUpperCase(); // e.g. SPORTS, CITY, RIVER, OCEAN or LANDMARK nerd facts
     openSheet(sheetHead('<span class="nerd-emoji" aria-hidden="true">🤓</span>', kind + ' NERD FACTS', esc(fullName(q))) +
       (q.venue ? '<div class="sheet-text small">' + esc(q.venue) + ' · ' + esc(q.answer.replace(/\s*\(.*?\)/g, '')) + '</div>' : '') +
       '<div class="nerd-list">' + rows + '</div>', { button: 'Back to the game', cls: 'nerd-sheet' });
   }
 
-  function nerdKind(q) { return { sports: 'Sports', countries: 'Country', cities: 'City', capitals: 'Capital' }[q.category] || 'Nerd'; }
+  function nerdKind(q) {
+    if (q.kind === 'ocean') return 'Ocean';
+    if (q.kind === 'sea') return 'Sea';
+    return { sports: 'Sports', countries: 'Country', cities: 'City', capitals: 'Capital', rivers: 'River', lakes: 'Lake',
+      mountains: 'Mountain', deserts: 'Desert', landmarks: 'Landmark' }[q.category] || 'Nerd';
+  }
   // Deep Dive: a rare card's bonus pop-up, full of in-depth facts (plus a country's nerd facts, if it has them).
   function deepSheet(q) {
     var d = q.deepDive, facts = d.facts.concat(q.category === 'sports' ? [] : (q.nerd || []));
@@ -1087,14 +1092,14 @@
     c.el.querySelector('.panel').innerHTML =
       '<div class="res-top"><span class="res-verdict v-' + vibe + (r.bullseye || (isSport && hit) ? ' bull' : '') + (isSport && hit ? ' sport' : '') + '">' + verdict + '</span>' +
       '<span class="res-right">' + (c.q.deepDive ? '<button class="deep-btn" aria-label="Open the Deep Dive">💎 Deep Dive</button>'
-        : c.q.nerd ? '<button class="nerd-btn" aria-label="' + nerdKind(c.q) + ' nerd facts">🤓 Nerd facts</button>' : '') +
+        : c.q.nerd ? '<button class="nerd-btn" aria-label="' + c.q.nerd.length + ' ' + nerdKind(c.q) + ' nerd facts"><span class="nerd-face" aria-hidden="true">🤓</span>Nerd facts<span class="nerd-count" aria-hidden="true">' + c.q.nerd.length + '</span></button>' : '') +
       '<span class="res-pts" data-pts="' + r.points + '">+0 pts</span></span></div>' +
       '<div class="res-miles">' + milesLine + streakNote + ' · ' + secs.toFixed(1) + 's</div>' +
       '<div class="res-answer"><span class="answer-dot"></span><span>' + esc(c.q.answer) + (c.q.venue ? '<span class="venue"> · ' + esc(c.q.venue) + '</span>' : '') + '</span></div>' +
       '<div class="res-pin"><span class="pin-dot"></span><span><b>Your pin:</b> ' + esc(placeOfPin(c.guess)) + '</span></div>' +
       '<div class="res-fact' + (c.q.nerd ? ' has-nerd' : '') + '">' + ICON.bulb + '<span><b>Now you know:</b> ' + esc(c.q.fact) + '</span></div>';
     var nb = c.el.querySelector('.nerd-btn');
-    if (nb) nb.onclick = function (e) { e.stopPropagation(); Sound.play('tap'); nerdSheet(c.q); };
+    if (nb) nb.onclick = function (e) { e.stopPropagation(); Sound.play('tap'); nb.classList.add('seen'); nerdSheet(c.q); };
     var db = c.el.querySelector('.deep-btn');
     if (db) {
       db.onclick = function (e) { e.stopPropagation(); deepSheet(c.q); };
