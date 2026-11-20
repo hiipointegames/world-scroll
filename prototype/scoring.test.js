@@ -931,6 +931,16 @@ test('the share tip says "send your results" (the squares are more than green an
   assert.ok(!app.includes('green and red squares'));
 });
 
+test('buttons only move on a real tap: never while a thumb scrolls over them (iPhone and Android)', () => {
+  const fx = readSrc('fx.js'), html = readSrc('app.html');
+  const wire = fx.slice(fx.indexOf('function wireTaps()'), fx.indexOf('root.FX = {'));
+  assert.ok(wire.includes("document.addEventListener('click', function (e) {") && !wire.includes("'pointerdown'"), 'the bounce waits for a finished tap (phones send no click when you scroll)');
+  const loose = html.split('\n').filter(l => /:active/.test(l) && /transform|box-shadow/.test(l) && !l.includes('@media (hover: hover) and (pointer: fine)'));
+  assert.deepStrictEqual(loose, [], 'every pressed-look effect is mouse-only');
+  const sticky = html.split('\n').filter(l => /:hover/.test(l) && /transform/.test(l) && !l.includes('@media (hover: hover)'));
+  assert.deepStrictEqual(sticky, [], 'no hover movement on touch screens (it sticks after a scroll)');
+});
+
 test('new effects switch off under reduced motion', () => {
   const html = readSrc('app.html');
   const block = html.slice(html.indexOf('/* ===== Share & next-level fun'));

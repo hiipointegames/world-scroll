@@ -117,7 +117,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 /* Chips look compact but get a full 44px tap area */
 .stat, .brand { position: relative; }
 .stat::after, .brand::after { content: ""; position: absolute; inset: -4px -2px; }
-.stat:active { transform: scale(.94); }
+@media (hover: hover) and (pointer: fine) { .stat:active { transform: scale(.94); } } /* pressed look: mouse only, never while a thumb scrolls */
 .stats { align-items: center; }
 .sound-btn { margin-left: 0; width: 40px; height: 40px; }
 .sound-btn[aria-pressed="false"] { color: var(--dim); }
@@ -130,7 +130,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 /* Buttons */
 .btn { height: 56px; border-radius: 18px; font-family: var(--font-display); font-weight: 700; font-size: 17px; cursor: pointer;
   display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: transform .1s, filter .15s; }
-.btn:active { transform: scale(.98); }
+@media (hover: hover) and (pointer: fine) { .btn:active { transform: scale(.98); } } /* pressed look: mouse only, never while a thumb scrolls */
 .btn.primary { border: none; background: var(--gold); color: var(--ink); }
 .btn.primary:hover:not(:disabled) { filter: brightness(1.06); }
 .btn.primary:disabled { background: var(--outline-2); color: var(--muted); cursor: not-allowed; }
@@ -148,7 +148,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .sports-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, .35) 45%, transparent 60%);
   transform: translateX(-100%); animation: shine 4.5s ease-in-out 1s infinite; pointer-events: none; }
 @keyframes shine { 0%, 70% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-.sports-hero:active { transform: scale(.98); }
+@media (hover: hover) and (pointer: fine) { .sports-hero:active { transform: scale(.98); } } /* pressed look: mouse only, never while a thumb scrolls */
 .hero-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
 .hero-kicker { font-size: 11px; font-weight: 600; letter-spacing: 1.4px; opacity: .75; }
 .hero-name { font-family: var(--font-display); font-weight: 700; font-size: 30px; line-height: 1.05; }
@@ -163,15 +163,15 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .tile { transition: border-color .15s, transform .12s, box-shadow .2s; }
 .tile .dot { transition: transform .2s; }
 @media (hover: hover) { .tile:hover { border-color: color-mix(in srgb, var(--c, var(--outline-2)) 55%, var(--outline)); transform: translateY(-2px); } }
-.tile:hover .dot { transform: scale(1.25); }
-.tile:active { transform: scale(.97); border-color: var(--c, var(--outline-2)); box-shadow: 0 0 22px color-mix(in srgb, var(--c, transparent) 40%, transparent); }
+@media (hover: hover) { .tile:hover .dot { transform: scale(1.25); } }
+@media (hover: hover) and (pointer: fine) { .tile:active { transform: scale(.97); border-color: var(--c, var(--outline-2)); box-shadow: 0 0 22px color-mix(in srgb, var(--c, transparent) 40%, transparent); } } /* pressed look: mouse only, never while a thumb scrolls */
 .tile.wide { grid-column: span 2; height: 84px; }
 .tile { animation: tile-in .5s cubic-bezier(.3, 1.5, .5, 1) both; animation-delay: calc(var(--i, 0) * 55ms + .1s);
   background: linear-gradient(160deg, color-mix(in srgb, var(--c, var(--surface)) 13%, var(--surface)), var(--surface) 60%); }
 @keyframes tile-in { from { opacity: 0; transform: translateY(12px) scale(.92); } }
 .tile-emoji { flex-shrink: 0; font-size: 22px; line-height: 1; filter: drop-shadow(0 2px 6px color-mix(in srgb, var(--c, #000) 55%, transparent)); transition: transform .25s; }
 @media (hover: hover) { .tile:hover .tile-emoji { transform: scale(1.2) rotate(-8deg); } }
-.tile:active .tile-emoji { transform: scale(1.3) rotate(8deg); }
+@media (hover: hover) and (pointer: fine) { .tile:active .tile-emoji { transform: scale(1.3) rotate(8deg); } } /* pressed look: mouse only, never while a thumb scrolls */
 .dot { width: 14px; height: 14px; border-radius: 7px; flex-shrink: 0; }
 .tile-count { font-size: 11px; color: var(--dim); letter-spacing: .4px; }
 .tile-name { font-family: var(--font-display); font-weight: 600; font-size: 17.5px; line-height: 1.1; min-width: 0; }
@@ -227,7 +227,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   border: 2px solid color-mix(in srgb, #FFC93C 55%, transparent); text-align: left; color: var(--text);
   background: linear-gradient(100deg, rgba(255, 201, 60, .2), rgba(255, 111, 168, .16)); transition: transform .12s, border-color .15s; }
 .daily-sports:hover { border-color: #FFC93C; }
-.daily-sports:active { transform: scale(.98); }
+@media (hover: hover) and (pointer: fine) { .daily-sports:active { transform: scale(.98); } } /* pressed look: mouse only, never while a thumb scrolls */
 .sd-icon { width: 34px; height: 34px; border-radius: 50%; background: rgba(11, 16, 38, .6); display: grid; place-items: center; flex-shrink: 0; }
 .sd-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .sd-label { font-size: 10.5px; font-weight: 600; letter-spacing: 1.3px; color: #FFC93C; }
@@ -400,7 +400,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   border-radius: 20px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; animation: tile-in .5s cubic-bezier(.3, 1.5, .5, 1) both; }
 .pc-row { display: flex; align-items: center; gap: 10px; }
 .progress-card:hover { border-color: var(--outline-2); }
-.progress-card:active { transform: scale(.98); }
+@media (hover: hover) and (pointer: fine) { .progress-card:active { transform: scale(.98); } } /* pressed look: mouse only, never while a thumb scrolls */
 .pc-badge.big { width: 64px; height: 64px; font-size: 34px; background: none; }
 .rank-sheet { max-height: 90%; }
 .rank-list { list-style: none; margin: 6px 0 0; padding: 4px 0; width: 100%; background: var(--raised); border-radius: 14px; text-align: left; }
@@ -860,7 +860,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   background: linear-gradient(135deg, rgba(169, 198, 255, .14), rgba(215, 168, 255, .10)), var(--surface); border: 2px solid var(--outline);
   animation: tile-in .5s cubic-bezier(.3, 1.5, .5, 1) .05s both; transition: transform .12s, border-color .15s; }
 .passport-card:hover { border-color: var(--outline-2); }
-.passport-card:active { transform: scale(.97); }
+@media (hover: hover) and (pointer: fine) { .passport-card:active { transform: scale(.97); } } /* pressed look: mouse only, never while a thumb scrolls */
 .pp-book { grid-row: span 2; width: 32px; height: 40px; border-radius: 4px 7px 7px 4px; display: grid; place-items: center; font-size: 22px;
   background: linear-gradient(160deg, #22307A, #141C4A); box-shadow: inset 3px 0 0 #0B1026, 0 0 0 1.5px #C9A24A, 0 4px 12px rgba(0, 0, 0, .4); }
 .pp-book .wm-globe { width: 20px; height: 20px; margin: 0; }
@@ -877,7 +877,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .daily-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, .4) 45%, transparent 60%);
   transform: translateX(-100%); animation: shine 4.5s ease-in-out 2s infinite; pointer-events: none; }
 @keyframes daily-glow { to { box-shadow: 0 10px 42px rgba(61, 220, 196, .6), 0 0 0 3px rgba(255, 255, 255, .3); } }
-.daily-hero:active { transform: scale(.98); }
+@media (hover: hover) and (pointer: fine) { .daily-hero:active { transform: scale(.98); } } /* pressed look: mouse only, never while a thumb scrolls */
 #go-daily.daily-hero { animation: tile-in .5s cubic-bezier(.3, 1.5, .5, 1) both, daily-glow 1.8s ease-in-out .6s infinite alternate; }
 .dh-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .dh-kicker { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; opacity: .8; white-space: nowrap; }

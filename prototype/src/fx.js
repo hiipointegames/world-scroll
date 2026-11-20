@@ -436,13 +436,18 @@
 
   // ---------- every button: boing + burst ----------
   var SELECTOR = 'button, .tile, .pill, .tab';
+  // Only a real, finished tap makes a button bounce. We listen for 'click' (not 'pointerdown'): phones send a
+  // click only when a finger lifts without scrolling, so a thumb sliding over buttons while scrolling never
+  // makes them jump. Same on iPhone and Android, and a mouse click on a computer.
   function wireTaps() {
-    document.addEventListener('pointerdown', function (e) {
+    document.addEventListener('click', function (e) {
       var b = e.target.closest && e.target.closest(SELECTOR);
       if (!b || b.disabled || b.closest('.map') || calm) return;
       b.classList.remove('fx-boing'); void b.offsetWidth; b.classList.add('fx-boing');
       setTimeout(function () { b.classList.remove('fx-boing'); }, 500);
-      burst(e.clientX, e.clientY, b.classList.contains('big') || b.classList.contains('sports-hero'));
+      var x = e.clientX, y = e.clientY;
+      if (!x && !y) { var r = b.getBoundingClientRect(); x = r.left + r.width / 2; y = r.top + r.height / 2; } // keyboard: burst from the middle
+      burst(x, y, b.classList.contains('big') || b.classList.contains('sports-hero'));
       try { Sound.play('boing'); } catch (err) { }
     }, true);
   }
