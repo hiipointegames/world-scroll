@@ -914,6 +914,17 @@ test('home buttons never shake or bob while you scroll; they glow and shine in t
   assert.ok(html.includes('.sports-hero { animation: hero-glow') && html.includes('daily-glow 1.8s'), 'Daily 10 and Sports keep their glow');
 });
 
+test('every share sends the message and the link together, so no app can drop the challenge text', () => {
+  const share = readSrc('share.js'), app = readSrc('app.js');
+  assert.ok(share.includes("var full = o.text + (o.url ? '\\n' + o.url : '');"), 'message, then the link on its own line');
+  assert.ok(share.includes('return navigator.share({ text: full })'), 'phones share one piece of text (link inside it)');
+  assert.ok(!/navigator\.share\(\{ text: o\.text, url: o\.url \}\)/.test(share), 'never the link separately');
+  assert.ok(share.includes('navigator.clipboard.writeText(full)'), 'copying includes the message too');
+  // both ways to challenge a friend carry the full sentence
+  assert.ok(app.includes("var text = '🎯 ' + c.q.prompt + ' I was ' + (r.bullseye ? 'right on target' : fmt(r.miles) + ' miles off') + ' on World Scroll. Can you beat my pin?';"));
+  assert.ok(app.includes('text: text, url: challengeUrl(c.q, c.guess)') && app.includes('G.worstMissText(subjectOf(w.q), placeOfPin(w.guess), w.miles, team), url: challengeUrl(w.q, w.guess)'));
+});
+
 test('new effects switch off under reduced motion', () => {
   const html = readSrc('app.html');
   const block = html.slice(html.indexOf('/* ===== Share & next-level fun'));

@@ -119,7 +119,10 @@
       return Promise.resolve(save());
     }
     if (isPhone && navigator.share) {
-      return navigator.share({ text: o.text, url: o.url }).then(function () { return 'shared'; }, function (e) {
+      // The link goes INSIDE the message, as one piece of text. If the link is passed separately, some share
+      // options keep only the link and drop the message (the share sheet's "Copy", some chat apps), so a
+      // challenge could arrive without "Where is …? I was … miles off. Can you beat my pin?".
+      return navigator.share({ text: full }).then(function () { return 'shared'; }, function (e) {
         return e && e.name === 'AbortError' ? 'cancelled' : copy();
       });
     }
