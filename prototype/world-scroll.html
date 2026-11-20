@@ -157,8 +157,9 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .hero-trophies { display: flex; gap: 6px; background: rgba(11, 16, 38, .82); border-radius: 999px; padding: 5px 9px; color: var(--text); }
 .hero-go { background: var(--ink); color: var(--text); font-family: var(--font-display); font-weight: 700; font-size: 15px; border-radius: 12px; padding: 8px 16px; }
 .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.tile { min-height: 92px; border-radius: 20px; border: 2px solid var(--outline); background: var(--surface); cursor: pointer;
-  display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: 12px 15px 14px; text-align: left; transition: border-color .15s, transform .1s; }
+.tile { min-height: 58px; border-radius: 18px; border: 2px solid var(--outline); background: var(--surface); cursor: pointer;
+  display: flex; flex-direction: column; justify-content: center; gap: 2px; padding: 9px 12px 9px 14px; text-align: left; transition: border-color .15s, transform .1s; }
+.tile-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; } /* the name, with its icon to the right */
 .tile { transition: border-color .15s, transform .12s, box-shadow .2s; }
 .tile .dot { transition: transform .2s; }
 .tile:hover { border-color: color-mix(in srgb, var(--c, var(--outline-2)) 55%, var(--outline)); transform: translateY(-2px); }
@@ -168,16 +169,12 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .tile { animation: tile-in .5s cubic-bezier(.3, 1.5, .5, 1) both; animation-delay: calc(var(--i, 0) * 55ms + .1s);
   background: linear-gradient(160deg, color-mix(in srgb, var(--c, var(--surface)) 13%, var(--surface)), var(--surface) 60%); }
 @keyframes tile-in { from { opacity: 0; transform: translateY(12px) scale(.92); } }
-.tile-emoji { font-size: 22px; line-height: 1; filter: drop-shadow(0 2px 6px color-mix(in srgb, var(--c, #000) 55%, transparent)); transition: transform .25s; }
+.tile-emoji { flex-shrink: 0; font-size: 22px; line-height: 1; filter: drop-shadow(0 2px 6px color-mix(in srgb, var(--c, #000) 55%, transparent)); transition: transform .25s; }
 .tile:hover .tile-emoji { transform: scale(1.2) rotate(-8deg); }
 .tile:active .tile-emoji { transform: scale(1.3) rotate(8deg); }
-.tile-top { display: flex; justify-content: space-between; align-items: center; width: 100%; min-height: 24px; }
 .dot { width: 14px; height: 14px; border-radius: 7px; flex-shrink: 0; }
 .tile-count { font-size: 11px; color: var(--dim); letter-spacing: .4px; }
-.tile-text { display: flex; flex-direction: column; gap: 2px; }
-.tile-name { font-family: var(--font-display); font-weight: 600; font-size: 19px; line-height: 1.1; }
-.tile-sub { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tile-text { min-width: 0; width: 100%; }
+.tile-name { font-family: var(--font-display); font-weight: 600; font-size: 17.5px; line-height: 1.1; min-width: 0; }
 .daily { background: var(--surface); border-radius: 18px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-shrink: 0; }
 .daily-label { font-size: 12px; color: var(--muted); letter-spacing: 1.2px; }
 .daily-title { font-family: var(--font-display); font-weight: 600; font-size: 17px; margin-top: 2px; }
@@ -535,9 +532,8 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   .sports-hero { padding: 12px 14px 12px 16px; }
   .hero-name { font-size: 26px; }
   .btn.big { height: 54px; }
-  .tile { min-height: 74px; padding: 10px 13px 12px; gap: 6px; }
-  .tile-name { font-size: 17px; }
-  .tile-sub { display: none; }
+  .tile { min-height: 52px; padding: 8px 11px 8px 13px; }
+  .tile-name { font-size: 16.5px; }
   .progress-card { padding: 9px 12px; gap: 6px; }
   .pc-badge { width: 30px; height: 30px; font-size: 16px; }
   .pc-name { font-size: 17px; }
@@ -2084,11 +2080,8 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
   // What the result says for a pin inside / near an outlined place.
   var AREA_WORDS = { deserts: ['Right inside the desert', 'desert'], mountains: ['Right in the mountains', 'mountains'], lakes: ['Right on the lake', 'lake'],
     sea: ['Right in the sea', 'sea'], ocean: ['Right in the ocean', 'ocean'] }; // sea/ocean cards use their kind
-  var CATEGORY_SUBS = {
-    countries: 'Every one, by continent', capitals: 'World + US states', cities: 'Iconic cities',
-    rivers: 'Follow the water', mountains: 'Peaks and ranges', deserts: 'Sand, ice and rock',
-    lakes: 'Famous lakes and seas', landmarks: 'World-famous wonders'
-  };
+  // Home buttons use a couple of longer names (the cards themselves keep the short category names).
+  var TILE_NAMES = { cities: 'Iconic cities', landmarks: 'Global landmarks' };
 
   // ---------- helpers ----------
   function esc(s) {
@@ -3164,11 +3157,11 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
     var count = function (cat) { return QUESTIONS.filter(function (q) { return q.category === cat; }).length; };
     var tiles = DATA.categories.filter(function (c) { return c.id !== 'sports'; }).map(function (c, i) {
       var n = count(c.id), got = stampCount(c.id);
+      // A compact button: the name with its icon to the right, and stamp progress once you've earned one
       return '<button class="tile" data-cat="' + c.id + '" style="--c:' + c.color + ';--i:' + i + '">' +
-        '<span class="tile-top"><span class="tile-emoji" aria-hidden="true">' + (CAT_EMOJI[c.id] || '') + '</span>' +
-        (got ? '<span class="tile-count stamped">' + got + '/' + n + ' stamped</span>' : '') + '</span>' + // no card count; stamp progress once you've earned one
-        '<span class="tile-text"><span class="tile-name">' + esc(c.label) + '</span>' +
-        '<span class="tile-sub">' + esc(CATEGORY_SUBS[c.id] || '') + '</span></span></button>';
+        '<span class="tile-row"><span class="tile-name">' + esc(TILE_NAMES[c.id] || c.label) + '</span>' +
+        '<span class="tile-emoji" aria-hidden="true">' + (CAT_EMOJI[c.id] || '') + '</span></span>' +
+        (got ? '<span class="tile-count stamped">' + got + '/' + n + ' stamped</span>' : '') + '</button>';
     }).join('');
     app.innerHTML =
       '<div class="screen picker">' +

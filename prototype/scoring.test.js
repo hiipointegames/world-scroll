@@ -751,13 +751,13 @@ test('home screen: no daily goal line, Daily 10 sits above the tiles and Shuffle
   assert.ok(daily > 0 && daily < tiles && tiles < shuffle, 'order: Daily 10, tiles, Shuffle');
 });
 
-test('home tiles: short subtitles that never need "...", and room under the text', () => {
+test('home tiles: compact, no gray subtext, the icon to the right of the name', () => {
   const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
-  const subs = /var CATEGORY_SUBS = \{([\s\S]*?)\};/.exec(app)[1].match(/'[^']*'/g).map(s => s.slice(1, -1));
-  assert.ok(subs.includes('Famous lakes and seas'));
-  assert.deepStrictEqual(subs.filter(s => s.length > 23), [], 'subtitles fit on one line of a half-width tile');
+  assert.ok(!app.includes('CATEGORY_SUBS') && !app.includes('tile-sub'), 'no gray subtext on any button');
+  assert.ok(app.includes("var TILE_NAMES = { cities: 'Iconic cities', landmarks: 'Global landmarks' };"));
+  assert.ok(app.includes('<span class="tile-row"><span class="tile-name">') && app.indexOf('tile-name') < app.indexOf('<span class="tile-emoji"'), 'icon sits to the right of the name');
   const html = require('fs').readFileSync(require('path').join(__dirname, 'src/app.html'), 'utf8');
-  assert.ok(/\.tile \{ min-height: 92px;[^}]*padding: 12px 15px 14px/.test(html), 'tiles grow with their text and keep bottom padding');
+  assert.ok(/\.tile \{ min-height: 58px;/.test(html), 'shorter buttons');
 });
 
 test('Cities are iconic cities that are not capitals (those belong in Capitals)', () => {

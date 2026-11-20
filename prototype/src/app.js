@@ -17,11 +17,8 @@
   // What the result says for a pin inside / near an outlined place.
   var AREA_WORDS = { deserts: ['Right inside the desert', 'desert'], mountains: ['Right in the mountains', 'mountains'], lakes: ['Right on the lake', 'lake'],
     sea: ['Right in the sea', 'sea'], ocean: ['Right in the ocean', 'ocean'] }; // sea/ocean cards use their kind
-  var CATEGORY_SUBS = {
-    countries: 'Every one, by continent', capitals: 'World + US states', cities: 'Iconic cities',
-    rivers: 'Follow the water', mountains: 'Peaks and ranges', deserts: 'Sand, ice and rock',
-    lakes: 'Famous lakes and seas', landmarks: 'World-famous wonders'
-  };
+  // Home buttons use a couple of longer names (the cards themselves keep the short category names).
+  var TILE_NAMES = { cities: 'Iconic cities', landmarks: 'Global landmarks' };
 
   // ---------- helpers ----------
   function esc(s) {
@@ -1097,11 +1094,11 @@
     var count = function (cat) { return QUESTIONS.filter(function (q) { return q.category === cat; }).length; };
     var tiles = DATA.categories.filter(function (c) { return c.id !== 'sports'; }).map(function (c, i) {
       var n = count(c.id), got = stampCount(c.id);
+      // A compact button: the name with its icon to the right, and stamp progress once you've earned one
       return '<button class="tile" data-cat="' + c.id + '" style="--c:' + c.color + ';--i:' + i + '">' +
-        '<span class="tile-top"><span class="tile-emoji" aria-hidden="true">' + (CAT_EMOJI[c.id] || '') + '</span>' +
-        (got ? '<span class="tile-count stamped">' + got + '/' + n + ' stamped</span>' : '') + '</span>' + // no card count; stamp progress once you've earned one
-        '<span class="tile-text"><span class="tile-name">' + esc(c.label) + '</span>' +
-        '<span class="tile-sub">' + esc(CATEGORY_SUBS[c.id] || '') + '</span></span></button>';
+        '<span class="tile-row"><span class="tile-name">' + esc(TILE_NAMES[c.id] || c.label) + '</span>' +
+        '<span class="tile-emoji" aria-hidden="true">' + (CAT_EMOJI[c.id] || '') + '</span></span>' +
+        (got ? '<span class="tile-count stamped">' + got + '/' + n + ' stamped</span>' : '') + '</button>';
     }).join('');
     app.innerHTML =
       '<div class="screen picker">' +
