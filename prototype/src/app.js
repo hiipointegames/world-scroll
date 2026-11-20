@@ -986,7 +986,7 @@
       '<div class="screen picker">' +
       '<div class="topbar">' + WORDMARK + statChips(soundButton()) + '</div>' +
       '<div class="picker-body">' +
-      '<div class="picker-head"><h1>Where do you wanna scroll today?</h1><p>Every scroll teaches you a new spot on the map.</p></div>' +
+      '<div class="picker-head"><h1>Where do you wanna scroll today?</h1></div>' +
       dailyHeroHtml() +
       '<div class="pc-pair">' + progressCardHtml() + passportCardHtml() + '</div>' +
       '<button class="sports-hero" id="go-sports">' +

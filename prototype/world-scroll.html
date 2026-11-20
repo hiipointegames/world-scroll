@@ -158,7 +158,6 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .hero-side { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0; }
 .hero-trophies { display: flex; gap: 6px; background: rgba(11, 16, 38, .82); border-radius: 999px; padding: 5px 9px; color: var(--text); }
 .hero-go { background: var(--ink); color: var(--text); font-family: var(--font-display); font-weight: 700; font-size: 15px; border-radius: 12px; padding: 8px 16px; }
-.picker-head p { margin: 6px 0 0; font-size: 15px; color: var(--muted); }
 .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .tile { min-height: 92px; border-radius: 20px; border: 2px solid var(--outline); background: var(--surface); cursor: pointer;
   display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: 12px 15px 14px; text-align: left; transition: border-color .15s, transform .1s; }
@@ -533,7 +532,6 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   .topbar { padding-top: 12px; }
   .picker-body { gap: 10px; padding-top: 12px; }
   .picker-head h1 { font-size: 25px; }
-  .picker-head p { font-size: 14px; margin-top: 4px; }
   .sports-hero { padding: 12px 14px 12px 16px; }
   .hero-name { font-size: 26px; }
   .btn.big { height: 54px; }
@@ -2992,7 +2990,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
       '<div class="screen picker">' +
       '<div class="topbar">' + WORDMARK + statChips(soundButton()) + '</div>' +
       '<div class="picker-body">' +
-      '<div class="picker-head"><h1>Where do you wanna scroll today?</h1><p>Every scroll teaches you a new spot on the map.</p></div>' +
+      '<div class="picker-head"><h1>Where do you wanna scroll today?</h1></div>' +
       dailyHeroHtml() +
       '<div class="pc-pair">' + progressCardHtml() + passportCardHtml() + '</div>' +
       '<button class="sports-hero" id="go-sports">' +
