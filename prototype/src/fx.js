@@ -116,7 +116,16 @@
   function welcomeGlobe(host) {
     var cv = document.createElement('canvas'); cv.className = 'fx-globe'; host.appendChild(cv);
     var w = host.clientWidth || 340, h = host.clientHeight || 200, c = sizeCanvas(cv, w, h);
-    var proj = d3.geoOrthographic().clipAngle(90).translate([w / 2, h / 2]).scale(Math.min(w * 0.2, h / 2 - 16)); // room around it for the orbits
+    var proj = d3.geoOrthographic().clipAngle(90).translate([w / 2, h / 2]).scale(Math.min(w * 0.26, h / 2 - 20)); // as big as the space allows, with room around it for the orbits
+    // If its space changes size (a window resize, turning the phone), start over at the new size so it never overlaps the text.
+    if (root.ResizeObserver) {
+      var ro = new ResizeObserver(function () {
+        var nw = host.clientWidth, nh = host.clientHeight;
+        if (!cv.isConnected) { ro.disconnect(); return; }
+        if (nw && nh && (Math.abs(nw - w) > 4 || Math.abs(nh - h) > 4)) { ro.disconnect(); cv.remove(); welcomeGlobe(host); }
+      });
+      ro.observe(host);
+    }
     var flights = [[0, 3], [1, 7], [4, 5], [2, 6], [8, 9], [10, 11], [12, 13], [3, 4], [5, 1], [9, 12]];
     var R = proj.scale(), ctr = proj.translate(), t0 = performance.now();
     function center() { var rt = proj.rotate(); return [-rt[0], -rt[1]]; }

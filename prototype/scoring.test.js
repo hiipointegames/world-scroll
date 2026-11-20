@@ -884,6 +884,14 @@ test('playable welcome: a real Paris card on the welcome screen, never saying "t
   for (const f of ['app.js', 'app.html', 'share.js', 'scoring.js']) assert.ok(!/tap the (map|globe)|map tap/i.test(readSrc(f)), f + ' never says "tap the map"');
 });
 
+test('welcome screen: the globe grows into spare space (no gap above Start scrolling) and redraws if its space changes', () => {
+  const html = readSrc('app.html'), fx = readSrc('fx.js');
+  assert.ok(html.includes('.screen.intro .intro-globe { height: auto; flex: 1 1 150px; min-height: 150px; max-height: 300px;'), 'fills the gap, up to 300px');
+  assert.ok(html.includes('.screen.intro .intro-body { flex: 0 1 auto;'), 'the text sits right under it');
+  assert.ok(fx.includes('scale(Math.min(w * 0.26, h / 2 - 20))'), 'the globe draws as big as its space allows');
+  assert.ok(fx.includes('cv.remove(); welcomeGlobe(host);'), 'a resize redraws it at the new size');
+});
+
 test('new effects switch off under reduced motion', () => {
   const html = readSrc('app.html');
   const block = html.slice(html.indexOf('/* ===== Share & next-level fun'));

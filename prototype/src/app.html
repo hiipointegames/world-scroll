@@ -950,10 +950,12 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .intro-foot .btn.big.glow { animation: heartbeat 1.3s ease-in-out infinite; box-shadow: 0 0 0 4px rgba(255, 181, 71, .3), 0 0 34px rgba(255, 181, 71, .55); }
 @media (max-height: 720px) { .try-map { height: 130px; } .try-prompt { font-size: 19px; } }
 /* The welcome screen makes room for the practice card: a smaller globe, a tighter title */
-.screen.intro .intro-globe { height: 150px; margin-top: 8px; }
-.screen.intro .intro-body { gap: 12px; padding-top: 4px; }
+/* The globe grows into any spare space, so there's no gap above Start scrolling: it starts at 150px and
+   takes whatever room is left (up to 300px); the text below simply shifts down. On short phones it stays small. */
+.screen.intro .intro-globe { height: auto; flex: 1 1 150px; min-height: 150px; max-height: 300px; margin-top: 8px; }
+.screen.intro .intro-body { flex: 0 1 auto; gap: 12px; padding-top: 4px; }
 .screen.intro .intro-title { font-size: 34px; }
-@media (max-height: 720px) { .screen.intro .intro-globe { height: 92px; margin-top: 4px; } .screen.intro .intro-title { font-size: 28px; } }
+@media (max-height: 720px) { .screen.intro .intro-globe { flex-basis: 92px; min-height: 92px; margin-top: 4px; } .screen.intro .intro-title { font-size: 28px; } }
 @media (max-height: 620px) { .try-panel.hint { display: none; } .try-map { height: 118px; } }
 
 @media (prefers-reduced-motion: reduce) {
