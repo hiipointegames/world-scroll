@@ -1,6 +1,6 @@
 {
  "_about": "Deep Dives: rare bonus cards. Landing on one shows a RARE FIND banner; after the guess, a Deep Dive button opens these in-depth facts. Keyed by card id. Each fact: [label, text], kid-friendly, 180 characters max.",
- "_verify": "Written from memory on 2026-11-19. Fact-check before launch.",
+ "_verify": "Written 2026-11-19. Fact-checked 2026-11-20 (see FACT-CHECK.md).",
  "dives": {
   "lake-superior": {
    "emoji": "🌊",

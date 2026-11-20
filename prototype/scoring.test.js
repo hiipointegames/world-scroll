@@ -660,6 +660,22 @@ test('every single card has nerd facts: rivers, oceans, lakes, seas, mountains, 
   for (const k of ["'Ocean'", "'Sea'", "rivers: 'River'", "lakes: 'Lake'", "mountains: 'Mountain'", "deserts: 'Desert'", "landmarks: 'Landmark'"]) assert.ok(app.includes(k), 'pop-up title: ' + k);
 });
 
+test('fact check of November 20, 2026: corrections stay fixed', () => {
+  const card = (id) => questions.find(q => q.id === id);
+  const all = (id) => [card(id).fact].concat((card(id).nerd || []).map(n => n[1])).join(' ');
+  assert.doesNotMatch(all('country-iceland'), /no mosquitoes/, 'mosquitoes were found in Iceland in October 2025');
+  assert.doesNotMatch(all('usl1-spokane-velocity-fc'), /two world's fairs/, 'Spokane hosted one world\'s fair, Expo \'74');
+  assert.doesNotMatch(all('mls-new-england-revolution'), /set the MLS record/, 'Inter Miami passed 73 points in 2024');
+  assert.doesNotMatch(all('mls-atlanta-united-fc'), /later coached Argentina/, 'Martino coached Argentina before Atlanta');
+  for (const id of ['mls-atlanta-united-fc', 'mls-chicago-fire', 'mls-d-c-united', 'mls-los-angeles-fc', 'nwsl-portland-thorns'])
+    assert.match(all(id), /Their first coach was /, id + ': the first-coach fact is a full sentence');
+  assert.doesNotMatch(all('rugby-italy'), /built for the 1960/, 'the Stadio Olimpico opened in 1953');
+  assert.match(all('sagrada-familia'), /tallest church in the world/, 'Tower of Jesus Christ finished in 2026');
+  assert.match(all('country-brazil'), /five times, more than any other/, 'Spain won the 2026 World Cup, so Brazil still leads with five');
+  for (const f of ['city-nerd-facts.json', 'country-nerd-facts.json', 'world-nerd-facts.json'])
+    assert.match(require('../data/' + f)._verify, /[Ff]act-checked .*2026-11-20/, f + ' records the fact check');
+});
+
 test('the 🤓 Nerd facts button is eye-catching: a bright pill with a fact count that pops, shines and glows (calm under reduced motion)', () => {
   const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
   const html = require('fs').readFileSync(require('path').join(__dirname, 'src/app.html'), 'utf8');

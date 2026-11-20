@@ -1,6 +1,6 @@
 {
  "_about": "Country nerd facts for the 🤓 Nerd facts pop-up on Countries cards. Keyed by country name as in countries.json. Each fact: [label, text], kid-friendly, 160 characters max.",
- "_verify": "Written from memory on 2026-11-18, with populations rounded from 2024-25 estimates. Fact-check before launch.",
+ "_verify": "Written 2026-11-18, with populations rounded from 2024-25 estimates. Fact-checked 2026-11-20 (see FACT-CHECK.md).",
  "facts": {
   "Algeria": [
    [
@@ -961,7 +961,7 @@
    ],
    [
     "Invention",
-    "The USB flash drive and the Waze navigation app were invented in Israel."
+    "One of the first USB flash drives and the Waze navigation app were invented in Israel."
    ],
    [
     "Food",
@@ -1675,7 +1675,7 @@
    ],
    [
     "Nature",
-    "Iceland has no mosquitoes at all."
+    "Iceland has no native snakes, frogs or lizards at all."
    ],
    [
     "Nature",
@@ -2659,7 +2659,7 @@
    ],
    [
     "Wildlife",
-    "New Zealand has about five sheep for every person."
+    "New Zealand has about four sheep for every person."
    ]
   ],
   "Palau": [

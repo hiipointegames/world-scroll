@@ -1,6 +1,6 @@
 {
  "_about": "Nerd facts for Cities and Capitals cards (the 🤓 Nerd facts pop-up). Keyed by card id. Each fact: [label, text], kid-friendly, 160 characters max.",
- "_verify": "Written from memory on 2026-11-19. Fact-check before launch.",
+ "_verify": "Written 2026-11-19. Fact-checked 2026-11-20 (see FACT-CHECK.md).",
  "facts": {
   "rio": [
    [
@@ -27,7 +27,7 @@
    ],
    [
     "Nickname",
-    "New York is called 'the city that never sleeps' because its subway runs all day and all night."
+    "New York is called 'the city that never sleeps,' and its subway runs all day and all night."
    ]
   ],
   "los-angeles": [
@@ -47,7 +47,7 @@
   "chicago": [
    [
     "Invention",
-    "The world's first skyscraper, the Home Insurance Building, went up in Chicago in 1885."
+    "The Home Insurance Building, often called the world's first skyscraper, went up in Chicago in 1885."
    ],
    [
     "Food",
@@ -79,7 +79,7 @@
    ],
    [
     "Nature",
-    "Miami sits between two national parks: the Everglades and Biscayne Bay."
+    "Miami sits between two national parks: the Everglades and Biscayne."
    ],
    [
     "Landmark",
@@ -103,7 +103,7 @@
   "seattle": [
    [
     "Food",
-    "The first Starbucks opened at Seattle's Pike Place Market in 1971."
+    "The first Starbucks opened near Seattle's Pike Place Market in 1971."
    ],
    [
     "Culture",
@@ -167,7 +167,7 @@
    ],
    [
     "Culture",
-    "The Cirque du Soleil circus started in the Montreal area in 1984."
+    "The Cirque du Soleil circus started in Quebec in 1984 and is based in Montreal."
    ]
   ],
   "vancouver": [
@@ -1777,7 +1777,7 @@
    ],
    [
     "Size",
-    "Malé is one of the most crowded cities in the world, packed onto about 3 square miles."
+    "Malé is one of the most crowded cities in the world, packed onto an island smaller than one square mile."
    ]
   ],
   "capital-mongolia": [
@@ -2371,7 +2371,7 @@
   "capital-italy": [
    [
     "Landmark",
-    "The Pantheon in Rome has the world's largest unsupported concrete dome, nearly 2,000 years old."
+    "The Pantheon in Rome has the world's largest unreinforced concrete dome, nearly 2,000 years old."
    ],
    [
     "Food",
@@ -2973,7 +2973,7 @@
   "capital-nicaragua": [
    [
     "Nature",
-    "Masaya Volcano, near Managua, has a glowing lava lake you can peek into."
+    "Masaya Volcano, near Managua, sometimes has a glowing lava lake you can peek into."
    ],
    [
     "Landmark",
@@ -3239,7 +3239,7 @@
   "capital-australia": [
    [
     "Landmark",
-    "Canberra's Parliament House has a grass-covered roof you can walk on."
+    "Canberra's Parliament House is built into a hill, with grass growing over its roof."
    ],
    [
     "Culture",
@@ -4129,7 +4129,7 @@
    ],
    [
     "Culture",
-    "Wyoming was the first state to let women vote, in 1869."
+    "In 1869, Wyoming became the first place in the US to let women vote, while it was still a territory."
    ]
   ]
  }

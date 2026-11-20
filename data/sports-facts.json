@@ -1,5 +1,6 @@
 {
  "_about": "Sports nerd facts shown on the result card (first one) and in the Nerd facts pop-up (all). Keyed by card id. Each fact: [label, text], kid-friendly, 160 chars max.",
+ "_checked": "Every sports fact, including the cards listed in _verify, was fact-checked 2026-11-20 (see FACT-CHECK.md).",
  "_verify": [
   "alaves",
   "astonvilla",
@@ -256,7 +257,7 @@
    ],
    [
     "First coach",
-    "Paul Brown, who also invented the face mask and the modern playbook."
+    "Their first coach, Paul Brown, helped invent the face mask and the modern playbook."
    ],
    [
     "Where it began",
@@ -2096,7 +2097,7 @@
   "mls-atlanta-united-fc": [
    [
     "First coach",
-    "Gerardo \"Tata\" Martino, who later coached Argentina and Lionel Messi's Inter Miami."
+    "Their first coach was Gerardo \"Tata\" Martino, who also coached Argentina, Mexico and Lionel Messi's Inter Miami."
    ],
    [
     "Big moment",
@@ -2128,7 +2129,7 @@
    ],
    [
     "First coach",
-    "Bob Bradley, who later coached the U.S. men's national team."
+    "Their first coach was Bob Bradley, who later coached the U.S. men's national team."
    ],
    [
     "Nerd stat",
@@ -2162,7 +2163,7 @@
   "mls-d-c-united": [
    [
     "First coach",
-    "Bruce Arena, who later coached the U.S. men's national team."
+    "Their first coach was Bruce Arena, who later coached the U.S. men's national team."
    ],
    [
     "Nerd stat",
@@ -2222,7 +2223,7 @@
    ],
    [
     "Nerd stat",
-    "In 2021 they set the MLS record for most points in a season: 73."
+    "In 2021 they won the Supporters' Shield with 73 points, a record at the time."
    ]
   ],
   "mls-new-york-city-fc": [
@@ -2386,7 +2387,7 @@
    ],
    [
     "First coach",
-    "Bob Bradley, who was also the Chicago Fire's first coach."
+    "Their first coach was Bob Bradley, who was also the Chicago Fire's first coach."
    ],
    [
     "Big moment",
@@ -2512,7 +2513,7 @@
   "nwsl-angel-city-fc": [
    [
     "Where it began",
-    "Joined the NWSL in 2022. It was founded by actor Natalie Portman."
+    "Joined the NWSL in 2022. It was co-founded by actor Natalie Portman."
    ],
    [
     "Nerd stat",
@@ -2558,7 +2559,7 @@
    ],
    [
     "First coach",
-    "Rory Dames coached them for nearly a decade."
+    "They reached the NWSL Championship final in 2019."
    ]
   ],
   "nwsl-denver-summit-fc": [
@@ -2616,7 +2617,7 @@
    ],
    [
     "First coach",
-    "Paul Riley coached their first North Carolina seasons."
+    "In 2018 and 2019 they won both the NWSL Shield and the championship."
    ],
    [
     "Big moment",
@@ -2644,7 +2645,7 @@
    ],
    [
     "First coach",
-    "Cindy Parlow Cone, who later became president of U.S. Soccer."
+    "Their first coach was Cindy Parlow Cone, who later became president of U.S. Soccer."
    ],
    [
     "Big moment",
@@ -3150,7 +3151,7 @@
    ],
    [
     "Nerd stat",
-    "Spokane has hosted two world's fairs, in 1974 and 1983."
+    "Spokane hosted a world's fair, Expo '74, one of the first with a nature theme."
    ]
   ],
   "usl1-union-omaha": [
@@ -3418,7 +3419,7 @@
   "italian-open": [
    [
     "The venue",
-    "It's played at the Foro Italico in Rome, a sports park lined with 60 giant marble statues of athletes."
+    "It's played at the Foro Italico in Rome, a sports park lined with about 60 giant marble statues of athletes."
    ],
    [
     "Nerd stat",
@@ -3628,7 +3629,7 @@
    ],
    [
     "The venue",
-    "The Stadio Olimpico was built for the 1960 Rome Olympics."
+    "The Stadio Olimpico hosted the 1960 Rome Olympics."
    ]
   ],
   "eagles": [
