@@ -83,8 +83,8 @@
 
   // ---------- welcome screen: a premium spinning globe in its own little space show ----------
   // On the globe: city lights, and flight paths that lift off the surface like real routes.
-  // Around it: hairline orbits with light sweeping along them, satellites and comets that pass behind and in
-  // front of the globe, a small moon, a crisp starfield and a slow pulse. No cartoon emoji.
+  // Around it: hairline orbits with light sweeping along them, satellites and comets that skim close around
+  // the globe, passing behind and in front of it, a crisp starfield and a slow pulse. No cartoon emoji.
   function welcomeGlobe(host) {
     var cv = document.createElement('canvas'); cv.className = 'fx-globe'; host.appendChild(cv);
     var w = host.clientWidth || 340, h = host.clientHeight || 200, c = sizeCanvas(cv, w, h);
@@ -131,11 +131,11 @@
     }
     // ---- around the globe ----
     // Tilted orbits (sizes are multiples of the globe's radius R). The far half of each is drawn behind the globe.
+    // Kept close to the Earth: everything skims just above the globe (no moon or planets; the focus is our world).
     var ORBITS = [
-      { rx: 1.95, ry: 0.4, tilt: -0.26, color: '120,230,215', speed: 0.55, sweep: 0.9, riders: [{ sat: '#9BF5E6', at: 0 }, { comet: '255,205,120', at: Math.PI }] },
-      { rx: 1.6, ry: 0.58, tilt: 0.44, color: '255,160,200', speed: -0.42, sweep: -0.7, riders: [{ sat: '#FFC2DA', at: 1.2 }] },
-      { rx: 2.5, ry: 0.3, tilt: 0.1, color: '255,205,120', speed: 0.3, sweep: 0.5, riders: [{ comet: '255,255,255', at: 0.6 }, { comet: '150,230,255', at: 3.6 }] },
-      { rx: 2.2, ry: 0.86, tilt: -0.16, color: '170,200,255', speed: 0.2, sweep: 0.35, riders: [{ moon: true, at: 2 }] }
+      { rx: 1.32, ry: 0.34, tilt: -0.26, color: '120,230,215', speed: 0.6, sweep: 0.9, riders: [{ sat: '#9BF5E6', at: 0 }, { comet: '255,205,120', at: Math.PI }] },
+      { rx: 1.2, ry: 0.46, tilt: 0.44, color: '255,160,200', speed: -0.48, sweep: -0.7, riders: [{ sat: '#FFC2DA', at: 1.2 }, { comet: '150,230,255', at: 4.3 }] },
+      { rx: 1.46, ry: 0.24, tilt: 0.1, color: '255,205,120', speed: 0.36, sweep: 0.5, riders: [{ comet: '255,255,255', at: 0.6 }, { sat: '#FFE3A8', at: 3.6 }] }
     ];
     function onOrbit(o, a) { // a point on a tilted ellipse; depth > 0 means in front of the globe
       var x = Math.cos(a) * o.rx * R, y = Math.sin(a) * o.ry * R, ct = Math.cos(o.tilt), st = Math.sin(o.tilt);
@@ -186,16 +186,6 @@
         }
         c.save(); c.shadowColor = 'rgba(' + rd.comet + ',1)'; c.shadowBlur = 9; c.fillStyle = 'rgba(255,255,255,' + dim + ')';
         c.beginPath(); c.arc(p.x, p.y, 1.4, 0, 2 * Math.PI); c.fill(); c.restore();
-      } else if (rd.moon) { // a small, softly lit moon with a couple of faint craters
-        var mr = Math.max(3.5, R * 0.11);
-        c.save(); c.globalAlpha = dim;
-        var mg = c.createRadialGradient(p.x - mr * 0.45, p.y - mr * 0.45, mr * 0.05, p.x, p.y, mr);
-        mg.addColorStop(0, '#FBFAF4'); mg.addColorStop(0.55, '#C9CCD8'); mg.addColorStop(1, '#5D6382');
-        c.fillStyle = mg; c.beginPath(); c.arc(p.x, p.y, mr, 0, 2 * Math.PI); c.fill();
-        c.fillStyle = 'rgba(90,96,125,.35)';
-        c.beginPath(); c.arc(p.x + mr * 0.25, p.y + mr * 0.1, mr * 0.22, 0, 2 * Math.PI); c.fill();
-        c.beginPath(); c.arc(p.x - mr * 0.2, p.y + mr * 0.42, mr * 0.13, 0, 2 * Math.PI); c.fill();
-        c.restore();
       } else { // a satellite: a steady white light with a colored glow and a tiny flare
         c.save(); c.globalAlpha = dim; c.shadowColor = rd.sat; c.shadowBlur = 10; c.fillStyle = '#FFFFFF';
         c.beginPath(); c.arc(p.x, p.y, front ? 1.8 : 1.3, 0, 2 * Math.PI); c.fill(); c.restore();
@@ -212,7 +202,7 @@
         GLINTS.forEach(function (g) { glint(g.x, g.y, 7, 0.25 + 0.5 * Math.abs(Math.sin(t * 0.7 + g.ph))); });
         var pulse = (t % 3.2) / 3.2; // a slow, thin ripple from the globe
         c.strokeStyle = 'rgba(140,220,255,' + (0.35 * (1 - pulse)) + ')'; c.lineWidth = 0.8;
-        c.beginPath(); c.arc(ctr[0], ctr[1], R * (1.03 + pulse * 0.8), 0, 2 * Math.PI); c.stroke();
+        c.beginPath(); c.arc(ctr[0], ctr[1], R * (1.03 + pulse * 0.35), 0, 2 * Math.PI); c.stroke();
         ORBITS.forEach(function (o) { ring(o, false, t); o.riders.forEach(function (rd) { rider(o, rd, t, false); }); });
       };
     }

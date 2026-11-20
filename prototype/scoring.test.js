@@ -548,7 +548,10 @@ test('gameplay juice: every result gets a reaction (bullseye party, fire for hot
   assert.ok(app.includes("FX.pinBurst(e.clientX, e.clientY)") && app.includes(".text('✈️')"), 'pin sparkle and the plane along the line');
   assert.ok(!app.includes('FX.floaters'), 'no floating emoji on the welcome screen (they were distracting)');
   const fxSrc = require('fs').readFileSync(require('path').join(__dirname, 'src/fx.js'), 'utf8');
-  assert.ok(fxSrc.includes('var ORBITS = [') && fxSrc.includes('sat:') && fxSrc.includes('rd.moon') && fxSrc.includes('function glint('), 'the welcome globe has orbits, satellites, a moon, comets and lens glints');
+  assert.ok(fxSrc.includes('var ORBITS = [') && fxSrc.includes('sat:') && fxSrc.includes('comet:') && fxSrc.includes('function glint('), 'the welcome globe has orbits, satellites, comets and lens glints');
+  assert.ok(!/moon/i.test(fxSrc.slice(fxSrc.indexOf('var ORBITS = ['), fxSrc.indexOf('function inFront'))), 'no moon or planets: the focus is the Earth');
+  const radii = [...fxSrc.slice(fxSrc.indexOf('var ORBITS = ['), fxSrc.indexOf('function onOrbit')).matchAll(/rx: ([\d.]+)/g)].map(m => +m[1]);
+  assert.ok(radii.length >= 3 && radii.every(r => r <= 1.5), 'everything flies close to the globe');
   const welcome = fxSrc.slice(fxSrc.indexOf('function welcomeGlobe'), fxSrc.indexOf('// ---------- home screen: the fly-in'));
   assert.ok(!/fillText\(/.test(welcome), 'no cartoon emoji drawn around the globe');
   assert.ok(fxSrc.includes('Math.min(3, root.devicePixelRatio || 1)'), 'drawn at full phone resolution, so it stays sharp');
