@@ -1251,16 +1251,17 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   var DAILY_GOAL = 15;
   function cardsToday(state, today) { return state && state.date === today ? state.n : 0; }
   // Explorer ranks: grow with lifetime points.
-  // Each rank has its own badge (emoji) and color.
+  // Each rank has its own badge (emoji) and color. Spaced out (Nov 21, 2026) so World Legend takes 1,000,000 points;
+  // each step takes roughly twice as long as the one before.
   var RANKS = [
     { name: 'Rookie Explorer', min: 0, emoji: '🎒', color: '#3DDCC4' },
-    { name: 'Trail Finder', min: 5000, emoji: '🥾', color: '#9BE7A8' },
-    { name: 'Map Reader', min: 15000, emoji: '🗺️', color: '#7CC4FF' },
-    { name: 'Navigator', min: 35000, emoji: '🧭', color: '#A9C6FF' },
-    { name: 'Globetrotter', min: 70000, emoji: '✈️', color: '#FF8F6B' },
-    { name: 'World Wanderer', min: 125000, emoji: '🌍', color: '#D7A8FF' },
-    { name: 'Atlas Ace', min: 200000, emoji: '🚀', color: '#FF6FA8' },
-    { name: 'World Legend', min: 350000, emoji: '👑', color: '#FFB547' }
+    { name: 'Trail Finder', min: 15000, emoji: '🥾', color: '#9BE7A8' },
+    { name: 'Map Reader', min: 40000, emoji: '🗺️', color: '#7CC4FF' },
+    { name: 'Navigator', min: 100000, emoji: '🧭', color: '#A9C6FF' },
+    { name: 'Globetrotter', min: 200000, emoji: '✈️', color: '#FF8F6B' },
+    { name: 'World Wanderer', min: 350000, emoji: '🌍', color: '#D7A8FF' },
+    { name: 'Atlas Ace', min: 600000, emoji: '🚀', color: '#FF6FA8' },
+    { name: 'World Legend', min: 1000000, emoji: '👑', color: '#FFB547' }
   ];
   function rankFor(points) {
     var i = 0;

@@ -239,7 +239,7 @@ test('fun layer: closeness tiers, combos, daily goal and explorer ranks', () => 
   assert.strictEqual(G.cardsToday({ date: '2026-11-10', n: 7 }, '2026-11-10'), 7);
   assert.strictEqual(G.cardsToday({ date: '2026-11-09', n: 7 }, '2026-11-10'), 0, 'the goal starts fresh each day');
   assert.strictEqual(G.rankFor(0).name, 'Rookie Explorer');
-  const mid = G.rankFor(10000);
+  const mid = G.rankFor(27500);
   assert.strictEqual(mid.name, 'Trail Finder');
   assert.strictEqual(mid.next.name, 'Map Reader');
   assert.ok(Math.abs(mid.progress - 0.5) < 1e-9);
@@ -858,7 +858,10 @@ test('passport: close guesses (within 100 mi or a bullseye) stamp a place once, 
 test('rank badges: every rank has its own emoji and color, and a new rank gets a shareable celebration', () => {
   assert.strictEqual(new Set(G.RANKS.map(r => r.emoji)).size, G.RANKS.length);
   assert.ok(G.RANKS.every(r => /^#[0-9A-F]{6}$/i.test(r.color)));
-  assert.strictEqual(G.rankFor(6000).emoji, '🥾');
+  assert.strictEqual(G.rankFor(16000).emoji, '🥾');
+  assert.deepStrictEqual(G.RANKS.map(r => r.min), [0, 15000, 40000, 100000, 200000, 350000, 600000, 1000000], 'World Legend at a million points');
+  assert.strictEqual(G.rankFor(999999).name, 'Atlas Ace');
+  assert.strictEqual(G.rankFor(1000000).name, 'World Legend');
   const app = readSrc('app.js');
   assert.ok(app.includes('rankUpSheet(rankNow)') && app.includes("'NEW RANK UNLOCKED!'") && app.includes('id="share-rank"'));
 });
