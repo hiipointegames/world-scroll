@@ -814,7 +814,8 @@ test('"Beat my pin" links: the card and the pin travel in the link, and bad link
   assert.ok(app.includes("startFeed({ kind: 'challenge', id: beat.id, friend: beat.guess })"), 'opening a link starts that card');
   assert.ok(app.includes("history.replaceState(null, '', location.pathname)"), 'a reload does not replay the challenge');
   assert.ok(app.includes('c.map.showFriend(friend)') && app.includes('Your friend’s pin:'), 'after guessing, the friend\'s pin and miles show');
-  assert.ok(app.includes("sk.innerHTML = '🎯 Challenge'"), 'every result can be sent as a challenge');
+  assert.ok(app.includes("sk.innerHTML = '🎯 Challenge a friend'"), 'every result can be sent as a challenge');
+  assert.ok(app.includes("'Challenge link copied - paste and send to a friend and see whose pin is closer'"), 'the copied message says what to do next');
 });
 
 test('worst miss and nerd fact shares read like a sentence', () => {

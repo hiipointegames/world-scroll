@@ -1421,13 +1421,13 @@
     countUpPoints(c.el.querySelector('.res-pts'), r.points);
     // After the guess, the Skip button turns into "Challenge": send a friend this card with your pin on it.
     var sk = c.el.querySelector('.skip');
-    sk.innerHTML = '🎯 Challenge';
+    sk.innerHTML = '🎯 Challenge a friend';
     sk.classList.add('challenge-btn');
     sk.setAttribute('aria-label', 'Challenge a friend to beat your pin on this card');
     sk.onclick = function (e) {
       e.stopPropagation();
       var text = '🎯 ' + c.q.prompt + ' I was ' + (r.bullseye ? 'right on target' : fmt(r.miles) + ' miles off') + ' on World Scroll. Can you beat my pin?';
-      WSShare.send({ text: text, url: challengeUrl(c.q, c.guess) }).then(function (how) { shareToast(how, 'Challenge sent!', 'Challenge link copied!'); });
+      WSShare.send({ text: text, url: challengeUrl(c.q, c.guess) }).then(function (how) { shareToast(how, 'Challenge sent!', 'Challenge link copied - paste and send to a friend and see whose pin is closer'); });
     };
     c.el.querySelector('.lock').textContent = feed.spec.kind === 'challenge' ? 'Keep playing' : isLastDaily() ? 'See my results' : 'Next card';
     if (navigator.vibrate) { try { navigator.vibrate(r.bullseye ? [18, 60, 40] : 18); } catch (e) { } }
@@ -1613,8 +1613,9 @@
     t.className = 'mini-toast'; t.setAttribute('role', 'status'); t.textContent = msg;
     host.appendChild(t);
     if (how !== 'failed') Sound.play('hit');
-    setTimeout(function () { t.classList.add('out'); }, 2200);
-    setTimeout(function () { t.remove(); }, 2700);
+    var stay = msg.length > 40 ? 4000 : 2200; // longer messages stay up long enough to read
+    setTimeout(function () { t.classList.add('out'); }, stay);
+    setTimeout(function () { t.remove(); }, stay + 500);
   }
   // The share box on both daily results screens: score text, a picture, and your worst miss.
   function shareBoxHtml(shareText, worst) {
