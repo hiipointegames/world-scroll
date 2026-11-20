@@ -97,7 +97,6 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .intro-brand { display: flex; flex-direction: column; gap: 8px; }
 .wordmark.big { font-size: 26px; }
 .intro-title { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 38px; line-height: 1.02; text-wrap: balance; }
-.intro-sub { margin: 0; font-size: 15px; line-height: 1.5; color: var(--muted); }
 .intro-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
 .intro-steps li { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; line-height: 1.45; color: var(--body-strong); }
 .intro-steps b { color: var(--text); }
@@ -109,7 +108,6 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 @media (max-height: 720px) {
   .intro-title { font-size: 31px; }
   .intro-body { gap: 12px; }
-  .intro-sub { font-size: 14px; }
   .intro-steps li { font-size: 13.5px; }
 }
 .stats { display: flex; gap: 8px; }
@@ -946,7 +944,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .screen.intro .intro-body { gap: 12px; padding-top: 4px; }
 .screen.intro .intro-title { font-size: 34px; }
 @media (max-height: 720px) { .screen.intro .intro-globe { height: 92px; margin-top: 4px; } .screen.intro .intro-title { font-size: 28px; } }
-@media (max-height: 620px) { .try-panel.hint, .screen.intro .intro-sub { display: none; } .try-map { height: 118px; } }
+@media (max-height: 620px) { .try-panel.hint { display: none; } .try-map { height: 118px; } }
 
 @media (prefers-reduced-motion: reduce) {
   .vs-emoji, .mini-toast, .rank-badge.rank-up, .pc-pair .pc-rank, .passport-card, .daily-hero, #go-daily.daily-hero, .stamp-pop .stamp.big, .intro-try, .intro-foot .btn.big.glow { animation: none !important; }
@@ -2773,7 +2771,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
       '<div class="intro-body">' +
       '<div class="intro-brand"><div class="wordmark big" aria-label="World Scroll">' + GLOBE + letters('World', 0) + '<span>' + letters('Scroll', 5) + '</span></div>' +
       '<h1 class="intro-title">Learn geography by scrolling.</h1>' +
-      '<p class="intro-sub">Doomscrolling, but you get smarter.</p></div>' +
+      '</div>' +
       // A real card to play right here: the first pin is the first win.
       '<div class="intro-try" id="intro-try"><div class="try-head"><span class="try-kicker">TRY ONE!</span><span class="try-prompt">Where is Paris?</span></div>' +
       '<div class="try-map"><div class="map"></div></div>' +

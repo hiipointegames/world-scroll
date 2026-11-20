@@ -770,7 +770,7 @@
       '<div class="intro-body">' +
       '<div class="intro-brand"><div class="wordmark big" aria-label="World Scroll">' + GLOBE + letters('World', 0) + '<span>' + letters('Scroll', 5) + '</span></div>' +
       '<h1 class="intro-title">Learn geography by scrolling.</h1>' +
-      '<p class="intro-sub">Doomscrolling, but you get smarter.</p></div>' +
+      '</div>' +
       // A real card to play right here: the first pin is the first win.
       '<div class="intro-try" id="intro-try"><div class="try-head"><span class="try-kicker">TRY ONE!</span><span class="try-prompt">Where is Paris?</span></div>' +
       '<div class="try-map"><div class="map"></div></div>' +
