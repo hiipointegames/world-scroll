@@ -1310,12 +1310,11 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 })(this);
 </script>
 <script>// World Scroll — sound. Everything is synthesized with the Web Audio API (no audio files, no licensing).
-// Sound effects play everywhere; the instrumental "stadium" loop plays only in the Sports feed.
+// Sound effects play everywhere. Music: wind on the welcome screen, a light tune on home and the categories, game-day music in Sports.
 // Browsers only allow audio after the player taps something, so the first tap unlocks it.
 (function (root) {
   var ctx = null, master, sfxBus, musicBus;
-  var enabled = true, musicOn = false, timer = null, nextTime = 0, step = 0;
-  var BPM = 112, STEP = 60 / BPM / 4; // 16th notes
+  var enabled = true;
 
   function ensure() {
     if (!ctx) {
@@ -1422,10 +1421,11 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
     },
     // Cold guesses: a glassy, icy shimmer coming down.
     freeze: function (t) { [N.C6 * 2, N.G6, N.E6, N.C6].forEach(function (f, i) { tone(f, t + i * 0.08, 0.3, { type: 'sine', vol: 0.05 }); }); noise(t, 0.5, { freq: 7000, vol: 0.03 }); },
-    // The home-screen fly-in: a rising whoosh, then a big boom and a fanfare chord when the logo lands.
+    // The home-screen fly-in: a big swirling gust of wind as the globe spins in, then a boom and a fanfare when the logo lands.
     intro: function (t) {
-      noise(t, 1.0, { filter: 'bandpass', freq: 300, to: 4000, q: 1.2, vol: 0.16 });
-      tone(110, t, 1.0, { type: 'sawtooth', vol: 0.05, to: 880, cutoff: 2400 });
+      wash(t, 1.15, { freq: 220, peak: 1500, peakAt: 0.55, to: 600, q: 1.4, vol: 0.9, fadeIn: 0.5, fadeOut: 0.5 }); // the gust
+      wash(t + 0.15, 1.0, { freq: 900, peak: 3200, peakAt: 0.6, to: 1800, q: 4, vol: 0.25, fadeIn: 0.45, fadeOut: 0.4 }); // wind whistling past
+      noise(t, 1.0, { filter: 'bandpass', freq: 300, to: 4000, q: 1.2, vol: 0.08 });
       var hit = t + 0.95;
       tone(90, hit, 0.5, { type: 'sine', vol: 0.4, to: 40 });
       noise(hit, 0.6, { freq: 2500, vol: 0.1 });
@@ -1443,68 +1443,186 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
       noise(end, 0.8, { freq: 5000, vol: 0.05 }); // crowd-ish shimmer
     }
   };
+  // Before the player's first tap the browser keeps sound locked; skip effects then so they don't all burst out at that tap.
+  function locked() { var ua = root.navigator && root.navigator.userActivation; return !!ua && !ua.hasBeenActive; }
   function play(name, arg) {
-    if (!enabled || !ensure()) return;
+    if (!enabled || locked() || !ensure()) return;
     try { SFX[name](ctx.currentTime + 0.01, arg); } catch (e) { }
     if (name === 'trophy') duck(1.6);
   }
 
-  // ---------- stadium loop (instrumental, 112 BPM, C–G–Am–F) ----------
-  var CHORDS = [[261.6, 329.6, 392], [246.9, 293.7, 392], [220, 261.6, 329.6], [220, 261.6, 349.2]]; // C, G/B, Am, F/A
-  var ROOTS = [65.4, 98, 110, 87.3]; // C2 G2 A2 F2
-  var LEAD = [N.E5, 0, N.G5, 0, N.A5, N.G5, 0, N.E5, N.D5, 0, N.C5, 0, N.D5, N.E5, 0, 0];
+  // ---------- music: three tracks that crossfade (all original, all synthesized) ----------
+  //   wind   — the welcome screen: soft gusts of wind while the globe spins
+  //   home   — home screen and every non-sports feed: a light, happy marimba-and-bells tune (quiet on purpose)
+  //   sports — Sports: game day! stadium organ, a crowd bed, "HEY!" shouts, "let's go" clap chants, crowd-roar build-ups
+  function midi(n) { return 440 * Math.pow(2, (n - 69) / 12); }
+  // A long, held noise (crowd, wind): fades in, holds, fades out, through a filter that can sweep.
+  function wash(t, dur, opts) {
+    noise(t, 0.001, { vol: 0.0001, bus: opts.bus }); // makes sure the noise buffer exists
+    var s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    s.buffer = noiseBuf; s.loop = true;
+    f.type = opts.filter || 'bandpass'; f.Q.value = opts.q || 0.5;
+    f.frequency.setValueAtTime(opts.freq, t);
+    if (opts.peak) f.frequency.exponentialRampToValueAtTime(opts.peak, t + dur * (opts.peakAt || 0.5));
+    if (opts.to) f.frequency.exponentialRampToValueAtTime(opts.to, t + dur);
+    var fadeIn = opts.fadeIn || dur * 0.4, fadeOut = opts.fadeOut || dur * 0.5;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(opts.vol, t + fadeIn);
+    g.gain.setValueAtTime(opts.vol, t + dur - fadeOut);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    s.connect(f); f.connect(g); g.connect(opts.bus || sfxBus);
+    s.start(t, Math.random() * 0.8); s.stop(t + dur + 0.05);
+  }
+  function kick(t, vol, bus) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(45, t + 0.12);
+    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.25);
+    o.connect(g); g.connect(bus); o.start(t); o.stop(t + 0.3);
+  }
+  // A marimba-ish pluck: a warm tone plus a quick bright "tock" on top.
+  function mallet(n, t, vol, bus) {
+    tone(midi(n), t, 0.45, { type: 'sine', vol: vol, attack: 0.004, bus: bus });
+    tone(midi(n) * 4, t, 0.07, { type: 'sine', vol: vol * 0.25, attack: 0.002, bus: bus });
+  }
+  // A stadium organ note: two slightly detuned buzzy voices with a little wobble.
+  function organ(n, t, dur, vol, bus) {
+    [0.997, 1.003].forEach(function (k) {
+      var o = ctx.createOscillator(), g = ctx.createGain(), f = ctx.createBiquadFilter(), lfo = ctx.createOscillator(), lg = ctx.createGain();
+      o.type = 'square'; o.frequency.setValueAtTime(midi(n) * k, t);
+      lfo.frequency.value = 6; lg.gain.value = midi(n) * 0.006; lfo.connect(lg); lg.connect(o.frequency);
+      f.type = 'lowpass'; f.frequency.value = 2800;
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.01);
+      g.gain.setValueAtTime(vol, t + dur * 0.8); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(f); f.connect(g); g.connect(bus); o.start(t); lfo.start(t); o.stop(t + dur + 0.05); lfo.stop(t + dur + 0.05);
+    });
+  }
+  // A crowd clap: several hands a hair apart.
+  function crowdClap(t, vol, bus) {
+    for (var k = 0; k < 4; k++) noise(t + Math.random() * 0.018, 0.12, { filter: 'bandpass', freq: 1300 + k * 350, q: 0.9, vol: vol, bus: bus });
+  }
+  // A crowd "HEY!": a short, voice-like burst (two vowel bands) with a low punch.
+  function hey(t, bus) {
+    noise(t, 0.22, { filter: 'bandpass', freq: 750, q: 3, vol: 0.5, bus: bus });
+    noise(t, 0.2, { filter: 'bandpass', freq: 1800, q: 4, vol: 0.3, bus: bus });
+    tone(180, t, 0.18, { type: 'sawtooth', vol: 0.06, cutoff: 900, to: 150, bus: bus });
+  }
 
-  function scheduleStep(s, t) {
-    var bar = Math.floor(s / 16) % 4, i = s % 16, mb = musicBus;
-    if (i === 0 || i === 8 || i === 10) { // kick
-      var o = ctx.createOscillator(), g = ctx.createGain();
-      o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(42, t + 0.12);
-      g.gain.setValueAtTime(0.7, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.25);
-      o.connect(g); g.connect(mb); o.start(t); o.stop(t + 0.3);
-    }
-    if (i === 4 || i === 12) { noise(t, 0.14, { filter: 'bandpass', freq: 1600, q: 0.6, vol: 0.32, bus: mb }); } // clap
-    if (i % 2 === 1) noise(t, 0.035, { freq: 8000, vol: 0.07, bus: mb }); // hats
-    if (i % 2 === 0) tone(ROOTS[bar] * (i === 6 || i === 14 ? 2 : 1), t, STEP * 1.7, { type: 'sawtooth', vol: 0.14, cutoff: 520, bus: mb });
-    if (i === 2 || i === 6 || i === 10 || i === 14) {
-      CHORDS[bar].forEach(function (f) { tone(f, t, STEP * 1.4, { type: 'triangle', vol: 0.05, bus: mb }); });
-    }
-    if ((Math.floor(s / 16) % 8) >= 4 && LEAD[i]) { // stadium-organ hook every other phrase
-      tone(LEAD[i], t, STEP * 1.6, { type: 'square', vol: 0.045, cutoff: 2600, bus: mb });
-    }
-  }
-  function tick() {
-    while (nextTime < ctx.currentTime + 0.12) { scheduleStep(step, nextTime); step++; nextTime += STEP; }
-  }
-  function setMusic(on) {
-    if (on === musicOn) return;
-    musicOn = on;
-    if (!ensure()) return;
+  // Home: C – Am – F – G. Melody phrases rest, play A, play B, play A, so it never feels like a loop on repeat.
+  var HOME_CHORDS = [[60, 64, 67], [57, 60, 64], [53, 57, 60], [55, 59, 62]];
+  var HOME_ARP = [0, 1, 2, 1, 2, 1, 0, 1];
+  var HOME_A = [[76, 0, 79, 0, 81, 79, 76, 0], [72, 0, 76, 0, 74, 72, 69, 0], [69, 72, 77, 0, 76, 0, 72, 0], [74, 0, 71, 74, 79, 0, 0, 0]];
+  var HOME_B = [[79, 0, 76, 79, 84, 0, 79, 0], [81, 0, 76, 0, 72, 0, 76, 0], [77, 76, 74, 72, 69, 0, 72, 0], [74, 76, 74, 71, 67, 0, 0, 0]];
+  // Sports: C – C – F – G, with a stadium-organ call, chants and a big build every fourth phrase.
+  var SP_ROOTS = [36, 36, 41, 43];
+  var SP_STAB = [[60, 64, 67], [60, 64, 67], [60, 65, 69], [59, 62, 67]];
+  var SP_RIFF = [
+    [67, 0, 72, 0, 76, 0, 79, 0, 0, 0, 76, 0, 79, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [77, 0, 77, 0, 76, 0, 74, 0, 72, 0, 0, 0, 74, 0, 76, 0],
+    [79, 0, 0, 0, 79, 0, 0, 0, 81, 0, 79, 0, 83, 0, 0, 0]
+  ];
+  var TRACKS = {
+    wind: { bpm: 60, vol: 0.9, step: function (s, t, bus) {
+      if (s % 8 === 0) wash(t, 7, { freq: 280, peak: 650 + Math.random() * 500, to: 260, q: 0.9, vol: 0.12, bus: bus }); // the steady breeze
+      if (s % 16 === 6 && Math.random() < 0.8) wash(t, 2.4 + Math.random() * 1.6, { freq: 400, peak: 1300 + Math.random() * 900, to: 350, q: 1.6, vol: 0.09, peakAt: 0.4, bus: bus }); // a gust
+      if (s % 32 === 20) tone(midi(84 + [0, 3, 7][Math.floor(Math.random() * 3)]), t, 3, { type: 'sine', vol: 0.012, attack: 1.2, bus: bus }); // a faint whistle on the wind
+    } },
+    home: { bpm: 100, vol: 0.45, step: function (s, t, bus) {
+      var bar = Math.floor(s / 16), i = s % 16, ch = HOME_CHORDS[bar % 4], phrase = Math.floor(bar / 4) % 4;
+      if (i === 0 || i === 8) kick(t, 0.28, bus);
+      if (i === 4 || i === 12) noise(t, 0.05, { filter: 'bandpass', freq: 2600, q: 1.2, vol: 0.12, bus: bus }); // a soft snap
+      if (i % 2 === 0) noise(t, 0.04, { freq: 7500, vol: i % 4 === 2 ? 0.05 : 0.025, bus: bus }); // shaker
+      if (i === 0 || i === 6 || i === 10) tone(midi(ch[i === 10 ? 2 : 0] - 12), t, 0.4, { type: 'triangle', vol: 0.22, bus: bus }); // bass
+      if (i % 2 === 0) mallet(ch[HOME_ARP[i / 2]] + (i === 8 ? 12 : 0), t, i === 0 ? 0.09 : 0.06, bus); // marimba
+      var mel = phrase === 1 || phrase === 3 ? HOME_A : phrase === 2 ? HOME_B : null;
+      if (mel && i % 2 === 0 && mel[bar % 4][i / 2]) {
+        var n = mel[bar % 4][i / 2];
+        tone(midi(n + 12), t, 0.6, { type: 'sine', vol: 0.045, attack: 0.003, bus: bus }); // bells
+        tone(midi(n), t, 0.35, { type: 'triangle', vol: 0.04, bus: bus });
+      }
+    } },
+    sports: { bpm: 126, vol: 0.32, step: function (s, t, bus) {
+      var bar = Math.floor(s / 16), i = s % 16, b4 = bar % 4, phrase = Math.floor(bar / 4) % 4;
+      var build = phrase === 3; // every fourth phrase builds up to a big crowd roar
+      if (i === 0) wash(t, 60 / 126 * 4 + 0.3, { freq: 900, q: 0.4, vol: build ? 0.05 : 0.035, fadeIn: 0.15, fadeOut: 0.15, bus: bus }); // crowd bed
+      if (i % 4 === 0 && !(build && b4 === 3)) kick(t, 0.75, bus);
+      if (i % 2 === 1) noise(t, 0.035, { freq: 8000, vol: 0.06, bus: bus }); // hats
+      if ((i === 4 || i === 12) && !(build && b4 === 3)) crowdClap(t, 0.16, bus);
+      if (i % 2 === 0) tone(midi(SP_ROOTS[b4] + (i % 8 === 6 ? 12 : 0)), t, 60 / 126 / 2 * 0.9, { type: 'sawtooth', vol: 0.14, cutoff: 600, bus: bus }); // driving bass
+      if (phrase === 0 || phrase === 2) { // organ call
+        var n = SP_RIFF[b4][i];
+        if (n) organ(n, t, 60 / 126 / 4 * 1.8, 0.035, bus);
+        if (b4 === 1 && i === 4) hey(t, bus);
+        if (b4 === 1 && i === 12) hey(t, bus);
+      }
+      if (phrase === 1) { // the crowd chants: clap, clap, clap-clap-clap … HEY!
+        if (b4 % 2 === 0 && (i === 0 || i === 4 || i === 8 || i === 10 || i === 12)) crowdClap(t, 0.24, bus);
+        if (b4 % 2 === 1 && i === 0) hey(t, bus);
+        if (i === 2 || i === 10) SP_STAB[b4].forEach(function (m) { tone(midi(m), t, 0.14, { type: 'sawtooth', vol: 0.03, cutoff: 2200, bus: bus }); }); // brass stabs
+      }
+      if (phrase === 2 && (i === 2 || i === 10)) SP_STAB[b4].forEach(function (m) { tone(midi(m), t, 0.14, { type: 'sawtooth', vol: 0.025, cutoff: 2200, bus: bus }); });
+      if (build) {
+        if (b4 === 0 && i === 0) wash(t, 60 / 126 * 16, { freq: 500, peak: 1600, peakAt: 0.95, to: 1400, q: 0.5, vol: 0.12, fadeIn: 60 / 126 * 14, fadeOut: 0.4, bus: bus }); // the roar rises
+        if (b4 === 2 && i % 4 === 0) organ(67 + i / 2, t, 0.2, 0.03, bus); // organ climbs
+        if (b4 === 3) { // snare roll that speeds up, then the crowd shouts
+          if (i < 8 ? i % 2 === 0 : true) noise(t, 0.06, { filter: 'bandpass', freq: 2000, q: 0.7, vol: 0.05 + i * 0.012, bus: bus });
+          if (i === 14) hey(t, bus);
+        }
+      }
+    } }
+  };
+
+  var current = null; // { name, bus, timer, step, next, stepLen }
+  function stopTrack(tr, fade) {
+    if (!tr) return;
+    clearInterval(tr.timer);
     var now = ctx.currentTime;
-    musicBus.gain.cancelScheduledValues(now);
-    musicBus.gain.setValueAtTime(musicBus.gain.value, now);
-    if (on) {
-      musicBus.gain.linearRampToValueAtTime(0.32, now + 0.8);
-      if (!timer) { step = 0; nextTime = now + 0.05; timer = setInterval(tick, 25); }
-    } else {
-      musicBus.gain.linearRampToValueAtTime(0, now + 0.4);
-      setTimeout(function () { if (!musicOn && timer) { clearInterval(timer); timer = null; } }, 450);
-    }
+    tr.bus.gain.cancelScheduledValues(now);
+    tr.bus.gain.setValueAtTime(tr.bus.gain.value, now);
+    tr.bus.gain.linearRampToValueAtTime(0, now + fade);
+    setTimeout(function () { try { tr.bus.disconnect(); } catch (e) { } }, fade * 1000 + 600);
+  }
+  // setMusic('home' | 'sports' | 'wind'), or false for silence. Switching tracks crossfades. (true = 'sports', the old meaning.)
+  function setMusic(name) {
+    if (name === true) name = 'sports';
+    if (!name || !TRACKS[name]) name = null;
+    if ((current && current.name) === name) return;
+    if (!ensure()) return;
+    stopTrack(current, name ? 0.8 : 0.5);
+    current = null;
+    if (!name) return;
+    var def = TRACKS[name], now = ctx.currentTime, bus = ctx.createGain();
+    bus.gain.setValueAtTime(0, now); bus.gain.linearRampToValueAtTime(def.vol, now + 1.2);
+    bus.connect(master);
+    var tr = current = { name: name, bus: bus, step: 0, next: now + 0.08, stepLen: 60 / def.bpm / 4 };
+    tr.timer = setInterval(function () {
+      while (tr.next < ctx.currentTime + 0.15) {
+        try { def.step(tr.step, tr.next, bus); } catch (e) { }
+        tr.step++; tr.next += tr.stepLen;
+      }
+    }, 25);
   }
   function duck(secs) {
-    if (!ctx || !musicOn) return;
-    var now = ctx.currentTime;
-    musicBus.gain.cancelScheduledValues(now);
-    musicBus.gain.setValueAtTime(0.08, now);
-    musicBus.gain.linearRampToValueAtTime(0.32, now + secs);
+    if (!ctx || !current) return;
+    var now = ctx.currentTime, g = current.bus.gain, v = TRACKS[current.name].vol;
+    g.cancelScheduledValues(now);
+    g.setValueAtTime(v * 0.25, now);
+    g.linearRampToValueAtTime(v, now + secs);
   }
   function setEnabled(on) {
     enabled = on;
     if (ctx) master.gain.setTargetAtTime(on ? 0.9 : 0, ctx.currentTime, 0.05);
   }
+  // Pause all sound while the app is in the background (another tab, phone locked), pick it back up on return.
+  if (root.document) root.document.addEventListener('visibilitychange', function () {
+    if (!ctx) return;
+    if (root.document.hidden) ctx.suspend(); else if (enabled) ctx.resume();
+  });
 
   root.WSSound = {
     play: play, setMusic: setMusic, setEnabled: setEnabled,
-    isEnabled: function () { return enabled; }, unlock: ensure
+    isEnabled: function () { return enabled; }, unlock: ensure,
+    music: function () { return current ? current.name : null; }, tracks: Object.keys(TRACKS)
   };
 })(this);
 </script>
@@ -1518,6 +1636,8 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 // asks for reduced motion (an accessibility setting) every effect here is skipped.
 (function (root) {
   var calm = root.matchMedia && root.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // The sound module (sound.js) lives on window.WSSound; looked up at play time so load order never matters.
+  var Sound = { play: function (name, arg) { if (root.WSSound) root.WSSound.play(name, arg); } };
   var land = null;
   function getLand() { return land || (land = topojson.feature(root.WS_WORLD, root.WS_WORLD.objects.land)); }
   // Level of detail: a small globe doesn't need all 60,000 coastline points (drawing them every frame made the
@@ -2249,6 +2369,9 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
   })();
   Sound.setEnabled(store.sound);
   document.addEventListener('pointerdown', function () { if (store.sound) Sound.unlock(); }, { once: true });
+  // Background music: 'wind' (welcome), 'home' (home + categories), 'sports' (Sports). Remembered so un-muting brings back the right one.
+  var musicNow = null;
+  function music(name) { musicNow = name; Sound.setMusic(store.sound ? name : false); }
   function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch (e) { } }
   function shownStreak() {
     if (!store.lastDay) return 0;
@@ -2778,7 +2901,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
     store.sound = !store.sound; save();
     Sound.setEnabled(store.sound);
     if (store.sound) { Sound.unlock(); Sound.play('tap'); }
-    Sound.setMusic(store.sound && isSportsLook());
+    Sound.setMusic(store.sound ? musicNow : false); // back on: the music for the screen you're on
     app.querySelectorAll('.sound-btn').forEach(function (b) {
       b.setAttribute('aria-pressed', store.sound);
       b.innerHTML = store.sound ? ICON.soundOn : ICON.soundOff;
@@ -2982,7 +3105,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
 
   // --- Welcome screen (first open, or tap the logo) ---
   function showIntro() {
-    Sound.setMusic(false);
+    music('wind'); // soft wind while the welcome globe spins
     // Each letter of the big wordmark bounces in a wave (see .wave-letter in app.html).
     var letters = function (word, from) {
       return word.split('').map(function (ch, i) { return '<i class="wave-letter" style="--i:' + (from + i) + '">' + ch + '</i>'; }).join('');
@@ -3209,7 +3332,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
   function showPicker(opts) {
     var flyIn = !!(opts && opts.flyIn);
     feed = null; card = null;
-    Sound.setMusic(false);
+    music(flyIn ? false : 'home'); // after the fly-in (its own gust and fanfare), the home tune fades in
     var count = function (cat) { return QUESTIONS.filter(function (q) { return q.category === cat; }).length; };
     var tiles = DATA.categories.filter(function (c) { return c.id !== 'sports'; }).map(function (c, i) {
       var n = count(c.id), got = stampCount(c.id);
@@ -3256,7 +3379,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
     if (flyIn) {
       var scr = app.querySelector('.screen.picker');
       scr.classList.add('arriving'); // hidden under the fly-in, then everything bounces in
-      FX.flyIn(app, function () { scr.classList.remove('arriving'); scr.classList.add('arrived'); maybeShowTip(); });
+      FX.flyIn(app, function () { scr.classList.remove('arriving'); scr.classList.add('arrived'); if (scr.isConnected) music('home'); maybeShowTip(); });
     } else maybeShowTip();
   }
 
@@ -3340,7 +3463,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
     wireChrome();
     if (sports) renderMeter();
     if (sportsDaily || daily) renderDailyRow();
-    Sound.setMusic((sports || sportsDaily) && store.sound);
+    music(sports || sportsDaily ? 'sports' : 'home'); // game-day music in Sports, the light tune everywhere else
     app.querySelectorAll('.tab').forEach(function (b) {
       b.onclick = function () { startFeed({ kind: 'sports', region: b.getAttribute('data-region'), sport: 0 }); };
     });
@@ -3830,7 +3953,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
     document.getElementById('back').onclick = document.getElementById('done').onclick = function () { startFeed({ kind: 'sports', region: 'usa', sport: 0 }); };
     wireShareBox('Daily Sports 10', dateLabel, G.sportsTitle(hits), res, shareText);
     wireChrome();
-    Sound.setMusic(false);
+    music('sports'); // the game-day music keeps going on the results
     if (justFinished) {
       dingSquares(picks);
       Sound.play('trophy', hits >= 8 ? 'gold' : hits >= 5 ? 'silver' : 'bronze');
@@ -3856,7 +3979,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
         '<span class="row-pts">' + (r.skipped ? '0' : '+' + fmt(r.points)) + '</span></li>';
     }).join('');
     feed = null; card = null;
-    Sound.setMusic(false);
+    music('home');
     if (justFinished) Sound.play('trophy', hits >= 8 ? 'gold' : hits >= 5 ? 'silver' : 'bronze');
     app.innerHTML =
       '<div class="screen results">' +

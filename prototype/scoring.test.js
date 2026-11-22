@@ -1013,3 +1013,49 @@ test('every answer teaches where it is: the result starts at your zoom, then fli
   assert.ok(map.includes("side = btns.offsetWidth + 12"), 'framed beside the zoom buttons, never under them');
   assert.ok(app.includes('map.reveal(q);') && app.includes('c.map.reveal(c.q,'), 'the Paris welcome card and every game card share this reveal');
 });
+
+test('music: wind on the welcome screen, a light tune on home and the categories, game-day music in Sports', () => {
+  const fs = require('fs'), path = require('path'), vm = require('vm');
+  const src = fs.readFileSync(path.join(__dirname, 'src/sound.js'), 'utf8');
+  const app = fs.readFileSync(path.join(__dirname, 'src/app.js'), 'utf8');
+  // A pretend Web Audio system: it records every sound started and every bad value (a real browser would drop those silently).
+  const errors = [], started = { count: 0 };
+  let now = 0, intervals = [];
+  const param = (v) => ({ value: v,
+    setValueAtTime(x) { if (!Number.isFinite(x)) errors.push('setValueAtTime ' + x); },
+    linearRampToValueAtTime(x, t) { if (!Number.isFinite(x) || !Number.isFinite(t)) errors.push('linear ' + x); },
+    exponentialRampToValueAtTime(x, t) { if (!(x > 0) || !Number.isFinite(t)) errors.push('exp ramp to ' + x); },
+    cancelScheduledValues() {}, setTargetAtTime() {} });
+  const node = () => ({ connect() {}, disconnect() {}, start(t) { if (!Number.isFinite(t)) errors.push('start ' + t); started.count++; }, stop() {},
+    frequency: param(440), gain: param(1), Q: param(1), type: '', buffer: null, loop: false });
+  class FakeCtx { constructor() { this.state = 'running'; this.sampleRate = 8000; this.destination = node(); }
+    get currentTime() { return now; } resume() {} suspend() {}
+    createGain() { return node(); } createOscillator() { return node(); } createBiquadFilter() { return node(); } createBufferSource() { return node(); }
+    createBuffer(c, n) { return { getChannelData: () => new Float32Array(n) }; } }
+  const sandbox = { AudioContext: FakeCtx, navigator: { userActivation: { hasBeenActive: true } }, document: { addEventListener() {}, hidden: false },
+    setInterval: (f) => { intervals.push(f); return intervals.length; }, clearInterval: (id) => { intervals[id - 1] = null; }, setTimeout() {}, Math };
+  vm.runInNewContext(src, sandbox);
+  const S = sandbox.WSSound;
+  assert.deepStrictEqual([...S.tracks].sort(), ['home', 'sports', 'wind']);
+  for (const name of ['wind', 'home', 'sports']) {
+    S.setMusic(name);
+    assert.strictEqual(S.music(), name, name + ' is playing');
+    const before = started.count;
+    for (let k = 0; k < 2400; k++) { now += 0.025; intervals.forEach(f => f && f()); } // one minute of music
+    assert.ok(started.count - before > (name === 'wind' ? 20 : 500), name + ' keeps playing for a whole minute (' + (started.count - before) + ' sounds)');
+  }
+  S.setMusic(true); assert.strictEqual(S.music(), 'sports', 'the old on-switch still means Sports');
+  S.setMusic(false); assert.strictEqual(S.music(), null, 'off means silence');
+  for (const fx of ['intro', 'slam', 'trophy', 'boing']) S.play(fx, 'gold');
+  assert.deepStrictEqual(errors, [], 'no bad values in any track or effect');
+  // Which screen plays what
+  assert.ok(app.includes("music('wind'); // soft wind while the welcome globe spins"), 'welcome: wind');
+  assert.ok(app.includes("music(flyIn ? false : 'home')") && app.includes("if (scr.isConnected) music('home');"), 'home: the tune fades in after the fly-in');
+  assert.ok(app.includes("music(sports || sportsDaily ? 'sports' : 'home');"), 'Sports: game-day music; categories: the home tune');
+  assert.ok(app.includes('Sound.setMusic(store.sound ? musicNow : false);'), 'un-muting brings back the right music');
+  assert.ok(src.includes("wash(t, 1.15, { freq: 220, peak: 1500"), 'the fly-in opens with a gust of wind');
+  const fxSrc = fs.readFileSync(path.join(__dirname, 'src/fx.js'), 'utf8');
+  assert.ok(fxSrc.includes('var Sound = { play: function (name, arg) { if (root.WSSound) root.WSSound.play(name, arg); } };'), 'fx.js can reach the sound module (its effects were silent before)');
+  assert.ok(src.includes("if (!enabled || locked() || !ensure()) return;"), 'effects wait for the first tap instead of bursting out all at once');
+  assert.ok(src.includes("if (root.document.hidden) ctx.suspend();"), 'music pauses when the app is in the background');
+});

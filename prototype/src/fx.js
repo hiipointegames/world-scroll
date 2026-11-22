@@ -8,6 +8,8 @@
 // asks for reduced motion (an accessibility setting) every effect here is skipped.
 (function (root) {
   var calm = root.matchMedia && root.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // The sound module (sound.js) lives on window.WSSound; looked up at play time so load order never matters.
+  var Sound = { play: function (name, arg) { if (root.WSSound) root.WSSound.play(name, arg); } };
   var land = null;
   function getLand() { return land || (land = topojson.feature(root.WS_WORLD, root.WS_WORLD.objects.land)); }
   // Level of detail: a small globe doesn't need all 60,000 coastline points (drawing them every frame made the

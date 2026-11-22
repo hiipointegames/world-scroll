@@ -130,6 +130,9 @@
   })();
   Sound.setEnabled(store.sound);
   document.addEventListener('pointerdown', function () { if (store.sound) Sound.unlock(); }, { once: true });
+  // Background music: 'wind' (welcome), 'home' (home + categories), 'sports' (Sports). Remembered so un-muting brings back the right one.
+  var musicNow = null;
+  function music(name) { musicNow = name; Sound.setMusic(store.sound ? name : false); }
   function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch (e) { } }
   function shownStreak() {
     if (!store.lastDay) return 0;
@@ -659,7 +662,7 @@
     store.sound = !store.sound; save();
     Sound.setEnabled(store.sound);
     if (store.sound) { Sound.unlock(); Sound.play('tap'); }
-    Sound.setMusic(store.sound && isSportsLook());
+    Sound.setMusic(store.sound ? musicNow : false); // back on: the music for the screen you're on
     app.querySelectorAll('.sound-btn').forEach(function (b) {
       b.setAttribute('aria-pressed', store.sound);
       b.innerHTML = store.sound ? ICON.soundOn : ICON.soundOff;
@@ -863,7 +866,7 @@
 
   // --- Welcome screen (first open, or tap the logo) ---
   function showIntro() {
-    Sound.setMusic(false);
+    music('wind'); // soft wind while the welcome globe spins
     // Each letter of the big wordmark bounces in a wave (see .wave-letter in app.html).
     var letters = function (word, from) {
       return word.split('').map(function (ch, i) { return '<i class="wave-letter" style="--i:' + (from + i) + '">' + ch + '</i>'; }).join('');
@@ -1090,7 +1093,7 @@
   function showPicker(opts) {
     var flyIn = !!(opts && opts.flyIn);
     feed = null; card = null;
-    Sound.setMusic(false);
+    music(flyIn ? false : 'home'); // after the fly-in (its own gust and fanfare), the home tune fades in
     var count = function (cat) { return QUESTIONS.filter(function (q) { return q.category === cat; }).length; };
     var tiles = DATA.categories.filter(function (c) { return c.id !== 'sports'; }).map(function (c, i) {
       var n = count(c.id), got = stampCount(c.id);
@@ -1137,7 +1140,7 @@
     if (flyIn) {
       var scr = app.querySelector('.screen.picker');
       scr.classList.add('arriving'); // hidden under the fly-in, then everything bounces in
-      FX.flyIn(app, function () { scr.classList.remove('arriving'); scr.classList.add('arrived'); maybeShowTip(); });
+      FX.flyIn(app, function () { scr.classList.remove('arriving'); scr.classList.add('arrived'); if (scr.isConnected) music('home'); maybeShowTip(); });
     } else maybeShowTip();
   }
 
@@ -1221,7 +1224,7 @@
     wireChrome();
     if (sports) renderMeter();
     if (sportsDaily || daily) renderDailyRow();
-    Sound.setMusic((sports || sportsDaily) && store.sound);
+    music(sports || sportsDaily ? 'sports' : 'home'); // game-day music in Sports, the light tune everywhere else
     app.querySelectorAll('.tab').forEach(function (b) {
       b.onclick = function () { startFeed({ kind: 'sports', region: b.getAttribute('data-region'), sport: 0 }); };
     });
@@ -1711,7 +1714,7 @@
     document.getElementById('back').onclick = document.getElementById('done').onclick = function () { startFeed({ kind: 'sports', region: 'usa', sport: 0 }); };
     wireShareBox('Daily Sports 10', dateLabel, G.sportsTitle(hits), res, shareText);
     wireChrome();
-    Sound.setMusic(false);
+    music('sports'); // the game-day music keeps going on the results
     if (justFinished) {
       dingSquares(picks);
       Sound.play('trophy', hits >= 8 ? 'gold' : hits >= 5 ? 'silver' : 'bronze');
@@ -1737,7 +1740,7 @@
         '<span class="row-pts">' + (r.skipped ? '0' : '+' + fmt(r.points)) + '</span></li>';
     }).join('');
     feed = null; card = null;
-    Sound.setMusic(false);
+    music('home');
     if (justFinished) Sound.play('trophy', hits >= 8 ? 'gold' : hits >= 5 ? 'silver' : 'bronze');
     app.innerHTML =
       '<div class="screen results">' +
