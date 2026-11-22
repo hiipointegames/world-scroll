@@ -85,6 +85,14 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .tagline { font-size: 10.5px; font-weight: 500; color: var(--muted); letter-spacing: .3px; white-space: nowrap; }
 
 /* Welcome screen */
+/* Opening tap screen: the globe, the wordmark, one glowing button (the tap lets sound play) */
+.screen.gate { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 24px 24px 40px; text-align: center; cursor: pointer;
+  background: radial-gradient(ellipse 90% 55% at 50% 30%, rgba(46, 111, 142, .4), transparent 70%); }
+.gate-globe { width: 100%; height: min(46vh, 340px); display: grid; place-items: center; }
+.gate-brand { display: flex; flex-direction: column; align-items: center; gap: 8px; animation: fade-up .6s cubic-bezier(.2, .8, .2, 1) both; }
+.gate-brand .wordmark.big { font-size: 34px; }
+.gate-tag { margin: 0; color: var(--muted); font-size: 15px; }
+.gate-go { min-width: 230px; animation: heartbeat 1.3s ease-in-out infinite; box-shadow: 0 0 0 4px rgba(255, 181, 71, .3), 0 0 34px rgba(255, 181, 71, .55); }
 .screen.intro { background: radial-gradient(ellipse 90% 50% at 50% 0%, rgba(46, 111, 142, .35), transparent 70%); }
 .intro-brand > *, .intro-steps li { animation: fade-up .6s cubic-bezier(.2, .8, .2, 1) both; }
 .intro-brand > :nth-child(2) { animation-delay: .08s; } .intro-brand > :nth-child(3) { animation-delay: .16s; }
@@ -986,7 +994,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 @media (max-height: 620px) { .try-panel.hint { display: none; } .try-map { height: 118px; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .vs-emoji, .mini-toast, .rank-badge.rank-up, .pc-pair .pc-rank, .passport-card, .daily-hero, #go-daily.daily-hero, .share-nudge, .stamp-pop .stamp.big, .intro-try, .intro-foot .btn.big.glow { animation: none !important; }
+  .vs-emoji, .mini-toast, .rank-badge.rank-up, .pc-pair .pc-rank, .passport-card, .daily-hero, #go-daily.daily-hero, .share-nudge, .stamp-pop .stamp.big, .intro-try, .gate-go, .intro-foot .btn.big.glow { animation: none !important; }
   .daily-hero::after, .tile::after { display: none; }
   .pp-page[open] .stamps, .pp-page[open] .pp-empty { animation: none !important; }
   .pp-caret { transition: none; }

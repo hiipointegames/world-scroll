@@ -1031,7 +1031,8 @@ test('music: wind on the welcome screen, a light tune on home and the categories
   class FakeCtx { constructor() { this.state = 'running'; this.sampleRate = 8000; this.destination = node(); }
     get currentTime() { return now; } resume() {} suspend() {}
     createGain() { return node(); } createOscillator() { return node(); } createBiquadFilter() { return node(); } createBufferSource() { return node(); }
-    createBuffer(c, n) { return { getChannelData: () => new Float32Array(n) }; } }
+    createBuffer(c, n) { return { getChannelData: () => new Float32Array(n) }; }
+    createConvolver() { return node(); } createStereoPanner() { const n = node(); n.pan = param(0); return n; } }
   const sandbox = { AudioContext: FakeCtx, navigator: { userActivation: { hasBeenActive: true } }, document: { addEventListener() {}, hidden: false },
     setInterval: (f) => { intervals.push(f); return intervals.length; }, clearInterval: (id) => { intervals[id - 1] = null; }, setTimeout() {}, Math };
   vm.runInNewContext(src, sandbox);
@@ -1058,4 +1059,12 @@ test('music: wind on the welcome screen, a light tune on home and the categories
   assert.ok(fxSrc.includes('var Sound = { play: function (name, arg) { if (root.WSSound) root.WSSound.play(name, arg); } };'), 'fx.js can reach the sound module (its effects were silent before)');
   assert.ok(src.includes("if (!enabled || locked() || !ensure()) return;"), 'effects wait for the first tap instead of bursting out all at once');
   assert.ok(src.includes("if (root.document.hidden) ctx.suspend();"), 'music pauses when the app is in the background');
+  // Less cartoony: a documentary-style home theme with a hall echo, and a real-sounding stadium organ.
+  for (const inst of ['function pad(', 'function pluck(', 'function flute(', 'function frameDrum(', 'function organ(']) assert.ok(src.includes(inst), inst + ' instrument exists');
+  assert.ok(!src.includes('function mallet(') && !src.includes("o.type = 'square'; o.frequency.setValueAtTime(midi(n)"), 'no toy marimba or buzzy square-wave organ in the music');
+  assert.ok(src.includes('ctx.createConvolver()') && src.includes('send.connect(reverbIn)'), 'the music plays through a hall echo');
+  // Opening the app: one tap unlocks sound, the gust plays, the music is on when home appears.
+  assert.ok(app.includes("{ if (store.sound) showGate(); else showPicker({ flyIn: true }); }"), 'returning players get the Tap to explore screen (skipped when muted)');
+  assert.ok(app.includes("Sound.unlock();\n      showPicker({ flyIn: true });"), 'that tap unlocks sound and then plays the fly-in');
+  assert.ok(app.includes("setTimeout(function () { if (scr.isConnected) music('home'); }, 1000);"), 'home music starts as the logo lands');
 });

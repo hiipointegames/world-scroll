@@ -895,6 +895,24 @@
     };
     tryCard();
   }
+  // Opening the app (after the first visit): the spinning globe and one big "Tap to explore" button.
+  // Browsers only allow sound after a tap, so this tap is what lets the fly-in whoosh and the music play.
+  function showGate() {
+    app.innerHTML =
+      '<div class="screen gate" id="gate">' +
+      '<div class="gate-globe" aria-hidden="true"></div>' +
+      '<div class="gate-brand"><div class="wordmark big" aria-label="World Scroll">' + GLOBE + 'World<span>Scroll</span></div>' +
+      '<p class="gate-tag">Learn geography by scrolling</p></div>' +
+      '<button class="btn primary big gate-go" id="gate-go">Tap to explore</button>' +
+      '</div>';
+    FX.welcomeGlobe(app.querySelector('.gate-globe'));
+    var gone = false;
+    document.getElementById('gate').addEventListener('click', function () { // a tap anywhere works, not just the button
+      if (gone) return; gone = true;
+      Sound.unlock();
+      showPicker({ flyIn: true });
+    });
+  }
   // The welcome screen's practice card: Paris on the Europe map. It scores for real.
   function tryCard() {
     var q = QUESTIONS.filter(function (x) { return x.category === 'capitals' && x.prompt === 'Where is Paris?'; })[0];
@@ -1140,6 +1158,7 @@
     if (flyIn) {
       var scr = app.querySelector('.screen.picker');
       scr.classList.add('arriving'); // hidden under the fly-in, then everything bounces in
+      setTimeout(function () { if (scr.isConnected) music('home'); }, 1000); // the music starts as the logo lands, so it's playing when home appears
       FX.flyIn(app, function () { scr.classList.remove('arriving'); scr.classList.add('arrived'); if (scr.isConnected) music('home'); maybeShowTip(); });
     } else maybeShowTip();
   }
@@ -1781,5 +1800,5 @@
     store.seenIntro = true; save(); // playing the challenge teaches the game
     startFeed({ kind: 'challenge', id: beat.id, friend: beat.guess });
     FX.slam(app, '🎯', 'BEAT MY PIN!');
-  } else if (store.seenIntro) showPicker({ flyIn: true }); else showIntro();
+  } else if (store.seenIntro) { if (store.sound) showGate(); else showPicker({ flyIn: true }); } else showIntro();
 })();

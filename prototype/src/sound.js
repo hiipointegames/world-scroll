@@ -2,7 +2,7 @@
 // Sound effects play everywhere. Music: wind on the welcome screen, a light tune on home and the categories, game-day music in Sports.
 // Browsers only allow audio after the player taps something, so the first tap unlocks it.
 (function (root) {
-  var ctx = null, master, sfxBus, musicBus;
+  var ctx = null, master, sfxBus, reverbIn;
   var enabled = true;
 
   function ensure() {
@@ -12,7 +12,13 @@
       ctx = new AC();
       master = ctx.createGain(); master.gain.value = enabled ? 0.9 : 0; master.connect(ctx.destination);
       sfxBus = ctx.createGain(); sfxBus.gain.value = 0.55; sfxBus.connect(master);
-      musicBus = ctx.createGain(); musicBus.gain.value = 0; musicBus.connect(master);
+      // A hall echo (reverb) the music sends into: it's what makes synthesized instruments sound like a real room.
+      reverbIn = ctx.createGain();
+      if (ctx.createConvolver) {
+        var conv = ctx.createConvolver(), len = Math.floor(ctx.sampleRate * 2.6), ir = ctx.createBuffer(2, len, ctx.sampleRate);
+        for (var ch = 0; ch < 2; ch++) { var d = ir.getChannelData(ch); for (var i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3.2); }
+        conv.buffer = ir; reverbIn.connect(conv); conv.connect(master);
+      }
     }
     if (ctx.state === 'suspended') ctx.resume();
     return ctx;
@@ -142,8 +148,8 @@
 
   // ---------- music: three tracks that crossfade (all original, all synthesized) ----------
   //   wind   — the welcome screen: soft gusts of wind while the globe spins
-  //   home   — home screen and every non-sports feed: a light, happy marimba-and-bells tune (quiet on purpose)
-  //   sports — Sports: game day! stadium organ, a crowd bed, "HEY!" shouts, "let's go" clap chants, crowd-roar build-ups
+  //   home   — home screen and every non-sports feed: "Expedition", a calm documentary-style theme (pads, plucks, hand drums, flute)
+  //   sports — Sports: game day! stadium organ, a crowd bed, cheers, "let's go" clap chants, crowd-roar build-ups
   function midi(n) { return 440 * Math.pow(2, (n - 69) / 12); }
   // A long, held noise (crowd, wind): fades in, holds, fades out, through a filter that can sweep.
   function wash(t, dur, opts) {
@@ -168,39 +174,91 @@
     g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.25);
     o.connect(g); g.connect(bus); o.start(t); o.stop(t + 0.3);
   }
-  // A marimba-ish pluck: a warm tone plus a quick bright "tock" on top.
-  function mallet(n, t, vol, bus) {
-    tone(midi(n), t, 0.45, { type: 'sine', vol: vol, attack: 0.004, bus: bus });
-    tone(midi(n) * 4, t, 0.07, { type: 'sine', vol: vol * 0.25, attack: 0.002, bus: bus });
+  // Sends a sound left or right (a little stereo width makes it sound like a real recording).
+  function out(node, pan, bus) {
+    if (pan && ctx.createStereoPanner) { var p = ctx.createStereoPanner(); p.pan.value = pan; node.connect(p); p.connect(bus); }
+    else node.connect(bus);
   }
-  // A stadium organ note: two slightly detuned buzzy voices with a little wobble.
-  function organ(n, t, dur, vol, bus) {
-    [0.997, 1.003].forEach(function (k) {
-      var o = ctx.createOscillator(), g = ctx.createGain(), f = ctx.createBiquadFilter(), lfo = ctx.createOscillator(), lg = ctx.createGain();
-      o.type = 'square'; o.frequency.setValueAtTime(midi(n) * k, t);
-      lfo.frequency.value = 6; lg.gain.value = midi(n) * 0.006; lfo.connect(lg); lg.connect(o.frequency);
-      f.type = 'lowpass'; f.frequency.value = 2800;
-      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.01);
-      g.gain.setValueAtTime(vol, t + dur * 0.8); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-      o.connect(f); f.connect(g); g.connect(bus); o.start(t); lfo.start(t); o.stop(t + dur + 0.05); lfo.stop(t + dur + 0.05);
+  // A held note with a soft start and end (organ pipes, pads).
+  function held(freq, t, dur, vol, type, dest, attack) {
+    var o = ctx.createOscillator(), g = ctx.createGain(), a = attack || 0.01;
+    o.type = type || 'sine'; o.frequency.setValueAtTime(freq, t);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + a);
+    g.gain.setValueAtTime(vol, t + Math.max(a, dur - 0.08)); g.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.05);
+    o.connect(g); g.connect(dest); o.start(t); o.stop(t + dur + 0.1);
+    return o;
+  }
+  // A warm string-like pad: two slightly detuned voices per note, softened, slowly breathing open.
+  function pad(notes, t, dur, vol, bus) {
+    var f = ctx.createBiquadFilter(), g = ctx.createGain();
+    f.type = 'lowpass'; f.Q.value = 0.6;
+    f.frequency.setValueAtTime(600, t); f.frequency.linearRampToValueAtTime(1300, t + dur * 0.5); f.frequency.linearRampToValueAtTime(700, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.7);
+    g.gain.setValueAtTime(vol, t + dur - 0.6); g.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.3);
+    f.connect(g); g.connect(bus);
+    notes.forEach(function (n, k) {
+      [0.996, 1.004].forEach(function (d, j) {
+        var o = ctx.createOscillator(); o.type = 'sawtooth'; o.frequency.setValueAtTime(midi(n) * d, t);
+        out(o, (k % 2 ? 0.3 : -0.3) * (j ? 1 : -1), f); o.start(t); o.stop(t + dur + 0.4);
+      });
     });
+  }
+  // A soft plucked string (like a muted guitar or a kora): bright at the start, quickly mellowing.
+  function pluck(n, t, vol, pan, bus) {
+    var o = ctx.createOscillator(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    o.type = 'sawtooth'; o.frequency.setValueAtTime(midi(n), t);
+    f.type = 'lowpass'; f.Q.value = 1.5; f.frequency.setValueAtTime(3200, t); f.frequency.exponentialRampToValueAtTime(380, t + 0.22);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.004); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
+    o.connect(f); f.connect(g); out(g, pan, bus); o.start(t); o.stop(t + 0.55);
+  }
+  // A breathy wooden flute: a pure tone, a touch of breath, and vibrato that blooms as the note holds.
+  function flute(n, t, dur, vol, bus) {
+    var fr = midi(n), g = ctx.createGain(), lfo = ctx.createOscillator(), lg = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.09);
+    g.gain.setValueAtTime(vol * 0.85, t + Math.max(0.1, dur - 0.12)); g.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.12);
+    var o = ctx.createOscillator(), o2 = ctx.createOscillator(), g2 = ctx.createGain();
+    o.type = 'sine'; o.frequency.setValueAtTime(fr, t);
+    o2.type = 'triangle'; o2.frequency.setValueAtTime(fr * 2, t); g2.gain.value = 0.12;
+    lfo.frequency.value = 5.2; lg.gain.setValueAtTime(0, t); lg.gain.linearRampToValueAtTime(fr * 0.007, t + Math.min(0.5, dur));
+    lfo.connect(lg); lg.connect(o.frequency); lg.connect(o2.frequency);
+    o.connect(g); o2.connect(g2); g2.connect(g); out(g, 0.1, bus);
+    [o, o2, lfo].forEach(function (x) { x.start(t); x.stop(t + dur + 0.2); });
+    noise(t, Math.min(dur, 0.35), { filter: 'bandpass', freq: fr * 2, q: 6, vol: vol * 0.5, bus: bus }); // breath
+  }
+  // Hand drums: a deep frame drum and a bright slap.
+  function frameDrum(t, vol, bus) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.setValueAtTime(115, t); o.frequency.exponentialRampToValueAtTime(68, t + 0.2);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.004); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.4);
+    o.connect(g); out(g, -0.1, bus); o.start(t); o.stop(t + 0.45);
+    noise(t, 0.05, { filter: 'lowpass', freq: 700, vol: vol * 0.3, bus: bus });
+  }
+  function slap(t, vol, bus) {
+    noise(t, 0.07, { filter: 'bandpass', freq: 1100, q: 1.6, vol: vol, bus: bus });
+    tone(330, t, 0.06, { type: 'sine', vol: vol * 0.4, to: 230, bus: bus });
+  }
+  // A stadium organ: real drawbar-organ harmonics (no buzzy square waves), made big by the hall echo.
+  function organ(n, t, dur, vol, bus) {
+    var fr = midi(n), g = ctx.createGain(); g.gain.value = 1; out(g, 0.15, bus);
+    [[1, 1], [1.004, 0.5], [2, 0.75], [3, 0.45], [4, 0.3], [6, 0.12], [8, 0.08]].forEach(function (h) { held(fr * h[0], t, dur, vol * h[1], 'sine', g, 0.006); });
   }
   // A crowd clap: several hands a hair apart.
   function crowdClap(t, vol, bus) {
     for (var k = 0; k < 4; k++) noise(t + Math.random() * 0.018, 0.12, { filter: 'bandpass', freq: 1300 + k * 350, q: 0.9, vol: vol, bus: bus });
   }
-  // A crowd "HEY!": a short, voice-like burst (two vowel bands) with a low punch.
-  function hey(t, bus) {
-    noise(t, 0.22, { filter: 'bandpass', freq: 750, q: 3, vol: 0.5, bus: bus });
-    noise(t, 0.2, { filter: 'bandpass', freq: 1800, q: 4, vol: 0.3, bus: bus });
-    tone(180, t, 0.18, { type: 'sawtooth', vol: 0.06, cutoff: 900, to: 150, bus: bus });
+  // A crowd cheer: a quick swell of the crowd with a stomp under it.
+  function cheer(t, bus) {
+    wash(t, 0.9, { freq: 650, peak: 1500, peakAt: 0.25, to: 900, q: 0.6, vol: 0.2, fadeIn: 0.08, fadeOut: 0.6, bus: bus });
+    kick(t, 0.5, bus);
   }
 
-  // Home: C – Am – F – G. Melody phrases rest, play A, play B, play A, so it never feels like a loop on repeat.
-  var HOME_CHORDS = [[60, 64, 67], [57, 60, 64], [53, 57, 60], [55, 59, 62]];
-  var HOME_ARP = [0, 1, 2, 1, 2, 1, 0, 1];
-  var HOME_A = [[76, 0, 79, 0, 81, 79, 76, 0], [72, 0, 76, 0, 74, 72, 69, 0], [69, 72, 77, 0, 76, 0, 72, 0], [74, 0, 71, 74, 79, 0, 0, 0]];
-  var HOME_B = [[79, 0, 76, 79, 84, 0, 79, 0], [81, 0, 76, 0, 72, 0, 76, 0], [77, 76, 74, 72, 69, 0, 72, 0], [74, 76, 74, 71, 67, 0, 0, 0]];
+  // Home: "Expedition" in D minor (Dm7 – Bbmaj7 – F – Cmaj7), like a nature documentary.
+  // A 16-bar cycle: (1) pads and plucks settle in, (2) drums and the flute theme, (3) a second theme, (4) the theme rests.
+  var HOME_CH = [[62, 65, 69, 72], [58, 62, 65, 69], [60, 65, 69, 72], [60, 64, 67, 71]];
+  var HOME_BASS = [50, 46, 53, 48];
+  var HOME_ARP = [0, 2, 1, 3, 2, 1, 3, 2];
+  var MEL_A = [[0, 74, 6], [6, 72, 2], [8, 69, 8], [16, 65, 4], [20, 67, 4], [24, 69, 8], [32, 72, 6], [38, 69, 2], [40, 72, 4], [44, 74, 4], [48, 76, 12], [60, 74, 4]];
+  var MEL_B = [[0, 77, 4], [4, 76, 4], [8, 74, 8], [16, 72, 4], [20, 74, 4], [24, 70, 8], [32, 69, 6], [38, 72, 2], [40, 77, 8], [48, 76, 8], [56, 74, 8]];
   // Sports: C – C – F – G, with a stadium-organ call, chants and a big build every fourth phrase.
   var SP_ROOTS = [36, 36, 41, 43];
   var SP_STAB = [[60, 64, 67], [60, 64, 67], [60, 65, 69], [59, 62, 67]];
@@ -211,26 +269,28 @@
     [79, 0, 0, 0, 79, 0, 0, 0, 81, 0, 79, 0, 83, 0, 0, 0]
   ];
   var TRACKS = {
-    wind: { bpm: 60, vol: 0.9, step: function (s, t, bus) {
+    wind: { bpm: 60, vol: 0.9, wet: 0.2, step: function (s, t, bus) {
       if (s % 8 === 0) wash(t, 7, { freq: 280, peak: 650 + Math.random() * 500, to: 260, q: 0.9, vol: 0.12, bus: bus }); // the steady breeze
       if (s % 16 === 6 && Math.random() < 0.8) wash(t, 2.4 + Math.random() * 1.6, { freq: 400, peak: 1300 + Math.random() * 900, to: 350, q: 1.6, vol: 0.09, peakAt: 0.4, bus: bus }); // a gust
       if (s % 32 === 20) tone(midi(84 + [0, 3, 7][Math.floor(Math.random() * 3)]), t, 3, { type: 'sine', vol: 0.012, attack: 1.2, bus: bus }); // a faint whistle on the wind
     } },
-    home: { bpm: 100, vol: 0.45, step: function (s, t, bus) {
-      var bar = Math.floor(s / 16), i = s % 16, ch = HOME_CHORDS[bar % 4], phrase = Math.floor(bar / 4) % 4;
-      if (i === 0 || i === 8) kick(t, 0.28, bus);
-      if (i === 4 || i === 12) noise(t, 0.05, { filter: 'bandpass', freq: 2600, q: 1.2, vol: 0.12, bus: bus }); // a soft snap
-      if (i % 2 === 0) noise(t, 0.04, { freq: 7500, vol: i % 4 === 2 ? 0.05 : 0.025, bus: bus }); // shaker
-      if (i === 0 || i === 6 || i === 10) tone(midi(ch[i === 10 ? 2 : 0] - 12), t, 0.4, { type: 'triangle', vol: 0.22, bus: bus }); // bass
-      if (i % 2 === 0) mallet(ch[HOME_ARP[i / 2]] + (i === 8 ? 12 : 0), t, i === 0 ? 0.09 : 0.06, bus); // marimba
-      var mel = phrase === 1 || phrase === 3 ? HOME_A : phrase === 2 ? HOME_B : null;
-      if (mel && i % 2 === 0 && mel[bar % 4][i / 2]) {
-        var n = mel[bar % 4][i / 2];
-        tone(midi(n + 12), t, 0.6, { type: 'sine', vol: 0.045, attack: 0.003, bus: bus }); // bells
-        tone(midi(n), t, 0.35, { type: 'triangle', vol: 0.04, bus: bus });
+    home: { bpm: 90, vol: 0.36, wet: 0.4, step: function (s, t, bus) {
+      var bar = Math.floor(s / 16), i = s % 16, b4 = bar % 4, ch = HOME_CH[b4], phrase = Math.floor(bar / 4) % 4;
+      var sl = 60 / 90 / 4, drums = phrase !== 0;
+      if (i === 0) pad(ch, t, sl * 16 + 0.2, 0.016, bus);
+      if (i === 0 || i === 10) tone(midi(HOME_BASS[b4]), t, sl * (i === 0 ? 9 : 6), { type: 'triangle', vol: 0.2, attack: 0.02, bus: bus }); // bass
+      if (i % 2 === 0) pluck(ch[HOME_ARP[i / 2]] + 12, t, i === 0 ? 0.05 : 0.035, i % 4 === 0 ? -0.35 : 0.35, bus); // the pulse, left-right
+      if (drums) {
+        if (i === 0 || i === 6 || i === 10) frameDrum(t, i === 0 ? 0.45 : 0.3, bus);
+        if (i === 4 || i === 12) slap(t, 0.14, bus);
+        if (i === 15) slap(t, 0.05, bus);
       }
+      noise(t, 0.045, { freq: 6500, vol: (i % 4 === 2 ? 0.035 : 0.015) * (drums ? 1 : 0.6), bus: bus }); // shaker
+      var mel = phrase === 1 ? MEL_A : phrase === 2 ? MEL_B : null, ps = s % 64;
+      if (mel) mel.forEach(function (e) { if (e[0] === ps) flute(e[1], t, e[2] * sl, 0.06, bus); });
+      if (phrase === 3 && i === 0) tone(midi(ch[3] + 24), t, 2.4, { type: 'sine', vol: 0.02, attack: 0.01, bus: bus }); // a distant bell
     } },
-    sports: { bpm: 126, vol: 0.32, step: function (s, t, bus) {
+    sports: { bpm: 126, vol: 0.32, wet: 0.22, step: function (s, t, bus) {
       var bar = Math.floor(s / 16), i = s % 16, b4 = bar % 4, phrase = Math.floor(bar / 4) % 4;
       var build = phrase === 3; // every fourth phrase builds up to a big crowd roar
       if (i === 0) wash(t, 60 / 126 * 4 + 0.3, { freq: 900, q: 0.4, vol: build ? 0.05 : 0.035, fadeIn: 0.15, fadeOut: 0.15, bus: bus }); // crowd bed
@@ -241,21 +301,21 @@
       if (phrase === 0 || phrase === 2) { // organ call
         var n = SP_RIFF[b4][i];
         if (n) organ(n, t, 60 / 126 / 4 * 1.8, 0.035, bus);
-        if (b4 === 1 && i === 4) hey(t, bus);
-        if (b4 === 1 && i === 12) hey(t, bus);
+        if (b4 === 1 && i === 4) cheer(t, bus);
+        if (b4 === 1 && i === 12) cheer(t, bus);
       }
-      if (phrase === 1) { // the crowd chants: clap, clap, clap-clap-clap … HEY!
+      if (phrase === 1) { // the crowd chants: clap, clap, clap-clap-clap … and cheers
         if (b4 % 2 === 0 && (i === 0 || i === 4 || i === 8 || i === 10 || i === 12)) crowdClap(t, 0.24, bus);
-        if (b4 % 2 === 1 && i === 0) hey(t, bus);
+        if (b4 % 2 === 1 && i === 0) cheer(t, bus);
         if (i === 2 || i === 10) SP_STAB[b4].forEach(function (m) { tone(midi(m), t, 0.14, { type: 'sawtooth', vol: 0.03, cutoff: 2200, bus: bus }); }); // brass stabs
       }
       if (phrase === 2 && (i === 2 || i === 10)) SP_STAB[b4].forEach(function (m) { tone(midi(m), t, 0.14, { type: 'sawtooth', vol: 0.025, cutoff: 2200, bus: bus }); });
       if (build) {
         if (b4 === 0 && i === 0) wash(t, 60 / 126 * 16, { freq: 500, peak: 1600, peakAt: 0.95, to: 1400, q: 0.5, vol: 0.12, fadeIn: 60 / 126 * 14, fadeOut: 0.4, bus: bus }); // the roar rises
         if (b4 === 2 && i % 4 === 0) organ(67 + i / 2, t, 0.2, 0.03, bus); // organ climbs
-        if (b4 === 3) { // snare roll that speeds up, then the crowd shouts
+        if (b4 === 3) { // snare roll that speeds up, then the crowd cheers
           if (i < 8 ? i % 2 === 0 : true) noise(t, 0.06, { filter: 'bandpass', freq: 2000, q: 0.7, vol: 0.05 + i * 0.012, bus: bus });
-          if (i === 14) hey(t, bus);
+          if (i === 14) cheer(t, bus);
         }
       }
     } }
@@ -281,8 +341,9 @@
     current = null;
     if (!name) return;
     var def = TRACKS[name], now = ctx.currentTime, bus = ctx.createGain();
-    bus.gain.setValueAtTime(0, now); bus.gain.linearRampToValueAtTime(def.vol, now + 1.2);
+    bus.gain.setValueAtTime(0, now); bus.gain.linearRampToValueAtTime(def.vol, now + 0.6);
     bus.connect(master);
+    var send = ctx.createGain(); send.gain.value = def.wet || 0; bus.connect(send); send.connect(reverbIn); // some of it into the hall echo
     var tr = current = { name: name, bus: bus, step: 0, next: now + 0.08, stepLen: 60 / def.bpm / 4 };
     tr.timer = setInterval(function () {
       while (tr.next < ctx.currentTime + 0.15) {
