@@ -1079,7 +1079,7 @@
     var day = new Date().toLocaleDateString('en-US', { weekday: 'long' });
     return '<button class="daily-hero' + (done ? ' done' : '') + '" id="go-daily" aria-label="' + (done ? 'Daily 10: you scored ' + hits + ' out of 10. See and share' : 'Play the Daily 10') + '">' +
       // Played already: a compact card (Share top right, score + countdown, squares) so the eye moves on to what's below.
-      '<span class="dh-top"><span class="dh-kicker">📅 TODAY’S DAILY 10 · ' + esc(day.toUpperCase()) + '</span>' + (done ? '<span class="dh-go">Share</span>' : '') + '</span>' +
+      '<span class="dh-top"><span class="dh-kicker">📅 TODAY’S DAILY 10 · ' + esc(day.toUpperCase()) + '</span>' + (done ? '<span class="dh-go share-nudge">Share</span>' : '') + '</span>' +
       (done
         ? '<span class="dh-row"><span class="dh-title">You scored ' + hits + '/10</span><span class="dh-clock" id="dh-clock">' + countdownText() + '</span></span>' +
           '<span class="dh-squares">' + res.map(function (r) { return '<i class="g-' + G.gradeFor(r) + '"></i>'; }).join('') + '</span>'
@@ -1549,12 +1549,15 @@
   function sportsDailyDone() { return store.sportsDaily && store.sportsDaily.date === todayKey() ? store.sportsDaily : null; }
   function sportsDailyBanner() {
     var done = sportsDailyDone();
-    var hits = done ? done.picks.filter(function (p) { return p.hit; }).length : 0;
-    return '<div class="sd-wrap"><button class="daily-sports" id="go-sports-daily">' +
+    var res = done ? loadPicks(done.picks) : [], hits = res.filter(function (r) { return r.hit; }).length;
+    // Played today: your score and your 10 squares (same colors as the results), plus a Share button that nudges.
+    return '<div class="sd-wrap"><button class="daily-sports' + (done ? ' done' : '') + '" id="go-sports-daily"' + (done ? ' aria-label="Daily Sports 10: you scored ' + hits + ' out of 10. See and share"' : '') + '>' +
       '<span class="sd-icon">' + trophyIcon(TIERS.gold.color, 22, true) + '</span>' +
       '<span class="sd-text"><span class="sd-label">DAILY SPORTS 10</span>' +
-      '<span class="sd-title">' + (done ? 'You scored ' + hits + '/10 today' : '10 teams. Same for everyone.') + '</span></span>' +
-      '<span class="sd-go">' + (done ? 'Share' : 'Play') + '</span></button></div>';
+      (done
+        ? '<span class="sd-title sd-done"><b>' + hits + '/10</b><span class="sd-squares">' + res.map(function (r) { return '<i class="g-' + G.gradeFor(r) + '"></i>'; }).join('') + '</span></span>'
+        : '<span class="sd-title">10 teams. Same for everyone.</span>') + '</span>' +
+      '<span class="sd-go' + (done ? ' share-nudge' : '') + '">' + (done ? 'Share' : 'Play') + '</span></button></div>';
   }
   function openSportsDaily() {
     if (sportsDailyDone()) showSportsDailyResults(); else { Sound.play('lock'); startFeed({ kind: 'sportsdaily' }); }

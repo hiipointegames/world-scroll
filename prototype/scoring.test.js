@@ -874,8 +874,11 @@ test('Daily 10 hero: top of the home screen, one try a day, with a countdown and
   assert.ok(app.includes('id="dh-clock"') && app.includes('clock.textContent = countdownText()'), 'a live countdown');
   assert.ok(app.includes('📅 TODAY’S DAILY 10 · ') && app.includes('>Same 10 places for everyone</span>'), 'home button wording: "Today’s Daily 10" and "Same 10 places for everyone"');
   assert.ok(require('fs').readFileSync(require('path').join(__dirname, 'src/app.html'), 'utf8').includes('.dh-top { display: flex; flex-wrap: wrap;'), 'the countdown wraps under the heading on small phones, never off the button');
-  assert.ok(app.includes("(done ? '<span class=\"dh-go\">Share</span>' : '')") && app.includes('/10</span><span class="dh-clock" id="dh-clock">'), 'played: Share sits top right, the countdown only shows after playing, beside the score');
+  assert.ok(app.includes("(done ? '<span class=\"dh-go share-nudge\">Share</span>' : '')") && app.includes('/10</span><span class="dh-clock" id="dh-clock">'), 'played: Share sits top right, the countdown only shows after playing, beside the score');
   assert.ok(require('fs').readFileSync(require('path').join(__dirname, 'src/app.html'), 'utf8').includes('.daily-hero.done { padding: 11px'), 'played: the Daily 10 card shrinks so the eye moves on');
+  assert.ok(app.includes('<span class="dh-go share-nudge">Share</span>') && app.includes("'<span class=\"sd-go' + (done ? ' share-nudge' : '')"), 'played: Share nudges on both daily buttons');
+  assert.ok(app.includes('<span class="sd-title sd-done"><b>') && app.includes('<span class="sd-squares">'), 'played Daily Sports 10: the sports button shows your 10 squares');
+  assert.ok(require('fs').readFileSync(require('path').join(__dirname, 'src/app.html'), 'utf8').includes('.share-nudge, '), 'the Share nudge stops for people who turn motion off');
   assert.ok(!app.includes('Then dare your friends'), 'no extra line under the Daily 10 title');
 });
 

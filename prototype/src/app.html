@@ -896,6 +896,17 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .daily-hero.done .dh-row { flex-wrap: wrap; row-gap: 2px; }
 .daily-hero.done .dh-clock { background: none; padding: 0; opacity: .75; }
 .daily-hero.done .dh-squares i { width: 14px; height: 14px; border-radius: 4px; }
+/* Played a daily game: Share gives a little hop and a glow ring every few seconds, inviting a share (no flashing) */
+.share-nudge { --nudge: 255, 255, 255; animation: share-nudge 3.2s ease-in-out 1s infinite; }
+.daily-sports .share-nudge { --nudge: 255, 201, 60; }
+@keyframes share-nudge { 0%, 70%, 100% { transform: none; box-shadow: 0 0 0 0 rgba(var(--nudge), 0); }
+  76% { transform: scale(1.12) rotate(-4deg); box-shadow: 0 0 0 4px rgba(var(--nudge), .5); }
+  82% { transform: scale(.96) rotate(3deg); } 88% { transform: scale(1.04) rotate(-1deg); box-shadow: 0 0 0 8px rgba(var(--nudge), 0); } }
+/* Daily Sports 10 played: score and 10 squares where the subtitle was (same height, so the sports screen still fits) */
+.sd-done { display: flex; align-items: center; gap: 7px; margin-top: 2px; }
+.sd-done b { font-family: var(--font-display); font-size: 15px; line-height: 1; }
+.sd-squares { display: flex; gap: 3px; }
+.sd-squares i { width: 11px; height: 11px; border-radius: 3px; background: var(--g); box-shadow: 0 0 0 1px rgba(11, 16, 38, .55); }
 
 /* The passport screen */
 .passport-body { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; padding: 16px 20px 28px; }
@@ -975,7 +986,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 @media (max-height: 620px) { .try-panel.hint { display: none; } .try-map { height: 118px; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .vs-emoji, .mini-toast, .rank-badge.rank-up, .pc-pair .pc-rank, .passport-card, .daily-hero, #go-daily.daily-hero, .stamp-pop .stamp.big, .intro-try, .intro-foot .btn.big.glow { animation: none !important; }
+  .vs-emoji, .mini-toast, .rank-badge.rank-up, .pc-pair .pc-rank, .passport-card, .daily-hero, #go-daily.daily-hero, .share-nudge, .stamp-pop .stamp.big, .intro-try, .intro-foot .btn.big.glow { animation: none !important; }
   .daily-hero::after, .tile::after { display: none; }
   .pp-page[open] .stamps, .pp-page[open] .pp-empty { animation: none !important; }
   .pp-caret { transition: none; }
