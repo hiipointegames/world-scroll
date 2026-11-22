@@ -1069,3 +1069,16 @@ test('music: wind on the welcome screen, a light tune on home and the categories
   assert.ok(app.includes("Sound.unlock();\n      showPicker({ flyIn: true });"), 'that tap unlocks sound and then plays the fly-in');
   assert.ok(app.includes("setTimeout(function () { if (scr.isConnected) music('home'); }, 1000);"), 'home music starts as the logo lands');
 });
+
+test('mute button: easy to see and on every screen', () => {
+  const fs = require('fs'), path = require('path');
+  const app = fs.readFileSync(path.join(__dirname, 'src/app.js'), 'utf8');
+  const html = fs.readFileSync(path.join(__dirname, 'src/app.html'), 'utf8');
+  // Every screen that's drawn with app.innerHTML has a sound button (feeds put it on the card or the meter row).
+  const screens = app.split("app.innerHTML =").slice(1).map(chunk => chunk.slice(0, chunk.indexOf("';\n") > 0 ? chunk.indexOf("';\n") : 1500));
+  const withSound = screens.filter(c => c.includes('soundButton()'));
+  assert.strictEqual(withSound.length, screens.length - 1, 'every screen but the feed shell builds a mute button (the feed puts it on each card / meter row)');
+  assert.ok(app.includes("if (gone || e.target.closest('.sound-btn')) return;"), 'muting on the opening screen does not start the game');
+  assert.ok(/\.sound-btn \{[^}]*box-shadow: 0 0 0 1\.5px rgba\(61, 220, 196/.test(html), 'sound on: a glowing teal ring');
+  assert.ok(html.includes('.sound-btn[aria-pressed="false"] { color: var(--dim); box-shadow: 0 0 0 1.5px var(--outline-2); }'), 'muted: grey');
+});

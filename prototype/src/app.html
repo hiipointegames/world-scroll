@@ -127,8 +127,25 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .stat::after, .brand::after { content: ""; position: absolute; inset: -4px -2px; }
 @media (hover: hover) and (pointer: fine) { .stat:active { transform: scale(.94); } } /* pressed look: mouse only, never while a thumb scrolls */
 .stats { align-items: center; }
-.sound-btn { margin-left: 0; width: 40px; height: 40px; }
-.sound-btn[aria-pressed="false"] { color: var(--dim); }
+/* The mute button stands out on every screen: a solid circle with a teal ring and glow when sound is on, grey when muted */
+.sound-btn { margin-left: 0; width: 40px; height: 40px; flex-shrink: 0; background: var(--raised); color: var(--teal);
+  box-shadow: 0 0 0 1.5px rgba(61, 220, 196, .6), 0 0 14px rgba(61, 220, 196, .3); transition: box-shadow .2s, color .2s; }
+.sound-btn:hover { background: #24306A; color: var(--teal); }
+.sound-btn[aria-pressed="false"] { color: var(--dim); box-shadow: 0 0 0 1.5px var(--outline-2); }
+.sound-btn[aria-pressed="false"]:hover { color: var(--text); }
+.icon-btn.sound-btn { width: 38px; height: 38px; margin: 0 0 0 2px; } /* beats the general .icon-btn size so the glow ring stays on screen */
+/* Small phones: a slightly smaller logo and chips so the mute button always fits in the top bar. Screens with a back
+   arrow AND a mute button in the top bar (Passport, results) show just the spinning globe logo there. */
+@media (max-width: 400px) {
+  .topbar .brand .wordmark { font-size: 18px; }
+  .topbar .tagline { font-size: 9.5px; }
+  .stats { gap: 5px; }
+  .stat { padding: 0 9px; gap: 5px; }
+  .topbar-left:has(~ .stats .sound-btn) .brand .wordmark { font-size: 0; }
+  .topbar-left:has(~ .stats .sound-btn) .brand .wm-globe { width: 28px; height: 28px; margin: 0; }
+  .topbar-left:has(~ .stats .sound-btn) .tagline { display: none; }
+}
+.screen > div.corner-sound { position: absolute; top: 14px; right: 16px; z-index: 6; } /* opening and welcome screens (div. beats the welcome screen's ".screen.intro > *" rule) */
 .stat.bump { animation: bump .45s ease-out; }
 @keyframes bump { 40% { transform: scale(1.14); background: #24306A; } }
 .icon-btn { width: 44px; height: 44px; margin-left: -10px; border-radius: 22px; border: none; background: transparent;

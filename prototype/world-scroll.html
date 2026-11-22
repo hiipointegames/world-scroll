@@ -127,8 +127,25 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 .stat::after, .brand::after { content: ""; position: absolute; inset: -4px -2px; }
 @media (hover: hover) and (pointer: fine) { .stat:active { transform: scale(.94); } } /* pressed look: mouse only, never while a thumb scrolls */
 .stats { align-items: center; }
-.sound-btn { margin-left: 0; width: 40px; height: 40px; }
-.sound-btn[aria-pressed="false"] { color: var(--dim); }
+/* The mute button stands out on every screen: a solid circle with a teal ring and glow when sound is on, grey when muted */
+.sound-btn { margin-left: 0; width: 40px; height: 40px; flex-shrink: 0; background: var(--raised); color: var(--teal);
+  box-shadow: 0 0 0 1.5px rgba(61, 220, 196, .6), 0 0 14px rgba(61, 220, 196, .3); transition: box-shadow .2s, color .2s; }
+.sound-btn:hover { background: #24306A; color: var(--teal); }
+.sound-btn[aria-pressed="false"] { color: var(--dim); box-shadow: 0 0 0 1.5px var(--outline-2); }
+.sound-btn[aria-pressed="false"]:hover { color: var(--text); }
+.icon-btn.sound-btn { width: 38px; height: 38px; margin: 0 0 0 2px; } /* beats the general .icon-btn size so the glow ring stays on screen */
+/* Small phones: a slightly smaller logo and chips so the mute button always fits in the top bar. Screens with a back
+   arrow AND a mute button in the top bar (Passport, results) show just the spinning globe logo there. */
+@media (max-width: 400px) {
+  .topbar .brand .wordmark { font-size: 18px; }
+  .topbar .tagline { font-size: 9.5px; }
+  .stats { gap: 5px; }
+  .stat { padding: 0 9px; gap: 5px; }
+  .topbar-left:has(~ .stats .sound-btn) .brand .wordmark { font-size: 0; }
+  .topbar-left:has(~ .stats .sound-btn) .brand .wm-globe { width: 28px; height: 28px; margin: 0; }
+  .topbar-left:has(~ .stats .sound-btn) .tagline { display: none; }
+}
+.screen > div.corner-sound { position: absolute; top: 14px; right: 16px; z-index: 6; } /* opening and welcome screens (div. beats the welcome screen's ".screen.intro > *" rule) */
 .stat.bump { animation: bump .45s ease-out; }
 @keyframes bump { 40% { transform: scale(1.14); background: #24306A; } }
 .icon-btn { width: 44px; height: 44px; margin-left: -10px; border-radius: 22px; border: none; background: transparent;
@@ -3007,7 +3024,8 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
       (extra || '') + '</div>';
   }
   function soundButton() {
-    return '<button class="icon-btn sound-btn" aria-pressed="' + store.sound + '" aria-label="Sound on or off">' +
+    // The mute button: on every screen, a glowing teal circle when sound is on, grey when muted.
+    return '<button class="icon-btn sound-btn" aria-pressed="' + store.sound + '" aria-label="' + (store.sound ? 'Sound is on. Tap to mute' : 'Sound is off. Tap to turn on') + '">' +
       (store.sound ? ICON.soundOn : ICON.soundOff) + '</button>';
   }
   // Hook up the tappable chips and the sound button on whatever screen is showing.
@@ -3030,6 +3048,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
     Sound.setMusic(store.sound ? musicNow : false); // back on: the music for the screen you're on
     app.querySelectorAll('.sound-btn').forEach(function (b) {
       b.setAttribute('aria-pressed', store.sound);
+      b.setAttribute('aria-label', store.sound ? 'Sound is on. Tap to mute' : 'Sound is off. Tap to turn on');
       b.innerHTML = store.sound ? ICON.soundOn : ICON.soundOff;
     });
   }
@@ -3253,6 +3272,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
       '<p class="intro-more">Scroll through countries, capitals, rivers, oceans, lakes, seas, famous landmarks, and where your favorite sports teams play.</p>' +
       '</div>' +
       '<div class="intro-foot"><button class="btn primary big" id="intro-go">Start scrolling</button></div>' +
+      '<div class="corner-sound">' + soundButton() + '</div>' +
       '</div>';
     FX.welcomeGlobe(app.querySelector('.intro-globe'));
     document.getElementById('intro-go').onclick = function () {
@@ -3269,11 +3289,13 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
       '<div class="gate-brand"><div class="wordmark big" aria-label="World Scroll">' + GLOBE + 'World<span>Scroll</span></div>' +
       '<p class="gate-tag">Learn geography by scrolling</p></div>' +
       '<button class="btn primary big gate-go" id="gate-go">Tap to explore</button>' +
+      '<div class="corner-sound">' + soundButton() + '</div>' + // mute before anything plays
       '</div>';
     FX.welcomeGlobe(app.querySelector('.gate-globe'));
     var gone = false;
-    document.getElementById('gate').addEventListener('click', function () { // a tap anywhere works, not just the button
-      if (gone) return; gone = true;
+    document.getElementById('gate').addEventListener('click', function (e) { // a tap anywhere works, not just the button
+      if (gone || e.target.closest('.sound-btn')) return; // the mute button only mutes
+      gone = true;
       Sound.unlock();
       showPicker({ flyIn: true });
     });
@@ -3428,7 +3450,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
     app.innerHTML =
       '<div class="screen passport">' +
       '<div class="topbar"><div class="topbar-left"><button class="icon-btn back-btn" id="back" aria-label="Back">' + ICON.back + '</button>' +
-      WORDMARK + '</div>' + statChips() + '</div>' +
+      WORDMARK + '</div>' + statChips(soundButton()) + '</div>' +
       '<div class="passport-body">' +
       '<div class="pp-cover"><span class="pp-book big" aria-hidden="true">' + GLOBE + '</span>' +
       '<div><div class="pc-label">MY PASSPORT</div><h1>' + total + ' stamp' + (total === 1 ? '' : 's') + '</h1>' +
@@ -4083,7 +4105,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
     app.innerHTML =
       '<div class="screen results sports">' +
       '<div class="topbar"><div class="topbar-left"><button class="icon-btn back-btn" id="back" aria-label="Back to Sports">' + ICON.back + '</button>' +
-      WORDMARK + '</div>' + statChips() + '</div>' +
+      WORDMARK + '</div>' + statChips(soundButton()) + '</div>' +
       '<div class="results-body">' +
       '<div class="results-head"><div class="daily-label">DAILY SPORTS 10 · ' + esc(dateLabel.toUpperCase()) + '</div>' +
       '<div class="sd-score"><b>' + hits + '</b><span>/10</span></div>' +
@@ -4128,7 +4150,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
     if (justFinished) Sound.play('trophy', hits >= 8 ? 'gold' : hits >= 5 ? 'silver' : 'bronze');
     app.innerHTML =
       '<div class="screen results">' +
-      '<div class="topbar">' + WORDMARK + statChips() + '</div>' +
+      '<div class="topbar">' + WORDMARK + statChips(soundButton()) + '</div>' +
       '<div class="results-body">' +
       '<div class="results-head"><div class="daily-label">DAILY 10 · ' + esc(dateLabel.toUpperCase()) + '</div>' +
       '<div class="sd-score"><b>' + hits + '</b><span>/10</span></div>' +
