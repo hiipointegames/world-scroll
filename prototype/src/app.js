@@ -1078,12 +1078,12 @@
     var res = done ? loadPicks(done.picks) : [], hits = res.filter(function (r) { return r.hit; }).length;
     var day = new Date().toLocaleDateString('en-US', { weekday: 'long' });
     return '<button class="daily-hero' + (done ? ' done' : '') + '" id="go-daily" aria-label="' + (done ? 'Daily 10: you scored ' + hits + ' out of 10. See and share' : 'Play the Daily 10') + '">' +
-      '<span class="dh-top"><span class="dh-kicker">📅 TODAY’S DAILY 10 · ' + esc(day.toUpperCase()) + '</span>' + (done ? '<span class="dh-clock" id="dh-clock">' + countdownText() + '</span>' : '') + '</span>' + // countdown only after you've played; before that, just Play
+      // Played already: a compact card (Share top right, score + countdown, squares) so the eye moves on to what's below.
+      '<span class="dh-top"><span class="dh-kicker">📅 TODAY’S DAILY 10 · ' + esc(day.toUpperCase()) + '</span>' + (done ? '<span class="dh-go">Share</span>' : '') + '</span>' +
       (done
-        ? '<span class="dh-title">You scored ' + hits + '/10 today!</span>' +
-          '<span class="dh-row"><span class="dh-squares">' + res.map(function (r) { return '<i class="g-' + G.gradeFor(r) + '"></i>'; }).join('') + '</span>' +
-          '<span class="dh-go">Share</span></span>'
-        : '<span class="dh-row"><span class="dh-title">Same 10 places for everyone</span><span class="dh-go">Play</span></span>') + // Play sits beside the title
+        ? '<span class="dh-row"><span class="dh-title">You scored ' + hits + '/10</span><span class="dh-clock" id="dh-clock">' + countdownText() + '</span></span>' +
+          '<span class="dh-squares">' + res.map(function (r) { return '<i class="g-' + G.gradeFor(r) + '"></i>'; }).join('') + '</span>'
+        : '<span class="dh-row"><span class="dh-title">Same 10 places for everyone</span><span class="dh-go">Play</span></span>') + // Play sits beside the title; no countdown until you've played
       '</button>';
   }
   // opts.flyIn: play the 2-second opening (after the welcome screen, and each time the app opens).
