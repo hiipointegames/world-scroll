@@ -872,6 +872,8 @@ test('Daily 10 hero: top of the home screen, one try a day, with a countdown and
   assert.ok(home.indexOf('dailyHeroHtml()') < home.indexOf('class="sports-hero"'), 'Daily 10 comes before Sports');
   assert.ok(app.includes("if (dailyDone()) showDailyResults(false); else launch({ kind: 'daily' }"), 'played today: the hero opens your results');
   assert.ok(app.includes('id="dh-clock"') && app.includes('clock.textContent = countdownText()'), 'a live countdown');
+  assert.ok(app.includes('📅 TODAY’S DAILY 10 · ') && app.includes('>Same 10 places for everyone</span>'), 'home button wording: "Today’s Daily 10" and "Same 10 places for everyone"');
+  assert.ok(require('fs').readFileSync(require('path').join(__dirname, 'src/app.html'), 'utf8').includes('.dh-top { display: flex; flex-wrap: wrap;'), 'the countdown wraps under the heading on small phones, never off the button');
   assert.ok(app.includes("(done ? '<span class=\"dh-clock\" id=\"dh-clock\">'"), 'the countdown shows only after today\'s Daily 10 is played (before that, just Play)');
   assert.ok(!app.includes('Then dare your friends'), 'no extra line under the Daily 10 title');
 });

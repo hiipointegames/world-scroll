@@ -879,7 +879,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
 @keyframes daily-glow { to { box-shadow: 0 10px 42px rgba(61, 220, 196, .6), 0 0 0 3px rgba(255, 255, 255, .3); } }
 @media (hover: hover) and (pointer: fine) { .daily-hero:active { transform: scale(.98); } } /* pressed look: mouse only, never while a thumb scrolls */
 #go-daily.daily-hero { animation: tile-in .5s cubic-bezier(.3, 1.5, .5, 1) both, daily-glow 1.8s ease-in-out .6s infinite alternate; }
-.dh-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.dh-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 8px; } /* on narrow phones the countdown drops under the heading instead of running off the edge */
 .dh-kicker { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; opacity: .8; white-space: nowrap; }
 .dh-clock { font-size: 11px; font-weight: 600; background: rgba(11, 16, 38, .14); border-radius: 999px; padding: 3px 9px; white-space: nowrap; }
 .dh-title { font-family: var(--font-display); font-weight: 700; font-size: 25px; line-height: 1.08; }
@@ -3177,12 +3177,12 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
     var res = done ? loadPicks(done.picks) : [], hits = res.filter(function (r) { return r.hit; }).length;
     var day = new Date().toLocaleDateString('en-US', { weekday: 'long' });
     return '<button class="daily-hero' + (done ? ' done' : '') + '" id="go-daily" aria-label="' + (done ? 'Daily 10: you scored ' + hits + ' out of 10. See and share' : 'Play the Daily 10') + '">' +
-      '<span class="dh-top"><span class="dh-kicker">📅 DAILY 10 · ' + esc(day.toUpperCase()) + '</span>' + (done ? '<span class="dh-clock" id="dh-clock">' + countdownText() + '</span>' : '') + '</span>' + // countdown only after you've played; before that, just Play
+      '<span class="dh-top"><span class="dh-kicker">📅 TODAY’S DAILY 10 · ' + esc(day.toUpperCase()) + '</span>' + (done ? '<span class="dh-clock" id="dh-clock">' + countdownText() + '</span>' : '') + '</span>' + // countdown only after you've played; before that, just Play
       (done
         ? '<span class="dh-title">You scored ' + hits + '/10 today!</span>' +
           '<span class="dh-row"><span class="dh-squares">' + res.map(function (r) { return '<i class="g-' + G.gradeFor(r) + '"></i>'; }).join('') + '</span>' +
           '<span class="dh-go">Share</span></span>'
-        : '<span class="dh-row"><span class="dh-title">Same 10 places for everyone today</span><span class="dh-go">Play</span></span>') + // Play sits beside the title
+        : '<span class="dh-row"><span class="dh-title">Same 10 places for everyone</span><span class="dh-go">Play</span></span>') + // Play sits beside the title
       '</button>';
   }
   // opts.flyIn: play the 2-second opening (after the welcome screen, and each time the app opens).
