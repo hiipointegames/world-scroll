@@ -149,7 +149,7 @@
   // ---------- music: three tracks that crossfade (all original, all synthesized) ----------
   //   wind   — the welcome screen: soft gusts of wind while the globe spins
   //   home   — home screen and every non-sports feed: "Expedition", a calm documentary-style theme (pads, plucks, hand drums, flute)
-  //   sports — Sports: game day! stadium organ, a crowd bed, cheers, "let's go" clap chants, crowd-roar build-ups
+  //   sports — Sports: "Prime Time", an original stadium-rock anthem (distorted guitars, rock drums, a brass fanfare, crowd-roar builds)
   function midi(n) { return 440 * Math.pow(2, (n - 69) / 12); }
   // A long, held noise (crowd, wind): fades in, holds, fades out, through a filter that can sweep.
   function wash(t, dur, opts) {
@@ -237,19 +237,69 @@
     noise(t, 0.07, { filter: 'bandpass', freq: 1100, q: 1.6, vol: vol, bus: bus });
     tone(330, t, 0.06, { type: 'sine', vol: vol * 0.4, to: 230, bus: bus });
   }
-  // A stadium organ: real drawbar-organ harmonics (no buzzy square waves), made big by the hall echo.
-  function organ(n, t, dur, vol, bus) {
-    var fr = midi(n), g = ctx.createGain(); g.gain.value = 1; out(g, 0.15, bus);
-    [[1, 1], [1.004, 0.5], [2, 0.75], [3, 0.45], [4, 0.3], [6, 0.12], [8, 0.08]].forEach(function (h) { held(fr * h[0], t, dur, vol * h[1], 'sine', g, 0.006); });
+  // ---- Rock instruments for the Sports anthem ----
+  // Distorted guitar: one amp per side (left and right), like a double-tracked rock record.
+  function amp(bus, pan) {
+    var key = '_amp' + pan;
+    if (bus[key]) return bus[key];
+    var inp = ctx.createGain(), sh = ctx.createWaveShaper(), lp = ctx.createBiquadFilter(), hp = ctx.createBiquadFilter(), g = ctx.createGain();
+    var k = 60, n = 1024, curve = new Float32Array(n);
+    for (var i = 0; i < n; i++) { var x = i * 2 / n - 1; curve[i] = (1 + k) * x / (1 + k * Math.abs(x)); }
+    sh.curve = curve; sh.oversample = '2x';
+    hp.type = 'highpass'; hp.frequency.value = 90;
+    lp.type = 'lowpass'; lp.frequency.value = 3400; lp.Q.value = 0.9; // the speaker cabinet
+    g.gain.value = 0.11;
+    inp.connect(sh); sh.connect(hp); hp.connect(lp); lp.connect(g); out(g, pan, bus);
+    return (bus[key] = inp);
   }
-  // A crowd clap: several hands a hair apart.
-  function crowdClap(t, vol, bus) {
-    for (var k = 0; k < 4; k++) noise(t + Math.random() * 0.018, 0.12, { filter: 'bandpass', freq: 1300 + k * 350, q: 0.9, vol: vol, bus: bus });
+  // A power chord (root, fifth, octave). Muted = short, dark chug; open = rings out bright.
+  function powerChord(root, t, dur, muted, bus) {
+    [-0.65, 0.65].forEach(function (pan, side) {
+      var dest = amp(bus, pan), g = ctx.createGain(), f = ctx.createBiquadFilter();
+      f.type = 'lowpass'; f.frequency.setValueAtTime(muted ? 700 : 2600, t);
+      var len = muted ? 0.11 : dur;
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.9, t + 0.004);
+      g.gain.setValueAtTime(0.9, t + Math.max(0.005, len - 0.04)); g.gain.exponentialRampToValueAtTime(0.0001, t + len + 0.03);
+      f.connect(g); g.connect(dest);
+      [0, 7, 12].forEach(function (iv) {
+        var o = ctx.createOscillator(); o.type = 'sawtooth';
+        o.frequency.setValueAtTime(midi(root + iv) * (side ? 1.003 : 0.997), t);
+        o.connect(f); o.start(t); o.stop(t + len + 0.06);
+      });
+    });
   }
-  // A crowd cheer: a quick swell of the crowd with a stomp under it.
-  function cheer(t, bus) {
-    wash(t, 0.9, { freq: 650, peak: 1500, peakAt: 0.25, to: 900, q: 0.6, vol: 0.2, fadeIn: 0.08, fadeOut: 0.6, bus: bus });
-    kick(t, 0.5, bus);
+  // Brass section: bright, punchy horns for the TV-sports fanfare.
+  function brass(n, t, dur, vol, bus) {
+    var f = ctx.createBiquadFilter(), g = ctx.createGain();
+    f.type = 'lowpass'; f.Q.value = 1.2;
+    f.frequency.setValueAtTime(700, t); f.frequency.exponentialRampToValueAtTime(3800, t + 0.05); f.frequency.exponentialRampToValueAtTime(2000, t + 0.3);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.035);
+    g.gain.setValueAtTime(vol * 0.8, t + Math.max(0.05, dur - 0.06)); g.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.08);
+    f.connect(g); out(g, 0.15, bus);
+    [[1, 0.993], [1, 1.007], [0.5, 1]].forEach(function (v) {
+      var o = ctx.createOscillator(); o.type = 'sawtooth'; o.frequency.setValueAtTime(midi(n) * v[0] * v[1], t);
+      o.connect(f); o.start(t); o.stop(t + dur + 0.12);
+    });
+  }
+  // Rock drums.
+  function rockKick(t, vol, bus) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.setValueAtTime(165, t); o.frequency.exponentialRampToValueAtTime(46, t + 0.11);
+    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.32);
+    o.connect(g); g.connect(bus); o.start(t); o.stop(t + 0.35);
+    noise(t, 0.012, { freq: 3000, vol: vol * 0.25, bus: bus }); // the beater click
+  }
+  function snare(t, vol, bus) {
+    noise(t, 0.2, { filter: 'bandpass', freq: 1900, q: 0.7, vol: vol, bus: bus });
+    noise(t, 0.12, { freq: 5000, vol: vol * 0.4, bus: bus });
+    tone(200, t, 0.09, { type: 'triangle', vol: vol * 0.6, to: 160, bus: bus });
+  }
+  function crash(t, vol, bus) { noise(t, 1.8, { freq: 4200, vol: vol, bus: bus }); noise(t, 0.6, { filter: 'bandpass', freq: 7000, q: 0.5, vol: vol * 0.6, bus: bus }); }
+  function tom(t, f, vol, bus) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.setValueAtTime(f * 1.6, t); o.frequency.exponentialRampToValueAtTime(f, t + 0.08);
+    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
+    o.connect(g); out(g, (f - 130) / 120, bus); o.start(t); o.stop(t + 0.4);
   }
 
   // Home: "Expedition" in D minor (Dm7 – Bbmaj7 – F – Cmaj7), like a nature documentary.
@@ -259,15 +309,19 @@
   var HOME_ARP = [0, 2, 1, 3, 2, 1, 3, 2];
   var MEL_A = [[0, 74, 6], [6, 72, 2], [8, 69, 8], [16, 65, 4], [20, 67, 4], [24, 69, 8], [32, 72, 6], [38, 69, 2], [40, 72, 4], [44, 74, 4], [48, 76, 12], [60, 74, 4]];
   var MEL_B = [[0, 77, 4], [4, 76, 4], [8, 74, 8], [16, 72, 4], [20, 74, 4], [24, 70, 8], [32, 69, 6], [38, 72, 2], [40, 77, 8], [48, 76, 8], [56, 74, 8]];
-  // Sports: C – C – F – G, with a stadium-organ call, chants and a big build every fourth phrase.
-  var SP_ROOTS = [36, 36, 41, 43];
-  var SP_STAB = [[60, 64, 67], [60, 64, 67], [60, 65, 69], [59, 62, 67]];
-  var SP_RIFF = [
-    [67, 0, 72, 0, 76, 0, 79, 0, 0, 0, 76, 0, 79, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [77, 0, 77, 0, 76, 0, 74, 0, 72, 0, 0, 0, 74, 0, 76, 0],
-    [79, 0, 0, 0, 79, 0, 0, 0, 81, 0, 79, 0, 83, 0, 0, 0]
+  // Sports: "Prime Time", an original stadium-rock anthem in E (132 BPM).
+  // 16-bar cycle: (1) the guitar riff, (2) the brass fanfare chorus, (3) the riff with horn hits, (4) a tom-drum build with the crowd roaring.
+  // Riff: one entry per 8th note: a power-chord root, negative = palm-muted chug, 0 = rest.
+  var RIFF = [
+    [-40, -40, -40, 43, -40, -40, 45, 43],
+    [-40, -40, -40, 43, -40, -40, 38, 0],
+    [-36, -36, -36, 38, -36, -36, 40, 0],
+    [-38, -38, -38, -38, 38, 38, 35, 35]
   ];
+  var CHORUS = [40, 36, 43, 38]; // E5 – C5 – G5 – D5, ringing out
+  // Fanfare: [16th step within the 4 bars, note, length in 16ths]
+  var FANFARE = [[0, 71, 2], [2, 76, 2], [4, 78, 2], [6, 79, 10], [16, 79, 2], [18, 78, 2], [20, 76, 4], [24, 72, 8],
+    [32, 74, 2], [34, 79, 2], [36, 81, 2], [38, 83, 10], [48, 81, 4], [52, 78, 4], [56, 74, 8]];
   var TRACKS = {
     wind: { bpm: 60, vol: 0.9, wet: 0.2, step: function (s, t, bus) {
       if (s % 8 === 0) wash(t, 7, { freq: 280, peak: 650 + Math.random() * 500, to: 260, q: 0.9, vol: 0.12, bus: bus }); // the steady breeze
@@ -290,34 +344,37 @@
       if (mel) mel.forEach(function (e) { if (e[0] === ps) flute(e[1], t, e[2] * sl, 0.06, bus); });
       if (phrase === 3 && i === 0) tone(midi(ch[3] + 24), t, 2.4, { type: 'sine', vol: 0.02, attack: 0.01, bus: bus }); // a distant bell
     } },
-    sports: { bpm: 126, vol: 0.32, wet: 0.22, step: function (s, t, bus) {
-      var bar = Math.floor(s / 16), i = s % 16, b4 = bar % 4, phrase = Math.floor(bar / 4) % 4;
-      var build = phrase === 3; // every fourth phrase builds up to a big crowd roar
-      if (i === 0) wash(t, 60 / 126 * 4 + 0.3, { freq: 900, q: 0.4, vol: build ? 0.05 : 0.035, fadeIn: 0.15, fadeOut: 0.15, bus: bus }); // crowd bed
-      if (i % 4 === 0 && !(build && b4 === 3)) kick(t, 0.75, bus);
-      if (i % 2 === 1) noise(t, 0.035, { freq: 8000, vol: 0.06, bus: bus }); // hats
-      if ((i === 4 || i === 12) && !(build && b4 === 3)) crowdClap(t, 0.16, bus);
-      if (i % 2 === 0) tone(midi(SP_ROOTS[b4] + (i % 8 === 6 ? 12 : 0)), t, 60 / 126 / 2 * 0.9, { type: 'sawtooth', vol: 0.14, cutoff: 600, bus: bus }); // driving bass
-      if (phrase === 0 || phrase === 2) { // organ call
-        var n = SP_RIFF[b4][i];
-        if (n) organ(n, t, 60 / 126 / 4 * 1.8, 0.035, bus);
-        if (b4 === 1 && i === 4) cheer(t, bus);
-        if (b4 === 1 && i === 12) cheer(t, bus);
+    sports: { bpm: 132, vol: 0.25, wet: 0.16, step: function (s, t, bus) {
+      var sl = 60 / 132 / 4, bar = Math.floor(s / 16), i = s % 16, b4 = bar % 4, phrase = Math.floor(bar / 4) % 4, ps = s % 64;
+      var chorus = phrase === 1, build = phrase === 3, fill = build && b4 === 3;
+      // Drums: kick on 1 and 3 (with a push), snare on 2 and 4, eighth-note hats, a crash at the top of each section.
+      if (ps === 0) crash(t, 0.16, bus);
+      if (!fill) {
+        if (i === 0 || i === 8 || i === 10 || (chorus && i === 3)) rockKick(t, 0.95, bus);
+        if (i === 4 || i === 12) snare(t, 0.42, bus);
+        if (i % 2 === 0) noise(t, chorus ? 0.12 : 0.04, { freq: chorus ? 6000 : 8500, vol: chorus ? 0.035 : 0.06, bus: bus }); // hats (washy ride in the chorus)
+      } else { // the fill: snare, then toms tumbling down into the crash
+        if (i < 8) snare(t, 0.2 + i * 0.03, bus);
+        else tom(t, [260, 260, 200, 200, 160, 160, 120, 120][i - 8], 0.6, bus);
       }
-      if (phrase === 1) { // the crowd chants: clap, clap, clap-clap-clap … and cheers
-        if (b4 % 2 === 0 && (i === 0 || i === 4 || i === 8 || i === 10 || i === 12)) crowdClap(t, 0.24, bus);
-        if (b4 % 2 === 1 && i === 0) cheer(t, bus);
-        if (i === 2 || i === 10) SP_STAB[b4].forEach(function (m) { tone(midi(m), t, 0.14, { type: 'sawtooth', vol: 0.03, cutoff: 2200, bus: bus }); }); // brass stabs
-      }
-      if (phrase === 2 && (i === 2 || i === 10)) SP_STAB[b4].forEach(function (m) { tone(midi(m), t, 0.14, { type: 'sawtooth', vol: 0.025, cutoff: 2200, bus: bus }); });
-      if (build) {
-        if (b4 === 0 && i === 0) wash(t, 60 / 126 * 16, { freq: 500, peak: 1600, peakAt: 0.95, to: 1400, q: 0.5, vol: 0.12, fadeIn: 60 / 126 * 14, fadeOut: 0.4, bus: bus }); // the roar rises
-        if (b4 === 2 && i % 4 === 0) organ(67 + i / 2, t, 0.2, 0.03, bus); // organ climbs
-        if (b4 === 3) { // snare roll that speeds up, then the crowd cheers
-          if (i < 8 ? i % 2 === 0 : true) noise(t, 0.06, { filter: 'bandpass', freq: 2000, q: 0.7, vol: 0.05 + i * 0.012, bus: bus });
-          if (i === 14) cheer(t, bus);
+      // Guitars and bass
+      if (chorus) {
+        if (i === 0) powerChord(CHORUS[b4], t, sl * 15, false, bus);
+        if (i % 2 === 0) tone(midi(CHORUS[b4]), t, sl * 1.8, { type: 'sawtooth', vol: 0.13, cutoff: 700, bus: bus });
+      } else if (i % 2 === 0) {
+        var r = RIFF[b4][i / 2];
+        if (build && b4 === 2) r = -40; // the build: straight chugs on E…
+        if (fill) r = -[40, 40, 43, 43, 45, 45, 47, 47][i / 2]; // …then climbing E, G, A, B into the crash
+        if (r) {
+          powerChord(Math.abs(r), t, sl * 2, r < 0, bus);
+          tone(midi(Math.abs(r)), t, sl * 1.8, { type: 'sawtooth', vol: 0.13, cutoff: 700, bus: bus }); // bass locks with the guitar
         }
       }
+      // Brass: the fanfare over the chorus, and horn hits on the riff's accents in the third section.
+      if (chorus) FANFARE.forEach(function (e) { if (e[0] === ps) brass(e[1], t, e[2] * sl, 0.05, bus); });
+      if (phrase === 2 && i % 2 === 0 && RIFF[b4][i / 2] > 0) brass(RIFF[b4][i / 2] + 24, t, sl * 1.5, 0.04, bus);
+      // The crowd roars up through the build.
+      if (build && ps === 0) wash(t, sl * 64, { freq: 500, peak: 1500, peakAt: 0.95, to: 1300, q: 0.5, vol: 0.1, fadeIn: sl * 56, fadeOut: 0.3, bus: bus });
     } }
   };
 
