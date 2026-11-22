@@ -1,0 +1,127 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!-- World Scroll: redraws the globe on the link-preview picture (prototype/og-image.png, 1200x630).
+     How to use: from the prototype folder run  python3 -m http.server 8765  and open
+     http://127.0.0.1:8765/tools/og-globe.html , then in the browser console run  await render()  .
+     It draws over the current og-image.png and returns the new picture as a PNG data URL (window.out).
+     Save it over og-image.png and bump ?v=N on og:image in src/app.html so apps fetch it fresh. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+<style>body{margin:0;background:#000} canvas{display:block}</style></head><body>
+<canvas id="c" width="1200" height="630"></canvas>
+<script>
+window.ready = (async () => {
+  const img = new Image(); img.src = '../og-image.png'; await img.decode();
+  const c = document.getElementById('c').getContext('2d'); c.drawImage(img, 0, 0);
+  window.ctx = c; window.base = img;
+  window.world = await (await fetch('../vendor/countries-50m.json')).json();
+  window.lakes = await (await fetch('../vendor/lakes-50m.json')).json();
+  window.states = await (await fetch('../vendor/states-10m.json')).json();
+})();
+
+// Draws a lit, polished globe. cx, cy, R in output pixels; rot = d3 rotate([λ, φ]).
+window.drawGlobe = function (cx, cy, R, rot, opts) {
+  const S = 2; // render at 2x, then scale down: smoother edges and hairlines
+  const size = Math.ceil((R + 60) * 2 * S), off = document.createElement('canvas'); off.width = off.height = size;
+  const g = off.getContext('2d'), C = size / 2, r = R * S;
+  const proj = d3.geoOrthographic().rotate(rot).translate([C, C]).scale(r).clipAngle(90).precision(0.1);
+  const path = d3.geoPath(proj, g);
+  const land = topojson.feature(world, world.objects.land || world.objects.countries);
+  const borders = topojson.mesh(world, world.objects.countries, (a, b) => a !== b);
+  const lakeF = lakes.type === 'FeatureCollection' ? lakes : topojson.feature(lakes, Object.values(lakes.objects)[0]);
+  const stateLines = topojson.mesh(states, states.objects.states, (a, b) => a !== b);
+
+  // 1. Ocean and land, flat colors (lighting comes next)
+  g.save(); g.beginPath(); g.arc(C, C, r, 0, 2 * Math.PI); g.clip();
+  g.fillStyle = '#0d2f63'; g.fillRect(0, 0, size, size);
+  g.beginPath(); path(land); g.fillStyle = '#48aab1'; g.fill();
+  g.beginPath(); path(lakeF); g.fillStyle = '#0d2f63'; g.fill();
+  g.restore();
+
+  // 2. Per-pixel sphere lighting: light from the upper left, soft ambient, a specular shine on the water only
+  const im = g.getImageData(0, 0, size, size), d = im.data;
+  const L = (() => { const v = [-0.55, -0.6, 0.58]; const n = Math.hypot(...v); return v.map(x => x / n); })();
+  const H = (() => { const v = [L[0], L[1], L[2] + 1]; const n = Math.hypot(...v); return v.map(x => x / n); })();
+  for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+    const nx = (x - C) / r, ny = (y - C) / r, q = nx * nx + ny * ny; if (q >= 1) continue;
+    const nz = Math.sqrt(1 - q), i = (y * size + x) * 4;
+    const lam = Math.max(0, nx * L[0] + ny * L[1] + nz * L[2]);
+    const isLand = d[i + 1] > 120;
+    const shade = 0.46 + 0.72 * lam;
+    let rr = d[i] * shade, gg = d[i + 1] * shade, bb = d[i + 2] * shade;
+    if (!isLand) { // deeper toward the edge, a glossy highlight where the light reflects
+      const spec = Math.pow(Math.max(0, nx * H[0] + ny * H[1] + nz * H[2]), 60) * 0.55;
+      rr += 255 * spec * 0.55; gg += 255 * spec * 0.75; bb += 255 * spec;
+      const depth = 0.75 + 0.25 * nz; rr *= depth; gg *= depth; bb *= depth;
+    } else { // land: a touch brighter on the lit side so the continents pop
+      const lift = Math.pow(lam, 3) * 26; rr += lift * 0.6; gg += lift; bb += lift * 0.9;
+    }
+    // Fresnel: a cool atmospheric haze builds toward the rim
+    const fres = Math.pow(1 - nz, 2.6);
+    rr = rr * (1 - fres * 0.55) + 120 * fres * 0.55; gg = gg * (1 - fres * 0.55) + 200 * fres * 0.55; bb = bb * (1 - fres * 0.55) + 255 * fres * 0.55;
+    d[i] = Math.min(255, rr); d[i + 1] = Math.min(255, gg); d[i + 2] = Math.min(255, bb);
+  }
+  g.putImageData(im, 0, 0);
+
+  // 3. Fine line work: graticule, country borders, US states, crisp coastlines
+  g.save(); g.beginPath(); g.arc(C, C, r, 0, 2 * Math.PI); g.clip();
+  g.lineJoin = 'round';
+  g.beginPath(); path(d3.geoGraticule10()); g.strokeStyle = 'rgba(170, 210, 255, 0.10)'; g.lineWidth = 1.2; g.stroke();
+  g.beginPath(); path(stateLines); g.strokeStyle = 'rgba(235, 255, 252, 0.16)'; g.lineWidth = 0.9; g.stroke();
+  g.beginPath(); path(borders); g.strokeStyle = 'rgba(235, 255, 252, 0.34)'; g.lineWidth = 1.1; g.stroke();
+  g.beginPath(); path(land); g.strokeStyle = 'rgba(200, 255, 245, 0.75)'; g.lineWidth = 1.5; g.stroke();
+  g.beginPath(); path(lakeF); g.strokeStyle = 'rgba(200, 255, 245, 0.5)'; g.lineWidth = 1.1; g.stroke();
+  // night-side vignette so the sphere turns away convincingly
+  const shadow = g.createRadialGradient(C - r * 0.45, C - r * 0.5, r * 0.2, C, C, r * 1.05);
+  shadow.addColorStop(0, 'rgba(4, 8, 24, 0)'); shadow.addColorStop(0.7, 'rgba(4, 8, 24, 0.05)'); shadow.addColorStop(1, 'rgba(4, 8, 24, 0.28)');
+  g.fillStyle = shadow; g.fillRect(0, 0, size, size);
+  g.restore();
+
+  // 4. Flight arcs and pins (great-circle arcs, glowing pins with halo rings)
+  const pt = (lon, lat) => proj([lon, lat]);
+  const vis = (lon, lat) => d3.geoDistance([lon, lat], [-rot[0], -rot[1]]) < Math.PI / 2 - 0.05;
+  (opts.arcs || []).forEach(a => {
+    const line = { type: 'LineString', coordinates: d3.range(0, 1.0001, 0.02).map(d3.geoInterpolate(a.from, a.to)) };
+    // lift the arc off the surface so it reads as a flight path
+    const pts = line.coordinates.map((p, k, arr) => { const t = k / (arr.length - 1), lift = 1 + Math.sin(Math.PI * t) * (a.lift || 0.06); const s = proj(p); return [C + (s[0] - C) * lift, C + (s[1] - C) * lift]; });
+    g.save(); g.setLineDash([10, 9]); g.lineCap = 'round';
+    g.shadowColor = a.color; g.shadowBlur = 14; g.strokeStyle = a.color; g.lineWidth = 3.6;
+    g.beginPath(); pts.forEach((p, k) => k ? g.lineTo(p[0], p[1]) : g.moveTo(p[0], p[1])); g.stroke(); g.restore();
+  });
+  (opts.pins || []).forEach(p => {
+    if (!vis(p.lon, p.lat)) return;
+    const [x, y] = pt(p.lon, p.lat);
+    g.save();
+    g.beginPath(); g.arc(x, y, 26, 0, 2 * Math.PI); g.strokeStyle = p.color.replace('1)', '.45)'); g.lineWidth = 2.4; g.stroke();
+    g.beginPath(); g.arc(x, y, 15, 0, 2 * Math.PI); g.fillStyle = p.color.replace('1)', '.22)'); g.fill();
+    g.shadowColor = p.color; g.shadowBlur = 22;
+    g.beginPath(); g.arc(x, y, 9, 0, 2 * Math.PI); g.fillStyle = p.color; g.fill();
+    g.shadowBlur = 0; g.beginPath(); g.arc(x, y, 3.6, 0, 2 * Math.PI); g.fillStyle = '#0B1026'; g.fill();
+    g.restore();
+  });
+
+  // 5. Rim light: a thin bright edge and an atmosphere glow outside the sphere
+  const atm = g.createRadialGradient(C, C, r * 0.98, C, C, r * 1.13);
+  atm.addColorStop(0, 'rgba(120, 215, 255, 0.55)'); atm.addColorStop(0.35, 'rgba(80, 170, 255, 0.18)'); atm.addColorStop(1, 'rgba(60, 120, 255, 0)');
+  g.save(); g.beginPath(); g.arc(C, C, r * 1.13, 0, 2 * Math.PI); g.arc(C, C, r, 0, 2 * Math.PI, true); g.fillStyle = atm; g.fill(); g.restore();
+  g.beginPath(); g.arc(C, C, r - 1, 0, 2 * Math.PI); g.strokeStyle = 'rgba(190, 240, 255, 0.55)'; g.lineWidth = 2; g.stroke();
+
+  return { canvas: off, size, S };
+};
+
+// The full redraw used for v=4: cover the old globe, then draw the new one in the same spot.
+window.render = async function () {
+  await window.ready;
+  const cx = 313.5, cy = 314.5, R = 266.5, bg = [13, 20, 60];
+  const cover = ctx.createRadialGradient(cx, cy, R, cx, cy, R + 50);
+  cover.addColorStop(0, 'rgb(' + bg + ')'); cover.addColorStop(0.5, 'rgb(' + bg + ')'); cover.addColorStop(1, 'rgba(' + bg + ',0)');
+  ctx.fillStyle = cover; ctx.beginPath(); ctx.arc(cx, cy, R + 50, 0, 2 * Math.PI); ctx.fill();
+  const gold = 'rgba(255, 181, 71, 1)', pink = 'rgba(255, 111, 168, 1)', teal = 'rgba(61, 220, 196, 1)';
+  const res = drawGlobe(cx, cy, R, [86, -16], {
+    arcs: [{ from: [-118.24, 34.05], to: [-74.0, 40.71], color: gold, lift: 0.07 }, { from: [-43.2, -22.9], to: [-80.19, 25.76], color: pink, lift: 0.06 }],
+    pins: [{ lon: -118.24, lat: 34.05, color: gold }, { lon: -74.0, lat: 40.71, color: gold }, { lon: -99.13, lat: 19.43, color: teal }, { lon: -43.2, lat: -22.9, color: pink }, { lon: -80.19, lat: 25.76, color: pink }, { lon: -149.9, lat: 61.2, color: teal }]
+  });
+  const half = res.size / res.S / 2;
+  ctx.drawImage(res.canvas, cx - half, cy - half, res.size / res.S, res.size / res.S);
+  return (window.out = document.getElementById('c').toDataURL('image/png'));
+};
+</script></body></html>
