@@ -643,6 +643,7 @@ test('shared links show a rich preview: title, description and a 1200x630 card i
   assert.strictEqual(png.readUInt32BE(16), 1200, 'image is 1200 wide');
   assert.strictEqual(png.readUInt32BE(20), 630, 'image is 630 tall');
   assert.ok(png.length < 1024 * 1024, 'under 1 MB so previews load fast');
+  assert.ok(+og('image').split('v=')[1] >= 3, 'v=3 or later: the card with the gold Sports chip and the green Countries/landmarks/mountains chip');
 });
 
 test('every city and capital card (world and US state) has 3 kid-friendly nerd facts, none repeating the card', () => {
