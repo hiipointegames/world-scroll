@@ -140,6 +140,98 @@ if (marineFile) {
     areas[id] = { type: 'MultiPolygon', coordinates: densePolys(thinPolys(parts.flatMap((f) => polys(f.geometry)), 0.4)) }; // coarser: a pin on a phone can't tell 25 miles of coastline apart
     console.log(id + ':', parts.map(nameOf).filter(Boolean).sort().join(', '));
   }
+
+  // ---------- data/waters.json: the name of every named piece of sea, for "Your pin: ..." ----------
+  // A pin west of Pisa says "Tyrrhenian Sea, part of the Mediterranean Sea", not just "Mediterranean Sea".
+  // The pieces fit together like a puzzle, so a pin is in exactly one. Each piece's "part of" comes from,
+  // in order: PART_OF / BETWEEN below, the sea card it belongs to (SEA_AREAS), then the ocean it joined above
+  // (the same ocean its card scores it in, so the name and the bullseye always agree).
+  const OCEAN_NAME = { 'pacific-ocean': 'Pacific Ocean', 'atlantic-ocean': 'Atlantic Ocean', 'indian-ocean': 'Indian Ocean',
+    'arctic-ocean': 'Arctic Ocean', 'southern-ocean': 'Southern Ocean' };
+  // English names (Natural Earth's English name, or these where it reads oddly).
+  const NAME_FIX = { 'Cook Inlet': 'Cook Inlet', 'Hangzhou Bay': 'Hangzhou Bay', 'Garabogaz Bay': 'Garabogaz Bay',
+    'Uummannaq Fjord': 'Uummannaq Fjord', 'Kaliningrad': 'Vistula Lagoon', 'Amazon River': 'Amazon River', 'Yangtze River': 'Yangtze River',
+    'Gulf of Anadyr\'': 'Gulf of Anadyr', 'Uda Bay': 'Uda Bay', 'Gulf of Yana': 'Yana Bay', 'Inner Sea': 'Seto Inland Sea' };
+  // Smaller seas, gulfs and bays that sit inside a bigger named sea.
+  const PART_OF = {
+    'Bahía de Campeche': 'Gulf of Mexico', 'Golfo de Urabá': 'Caribbean Sea', 'Bo Hai': 'Yellow Sea',
+    'Gulf of Thailand': 'South China Sea', 'Gulf of Tonkin': 'South China Sea', 'Gulf of Oman': 'Arabian Sea',
+    'Gulf of Kutch': 'Arabian Sea', 'Gulf of Khambhät': 'Arabian Sea', 'Gulf of Masira': 'Arabian Sea',
+    'Gulf of Mannar': 'Laccadive Sea', 'Gulf of Martaban': 'Andaman Sea',
+    'Bristol Bay': 'Bering Sea', 'Norton Sound': 'Bering Sea', 'Gulf of Anadyr\'': 'Bering Sea', 'Karaginskiy Gulf': 'Bering Sea',
+    'Kotzebue Sound': 'Chukchi Sea', 'Shelikhova Gulf': 'Sea of Okhotsk', 'Gulf of Sakhalin': 'Sea of Okhotsk', 'Uda Bay': 'Sea of Okhotsk',
+    'East Korea Bay': 'Sea of Japan (East Sea)', 'White Sea': 'Barents Sea', 'Bight of Benin': 'Gulf of Guinea', 'Bight of Biafra': 'Gulf of Guinea',
+    'Great Barrier Reef': 'Coral Sea', 'James Bay': 'Hudson Bay', 'Wager Bay': 'Hudson Bay', 'Waddenzee': 'North Sea', 'Gulf of Boothia': 'Arctic Ocean',
+    'Bay of Fundy': 'Gulf of Maine', 'Massachusetts Bay': 'Gulf of Maine', 'Cook Inlet': 'Gulf of Alaska', 'Prince William Sound': 'Gulf of Alaska',
+    'Baird Inlet': 'Bering Sea', 'Gulf of Carpentaria': 'Arafura Sea', 'Joseph Bonaparte Gulf': 'Timor Sea', 'Gulf of Papua': 'Coral Sea',
+    'Sognefjorden': 'North Sea', 'Boknafjorden': 'North Sea', 'Trondheimsfjorden': 'Norwegian Sea', 'Vestfjorden': 'Norwegian Sea',
+    'Melville Bay': 'Baffin Bay', 'Disko Bay': 'Baffin Bay', 'Uummannaq Fjord': 'Baffin Bay', 'Bay Inútil': 'Strait of Magellan'
+  };
+  // Straits and in-between waters: say what they join instead.
+  const BETWEEN = {
+    'Strait of Gibraltar': 'between the Atlantic Ocean and the Mediterranean Sea', 'Bosporus': 'between the Black Sea and the Sea of Marmara',
+    'Dardanelles': 'between the Sea of Marmara and the Aegean Sea', 'Sea of Marmara': 'between the Black Sea and the Aegean Sea',
+    'Sea of Azov': 'joined to the Black Sea', 'Gulf of Aden': 'between the Red Sea and the Arabian Sea',
+    'Bab el Mandeb': 'between the Red Sea and the Gulf of Aden', 'Kattegat': 'between Denmark and Sweden', 'Øresund': 'between Denmark and Sweden',
+    'Yucatan Channel': 'between the Gulf of Mexico and the Caribbean Sea', 'Straits of Florida': 'between the Gulf of Mexico and the Atlantic Ocean',
+    'Tatar Strait': 'between the Sea of Japan and the Sea of Okhotsk', 'Lago de Maracaibo': 'joined to the Caribbean Sea',
+    'Skagerrak': 'between Norway and Denmark', 'Strait of Malacca': 'between the Andaman Sea and the South China Sea',
+    'Strait of Singapore': 'between the Strait of Malacca and the South China Sea', 'Estrecho de Magellanes': 'between the Atlantic and Pacific oceans',
+    'Bass Strait': 'between Tasmania and mainland Australia', 'Torres Strait': 'between Australia and New Guinea',
+    'Drake Passage': 'between South America and Antarctica', 'Hudson Strait': 'between Hudson Bay and the Labrador Sea',
+    'Baffin Bay': 'between Greenland and Canada', 'La Pérouse Strait': 'between Sakhalin and Hokkaido',
+    'Luzon Strait': 'between Taiwan and the Philippines', 'Davis Strait': 'between Greenland and Canada',
+    // The seas of Indonesia sit where two oceans meet, and atlases disagree on which one owns them.
+    'Java Sea': 'where the Pacific and Indian oceans meet', 'Banda Sea': 'where the Pacific and Indian oceans meet',
+    'Flores Sea': 'where the Pacific and Indian oceans meet', 'Bali Sea': 'where the Pacific and Indian oceans meet',
+    'Savu Sea': 'where the Pacific and Indian oceans meet', 'Arafura Sea': 'where the Pacific and Indian oceans meet',
+    'Makassar Strait': 'where the Pacific and Indian oceans meet'
+  };
+  // Natural Earth draws a few famous straits as thin slivers along the coast (the open water in the middle belongs
+  // to the seas on each side). These get a simple outline across the water instead; land never matters, because
+  // a pin on land is named by its country first. [lon, lat] corners.
+  const box = (w, s, e, n) => ({ type: 'Polygon', coordinates: [[[w, s], [w, n], [e, n], [e, s], [w, s]]] });
+  const STRAIT_SHAPES = {
+    'Strait of Gibraltar': box(-6.0, 35.78, -5.35, 36.2), 'Bab el Mandeb': box(43.15, 12.4, 43.6, 12.85),
+    'Drake Passage': box(-67.5, -62, -58, -55.8), 'Yucatan Channel': box(-86.8, 21.3, -84.9, 22.2),
+    'Luzon Strait': box(119.5, 18.6, 122.5, 21.9), 'La Pérouse Strait': box(141.6, 45.35, 142.4, 46.0)
+  };
+  for (const f of marine) if (STRAIT_SHAPES[nameOf(f)]) f.geometry = STRAIT_SHAPES[nameOf(f)];
+  const the = (p) => (/Bay$/.test(p) && !/^Bay of/.test(p) ? p : 'the ' + p);
+  const bank = JSON.parse(fs.readFileSync(path.join(__dirname, '../../data/questions.json'), 'utf8'));
+  const cardName = {};
+  (bank.questions || bank).forEach((q) => { if (SEA_AREAS[q.id]) cardName[q.id] = q.answer.split(',')[0]; });
+  const seaPart = {}, seaMain = {};
+  for (const [id, names] of Object.entries(SEA_AREAS)) names.forEach((n, k) => { if (k) seaPart[n] = cardName[id]; else seaMain[n] = cardName[id]; });
+  const labels = new Map(); // label -> pieces (Natural Earth splits some waters in two, e.g. North and South Pacific)
+  marine.forEach((f, i) => {
+    const name = nameOf(f), oceanId = ocean[i];
+    let label;
+    if (Object.values(OCEAN_PARTS).some((parts) => parts.includes(name)) || !name) {
+      if (!oceanId) return; // an unnamed piece outside every ocean: leave it to the sea cards
+      label = OCEAN_NAME[oceanId];
+    } else {
+      const display = seaMain[name] || NAME_FIX[name] || f.properties.name_en || name;
+      const part = PART_OF[name] || seaPart[name] || (oceanId && OCEAN_NAME[oceanId]);
+      label = BETWEEN[name] ? display + ', ' + BETWEEN[name] : part ? display + ', part of ' + the(part) : display;
+    }
+    if (!labels.has(label)) labels.set(label, { piece: !!name && !Object.values(OCEAN_NAME).includes(label), polys: [] });
+    labels.get(label).polys.push(...polys(f.geometry));
+  });
+  // Smallest first, oceans last: where two outlines overlap (a strait and the seas on each side), the smaller water wins.
+  const spanOf = (w) => {
+    const xs = w.polys.flatMap((p) => p[0].map((c) => c[0])), ys = w.polys.flatMap((p) => p[0].map((c) => c[1]));
+    return Math.max(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys));
+  };
+  const waters = [...labels].map(([n, w]) => ({ n, w, span: w.piece ? spanOf(w) : 1e9 })).sort((a, b) => a.span - b.span)
+    // Small waters (a strait a few miles wide) keep their detail; big ones are simplified to keep the game small.
+    .map(({ n, w, span }) => ({ n, area: { type: 'MultiPolygon', coordinates: thinPolys(w.polys, !w.piece ? 0.25 : span < 2 ? 0.02 : 0.1) } }));
+  const watersFile = path.join(__dirname, '../../data/waters.json');
+  fs.writeFileSync(watersFile, JSON.stringify({
+    _about: 'Every named sea, gulf, bay and strait with its outline (lon, lat), for "Your pin: Tyrrhenian Sea, part of the Mediterranean Sea". Built by prototype/tools/build-areas.js from Natural Earth 1:10m marine areas (public domain).',
+    waters
+  }));
+  console.log('waters.json:', waters.length, 'waters,', Math.round(fs.statSync(watersFile).size / 1024), 'KB');
 }
 
 const areasFile = path.join(__dirname, '../../data/areas.json');
@@ -148,8 +240,17 @@ fs.writeFileSync(areasFile, JSON.stringify({
   areas
 }));
 
+// Lake names in English for "Your pin: Lake Titicaca" (Natural Earth's English names drop the word "Lake").
+const LAKE_NAME_FIX = { 'Bodensee': 'Lake Constance', 'Lago Madre': 'Laguna Madre', 'Lac Moeru': 'Lake Mweru', 'Lac Tumba': 'Lake Tumba',
+  'Kaliningradskiy Zaliv': 'Vistula Lagoon', 'Zalev Wislany': 'Vistula Lagoon', 'Biwa Ko': 'Lake Biwa', 'Danau Toba': 'Lake Toba',
+  'Ft. Peck Lake': 'Fort Peck Lake', 'Toktogul Res.': 'Toktogul Reservoir', 'Rés. de La Grande 3': 'La Grande-3 Reservoir',
+  'Rés. de La Grande 2': 'Robert-Bourassa Reservoir', 'Lago Gatun': 'Gatun Lake', 'Inarijärvi': 'Lake Inari', "Lake Il'Men'": 'Lake Ilmen',
+  'Lake Äbaya': 'Lake Abaya', 'Van Blommestein Meer': 'Brokopondo Reservoir', 'Represa de Sobradinho': 'Sobradinho Reservoir',
+  'Represa de Tucuruí': 'Tucuruí Reservoir', 'Represa Três Marias': 'Três Marias Reservoir', 'Itaipú Reservoir': 'Itaipu Reservoir' };
+const lakeName = (n) => LAKE_NAME_FIX[n] || (n || '').replace(/^Lago (de )?/, 'Lake ').replace(/^Ozero /, 'Lake ').replace(/^L\. /, 'Lake ')
+  .replace(/ L\.$/, ' Lake').replace(/ (Hu|Nuur|Köli)$/, ' Lake');
 const lakes = JSON.parse(fs.readFileSync(lakesFile, 'utf8')).features.map((f) => ({
-  type: 'Feature', properties: { name: f.properties.name || '' },
+  type: 'Feature', properties: { name: lakeName(f.properties.name) },
   geometry: { type: 'MultiPolygon', coordinates: thinPolys(polys(f.geometry), 0.03) }
 })).filter((f) => f.geometry.coordinates.length);
 const lakesOut = path.join(__dirname, '../vendor/lakes-50m.json');

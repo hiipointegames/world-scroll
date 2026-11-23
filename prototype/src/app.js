@@ -206,11 +206,34 @@
   // Seas first (they're more exact), then oceans. The name is the answer up to the first comma.
   var WATERS = DATA.questions.filter(function (q) { return q.area && (q.kind === 'sea' || q.kind === 'ocean'); })
     .sort(function (a, b) { return (a.kind === 'sea' ? 0 : 1) - (b.kind === 'sea' ? 0 : 1); });
+  // Named seas, gulfs, bays and straits ("Tyrrhenian Sea, part of the Mediterranean Sea"); the sea and ocean
+  // cards are the backup for any sliver between two outlines.
+  var NAMED_WATERS = DATA.waters || [];
   function waterAt(g) {
+    var named = NAMED_WATERS.filter(function (w) { return G.inArea(w.area, g); })[0];
+    if (named) return named.n;
     var hit = WATERS.filter(function (q) { return G.inArea(q.area, g); })[0];
     return hit ? hit.answer.split(',')[0] : null;
   }
+  // Lakes: a lake card's own outline first (so the name always matches the bullseye), then every named lake on the map.
+  var LAKE_CARDS = DATA.questions.filter(function (q) { return q.category === 'lakes' && q.area && q.kind !== 'sea'; });
+  var NAMED_LAKES = (WS_LAKES.features || []).filter(function (f) { return f.properties.name; });
+  function lakeAt(g) {
+    var card = LAKE_CARDS.filter(function (q) { return G.inArea(q.area, g); })[0];
+    if (card) return card.answer.split(',')[0];
+    var lake = NAMED_LAKES.filter(function (f) { return G.inArea(f.geometry, g); })[0];
+    return lake ? lake.properties.name : null;
+  }
   function placeOfPin(g) {
+    var lake = lakeAt(g), land = landAt(g);
+    if (lake) return land ? lake + ', in ' + withThe(land) : lake; // "Lake Victoria, in Uganda", "Lake Erie, in the USA"
+    return land || waterAt(g) || 'In the water';
+  }
+  window.WSPlaceOfPin = placeOfPin; // read-only, so tests can check what a pin is called
+  function withThe(place) {
+    return /^(USA|United |Netherlands|Philippines|Bahamas|Gambia|Maldives|Czech Republic|Dominican Republic|Central African|Democratic Republic|Republic of)/.test(place) ? 'the ' + place : place;
+  }
+  function landAt(g) {
     var pt = [g.lon, g.lat], where = null;
     for (var i = 0; i < worldCountries.length && !where; i++) {
       if (d3.geoContains(worldCountries[i], pt)) where = worldCountries[i].properties.name;
@@ -219,8 +242,7 @@
       var st = usStates.filter(function (f) { return d3.geoContains(f, pt); })[0];
       where = st ? st.properties.name + ', USA' : 'USA';
     } else if (where) where = ATLAS_NAMES[where] || where;
-    if (!where) where = waterAt(g); // in the sea: name it ("Caribbean Sea", "Pacific Ocean")
-    return where || 'In the water'; // just the spot: a country, or a US state ("Iowa, USA")
+    return where; // a country, or a US state ("Iowa, USA"); null in the sea
   }
 
   // Distance from a guess to a country: 0 if the pin is inside it, else to the nearest border point.

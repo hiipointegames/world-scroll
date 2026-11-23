@@ -113,6 +113,8 @@ function loadData() {
   // Deserts and mountain ranges carry their outline: inside is a bullseye, outside is measured to the edge.
   const areas = readJson('areas.json').areas;
   for (const q of bank.questions) if (areas[q.id]) q.area = areas[q.id];
+  // Every named sea, gulf, bay and strait, so "Your pin" can say "Tyrrhenian Sea, part of the Mediterranean Sea".
+  bank.waters = readJson('waters.json').waters;
   // Friendly country names for the map shapes (used for "Your pin landed in ...").
   bank.atlasNames = {};
   for (const row of world.countries) if (row[0]) bank.atlasNames[row[0]] = cap(bare(row[1]));

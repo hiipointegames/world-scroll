@@ -397,7 +397,7 @@ test('the Europe map counts Russia as Europe and shows the big European lakes', 
   const list = /var EUROPE = \[([\s\S]*?)\];/.exec(app)[1];
   assert.ok(/'Russia'/.test(list), 'Moscow and St. Petersburg are in the Europe colour, not the "neighbour" colour');
   const lakes = require('./vendor/lakes-50m.json').features.map(f => f.properties.name);
-  for (const n of ['Lake Geneva', 'Bodensee', 'Vänern', 'Vättern', 'Lake Ladoga', 'Lake Onega', 'Lake Balaton', 'IJsselmeer']) assert.ok(lakes.includes(n), n);
+  for (const n of ['Lake Geneva', 'Lake Constance', 'Vänern', 'Vättern', 'Lake Ladoga', 'Lake Onega', 'Lake Balaton', 'IJsselmeer']) assert.ok(lakes.includes(n), n);
 });
 
 test('Turkey belongs to both Europe and Asia', () => {
@@ -520,7 +520,7 @@ test('Lakes & seas: famous seas scored by their real outline, and "Your pin" nam
   assert.ok(!pin(sea('mediterranean-sea'), 43.2, 34).bullseye, 'the Black Sea is its own sea');
   assert.ok(pin(sea('caspian-sea'), 42, 50.7).bullseye && !pin(sea('caspian-sea'), 45, 40).bullseye, 'the Caspian now has its real shape');
   const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
-  assert.ok(app.includes("if (!where) where = waterAt(g);"), 'a pin in the water names the sea or ocean');
+  assert.ok(app.includes("return land || waterAt(g) || 'In the water';"), 'a pin in the water names the sea or ocean');
   assert.ok(app.includes('rivers, oceans, lakes, seas'), 'the welcome screen mentions oceans and seas');
 });
 
@@ -812,7 +812,7 @@ test('"Your pin" names only the spot (country or US state), never a distance to 
   const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
   const fn = app.slice(app.indexOf('function placeOfPin'), app.indexOf('function shapeDistance'));
   assert.ok(!/mi from|right by|PLACES/.test(fn), 'no "about 73 mi from Zagreb" part');
-  assert.ok(fn.includes("return where || 'In the water'"));
+  assert.ok(fn.includes("return land || waterAt(g) || 'In the water'"));
 });
 
 // ---------- Next-level sharing and fun (Nov 20, 2026) ----------
@@ -1110,4 +1110,45 @@ test('mute button: easy to see and on every screen', () => {
   assert.ok(app.includes("if (gone || e.target.closest('.sound-btn')) return;"), 'muting on the opening screen does not start the game');
   assert.ok(/\.sound-btn \{[^}]*box-shadow: 0 0 0 1\.5px rgba\(61, 220, 196/.test(html), 'sound on: a glowing teal ring');
   assert.ok(html.includes('.sound-btn[aria-pressed="false"] { color: var(--dim); box-shadow: 0 0 0 1.5px var(--outline-2); }'), 'muted: grey');
+});
+
+// ---------- Every body of water named exactly (Nov 23, 2026) ----------
+test('"Your pin" names the exact sea, gulf, bay or strait, and what bigger water it is part of', () => {
+  const waters = bank.waters;
+  const nameAt = (lat, lon) => (waters.find(w => G.inArea(w.area, { lat, lon })) || {}).n;
+  const spots = [
+    [43.6, 9.9, 'Tyrrhenian Sea, part of the Mediterranean Sea'], // just west of Pisa (Bryce's pin)
+    [44.0, 8.8, 'Ligurian Sea, part of the Mediterranean Sea'], // off Genoa
+    [40.0, 12.0, 'Tyrrhenian Sea, part of the Mediterranean Sea'],
+    [42.5, 15.5, 'Adriatic Sea, part of the Mediterranean Sea'],
+    [38.5, 25.0, 'Aegean Sea, part of the Mediterranean Sea'],
+    [38.0, 19.0, 'Ionian Sea, part of the Mediterranean Sea'],
+    [34.0, 30.0, 'Mediterranean Sea'],
+    [15.0, -75.0, 'Caribbean Sea, part of the Atlantic Ocean'],
+    [25.0, -90.0, 'Gulf of Mexico, part of the Atlantic Ocean'],
+    [27.0, 51.0, 'Persian Gulf'],
+    [42.0, 50.5, 'Caspian Sea'],
+    [43.0, 34.0, 'Black Sea'],
+    [46.0, 36.5, 'Sea of Azov, joined to the Black Sea'],
+    [57.0, 3.0, 'North Sea, part of the Atlantic Ocean'],
+    [12.0, 88.0, 'Bay of Bengal, part of the Indian Ocean'],
+    [-5.0, 110.0, 'Java Sea, where the Pacific and Indian oceans meet'],
+    [38.5, 120.0, 'Bohai Sea, part of the Yellow Sea'],
+    [58.0, -170.0, 'Bering Sea, part of the Pacific Ocean'],
+    [35.97, -5.75, 'Strait of Gibraltar, between the Atlantic Ocean and the Mediterranean Sea'], // drawn by hand (a sliver in Natural Earth)
+    [0.0, -150.0, 'Pacific Ocean'], [30.0, -40.0, 'Atlantic Ocean'], [-20.0, 80.0, 'Indian Ocean'], [-65.0, 0.0, 'Southern Ocean'],
+  ];
+  for (const [lat, lon, want] of spots) assert.strictEqual(nameAt(lat, lon), want, lat + ',' + lon);
+  // Kid-friendly, no "tap the map", and each piece in one sentence.
+  const black = questions.find(q => q.id === 'black-sea');
+  assert.ok(/Sea of Marmara and the Dardanelles/.test(black.fact), 'water fact check: the Black Sea reaches the Mediterranean in three steps');
+  for (const w of waters) assert.ok(/^[A-ZÍØÅ][^]*$/.test(w.n) && w.n.length <= 80 && !/tap/i.test(w.n), w.n);
+});
+
+test('pins in a lake name the lake (and the country it is in)', () => {
+  const app = readSrc('app.js');
+  assert.ok(app.includes("if (lake) return land ? lake + ', in ' + withThe(land) : lake;"), '"Lake Victoria, in Uganda"');
+  const lakes = JSON.parse(require('fs').readFileSync(require('path').join(__dirname, 'vendor/lakes-50m.json'), 'utf8')).features.map(f => f.properties.name);
+  for (const n of ['Lake Titicaca', 'Lake Nicaragua', 'Lake Constance', 'Qinghai Lake', 'Lake Biwa', 'Laguna Madre']) assert.ok(lakes.includes(n), n);
+  assert.ok(!lakes.some(n => /^(Lago|Ozero|L\.) | (Hu|Nuur)$/.test(n)), 'lake names are in English');
 });

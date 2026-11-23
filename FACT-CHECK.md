@@ -53,3 +53,20 @@ Every fact in the game was reviewed on Friday, November 20, 2026. That covers th
 - **Long-term records** (tallest, biggest, oldest): these were true on November 20, 2026. Spot-check them once a year.
 
 The test "fact check of November 20, 2026: corrections stay fixed" in `prototype/scoring.test.js` stops the fixed facts from coming back by mistake.
+
+---
+
+# Bodies of water check — November 23, 2026
+
+Bryce dropped a pin west of Pisa and the game said "Mediterranean Sea". It now names the exact water and what it belongs to: "Tyrrhenian Sea, part of the Mediterranean Sea".
+
+## What was checked
+- **All 84 water cards** (31 rivers, 5 oceans, 15 seas, 33 lakes): every answer, fact and nerd fact re-read, and every card's answer spot tested against its own outline. One fix: the Black Sea reaches the Mediterranean through the Bosporus, **then the Sea of Marmara and the Dardanelles** (it used to say the Bosporus alone).
+- **"Your pin" names for 292 seas, gulfs, bays and straits** (from Natural Earth, built by `prototype/tools/build-areas.js` into `data/waters.json`). Each name was read for accuracy. Choices made:
+  - Smaller waters name the sea they sit in: Bay of Campeche → Gulf of Mexico, Bohai Sea → Yellow Sea, Gulf of Thailand → South China Sea, Bay of Fundy → Gulf of Maine.
+  - Straits say what they join: "Strait of Gibraltar, between the Atlantic Ocean and the Mediterranean Sea".
+  - The seas of Indonesia (Java, Banda, Flores, Bali, Savu, Arafura, Makassar Strait) say "where the Pacific and Indian oceans meet", because atlases disagree on which ocean owns them. Baffin Bay and Davis Strait say "between Greenland and Canada" for the same reason.
+  - Six famous straits are drawn as thin slivers in Natural Earth (Gibraltar, Bab-el-Mandeb, Drake Passage, Yucatán Channel, Luzon, La Pérouse), so they got a simple hand-drawn outline.
+  - Enclosed seas keep the game's rule: the Mediterranean, Black, Baltic, Red, Persian Gulf, Hudson Bay and Caspian aren't called part of an ocean.
+- **Lakes:** a pin in a lake names it and its country ("Lake Victoria, in Uganda"). 321 lake names on the map were put into English (Lago Titicaca → Lake Titicaca, Bodensee → Lake Constance).
+- The Gulf of Mexico keeps its international name (the US government calls it the Gulf of America since 2025). Change it if we decide otherwise.
