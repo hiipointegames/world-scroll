@@ -1214,6 +1214,18 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
   var HIT_MILES = 100;
   // Daily 10 and Daily Sports 10: a guess counts as correct (green square) within this many miles.
   var DAILY_HIT_MILES = 250;
+  // ...except countries and the Great Lakes: "close" isn't right when the place next door is a different answer,
+  // so the pin has to land inside the border (a near miss drops to the next color, yellow).
+  var GREAT_LAKES = ['lake-superior', 'lake-michigan', 'lake-huron', 'lake-erie', 'lake-ontario'];
+  function mustLandInside(q) {
+    return !!q && (q.category === 'countries' || GREAT_LAKES.indexOf(q.id) >= 0);
+  }
+  function dailyHit(q, miles, bullseye) {
+    if (miles == null) return false;
+    if (!mustLandInside(q)) return miles <= DAILY_HIT_MILES;
+    // With an outline, inside measures 0 miles. A few tiny countries have no outline: their bullseye zone counts.
+    return q.shape || q.area ? miles === 0 : !!bullseye;
+  }
   function trophyStep(run, hit) {
     if (!hit) return { run: 0, award: null };
     var n = run + 1;
@@ -1327,7 +1339,7 @@ button:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
     EARTH_RADIUS_MI: EARTH_RADIUS_MI, haversineMiles: haversineMiles, pointsFor: pointsFor,
     scoreGuess: scoreGuess, seededRandom: seededRandom, shuffle: shuffle, dailyPick: dailyPick,
     gradeFor: gradeFor, GRADE_SQUARE: GRADE_SQUARE, nerdShareText: nerdShareText, flingVelocity: flingVelocity, flingStep: flingStep, isDoubleTap: isDoubleTap, challengeCode: challengeCode, parseChallenge: parseChallenge, worstMissText: worstMissText, earnsStamp: earnsStamp,
-    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, trophyStep: trophyStep, dailyShareText: dailyShareText, dailyTitle: dailyTitle, countVisit: countVisit, tipForDay: tipForDay, lineDistance: lineDistance, areaDistance: areaDistance, inArea: inArea, vibeFor: vibeFor, comboStep: comboStep, DAILY_GOAL: DAILY_GOAL, cardsToday: cardsToday, RANKS: RANKS, rankFor: rankFor,
+    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, dailyHit: dailyHit, mustLandInside: mustLandInside, trophyStep: trophyStep, dailyShareText: dailyShareText, dailyTitle: dailyTitle, countVisit: countVisit, tipForDay: tipForDay, lineDistance: lineDistance, areaDistance: areaDistance, inArea: inArea, vibeFor: vibeFor, comboStep: comboStep, DAILY_GOAL: DAILY_GOAL, cardsToday: cardsToday, RANKS: RANKS, rankFor: rankFor,
     dailySportsPick: dailySportsPick, sportsShareText: sportsShareText, sportsTitle: sportsTitle
   };
   if (typeof module === 'object' && module.exports) module.exports = api;
@@ -3751,7 +3763,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
     recordPoints(r.points);
     bumpStats();
     var isSport = c.q.category === 'sports', inSportsFeed = feed.spec.kind === 'sports';
-    var hit = r.miles <= (isDailyKind() ? G.DAILY_HIT_MILES : G.HIT_MILES); // dailies are a bit more forgiving
+    var hit = isDailyKind() ? G.dailyHit(c.q, r.miles, r.bullseye) : r.miles <= G.HIT_MILES; // dailies are a bit more forgiving (not for countries or Great Lakes)
     if (isDailyKind()) feed.results.push({ q: c.q, miles: r.miles, points: r.points, bullseye: r.bullseye, hit: hit, guess: c.guess });
     if (isDailyKind()) renderDailyRow();
     var vibe = G.vibeFor(r.miles, r.bullseye);
@@ -4003,7 +4015,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
   }
   function loadPicks(picks) {
     return picks.filter(function (p) { return BYID[p.id]; }).map(function (p) {
-      return { q: BYID[p.id], miles: p.miles, skipped: p.miles == null, hit: p.hit, bullseye: p.bullseye, points: p.points || 0,
+      return { q: BYID[p.id], miles: p.miles, skipped: p.miles == null, hit: G.dailyHit(BYID[p.id], p.miles, p.bullseye), bullseye: p.bullseye, points: p.points || 0,
         guess: p.g ? { lat: p.g[0], lon: p.g[1] } : null };
     });
   }
@@ -4164,7 +4176,7 @@ window.WS_PROVINCES = {"type":"FeatureCollection","features":[{"type":"Feature",
       '<div><b>' + bulls + '</b><span>bullseyes</span></div>' +
       '<div><b>' + fmt(avg) + '</b><span>avg miles off</span></div></div>' +
       '<ol class="result-list sd-list">' + rows + '</ol>' +
-      '<p class="results-note">Correct = your pin landed within ' + G.DAILY_HIT_MILES + ' miles. Same 10 for everyone today. ' + countdownText() + '.</p>' +
+      '<p class="results-note">Correct = your pin landed within ' + G.DAILY_HIT_MILES + ' miles (countries and Great Lakes: inside the border). Same 10 for everyone today. ' + countdownText() + '.</p>' +
       '</div><div class="intro-foot"><button class="btn primary big" id="done">Back to feeds</button></div></div>';
     document.getElementById('done').onclick = function () { showPicker(); };
     wireShareBox('Daily 10', d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }), G.dailyTitle(hits), res, shareText);

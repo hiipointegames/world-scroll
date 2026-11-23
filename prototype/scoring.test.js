@@ -193,8 +193,35 @@ test('Daily 10 and Daily Sports 10 count a guess as correct within 250 miles (tr
   assert.strictEqual(G.DAILY_HIT_MILES, 250);
   assert.strictEqual(G.HIT_MILES, 100);
   const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
-  assert.ok(app.includes('isDailyKind() ? G.DAILY_HIT_MILES : G.HIT_MILES'), 'daily games use the daily limit');
+  assert.ok(app.includes('isDailyKind() ? G.dailyHit(c.q, r.miles, r.bullseye) : r.miles <= G.HIT_MILES'), 'daily games use the daily rule');
   assert.ok(!/Correct = your pin landed within 100 miles/.test(app), 'results screen shows the daily limit');
+});
+
+test('Daily 10: countries and the Great Lakes only count as correct with the pin inside (near misses are yellow)', () => {
+  const byId = Object.fromEntries(questions.map(q => [q.id, q]));
+  const ontario = byId['lake-ontario'], france = questions.find(q => q.category === 'countries' && q.shape);
+  assert.ok(ontario && ontario.area && france, 'Great Lakes have outlines and countries have borders');
+  ['lake-superior', 'lake-michigan', 'lake-huron', 'lake-erie', 'lake-ontario'].forEach(id => {
+    assert.ok(byId[id] && G.mustLandInside(byId[id]), id + ' must be an exact pick');
+    assert.strictEqual(G.dailyHit(byId[id], 0, true), true);
+    assert.strictEqual(G.dailyHit(byId[id], 40, false), false, id + ': a pin in the next lake over is not correct');
+  });
+  assert.strictEqual(G.dailyHit(france, 0, true), true, 'inside the border is correct');
+  assert.strictEqual(G.dailyHit(france, 249, false), false, 'next country over is not correct, even within 250 mi');
+  assert.strictEqual(G.gradeFor({ miles: 249, hit: G.dailyHit(france, 249, false) }), 'warm', 'a near miss drops one color, to yellow');
+  // Other places still use 250 miles, including the non-Great lakes, cities and landmarks.
+  ['great-salt-lake', 'lake-victoria'].forEach(id => assert.strictEqual(G.dailyHit(byId[id], 200, false), true, id));
+  const city = questions.find(q => q.category === 'cities'), landmark = questions.find(q => q.category === 'landmarks');
+  assert.strictEqual(G.dailyHit(city, 249, false), true);
+  assert.strictEqual(G.dailyHit(landmark, 251, false), false);
+  assert.strictEqual(G.dailyHit(city, null, false), false, 'a skip is never correct');
+  // Tiny countries with no border outline fall back to their bullseye zone.
+  assert.strictEqual(G.dailyHit({ category: 'countries' }, 30, true), true);
+  assert.strictEqual(G.dailyHit({ category: 'countries' }, 120, false), false);
+  // Saved results are re-graded with the same rule, so an old green square for a wrong country turns yellow.
+  const app = require('fs').readFileSync(require('path').join(__dirname, 'src/app.js'), 'utf8');
+  assert.ok(app.includes('hit: G.dailyHit(BYID[p.id], p.miles, p.bullseye)'), 'saved picks are re-graded');
+  assert.ok(app.includes('(countries and Great Lakes: inside the border)'), 'the results note explains the rule');
 });
 
 test('Daily 10 share text matches the Daily Sports 10 format, with its own name', () => {

@@ -1369,7 +1369,7 @@
     recordPoints(r.points);
     bumpStats();
     var isSport = c.q.category === 'sports', inSportsFeed = feed.spec.kind === 'sports';
-    var hit = r.miles <= (isDailyKind() ? G.DAILY_HIT_MILES : G.HIT_MILES); // dailies are a bit more forgiving
+    var hit = isDailyKind() ? G.dailyHit(c.q, r.miles, r.bullseye) : r.miles <= G.HIT_MILES; // dailies are a bit more forgiving (not for countries or Great Lakes)
     if (isDailyKind()) feed.results.push({ q: c.q, miles: r.miles, points: r.points, bullseye: r.bullseye, hit: hit, guess: c.guess });
     if (isDailyKind()) renderDailyRow();
     var vibe = G.vibeFor(r.miles, r.bullseye);
@@ -1621,7 +1621,7 @@
   }
   function loadPicks(picks) {
     return picks.filter(function (p) { return BYID[p.id]; }).map(function (p) {
-      return { q: BYID[p.id], miles: p.miles, skipped: p.miles == null, hit: p.hit, bullseye: p.bullseye, points: p.points || 0,
+      return { q: BYID[p.id], miles: p.miles, skipped: p.miles == null, hit: G.dailyHit(BYID[p.id], p.miles, p.bullseye), bullseye: p.bullseye, points: p.points || 0,
         guess: p.g ? { lat: p.g[0], lon: p.g[1] } : null };
     });
   }
@@ -1782,7 +1782,7 @@
       '<div><b>' + bulls + '</b><span>bullseyes</span></div>' +
       '<div><b>' + fmt(avg) + '</b><span>avg miles off</span></div></div>' +
       '<ol class="result-list sd-list">' + rows + '</ol>' +
-      '<p class="results-note">Correct = your pin landed within ' + G.DAILY_HIT_MILES + ' miles. Same 10 for everyone today. ' + countdownText() + '.</p>' +
+      '<p class="results-note">Correct = your pin landed within ' + G.DAILY_HIT_MILES + ' miles (countries and Great Lakes: inside the border). Same 10 for everyone today. ' + countdownText() + '.</p>' +
       '</div><div class="intro-foot"><button class="btn primary big" id="done">Back to feeds</button></div></div>';
     document.getElementById('done').onclick = function () { showPicker(); };
     wireShareBox('Daily 10', d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }), G.dailyTitle(hits), res, shareText);

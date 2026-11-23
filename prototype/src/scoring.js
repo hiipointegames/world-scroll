@@ -174,6 +174,18 @@
   var HIT_MILES = 100;
   // Daily 10 and Daily Sports 10: a guess counts as correct (green square) within this many miles.
   var DAILY_HIT_MILES = 250;
+  // ...except countries and the Great Lakes: "close" isn't right when the place next door is a different answer,
+  // so the pin has to land inside the border (a near miss drops to the next color, yellow).
+  var GREAT_LAKES = ['lake-superior', 'lake-michigan', 'lake-huron', 'lake-erie', 'lake-ontario'];
+  function mustLandInside(q) {
+    return !!q && (q.category === 'countries' || GREAT_LAKES.indexOf(q.id) >= 0);
+  }
+  function dailyHit(q, miles, bullseye) {
+    if (miles == null) return false;
+    if (!mustLandInside(q)) return miles <= DAILY_HIT_MILES;
+    // With an outline, inside measures 0 miles. A few tiny countries have no outline: their bullseye zone counts.
+    return q.shape || q.area ? miles === 0 : !!bullseye;
+  }
   function trophyStep(run, hit) {
     if (!hit) return { run: 0, award: null };
     var n = run + 1;
@@ -287,7 +299,7 @@
     EARTH_RADIUS_MI: EARTH_RADIUS_MI, haversineMiles: haversineMiles, pointsFor: pointsFor,
     scoreGuess: scoreGuess, seededRandom: seededRandom, shuffle: shuffle, dailyPick: dailyPick,
     gradeFor: gradeFor, GRADE_SQUARE: GRADE_SQUARE, nerdShareText: nerdShareText, flingVelocity: flingVelocity, flingStep: flingStep, isDoubleTap: isDoubleTap, challengeCode: challengeCode, parseChallenge: parseChallenge, worstMissText: worstMissText, earnsStamp: earnsStamp,
-    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, trophyStep: trophyStep, dailyShareText: dailyShareText, dailyTitle: dailyTitle, countVisit: countVisit, tipForDay: tipForDay, lineDistance: lineDistance, areaDistance: areaDistance, inArea: inArea, vibeFor: vibeFor, comboStep: comboStep, DAILY_GOAL: DAILY_GOAL, cardsToday: cardsToday, RANKS: RANKS, rankFor: rankFor,
+    mixByCategory: mixByCategory, mixBy: mixBy, nextStreak: nextStreak, HIT_MILES: HIT_MILES, DAILY_HIT_MILES: DAILY_HIT_MILES, dailyHit: dailyHit, mustLandInside: mustLandInside, trophyStep: trophyStep, dailyShareText: dailyShareText, dailyTitle: dailyTitle, countVisit: countVisit, tipForDay: tipForDay, lineDistance: lineDistance, areaDistance: areaDistance, inArea: inArea, vibeFor: vibeFor, comboStep: comboStep, DAILY_GOAL: DAILY_GOAL, cardsToday: cardsToday, RANKS: RANKS, rankFor: rankFor,
     dailySportsPick: dailySportsPick, sportsShareText: sportsShareText, sportsTitle: sportsTitle
   };
   if (typeof module === 'object' && module.exports) module.exports = api;
